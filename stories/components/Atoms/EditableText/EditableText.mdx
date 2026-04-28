@@ -1,0 +1,51 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './EditableText.stories.js';
+
+<Meta isTemplate />
+
+# EditableText
+
+An inline editable text component that renders as plain text with an edit button, and switches to a text field when the user activates edit mode.
+
+**Key Features:**
+
+- Toggle between display and edit mode with a single click
+- Submit changes on click away or Enter key
+- Cancel changes with the Escape key
+- Automatic revert on failed submission
+- Optional label for the input field in edit mode
+- Customizable internal slots via `slotProps` (Typography and TextField)
+
+**Keyboard shortcuts (in edit mode):**
+
+- `Enter` — submit changes
+- `Escape` — cancel and revert to previous value
+
+## Quick Navigation
+
+- [Default](#default)
+- [With Label](#with-label)
+- [With Submit Failure](#with-submit-failure)
+- [Component API](#component-api)
+
+## Default
+
+Basic usage: click the edit icon to enter edit mode, modify the text, then click away or press Enter to save.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Label
+
+The optional `label` prop adds a floating label to the input field in edit mode, providing additional context to the user.
+
+<Canvas of={Stories.WithLabel} />
+
+## With Submit Failure
+
+When `onSubmit` returns `false`, the component automatically reverts the text to its previous value. This demonstrates how the component handles API errors or validation failures.
+
+<Canvas of={Stories.WithSubmitFailure} />

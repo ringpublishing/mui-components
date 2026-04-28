@@ -1,0 +1,115 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './DateTimePicker.stories.js';
+
+<Meta isTemplate />
+
+# DateTimePicker
+
+A combined date and time selection component that wraps MUI's [DateTimePicker](https://mui.com/x/react-date-pickers/date-time-picker/) with Ring Design System styling. Allows users to pick both a date and time in a single input with a unified popup.
+
+- Clearable input with calendar icon
+- Combined date and time selection in one popup
+- Configurable label
+- Custom action buttons via the `actions` prop
+- Extends all MUI DateTimePicker props
+- Supports `sx` and `className` for custom styling
+
+## Prerequisites
+
+DateTimePicker requires a `LocalizationProvider` wrapper with a date adapter. Set this up once at the root of your application:
+
+```tsx
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import 'dayjs/locale/en';
+
+function App() {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+            {/* Your app content */}
+        </LocalizationProvider>
+    );
+}
+```
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Disabled](#disabled)
+- [Custom Styles](#custom-styles)
+- [Default Value](#default-value)
+- [Label](#label)
+- [Actions](#actions)
+- [Outlined](#outlined)
+
+## Default
+
+Basic date-time picker with clearable input.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Disabled
+
+Use the `disabled` prop to prevent user interaction. The picker input and calendar button become non-interactive.
+
+<Canvas of={Stories.Disabled} />
+
+## Custom Styles
+
+Apply custom styles using the `sx` prop. The component accepts all MUI system properties for flexible styling.
+
+<Canvas of={Stories.CustomStyles} />
+
+## Default Value
+
+Set an initial date and time using `defaultValue` with a `dayjs` instance. The user can still change or clear the value.
+
+<Canvas of={Stories.DefaultValue} />
+
+## Label
+
+Use the `label` prop to add a floating label above the input. This helps users understand what the field represents in a form context.
+
+<Canvas of={Stories.Label} />
+
+## Actions
+
+Add custom action buttons next to the input using the `actions` prop. Each action requires a `label` and an `onClick` handler. Actions appear as icon buttons at the end of the input field.
+
+```tsx
+<DateTimePicker
+    actions={[
+        { label: 'Copy', onClick: () => handleCopy() },
+        { label: 'Share', onClick: () => handleShare() },
+    ]}
+/>
+```
+
+<Canvas of={Stories.Actions} />
+
+## Outlined
+
+Use the `outlined` variant via `slotProps.textField` for a bordered input style. The floating label appears inside the border and moves to the top edge when focused or when a value is present.
+
+```tsx
+<DateTimePicker
+    label="Date & Time"
+    slotProps={{
+        textField: {
+            variant: 'outlined',
+        },
+    }}
+/>
+```
+
+<Canvas of={Stories.Outlined} />
+
+## Related Components
+
+- **DatePicker** — for selecting date only (also supports a "Now" shortcut button)
+- **TimePicker** — for selecting time only

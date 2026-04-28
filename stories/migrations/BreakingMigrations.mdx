@@ -1,0 +1,620 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Breaking Version Upgrades" />
+
+# Breaking version upgrades
+
+In this article we will include guidelines and tips for upgrading components after breaking changes.
+
+## [1.0.0] - `getCreatedTheme` — options object API
+
+`getCreatedTheme` now accepts an **options object** as the second argument instead of positional parameters.
+
+### Before (Old API)
+
+```tsx
+import { getCreatedTheme } from '@ringpublishing/mui-components';
+
+const theme = getCreatedTheme('light', CommonLanguages.plPL, customColors, 'legacy-px');
+```
+
+### After (New API)
+
+```tsx
+import { getCreatedTheme } from '@ringpublishing/mui-components';
+
+const theme = getCreatedTheme('light', {
+    language: CommonLanguages.plPL,
+    externalColors: customColors,
+    typographyMode: 'deprecated-px',
+});
+```
+
+If you only pass `mode`, no changes are needed:
+
+```tsx
+// Still works — no migration required
+const theme = getCreatedTheme('light');
+```
+
+> **Note:** `typographyMode` value `'legacy-px'` has been renamed to `'deprecated-px'` in `@ringpublishing/mui-theme` 4.4.0.
+
+## [1.0.0] - Typography migration from px to rem
+
+From **v1**, all typography values use **rem units calibrated to the browser default** (`1rem = 16px`).
+Previously the library assumed `html { font-size: 62.5% }` (1rem = 10px) and relied on consumers
+setting that global override.
+
+### What changed
+
+| Area                             | Before (pre-v1)           | After (v1+)                                         |
+| -------------------------------- | ------------------------- | --------------------------------------------------- |
+| Typography font sizes            | `px` or `rem` @ 10px base | `rem` @ 16px base (browser default)                 |
+| `html { font-size }` requirement | required: `62.5%`         | **not required** — omit or set to `100%`            |
+| Theme unit mode                  | implicit px/10px-rem      | `'rem'` (default), `'legacy-px'` (migration bridge) |
+
+### Migration steps
+
+#### 1. Remove the global font-size override
+
+Remove from your global CSS / App.js:
+
+```css
+/* remove this */
+html {
+    font-size: 62.5%;
+}
+```
+
+```tsx
+// or remove this
+<GlobalStyles styles={{ html: { fontSize: '62.5%' } }} />
+```
+
+#### 2. Update `ThemeConfig` (no prop needed for new apps)
+
+```tsx
+// Before
+<ThemeConfig mode={mode}>…</ThemeConfig>
+
+// After – same, no change needed for new apps
+<ThemeConfig mode={mode}>…</ThemeConfig>
+```
+
+#### 3. If you share the app with the old Ring component library
+
+Some apps run both the new `ring-ui-components` and the legacy non-maintained library side by side.
+Because the legacy library uses absolute `px` values it is not affected by the rem base change.
+You can safely upgrade without `typographyMode` in that case.
+
+#### 4. Not ready yet? Use the temporary `deprecated-px` bridge
+
+If removing `html { font-size: 62.5% }` is not feasible right now (e.g. deeply coupled custom CSS),
+opt in to the deprecated backward-compatible mode:
+
+```tsx
+<ThemeConfig mode={mode} typographyMode="deprecated-px">
+    <App />
+</ThemeConfig>
+```
+
+> **⚠ `typographyMode="deprecated-px"` is deprecated** and will be removed in a future major release.
+> It is intended as a short-lived bridge only — plan to complete the migration and remove the prop.
+
+### Custom CSS written with 1rem = 10px assumption
+
+The `deprecated-px` prop only affects component-internal typography. Any **custom CSS you wrote**
+assuming `1rem = 10px` (e.g. `margin: 2rem` meaning 20px) still requires manual adjustment
+when you remove the global override.
+
+## [1.0.0] - Placeholder labels prop simplification
+
+The `Placeholder` component `labels` prop no longer accepts language-keyed objects. It now expects a **flat object** with `header`, `description`, and `footer` only. Localization should be handled by passing the appropriate labels object based on the current locale (or by relying on default labels via `variant` + `language`).
+
+### Breaking Changes Summary
+
+| Old `labels` shape                                          | New `labels` shape                   |
+| ----------------------------------------------------------- | ------------------------------------ |
+| `{ enUS: { header, description, footer }, plPL?: { ... } }` | `{ header?, description?, footer? }` |
+
+### Type-level changes
+
+| Old Type                              | New Type            |
+| ------------------------------------- | ------------------- |
+| `PlaceholderLanguageLabels` (removed) | `PlaceholderLabels` |
+
+This is also a compile-time breaking change: update imports and type annotations from `PlaceholderLanguageLabels` to `PlaceholderLabels`.
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<Placeholder
+    labels={{
+        enUS: {
+            header: 'Failed to load the list',
+            description: 'Refresh the page and try again.',
+            footer: 'Error 4009',
+        },
+        plPL: {
+            header: 'Nie udało się pobrać listy',
+            description: 'Odśwież stronę i spróbuj ponownie.',
+            footer: 'Błąd 4009',
+        },
+    }}
+/>
+```
+
+#### After (New API)
+
+```tsx
+  //Option 1: Static labels
+  const labels = {
+    header: 'Nie udało się pobrać listy',
+    description: 'Odśwież stronę i spróbuj ponownie.',
+    footer: 'Błąd 4009',
+  };
+
+  // Option 2: With i18n
+  const labels = {
+    header: t('placeholder.header'),
+    description: t('placeholder.description'),
+    footer: t('placeholder.footer'),
+  };
+
+  return <Placeholder labels={labels} />;
+}
+```
+
+If you omit `labels`, defaults are still selected based on `variant` and the current language (`language` prop or theme locale).
+
+## [1.0.0] - DatePicker, DateTimePicker, TimePicker — Removed `placeholder` prop
+
+### Breaking Changes
+
+The `placeholder` prop has been **removed** from `DatePicker`, `DateTimePicker`, and `TimePicker`.
+Use the `label` prop instead, which provides native MUI floating label behavior.
+
+| Old Prop      | New Approach                             |
+| ------------- | ---------------------------------------- |
+| `placeholder` | Use `label` prop (native floating label) |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<DatePicker placeholder="Select date" />
+<TimePicker placeholder="Select time" />
+<DateTimePicker placeholder="Select date and time" />
+```
+
+#### After (New API)
+
+```tsx
+<DatePicker label="Select date" />
+<TimePicker label="Select time" />
+<DateTimePicker label="Select date and time" />
+```
+
+## [1.0.0] - `RingFeatureTooltip` renamed to `FeatureTooltip`
+
+The `RingFeatureTooltip` component has been renamed to `FeatureTooltip` to align with the library's naming conventions. All related types and the localStorage persistence key have been updated accordingly.
+
+### Breaking Changes Summary
+
+| Before                                 | After                  |
+| -------------------------------------- | ---------------------- |
+| `RingFeatureTooltip`                   | `FeatureTooltip`       |
+| `RingFeatureTooltipProps`              | `FeatureTooltipProps`  |
+| `RingFeatureTooltipAction`             | `FeatureTooltipAction` |
+| localStorage key `RingFeatureTooltips` | `FeatureTooltips`      |
+
+> **⚠ localStorage migration note**: Existing tooltip state stored under the `RingFeatureTooltips` key will no longer be read after upgrading. Users who have already dismissed a tooltip may see it appear once more after the upgrade.
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+import { RingFeatureTooltip, RingFeatureTooltipProps } from '@ringpublishing/mui-components';
+
+const actions: RingFeatureTooltipProps['actions'] = [{ label: 'Learn more', href: 'https://example.com' }];
+
+<RingFeatureTooltip
+    id="my-tooltip"
+    title="New feature"
+    message="Check out this new feature!"
+    actions={actions}
+    endDate="2027-01-01T00:00:00.000Z"
+>
+    <Button>Click me</Button>
+</RingFeatureTooltip>;
+```
+
+#### After (New API)
+
+```tsx
+import { FeatureTooltip, FeatureTooltipProps } from '@ringpublishing/mui-components';
+
+const actions: FeatureTooltipProps['actions'] = [{ label: 'Learn more', href: 'https://example.com' }];
+
+<FeatureTooltip
+    id="my-tooltip"
+    title="New feature"
+    message="Check out this new feature!"
+    actions={actions}
+    endDate="2027-01-01T00:00:00.000Z"
+>
+    <Button>Click me</Button>
+</FeatureTooltip>;
+```
+
+### Automated Migration
+
+Run the codemod to automatically update all imports and JSX usages in your project:
+
+```bash
+cd your-project # go to your project root
+npx @ringpublishing/mui-components@latest run-migration ring-feature-tooltip-to-feature-tooltip .
+```
+
+> **Note:** The script updates imports and JSX tags. The localStorage key rename (`RingFeatureTooltips` → `FeatureTooltips`) is not handled automatically — see the note above.
+
+> See [ADR-004](docs/adr/004-ring-feature-tooltip-rename.md) for the full rationale behind this decision.
+
+## [0.115.0] - DataView API Migration to Slot-Based Architecture
+
+The `DataView` component has been redesigned to use a **slot-based architecture** instead of flat props.
+
+### Breaking Changes Summary
+
+The following props have been **removed** or **renamed**:
+
+| Old Prop                 | New Approach                            | Migration Path                                             |
+| ------------------------ | --------------------------------------- | ---------------------------------------------------------- |
+| `grid`                   | `slots.main`                            | Move grid element to `slots.main`                          |
+| `filter`                 | `slots.left`                            | Move filter element to `slots.left`                        |
+| `detail`                 | `slots.right`                           | Move detail element to `slots.right`                       |
+| `searchBarProps`         | `slotProps.top`                         | Move SearchBar props to `slotProps.top`                    |
+| `searchBarChildren`      | `slotProps.top.children`                | Move children to `slotProps.top.children`                  |
+| `searchBarMenuActions`   | `slotProps.top.menuActions`             | Move menu actions to `slotProps.top.menuActions`           |
+| `labels`                 | `slotProps.top.openSlotsOnMobileLabels` | Rename and move to `slotProps.top.openSlotsOnMobileLabels` |
+| `detailOpen`             | `rightSlotOpen`                         | Rename to `rightSlotOpen`                                  |
+| `setDetailOpen`          | `setRightSlotOpen`                      | Rename to `setRightSlotOpen`                               |
+| `isMobileDetailOpen`     | `isMobileRightSlotOpen`                 | Rename to `isMobileRightSlotOpen`                          |
+| `onMobileDetailOpen`     | `onMobileRightSlotOpen`                 | Rename to `onMobileRightSlotOpen`                          |
+| `filterOpen`             | `leftSlotOpen`                          | Rename to `leftSlotOpen`                                   |
+| `setFilterOpen`          | `setLeftSlotOpen`                       | Rename to `setLeftSlotOpen`                                |
+| `isMobileFilterOpen`     | `isMobileLeftSlotOpen`                  | Rename to `isMobileLeftSlotOpen`                           |
+| `onMobileFilterOpen`     | `onMobileLeftSlotOpen`                  | Rename to `onMobileLeftSlotOpen`                           |
+| `filterWidth`            | `leftSlotWidth`                         | Rename to `leftSlotWidth`                                  |
+| `filterDynamicWidth`     | `leftSlotDynamicWidth`                  | Rename to `leftSlotDynamicWidth`                           |
+| `showFilterToggleButton` | `showLeftSlotToggleButton`              | Rename to `showLeftSlotToggleButton`                       |
+| `gridMinWidth`           | `mainSlotMinWidth`                      | Rename to `mainSlotMinWidth`                               |
+| `slots.bottomBar`        | `slots.bottom`                          | Rename to `slots.bottom`                                   |
+| `slotProps.bottomBar`    | `slotProps.bottom`                      | Rename to `slotProps.bottom`                               |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<DataView
+    grid={<DataGrid {...gridProps} />}
+    filter={<FilterPanel />}
+    detail={<DetailPanel />}
+    searchBarProps={{
+        value: searchValue,
+        onChange: setSearchValue,
+    }}
+    searchBarChildren={[<Button key="action1">Action</Button>]}
+    searchBarMenuActions={[{ label: 'Export', icon: <Download />, onClick: handleExport }]}
+    labels={{
+        detail: 'Show Details',
+        filter: 'Show Filters',
+    }}
+    detailOpen={isDetailOpen}
+    setDetailOpen={setIsDetailOpen}
+    filterOpen={isFilterOpen}
+    setFilterOpen={setIsFilterOpen}
+    filterWidth={250}
+    filterDynamicWidth={{
+        enabled: true,
+        minWidth: 200,
+        maxWidth: 400,
+    }}
+    showFilterToggleButton={true}
+    gridMinWidth={600}
+    isMobileDetailOpen={mobileDetailOpen}
+    onMobileDetailOpen={setMobileDetailOpen}
+    isMobileFilterOpen={mobileFilterOpen}
+    onMobileFilterOpen={setMobileFilterOpen}
+    slots={{
+        bottomBar: CustomBottomBar,
+    }}
+    slotProps={{
+        bottomBar: { someProps },
+    }}
+/>
+```
+
+#### After (New API)
+
+```tsx
+<DataView
+    slots={{
+        main: <DataGrid {...gridProps} />,
+        left: <FilterPanel />,
+        right: <DetailPanel />,
+        bottom: CustomBottomBar,
+    }}
+    slotProps={{
+        top: {
+            value: searchValue,
+            onChange: setSearchValue,
+            children: [<Button key="action1">Action</Button>],
+            menuActions: [{ label: 'Export', icon: <Download />, onClick: handleExport }],
+            openSlotsOnMobileLabels: {
+                rightSlot: 'Show Details',
+                leftSlot: 'Show Filters',
+            },
+        },
+        bottom: { someProps },
+    }}
+    rightSlotOpen={isDetailOpen}
+    setRightSlotOpen={setIsDetailOpen}
+    leftSlotOpen={isFilterOpen}
+    setLeftSlotOpen={setIsFilterOpen}
+    leftSlotWidth={250}
+    leftSlotDynamicWidth={{
+        enabled: true,
+        minWidth: 200,
+        maxWidth: 400,
+    }}
+    showLeftSlotToggleButton={true}
+    mainSlotMinWidth={600}
+    isMobileRightSlotOpen={mobileDetailOpen}
+    onMobileRightSlotOpen={setMobileDetailOpen}
+    isMobileLeftSlotOpen={mobileFilterOpen}
+    onMobileLeftSlotOpen={setMobileFilterOpen}
+/>
+```
+
+### SearchBar Visibility
+
+**Important**: If you don't pass props to `slotProps.top`, the SearchBar and all its related elements will not be rendered. This is the same behavior as before with `searchBarProps`, but now under the new prop name.
+
+### Custom Top Slot
+
+You can now completely replace the SearchBar by providing a custom component which accepts exported interface TopSlotProps to `slots.top`:
+
+```tsx
+<DataView
+    slots={{
+        main: <DataGrid {...gridProps} />,
+        top: MyCustomTopBar,
+    }}
+    slotProps={{
+        top: {
+            // These props will be passed to MyCustomTopBar
+            value: searchValue,
+            onChange: setSearchValue,
+        },
+    }}
+/>
+```
+
+## [0.114.0] - LightBox props renamed for consistency
+
+The `LightBox` component props have been renamed to follow a consistent `enable*` naming pattern.
+
+### Breaking Changes Summary
+
+| Old Prop           | New Prop             | Default | Description                                             |
+| ------------------ | -------------------- | ------- | ------------------------------------------------------- |
+| `showCarousel`     | `enableCarousel`     | `true`  | Controls visibility of the image carousel at the bottom |
+| `hideDownloadIcon` | `enableDownloadIcon` | `true`  | Controls visibility of the download icon in toolbar     |
+
+> **Note:** The logic for `hideDownloadIcon` has been **inverted** — the old prop hid the icon when `true`, while the new `enableDownloadIcon` shows the icon when `true`.
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<LightBox images={images} onClose={handleClose} open={open} showCarousel={false} hideDownloadIcon={true} />
+```
+
+#### After (New API)
+
+```tsx
+<LightBox images={images} onClose={handleClose} open={open} enableCarousel={false} enableDownloadIcon={false} />
+```
+
+## [0.103.0] - MUI X upgrade for all libraries from v7 to v8
+
+Libraries `DataGrid`, `Date and Time Pickers` and `TreeView` have been upgraded to MUI X v8.
+Migration guide for MUI X v8 is available at [MUI documentation](https://mui.com/x/migration/migration-data-grid-v7/).
+
+As a consequence of this upgrade, interfaces of `DataGrid` and `MultimediaGrid` components have changed, namely:
+
+- `selectionModel` is now of type `GridRowSelectionModel` instead of `GridRowId[]`
+- `onSelectionModelChange` now receives `GridRowSelectionModel` instead of `GridRowId[]`
+
+## [0.97.0] - MUI upgrade from v6 to v7
+
+The core `@mui/material` library has been upgraded from v6 to v7. This may introduce breaking changes if your application relies on MUI components directly or uses internal APIs that changed between versions.
+
+### Migration Guide
+
+Refer to the official MUI migration guide for full details:
+[MUI v6 to v7 migration](https://mui.com/material-ui/migration/upgrade-to-v7/)
+
+Key areas to check:
+
+- **Theme changes**: Review any custom theme overrides for deprecated or renamed properties.
+- **Component API changes**: Some MUI component props may have been renamed, removed, or had their default values changed.
+
+## [0.92.0] - Migration from `Skeleton` to `DataView`
+
+There is a migration script that you can use to migrate from `Skeleton` to `DataView` component.
+This script will migrate all imports and usages of the `Skeleton` component to `DataView`.
+This is a potentially destructive operation. Make sure you have committed your changes or have a backup before proceeding.
+
+```bash
+cd your-project # go to your project root
+npx @ringpublishing/mui-components@latest run-migration skeleton-to-dataview .
+```
+
+## [0.90.0] - MediaCard `selected` renamed to `active`
+
+The `selected` prop on `MediaCard` has been renamed to `active` for better semantic clarity. The prop indicates visual highlighting state rather than selection state, which is handled separately by checkboxes.
+
+### Breaking Changes Summary
+
+| Old Prop   | New Prop | Description                           |
+| ---------- | -------- | ------------------------------------- |
+| `selected` | `active` | Visual highlighting state of the card |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<MediaCard selected={true} />
+```
+
+#### After (New API)
+
+```tsx
+<MediaCard active={true} />
+```
+
+## [0.85.0] - MediaCard props renamed
+
+The `MediaCard` component props have been renamed for better clarity.
+
+### Breaking Changes Summary
+
+| Old Prop    | New Prop    | Description                           |
+| ----------- | ----------- | ------------------------------------- |
+| `focusable` | `hoverable` | Whether the card shows a hover effect |
+| `focused`   | `selected`  | Whether the card appears selected     |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<MediaCard focusable={true} focused={true} />
+```
+
+#### After (New API)
+
+```tsx
+<MediaCard hoverable={true} selected={true} />
+```
+
+> **Note:** `selected` was later renamed to `active` in 0.90.0 — see above.
+
+## [0.81.0] - MediaCard slot system migration
+
+The `MediaCard` component has been updated to use a more consistent slot system, aligning with MUI conventions.
+
+### Breaking Changes Summary
+
+| Old Prop         | New Prop              | Description                          |
+| ---------------- | --------------------- | ------------------------------------ |
+| `cardMediaProps` | `slotProps.cardMedia` | Props passed to the media element    |
+| `checkboxProps`  | `slotProps.checkbox`  | Props passed to the checkbox element |
+| `slots.media`    | `slots.mediaCard`     | Custom media slot component          |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<MediaCard
+    cardMediaProps={{ component: 'img', image: '/photo.jpg' }}
+    checkboxProps={{ checked: true }}
+    slots={{ media: CustomMedia }}
+/>
+```
+
+#### After (New API)
+
+```tsx
+<MediaCard
+    slotProps={{
+        cardMedia: { component: 'img', image: '/photo.jpg' },
+        checkbox: { checked: true },
+    }}
+    slots={{ mediaCard: CustomMedia }}
+/>
+```
+
+## [0.66.0] - MUI upgrade from v5 to v6
+
+The core `@mui/material` library has been upgraded from v5 to v6, along with support for React 19.
+
+### Migration Guide
+
+Refer to the official MUI migration guide for full details:
+[MUI v5 to v6 migration](https://mui.com/material-ui/migration/upgrade-to-v6/)
+
+Key areas to check:
+
+- **Theme changes**: Review any custom theme overrides for deprecated or renamed properties.
+- **Component API changes**: Some MUI component props may have been renamed, removed, or had their default values changed.
+
+## [0.60.0] - RingDataGrid prop renames
+
+The `RingDataGrid` component has renamed two props for better clarity.
+
+### Breaking Changes Summary
+
+| Old Prop         | New Prop          | Description                          |
+| ---------------- | ----------------- | ------------------------------------ |
+| `fetchItems`     | `refreshItems`    | Function called to refresh grid data |
+| `onClickRefresh` | `refreshCallback` | Callback triggered on manual refresh |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<RingDataGrid fetchItems={loadData} onClickRefresh={handleRefreshClick} />
+```
+
+#### After (New API)
+
+```tsx
+<RingDataGrid refreshItems={loadData} refreshCallback={handleRefreshClick} />
+```
+
+## [0.58.0] - Detail component prop renames
+
+The `Detail` component has renamed media-related props for consistency with the new `Media` component naming.
+
+### Breaking Changes Summary
+
+| Old Prop          | New Prop     | Description                       |
+| ----------------- | ------------ | --------------------------------- |
+| `mediaImageProps` | `mediaProps` | Props passed to the media element |
+| `imageUrl`        | `image`      | URL of the image to display       |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<Detail mediaImageProps={{ ratio: '4/3' }} imageUrl="https://example.com/photo.jpg" />
+```
+
+#### After (New API)
+
+```tsx
+<Detail mediaProps={{ ratio: '4/3' }} image="https://example.com/photo.jpg" />
+```

@@ -1,0 +1,350 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Autocomplete > should pass slotProps to native Autocomplete component 1`] = `
+<div
+  aria-label="Onet"
+  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-filledPrimary MuiAutocomplete-tag MuiAutocomplete-tagSizeMedium css-1vfgu64-MuiButtonBase-root-MuiChip-root"
+  data-mui-internal-clone-element="true"
+  data-tag-index="0"
+  role="button"
+  tabindex="-1"
+>
+  <span
+    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+  >
+    Onet
+  </span>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconSmall MuiChip-deleteIconColorPrimary MuiChip-deleteIconFilledColorPrimary css-1umw9bq-MuiSvgIcon-root"
+    data-testid="CancelIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Autocomplete > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    data-testid="ring-autocomplete"
+  >
+    <div
+      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
+      data-testid="ring-autocomplete"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
+        for="_r_0_"
+        id="_r_0_-label"
+      >
+        Title
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-invalid="false"
+          autocapitalize="none"
+          autocomplete="off"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          id="_r_0_"
+          placeholder="Placeholder"
+          role="combobox"
+          spellcheck="false"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          style="align-items: center;"
+        />
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-1n64csd-MuiNotchedOutlined-root"
+          >
+            <span>
+              Title
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Autocomplete > should render correctly with dropdown action 1`] = `
+<div>
+  <div
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-fr21uf-MuiAutocomplete-root"
+    data-testid="ring-autocomplete"
+  >
+    <div
+      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
+      data-testid="ring-autocomplete"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
+        for="_r_2_"
+        id="_r_2_-label"
+      >
+        Title
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-invalid="false"
+          autocapitalize="none"
+          autocomplete="off"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          id="_r_2_"
+          role="combobox"
+          spellcheck="false"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          style="align-items: center;"
+        >
+          <button
+            aria-label="Settings"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-gzo6rq-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            data-testid="ring-autocomplete-action"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="ManageSearchIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 9H2V7h5zm0 3H2v2h5zm13.59 7-3.83-3.83c-.8.52-1.74.83-2.76.83-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L22 17.59zM17 11c0-1.65-1.35-3-3-3s-3 1.35-3 3 1.35 3 3 3 3-1.35 3-3M2 19h10v-2H2z"
+              />
+            </svg>
+          </button>
+        </div>
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-1n64csd-MuiNotchedOutlined-root"
+          >
+            <span>
+              Title
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Autocomplete > should render correctly with multiple actions 1`] = `
+<div>
+  <div
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-fr21uf-MuiAutocomplete-root"
+    data-testid="ring-autocomplete"
+  >
+    <div
+      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
+      data-testid="ring-autocomplete"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
+        for="_r_6_"
+        id="_r_6_-label"
+      >
+        Title
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-invalid="false"
+          autocapitalize="none"
+          autocomplete="off"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          id="_r_6_"
+          role="combobox"
+          spellcheck="false"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          style="align-items: center;"
+        >
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-gzo6rq-MuiButtonBase-root-MuiIconButton-root"
+            data-testid="ring-autocomplete-actions"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+              />
+            </svg>
+          </button>
+        </div>
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-1n64csd-MuiNotchedOutlined-root"
+          >
+            <span>
+              Title
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Autocomplete > should render correctly with option caption 1`] = `
+<div>
+  <div
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    data-testid="ring-autocomplete"
+  >
+    <div
+      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
+      data-testid="ring-autocomplete"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
+        for="_r_j_"
+        id="_r_j_-label"
+      >
+        search by
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-invalid="false"
+          autocapitalize="none"
+          autocomplete="off"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          id="_r_j_"
+          role="combobox"
+          spellcheck="false"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          style="align-items: center;"
+        />
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-1n64csd-MuiNotchedOutlined-root"
+          >
+            <span>
+              search by
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Autocomplete > should render correctly with recently used 1`] = `
+<div>
+  <div
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    data-testid="ring-autocomplete"
+  >
+    <div
+      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
+      data-testid="ring-autocomplete"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
+        for="_r_9_"
+        id="_r_9_-label"
+      >
+        search by
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-invalid="false"
+          autocapitalize="none"
+          autocomplete="off"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          id="_r_9_"
+          role="combobox"
+          spellcheck="false"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          style="align-items: center;"
+        />
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-1n64csd-MuiNotchedOutlined-root"
+          >
+            <span>
+              search by
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+`;

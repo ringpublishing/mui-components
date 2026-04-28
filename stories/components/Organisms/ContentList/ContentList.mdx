@@ -1,0 +1,98 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './ContentList.stories.js';
+
+<Meta isTemplate />
+
+# ContentList
+
+A vertical navigation layout component that displays a list of section headers on the left side with corresponding content on the right. Ideal for settings pages, profile forms, or any content that needs organized sectioning with easy navigation.
+
+## Key Features
+
+- **Synchronized navigation**: Left sidebar automatically tracks visible content sections
+- **Flexible content**: Accepts any React component or HTML as section content
+- **Header customization**: Add icons, badges, or custom elements to section headers
+- **Action support**: Place action buttons or menus in section headers
+- **Alert banners**: Show notifications or warnings above specific sections
+- **Custom styling**: Full control over container and item styles via `sx` props
+- **Keyboard accessible**: Navigate sections via click or programmatic control
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+
+## Default
+
+The default example demonstrates a complete content list with various section types including form fields, media upload, text content, and empty sections. Each section shows different capabilities like header actions, additional header data (icons/badges), and before-header content (alerts).
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Usage Example
+
+```typescript
+import { ContentList } from '@ringpublishing/mui-components';
+import { Box, Typography } from '@mui/material';
+import { Settings, Profile, Security } from '@mui/icons-material';
+
+function SettingsPage() {
+  const [selectedSection, setSelectedSection] = React.useState(0);
+
+  return (
+    <ContentList
+      selectedItemIndex={selectedSection}
+      onHeaderClick={(item, index) => setSelectedSection(index)}
+      listHeader={
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Settings sx={{ mr: 1 }} />
+          <Typography variant="h6">Settings</Typography>
+        </Box>
+      }
+      inputData={[
+        {
+          header: 'Profile',
+          additionalHeaderData: <Profile />,
+          children: <div>Profile settings content</div>
+        },
+        {
+          header: 'Security',
+          additionalHeaderData: <Security />,
+          children: <div>Security settings content</div>
+        }
+      ]}
+    />
+  );
+}
+```
+
+### inputData Structure
+
+The `inputData` prop accepts an array of objects with the following structure:
+
+| Property               | Type        | Description                                                 |
+| ---------------------- | ----------- | ----------------------------------------------------------- |
+| `header`               | `string`    | Section header text (required)                              |
+| `children`             | `ReactNode` | Content displayed in the right panel (required)             |
+| `additionalHeaderData` | `ReactNode` | Icon, badge, or element shown next to header in left nav    |
+| `contentHeaderAction`  | `ReactNode` | Action button or menu shown in section header on right side |
+| `beforeHeaderContent`  | `ReactNode` | Alert or banner shown above the section content             |
+| `itemSx`               | `SxProps`   | Custom styles for the content box                           |
+
+### Navigation Behavior
+
+- The component automatically scrolls the selected section into view
+- Clicking a header in the left nav selects that section and scrolls to it
+- The left nav highlights the currently visible section as you scroll
+- Use `selectedItemIndex` prop to control section selection programmatically
+- Use `onHeaderClick` callback to respond to section changes
+
+### Styling Options
+
+- **`sx`**: Style the root container
+- **`containerSx`**: Style the right-side content container specifically
+- **`itemSx`**: Style individual content boxes (per section via inputData)
+- **`className`**: Apply CSS class to root element

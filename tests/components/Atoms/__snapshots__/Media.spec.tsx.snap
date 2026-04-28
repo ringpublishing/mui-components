@@ -1,0 +1,112 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Media > Should render correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-b82juz-MuiPaper-root-MuiCard-root"
+    style="--Paper-shadow: none;"
+  >
+    <figure
+      class="MuiBox-root css-14hubqc"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-overline css-ik1sqg-MuiTypography-root"
+      >
+        Image Type Title
+      </span>
+      <div
+        class="MuiBox-root css-80hwle"
+      >
+        <div
+          class="MuiStack-root css-100hz5d-MuiStack-root"
+        >
+          <div
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-19hk9e5-MuiChip-root"
+          >
+            <div>
+              test icon
+            </div>
+            <span
+              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+            >
+              Label 1
+            </span>
+          </div>
+          <div
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1fxwb9u-MuiChip-root"
+          >
+            <div>
+              test icon
+            </div>
+            <span
+              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+            >
+              Label 2, with a longer text
+            </span>
+          </div>
+        </div>
+        <button
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-p3jr68-MuiButtonBase-root-MuiIconButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-luhl92-MuiSvgIcon-root"
+            data-testid="MoreVertIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+            />
+          </svg>
+        </button>
+        <div
+          class="css-s3xtrq"
+        >
+          <div
+            class="css-l9y6au"
+          >
+            <img
+              class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-9zimiu-MuiCardMedia-root"
+              data-first-child=""
+              src="https://placehold.co/600x300/black/white"
+              title="Image title"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-qb5jxj"
+        >
+          <div
+            class="MuiStack-root css-va70d0-MuiStack-root"
+          >
+            <button
+              aria-label="Tooltip text 1"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-n8awxi-MuiButtonBase-root-MuiIconButton-root"
+              data-mui-internal-clone-element="true"
+              tabindex="0"
+              type="button"
+            >
+              <div>
+                test icon
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1y9j70i-MuiTypography-root"
+        >
+          Image title
+        </p>
+      </figcaption>
+    </figure>
+  </div>
+  <div
+    class="MuiBox-root css-12efcmn"
+  />
+</div>
+`;

@@ -1,0 +1,29 @@
+import { Meta, Title, IconGallery, IconItem, Source } from '@storybook/addon-docs/blocks';
+import HomeOutlined from '@mui/icons-material/HomeOutlined';
+import SettingsOutlined from '@mui/icons-material/SettingsOutlined';
+import PhoneAndroidOutlined from '@mui/icons-material/PhoneAndroidOutlined';
+
+<Meta title="Iconography" />
+
+<Title>Iconography</Title>
+
+Icons imported to library from <a href="https://mui.com/material-ui/material-icons/?theme=Outlined">Material Icons</a>
+
+<Source
+    code="
+    import HomeOutlined from '@mui/icons-material/HomeOutlined';
+    import SettingsOutlined from '@mui/icons-material/SettingsOutlined';
+    import PhoneAndroidOutlined from '@mui/icons-material/PhoneAndroidOutlined';
+"
+/>
+<IconGallery>
+    <IconItem name="Home">
+        <HomeOutlined />
+    </IconItem>
+    <IconItem name="Settings">
+        <SettingsOutlined />
+    </IconItem>
+    <IconItem name="Phone">
+        <PhoneAndroidOutlined />
+    </IconItem>
+</IconGallery>

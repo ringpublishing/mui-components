@@ -1,0 +1,72 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './TextEditor.stories.js';
+
+<Meta isTemplate />
+
+# TextEditor
+
+A rich text editor component built on top of [TipTap](https://tiptap.dev/), providing WYSIWYG editing capabilities with a customizable toolbar and extensible plugin system.
+
+- Built-in support for bold, italic, lists (ordered and unordered), links, and images
+- Extensible via TipTap extensions (headings, code, custom marks)
+- Customizable menu controls with `TextEditorMenuToggleButton` and `TextEditorMenuSelectHeading`
+- Character limit with visual counter
+- Link and image insertion via custom dialog callbacks
+- Supports floating menu and bubble menu via TipTap
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Additional Extensions](#with-additional-extensions)
+- [With Two Texts](#with-two-texts)
+
+## Default
+
+Basic text editor with built-in formatting options: bold, italic, ordered/unordered lists, links, and images. Includes a character limit counter.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Additional Extensions
+
+Demonstrates how to extend the editor with additional TipTap extensions. This example adds heading selection (h1-h6) and inline code formatting via custom menu controls.
+
+### Key Features:
+
+- `TextEditorMenuSelectHeading` for heading level selection
+- `TextEditorMenuToggleButton` for toggling code formatting
+- Custom extensions passed via the `extensions` prop
+
+### Usage:
+
+```typescript
+import { Heading } from '@tiptap/extension-heading';
+import { Code } from '@tiptap/extension-code';
+
+<TextEditor
+    content={content}
+    extensions={[Heading, Code]}
+    menuControls={[
+        <TextEditorMenuSelectHeading levels={[1, 2, 3, 4, 5, 6]} />,
+        <TextEditorMenuToggleButton
+            icon={<CodeOutlined />}
+            onClick={(editor) => editor.chain().focus().toggleCode().run()}
+            active={(editor) => editor.isActive('code')}
+            disabled={(editor) => !editor.can().chain().focus().toggleCode().run()}
+        />,
+    ]}
+    onUpdate={(editor, transaction) => { /* handle update */ }}
+/>
+```
+
+<Canvas of={Stories.WithAdditionalExtensions} />
+
+## With Two Texts
+
+Demonstrates switching between two different text contents in the same editor instance. Use the buttons above the editor to switch between Text #1 and Text #2.
+
+<Canvas of={Stories.WithTwoTexts} />

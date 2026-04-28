@@ -1,0 +1,47 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './ActionBox.stories.js';
+
+<Meta isTemplate />
+
+# ActionBox
+
+ActionBox displays a list of actions in a compact dropdown menu anchored to a trigger element.
+It supports icons, separators, disabled state handling, and tooltips for disabled reasons.
+
+**Main use cases:**
+
+- Context menus with additional options
+- Multiple actions in a compact form
+- Conditional actions with disabled state and reasons
+- Organizing functions with separators
+
+ActionBox extends [Popper](https://mui.com/material-ui/react-popper/), so all Popper props are supported.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Popper Placement](#popper-placement)
+- [Custom Styling](#custom-styling)
+
+## Default
+
+A basic ActionBox anchored to a button with multiple actions, icons, and separators.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Popper Placement
+
+Customize the position and portal behavior of the ActionBox using Popper API props.
+
+<Canvas of={Stories.PopperPlacement} />
+
+## Custom Styling
+
+Apply custom colors and background using the `sx` prop for theme-aware styling.
+
+<Canvas of={Stories.CustomStyling} />

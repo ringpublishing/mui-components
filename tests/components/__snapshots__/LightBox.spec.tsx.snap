@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Components: LightBox > should render component with multiple images 1`] = `
+<div
+  aria-hidden="true"
+/>
+`;
+
+exports[`Components: LightBox > should render component with single image 1`] = `
+<div
+  aria-hidden="true"
+/>
+`;
+
+exports[`Components: LightBox > should render component with single image and hide download icon 1`] = `
+<div
+  aria-hidden="true"
+/>
+`;

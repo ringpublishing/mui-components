@@ -1,0 +1,315 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Component: DataView > Component: RingDrawer > should render correctly with required props 1`] = `
+<div
+  aria-hidden="true"
+/>
+`;
+
+exports[`Component: DataView > Left Slot toggle functionality > should render correctly RingDataGrid with RingToolbar and toggle left slot 1`] = `
+<div>
+  <div
+    class="MuiStack-root ring-dataview css-qy5qas-MuiStack-root"
+  >
+    <div
+      class="MuiStack-root css-qy5qas-MuiStack-root"
+    >
+      <div
+        class="MuiStack-root css-1ihfr9k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-18qjdda"
+        >
+          <div>
+            Left Slot Component
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiStack-root css-m1j0r9-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root ring-search-bar css-1gdsz2q-MuiStack-root"
+          data-testid="ring-searchbar"
+        >
+          <div
+            class="MuiStack-root ring-search-box css-1uy5nul-MuiStack-root"
+            data-testid="ring-searchbox"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14x80ft-MuiSvgIcon-root"
+              data-testid="ring-searchbox-search"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+              />
+            </svg>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
+            >
+              <input
+                class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
+                data-testid="ring-searchbox-input"
+                placeholder=""
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+          >
+            <button
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-dh7td5"
+        >
+          <div
+            class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1311227717 css-1ukzi5v-MuiDataGrid-root"
+            style="--DataGrid-hasScrollX: 0; --DataGrid-hasScrollY: 0; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 0px; --DataGrid-columnsTotalWidth: 0px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
+          >
+            <div
+              class="MuiDataGrid-mainContent"
+              role="presentation"
+            >
+              <div
+                style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px;"
+              >
+                <div
+                  class="MuiStack-root css-tmsmf9-MuiStack-root"
+                >
+                  <div
+                    class="MuiStack-root css-1rlitzi-MuiStack-root"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+                      data-testid="toggle-left-slot-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
+                        data-testid="FilterListOffIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M10.83 8H21V6H8.83zm5 5H18v-2h-4.17zM14 16.83V18h-4v-2h3.17l-3-3H6v-2h2.17l-3-3H3V6h.17L1.39 4.22 2.8 2.81l18.38 18.38-1.41 1.41z"
+                        />
+                      </svg>
+                    </button>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption css-obqxx6-MuiTypography-root"
+                    >
+                      : 
+                      0
+                    </span>
+                  </div>
+                  <div
+                    class="MuiStack-root css-1oxswqj-MuiStack-root"
+                  />
+                </div>
+              </div>
+              <div
+                aria-colcount="0"
+                aria-multiselectable="true"
+                aria-rowcount="1"
+                class="MuiDataGrid-main MuiDataGrid-main--hiddenContent css-uk7t8p-MuiDataGrid-main"
+                role="grid"
+                tabindex="-1"
+              >
+                <div
+                  class="css-18l11qw"
+                  data-id="gridPanelAnchor"
+                  role="presentation"
+                />
+                <div
+                  class="MuiDataGrid-virtualScroller css-rktzwf-MuiDataGrid-virtualScroller"
+                  role="presentation"
+                  style="overflow-x: hidden;"
+                >
+                  <div
+                    class="MuiDataGrid-topContainer MuiDataGrid-container--top css-b1wygl"
+                    role="presentation"
+                  >
+                    <div
+                      class="MuiDataGrid-columnHeaders css-1gtv474-MuiDataGrid-columnHeaders"
+                      role="presentation"
+                    >
+                      <div
+                        aria-rowindex="1"
+                        class="MuiDataGrid-row--borderBottom css-yseucu-MuiDataGrid-columnHeaderRow"
+                        role="row"
+                        style="height: 56px;"
+                      >
+                        <div
+                          role="presentation"
+                          style="width: 0px;"
+                        />
+                        <div
+                          class="MuiDataGrid-filler"
+                          role="presentation"
+                        />
+                        <div
+                          class="MuiDataGrid-scrollbarFiller"
+                          role="presentation"
+                        />
+                      </div>
+                      <div
+                        class="css-oj85k"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="MuiDataGrid-overlayWrapper css-508bsa-MuiDataGrid-overlayWrapper"
+                  >
+                    <div
+                      class="MuiDataGrid-overlayWrapperInner css-1mbsuzk-MuiDataGrid-overlayWrapperInner"
+                      style="height: var(--DataGrid-overlayHeight, calc(var(--height) * 2)); width: 0px;"
+                    >
+                      <div
+                        class="MuiDataGrid-overlay css-w16tsr-MuiDataGrid-overlay"
+                      >
+                        No columns
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiDataGrid-virtualScrollerContent css-qghlpz-MuiDataGrid-virtualScrollerContent"
+                    role="presentation"
+                    style="width: auto; flex-basis: var(--DataGrid-overlayHeight, calc(var(--height) * 2)); flex-shrink: 0;"
+                  >
+                    <div
+                      class="MuiDataGrid-virtualScrollerRenderZone css-11dqcl8-MuiDataGrid-virtualScrollerRenderZone"
+                      role="rowgroup"
+                      style="transform: translate3d(0, 0px, 0);"
+                    />
+                  </div>
+                  <div
+                    class="MuiDataGrid-bottomContainer MuiDataGrid-container--bottom css-gzxaox"
+                    role="presentation"
+                  />
+                </div>
+                <div
+                  style="position: absolute; pointer-events: none; color: rgba(130, 130, 130, 0.62); z-index: 100000; width: 100%; text-align: center; bottom: 50%; right: 0px; letter-spacing: 5px; font-size: 24px;"
+                >
+                  MUI X Missing license key
+                </div>
+              </div>
+            </div>
+            <style
+              href="/MuiDataGridVariables-1311227717"
+            >
+              .MuiDataGridVariables-1311227717{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(224, 224, 224, 1);--DataGrid-t-color-background-base:#fff;--DataGrid-t-color-background-overlay:#fff;--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(38, 38, 38, 1);--DataGrid-t-color-foreground-muted:rgba(123, 123, 123, 1);--DataGrid-t-color-foreground-accent:rgba(0, 134, 204, 1);--DataGrid-t-color-foreground-disabled:rgba(157, 157, 157, 1);--DataGrid-t-color-foreground-error:rgba(188, 24, 40, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(0, 167, 238, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(196, 196, 196, 1) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:#fff;--DataGrid-t-cell-background-pinned:#fff;--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Arial, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.8125rem / 1.25rem Arial, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1.125rem Arial, sans-serif;--DataGrid-t-typography-font-large:400 0.875rem / 1.5rem Arial, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+            </style>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1tgc7if"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-11wfwh1"
+    >
+      <div>
+        Right Slot
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Component: DataView > should render correctly with required props 1`] = `
+<div>
+  <div
+    class="MuiStack-root ring-dataview css-qy5qas-MuiStack-root"
+  >
+    <div
+      class="MuiStack-root css-qy5qas-MuiStack-root"
+    >
+      <div
+        class="MuiStack-root css-1ihfr9k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-18qjdda"
+        >
+          <div>
+            Left Slot
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiStack-root css-m1j0r9-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root ring-search-bar css-1gdsz2q-MuiStack-root"
+          data-testid="ring-searchbar"
+        >
+          <div
+            class="MuiStack-root ring-search-box css-1uy5nul-MuiStack-root"
+            data-testid="ring-searchbox"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14x80ft-MuiSvgIcon-root"
+              data-testid="ring-searchbox-search"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+              />
+            </svg>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
+            >
+              <input
+                class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
+                data-testid="ring-searchbox-input"
+                placeholder=""
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+          />
+        </div>
+        <div
+          class="MuiBox-root css-dh7td5"
+        >
+          <div>
+            Grid
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1tgc7if"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

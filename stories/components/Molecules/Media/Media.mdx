@@ -1,0 +1,104 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Media.stories.js';
+
+<Meta isTemplate />
+
+# Media
+
+Renders multimedia content (images, video, and audio) in a card container with configurable overlays and interactive elements.
+
+- Displays images, video, and audio with consistent styling
+- Supports status labels, context menu actions, and bottom tooltips overlaid on media
+- Clicking an image opens a full-screen LightBox preview (can be disabled)
+- Falls back to an icon placeholder when media fails to load or no source is provided
+- Configurable aspect ratio and object-fit via `ratio` and `objectFit` props
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [No Image URL](#no-image-url)
+- [Video](#video)
+- [Audio](#audio)
+- [Audio with Background](#audio-with-background)
+
+## Default
+
+Full example with an image, status labels, actions, and bottom tooltips. Clicking the image opens a LightBox full-screen preview.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## No Image URL
+
+When no `image` prop is provided (or the image fails to load), the component displays an icon placeholder that matches the media type.
+
+<Canvas of={Stories.NoImageUrl} />
+
+## Video
+
+Use `slotProps.media` with `component: 'video'` to embed a video element. Full-screen preview is disabled automatically for non-image media types.
+
+```typescript
+<Media
+    title="Big Buck Bunny"
+    ratio="16/9"
+    slotProps={{
+        media: {
+            component: 'video',
+            src: 'https://example.com/video.mp4',
+            controls: true,
+            autoPlay: true,
+            muted: true
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.Video} />
+
+## Audio
+
+Use `slotProps.media` with `component: 'audio'` to embed an audio player. Set a narrow ratio (e.g. `'18/1'`) to give the audio bar a suitable height.
+
+```typescript
+<Media
+    title="Audio example"
+    ratio="18/1"
+    slotProps={{
+        media: {
+            component: 'audio',
+            src: 'https://example.com/audio.mp3',
+            controls: true,
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.Audio} />
+
+## Audio with Background
+
+Audio player with a custom pastel background color applied via `slotProps.media.sx.backgroundColor`.
+
+```typescript
+<Media
+    title="Audio example"
+    ratio="18/1"
+    slotProps={{
+        media: {
+            component: 'audio',
+            src: 'https://example.com/audio.mp3',
+            controls: true,
+            sx: {
+                backgroundColor: '#E8D5F5',
+            },
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.AudioWithBackground} />

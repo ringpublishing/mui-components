@@ -1,0 +1,127 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './FileUploader.stories.js';
+
+<Meta isTemplate />
+
+# FileUploader
+
+A flexible drag-and-drop file upload component with progress tracking, error handling, and customizable slots for actions and URL uploads.
+
+- Supports multiple file selection
+- Shows upload progress, completion, and error states
+- Supports backend/pre-existing files via `Idle` status — no native `File` object required
+- Allows custom actions and URL upload integration
+
+## Quick Navigation
+
+- [Component Sizes](#component-sizes)
+- [Default Example](#default)
+- [Component API](#component-api)
+- [Upload File States](#upload-file-states)
+- [URL Upload](#url-upload)
+- [Custom Action](#custom-action)
+
+## Component Sizes
+
+The FileUploader comes in three size variants to fit different use cases:
+
+```typescript
+import { FileUploader, FileUploaderSize } from '@ringpublishing/mui-components';
+
+// Small - Compact horizontal layout for inline forms
+<FileUploader size={FileUploaderSize.Small} />
+
+// Medium - Balanced vertical layout (default)
+<FileUploader size={FileUploaderSize.Medium} />
+
+// Large - Spacious layout for prominent upload areas
+<FileUploader size={FileUploaderSize.Large} />
+```
+
+**Available sizes**: `Small`, `Medium`, `Large`
+
+## Default
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Upload File States
+
+Each file in the `files` array uses the `FileUploaderFile` model. A native `File` object is **not required** — use `name` and `size` fields instead.
+
+### Statuses
+
+| Status      | Description                                              | Visual                                  |
+| ----------- | -------------------------------------------------------- | --------------------------------------- |
+| `Idle`      | Neutral / backend file. Default when no status provided. | Grey icon, no progress bar              |
+| `Uploading` | Upload in progress                                       | Blue spinner + progress bar + %         |
+| `Completed` | Upload completed and finalized                           | Green checkmark + progress bar          |
+| `Success`   | Upload completed successfully                            | Green checkmark + progress bar          |
+| `Error`     | Upload failed                                            | Red icon + error message + retry button |
+
+### FileUploaderFile model
+
+```typescript
+import { FileUploaderFile, FileUploaderStatus } from '@ringpublishing/mui-components';
+
+// Backend / pre-existing file (no File object needed)
+const backendFile: FileUploaderFile = {
+    id: 'doc-1',
+    name: 'report.pdf',
+    size: 2.1 * 1024 * 1024,
+    status: FileUploaderStatus.Idle,
+    showRemove: true,
+};
+
+// Browser upload in progress
+const uploadingFile: FileUploaderFile = {
+    id: 'upload-1',
+    name: 'photo.jpg',
+    size: 4 * 1024 * 1024,
+    status: FileUploaderStatus.Uploading,
+    progress: 42,
+    uploadedBytes: 1.68 * 1024 * 1024,
+    file: nativeFileObject, // optional — only for browser uploads
+};
+```
+
+### Action Modes
+
+1. **Replace File** (`action.label` only) — opens file picker
+2. **Custom Action** (`action.label` + `action.onClick`) — executes custom handler
+
+<Canvas of={Stories.UploadFileStates} />
+
+## URL Upload
+
+Enable URL upload functionality to allow users to provide file URLs instead of uploading from their device. Perfect for importing files from external sources, cloud storage, or direct links.
+
+### Configuration
+
+Configure the URL upload section via `slotProps.urlUploadSection`:
+
+| Property         | Type                      | Description                                       |
+| ---------------- | ------------------------- | ------------------------------------------------- |
+| `enabled`        | `boolean`                 | Enable/disable the URL upload section             |
+| `onSubmit`       | `(url: string) => void`   | **Required** - Callback when URL is submitted     |
+| `loading`        | `boolean`                 | Shows spinner and disables controls during upload |
+| `onClear`        | `() => void`              | Optional callback when URL input is cleared       |
+| `title`          | `string`                  | Custom section title (default: "or enter URL")    |
+| `placeholder`    | `string`                  | TextField placeholder (default: "https://...")    |
+| `submitButton`   | `string`                  | Submit button text (default: "Upload")            |
+| `textFieldProps` | `Partial<TextFieldProps>` | Additional props for the TextField component      |
+
+<Canvas of={Stories.UrlUpload} />
+
+## Custom Action
+
+Add custom actions next to the upload button using the `action` slot. Perfect for integrating external file pickers, cloud storage, or any custom upload source.
+
+| Property | Type              | Description                                           |
+| -------- | ----------------- | ----------------------------------------------------- |
+| `action` | `React.ReactNode` | Custom component to display next to the upload button |
+
+<Canvas of={Stories.CustomAction} />

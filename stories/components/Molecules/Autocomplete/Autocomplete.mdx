@@ -1,0 +1,229 @@
+import * as Stories from './Autocomplete.stories.js';
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+
+<Meta isTemplate />
+
+# Autocomplete
+
+Autocomplete extends [MUI Autocomplete](https://mui.com/material-ui/react-autocomplete/) component and supports all its properties.
+
+The Autocomplete component provides a text input enhanced with a panel of suggested options. It's useful for:
+
+- Single or multiple value selection from a predefined list
+- Free text input with suggestions (freeSolo mode)
+- Asynchronous data loading
+- Recently used items tracking
+- Custom option rendering with captions
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Dropdown Actions](#with-dropdown-actions)
+- [With Multiple Selection](#with-multiple-selection)
+- [With Multiple Dropdown Actions](#with-multiple-dropdown-actions)
+- [With Recently Used](#with-recently-used)
+- [With Caption](#with-caption)
+- [With Asynchronous Requests](#with-asynchronous-requests)
+- [With Customised Chips](#with-customised-chips)
+- [With Customised Render Option](#with-customised-render-option)
+- [With Free Solo](#with-free-solo)
+- [With Outlined TextField](#with-outlined-textfield)
+
+## Default
+
+Basic usage of the Autocomplete component with a predefined list of options.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Dropdown Actions
+
+Add action buttons to the Autocomplete input. Actions appear as icon buttons inside the input field and can trigger custom callbacks.
+
+### Key Features:
+
+- Single action button displayed in the input
+- Supports icon and click handler
+- Can be disabled with optional disabled reason
+
+<Canvas of={Stories.WithDropdownActions} />
+
+## With Multiple Selection
+
+Demonstrates multiple selection mode where users can select multiple options from the list. Selected options are displayed as chips in the input field.
+
+### Key Features:
+
+- Multiple value selection using `multiple` prop
+- Selected values displayed as chips
+- Chips can be removed by clicking the X icon
+- Default value can be an array of options
+
+### Usage:
+
+```typescript
+<Autocomplete
+    options={options}
+    multiple
+    defaultValue={[options[0], options[1]]}
+    labels={{ title: 'search by' }}
+/>
+```
+
+<Canvas of={Stories.WithMultipleSelection} />
+
+## With Multiple Dropdown Actions
+
+When multiple actions are provided, they are displayed in a dropdown menu accessible via a "more" button (MoreVert icon).
+
+### Key Features:
+
+- Multiple actions in a dropdown menu
+- Actions grouped under MoreVert icon button
+- Each action has its own icon and handler
+- Works with single or multiple selection mode
+
+### Usage:
+
+```typescript
+actions={[
+    {
+        icon: <ManageSearch />,
+        onClick: handleSettings,
+        label: 'Settings',
+    },
+    {
+        icon: <InfoOutlined />,
+        onClick: handleInfo,
+        label: 'Info',
+    },
+]}
+```
+
+<Canvas of={Stories.WithMultipleDropdownActions} />
+
+## With Recently Used
+
+Track and display recently selected items in a separate group. Items are stored in localStorage and persist across sessions.
+
+### Key Features:
+
+- Automatic grouping of recently used items
+- Configurable limit for stored items (default: 3)
+- Requires `recentlyLocalStorageKey` for persistence
+
+### Configuration:
+
+```typescript
+labels={{
+    title: 'search by',
+    recentlyUsed: 'Recently used',
+    recentlyUsedResults: 'Results',
+}}
+showRecentlyUsed={true}
+recentlyLocalStorageKey="recentlyUsed"
+recentlyUsedLimit={3}
+```
+
+<Canvas of={Stories.WithRecentlyUsed} />
+
+## With Caption
+
+Display additional caption text below each option label. Useful for providing extra context about each option.
+
+### Key Features:
+
+- Secondary text displayed below the main label
+- Automatic text overflow handling
+- Caption is part of the option object
+
+<Canvas of={Stories.WithCaption} />
+
+## With Asynchronous Requests
+
+Load options dynamically when the dropdown opens. Shows a loading indicator while data is being fetched.
+
+### Key Features:
+
+- Lazy loading of options on dropdown open
+- Built-in loading state and indicator
+- Options are cached after first load
+
+<Canvas of={Stories.WithAsynchronousRequests} />
+
+## With Customised Chips
+
+Customize the appearance of selected value chips in multiple selection mode using `slotProps.chip`.
+
+### Key Features:
+
+- Custom chip color and size
+- Chips show tooltips with full label on hover
+- Uses MUI Chip props
+
+### Configuration:
+
+```typescript
+slotProps={{
+    chip: {
+        color: 'primary',
+        size: 'small',
+    },
+}}
+```
+
+<Canvas of={Stories.WithCustomisedChips} />
+
+## With Customised Render Option
+
+Fully customize how each option is rendered in the dropdown using the `renderOption` prop.
+
+### Key Features:
+
+- Complete control over option rendering
+- Can include icons, multiple text lines, or custom layouts
+- Receives option data and props for accessibility
+
+<Canvas of={Stories.WithCustomisedRenderOption} />
+
+## With Free Solo
+
+Allow users to enter custom values that are not in the predefined options list. New values are added to the selection when the user types and confirms.
+
+### Key Features:
+
+- Users can type custom values
+- New values are converted to option objects
+- Combined with multiple selection mode
+
+<Canvas of={Stories.WithFreeSolo} />
+
+## With Outlined TextField
+
+Use the outlined variant of the text field instead of the default filled variant.
+
+### Key Features:
+
+- Alternative text field design with border outline
+- Supports all other Autocomplete features
+- Uses MUI's `outlined` variant
+
+### Configuration:
+
+```typescript
+<Autocomplete
+    options={options}
+    labels={{ title: 'search by' }}
+    slotProps={{
+        textField: {
+            variant: 'outlined'
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.WithOutlinedTextField} />

@@ -1,0 +1,57 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './SortableList.stories.js';
+
+<Meta isTemplate />
+
+# SortableList
+
+A drag-and-drop sortable list component built on top of the [@dnd-kit/core](https://docs.dndkit.com/) library. It provides a container that manages drag-and-drop functionality while leaving item rendering to the developer.
+
+- Two dragging modes: grab anywhere (default) or grab by drag handle
+- Supports clickable elements inside list items without interfering with drag behavior
+- Provides `useNonDraggableRef` hook to prevent drag on specific elements (e.g., buttons, context menus)
+- Built-in `<SortableList.DragHandle />` component for explicit drag handles
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With DragHandle](#with-draghandle)
+
+## Default
+
+By default, the entire list item is draggable. The drag event is triggered only after the user moves the mouse by a small number of pixels, so clickable elements like buttons still work correctly. Use the `useNonDraggableRef` hook to prevent drag behavior on specific interactive elements.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With DragHandle
+
+When `grabByDragHandle` is set to `true`, items can only be dragged by clicking and dragging the `<SortableList.DragHandle />` component. You must incorporate the `DragHandle` component in your item's children for this mode to work.
+
+### Key Features:
+
+- Items are only draggable via the dedicated drag handle icon
+- Other interactive elements work without interference
+- Provides a clear visual affordance for drag interaction
+
+### Usage:
+
+```typescript
+<SortableList
+    items={items}
+    onChange={handleChange}
+    renderItem={(item) => (
+        <div>
+            <SortableList.DragHandle />
+            <span>{item.field}</span>
+        </div>
+    )}
+    grabByDragHandle={true}
+/>
+```
+
+<Canvas of={Stories.WithDragHandle} />

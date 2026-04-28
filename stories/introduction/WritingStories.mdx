@@ -1,0 +1,315 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Writing Stories" />
+
+# Writing Stories
+
+This guide provides step-by-step instructions for creating Storybook stories following the project's established patterns.
+
+## Directory Structure
+
+For a component called `YourComponent`, create the following structure:
+
+```
+stories/components/{Category}/YourComponent/
+├── YourComponent.stories.tsx      # Main stories configuration
+├── YourComponent.mdx              # Documentation
+├── common/
+│   └── defaultArgs.ts             # Default props/args
+└── stories/
+    ├── Default.tsx                # Individual story files
+    ├── StoryName.tsx
+    └── code/
+        ├── DefaultExample.tsx     # Code examples shown in docs
+        └── StoryNameExample.tsx
+```
+
+## Step 1: Create Default Args (`common/defaultArgs.ts`)
+
+Define default arguments for your component:
+
+```typescript
+import { YourComponentSize } from '../../../../../src/index.js';
+
+export default {
+    size: YourComponentSize.Medium,
+    // Add other default props
+};
+```
+
+## Step 2: Create MDX Documentation (`YourComponent.mdx`)
+
+### Required Imports
+
+```typescript
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './YourComponent.stories.js';
+```
+
+**Important Notes:**
+
+- Import stories as `* as Stories` from `.stories.js` extension (not .tsx)
+- Use `<Meta isTemplate />` at the top
+- Use `<Canvas of={Stories.StoryName} />` to display stories
+- Use `<ArgTypes />` to show the Component API table below first story
+
+### MDX Structure
+
+```mdx
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './YourComponent.stories.js';
+
+<Meta isTemplate />
+
+# YourComponent
+
+Brief description of the component.
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## Quick Navigation
+
+- [Section 1](#section-1)
+- [Component API](#component-api)
+
+## Default
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## StoryName
+
+Description and examples...
+
+<Canvas of={Stories.StoryName} />
+```
+
+## Step 3: Create Individual Story Files
+
+### Pattern for Each Story (`stories/Default.tsx`)
+
+```typescript
+import React from 'react';
+import type { StoryObj } from '@storybook/react-vite';
+import { action } from 'storybook/actions';
+import { createCodeStory } from '../../../../helpers.js';
+import DefaultExampleCode from './code/DefaultExample.tsx?raw';
+import { YourComponent } from '../../../../../src/index.js';
+import defaultArgs from '../common/defaultArgs.js';
+
+type Story = StoryObj<typeof YourComponent>;
+
+const Example = (args: React.ComponentProps<typeof YourComponent>): React.JSX.Element => {
+    // Add state management if needed
+    const handleSomeAction = (data: any): void => {
+        action('onSomeAction')(data);
+    };
+
+    return <YourComponent {...args} onSomeAction={handleSomeAction} />;
+};
+
+export const Default: Story = {
+    args: {
+        ...defaultArgs,
+        // Override specific args for this story
+    },
+    render: (args, context) => {
+        return createCodeStory({
+            context,
+            customProps: {},
+            customCode: DefaultExampleCode,
+            example: <Example {...args} />,
+        });
+    },
+};
+```
+
+**Key Points:**
+
+- Use `.tsx?raw` import suffix to import code as string
+- Define an `Example` component that handles the actual rendering
+- Use `createCodeStory` helper for docs view to show code alongside example
+
+## Step 4: Create Code Examples (`stories/code/DefaultExample.tsx`)
+
+These files are imported as raw strings and displayed in the documentation:
+
+```typescript
+import React from 'react';
+import { YourComponent, YourComponentSize } from '@ringpublishing/mui-components';
+
+export default function DefaultExample(): React.JSX.Element {
+    const handleAction = (data: any): void => {
+        // Handle action
+    };
+
+    return (
+        <YourComponent
+            headline="Example Headline"
+            size={YourComponentSize.Medium}
+            onAction={handleAction}
+            sx={{ maxWidth: 600, margin: '0 auto' }}
+        />
+    );
+}
+```
+
+**Important:**
+
+- Import from `@ringpublishing/mui-components` (the package name, not relative paths)
+- This must be the same example as in story render function for consistency between code and rendered example in docs
+
+## Step 5: Create Main Stories File (`YourComponent.stories.tsx`)
+
+```typescript
+import type { Meta } from '@storybook/react-vite';
+import { YourComponent, YourComponentSize } from '../../../../src/index.js';
+import { Default } from './stories/Default.js';
+import { StoryName } from './stories/StoryName.js';
+import defaultArgs from './common/defaultArgs.js';
+import YourComponentMDX from './YourComponent.mdx';
+
+const meta = {
+    component: YourComponent,
+    parameters: {
+        docs: {
+            page: YourComponentMDX,
+        },
+    },
+    args: {
+        ...defaultArgs,
+    },
+    argTypes: {
+        sx: {
+            control: 'object',
+            description: 'MUI System properties to customize the main element style.',
+            table: {
+                category: 'customization',
+                type: { summary: 'SxProps<Theme>' },
+                defaultValue: { summary: '{}' },
+            },
+        },
+        className: {
+            control: 'text',
+            type: 'string',
+            description: 'CSS class name applied to the main element.',
+            table: {
+                category: 'customization',
+            },
+        },
+        propName: {
+            control: 'text',
+            description: 'Description of the prop',
+            table: {
+                category: 'content', // or 'behavior', 'validation', 'appearance', 'callbacks', 'state'
+                type: { summary: 'string' },
+                defaultValue: { summary: "'default value'" },
+            },
+        },
+        size: {
+            control: 'radio',
+            options: Object.values(YourComponentSize),
+            description: 'Size of the component. Available options: Small, Medium, Large',
+            table: {
+                category: 'appearance',
+                defaultValue: { summary: `'${YourComponentSize.Medium}'` },
+            },
+        },
+        onCallback: {
+            description: 'Callback fired when something happens',
+            table: {
+                category: 'callbacks',
+                type: { summary: '(data: Type) => void' },
+            },
+        },
+        slotProps: {
+            control: 'object',
+            description: 'Props for internal components',
+            table: {
+                category: 'customization',
+                type: { summary: '{ section?: SectionProps }' },
+            },
+        },
+        action: {
+            control: false,
+            description: 'Slot for custom React node',
+            table: {
+                category: 'customization',
+                type: { summary: 'React.ReactNode' },
+            },
+        },
+    },
+} satisfies Meta<typeof YourComponent>;
+
+export default meta;
+
+export { Default, StoryName };
+```
+
+### ArgTypes Categories
+
+Organize argTypes into categories:
+
+- **customization**: `sx`, `className`, `slotProps`, slots
+- **content**: `headline`, `labels`, `errorMessage`, text content
+- **validation**: `maxFileSize`, `accept`, validation rules
+- **behavior**: `multiple`, `initiallyCollapsed`, interaction settings
+- **appearance**: `size`, visual properties
+- **callbacks**: `onFilesSelected`, `onRemove`, event handlers
+- **state**: `files`, controlled state
+
+### Control Types
+
+Common control types:
+
+- `text`: String inputs
+- `boolean`: Checkboxes
+- `number`: Number inputs
+- `object`: JSON objects
+- `radio`: Radio buttons (use with `options`)
+- `select`: Dropdowns (use with `options`)
+- `false`: Disable control
+
+## Step 6: Import Path Reference
+
+### In Stories Files
+
+```typescript
+// Component import (use relative path to src)
+import { YourComponent } from '../../../../../src/index.js';
+
+// Story imports (use relative paths with .js extension)
+import { Default } from './stories/Default.js';
+import defaultArgs from './common/defaultArgs.js';
+
+// MDX import (no extension needed)
+import YourComponentMDX from './YourComponent.mdx';
+
+// Raw code imports (use ?raw suffix)
+import DefaultExampleCode from './code/DefaultExample.tsx?raw';
+
+// Helper imports (use relative paths)
+import { createCodeStory } from '../../../../helpers.js';
+```
+
+### In MDX Files
+
+```typescript
+// Storybook imports
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+
+// Stories import (use .js extension, not .tsx)
+import * as Stories from './YourComponent.stories.js';
+```
+
+### In Code Example Files
+
+```typescript
+// Use package name, not relative paths
+import { YourComponent } from '@ringpublishing/mui-components';
+```

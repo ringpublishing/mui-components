@@ -1,0 +1,11 @@
+{
+    "extends": "@ringieraxelspringer/tsconfig/tsconfig.esm",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "lib": ["dom", "esnext"],
+        "skipLibCheck": true,
+        "paths": {
+            "@ringpublishing/mui-components": ["./src/index.ts"]
+        }
+    }
+}

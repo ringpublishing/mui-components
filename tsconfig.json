@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.build.json",
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": ".",
+        "declaration": true
+    },
+    "include": [".storybook", "src", "stories", "tests", "declarations.d.ts"]
+}

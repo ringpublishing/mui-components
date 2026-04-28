@@ -1,0 +1,96 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './ChipsInput.stories.js';
+
+<Meta isTemplate />
+
+# ChipsInput
+
+ChipsInput is an interactive input component that allows users to create and manage a collection of chips (tags). Users can add new chips by typing and pressing Enter, or by pasting values. Each chip can be individually removed, and the component supports validation and duplicate detection.
+
+**Key Features:**
+
+- **Easy Input**: Add chips by typing and pressing Enter or by pasting values
+- **Validation Support**: Optional validation function to mark invalid chips
+- **Duplicate Detection**: Prevents adding duplicate values with user feedback
+- **Custom Colors**: Configure chip colors for valid and invalid states
+- **Controlled/Uncontrolled**: Works with both controlled and uncontrolled value patterns
+- **Accessible**: Built on MUI Autocomplete with full keyboard support
+
+**Common Use Cases:**
+
+- Tag input for categorization
+- ID or value filters
+- Email address lists
+- Keyword management
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Custom Colors](#custom-colors)
+- [No Validation](#no-validation)
+
+## Default
+
+The default story shows ChipsInput with numeric validation. Only numeric values are accepted as valid chips, and invalid chips are displayed with an error color.
+
+Try adding both valid numbers (e.g., "123") and invalid text (e.g., "abc") to see the validation in action.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Custom Colors
+
+This story demonstrates how to customize chip colors for different validation states. In this example, the component validates email addresses and uses custom colors: green (success) for valid emails and orange (warning) for invalid ones.
+
+### Usage:
+
+```typescript
+<ChipsInput
+  labels={{
+    title: 'Email validation',
+    inputPlaceholder: 'Enter email address',
+    alreadyOnList: 'Email already added'
+  }}
+  validationFunction={(value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value.label);
+  }}
+  chipsColors={{
+    default: ChipColor.SUCCESS,
+    error: ChipColor.WARNING
+  }}
+  onChange={(value) => console.log(value)}
+/>
+```
+
+<Canvas of={Stories.CustomColors} />
+
+## No Validation
+
+This story demonstrates ChipsInput without any validation. All entered values are accepted as valid chips with the default color scheme. This is useful when you want to accept any user input without restrictions.
+
+### Key Features:
+
+- No validation function provided
+- All chips use the default color
+- Simplest configuration
+- Still prevents duplicates
+
+### Usage:
+
+```typescript
+<ChipsInput
+  labels={{
+    title: 'Tags',
+    inputPlaceholder: 'Add any tag',
+    alreadyOnList: 'Tag already exists'
+  }}
+  onChange={(value) => console.log(value)}
+/>
+```
+
+<Canvas of={Stories.NoValidation} />

@@ -1,0 +1,50 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './SplitButton.stories.js';
+
+<Meta isTemplate />
+
+# SplitButton
+
+SplitButton is a specialized button component that combines a primary action with a dropdown menu of additional actions. It extends the MUI ButtonGroup component with enhanced functionality for managing multiple related actions.
+
+- Primary action button with optional disabled state
+- Dropdown menu for additional actions with icons and tooltips
+- Tooltip support for disabled action reasons
+- Customizable sizing and styling via ButtonGroup API
+- Support for single or multiple additional actions
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Customization from ButtonGroup API](#customization-from-buttongroup-api)
+- [Main Action Disabled](#main-action-disabled)
+- [With One Action](#with-one-action)
+
+## Default
+
+The standard SplitButton configuration featuring a main action button with multiple additional actions in a dropdown menu. This story demonstrates the component with various action states, including disabled actions with tooltips and icon support.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Customization from ButtonGroup API
+
+SplitButton inherits all styling and layout properties from the MUI ButtonGroup API, allowing for flexible customization of appearance, size, variant, color, and orientation. This example shows how to apply ButtonGroup customizations to achieve different visual styles.
+
+<Canvas of={Stories.CustomizationFromButtonGroupAPI} />
+
+## Main Action Disabled
+
+Demonstrates a SplitButton where the primary action is disabled with a disabled reason tooltip. The additional actions in the dropdown remain functional, allowing users to access alternative actions when the main action is unavailable.
+
+<Canvas of={Stories.MainActionDisabled} />
+
+## With One Action
+
+A simplified SplitButton variant containing only a single main action. In this configuration, the dropdown toggle button is not displayed, resulting in a standard button appearance.
+
+<Canvas of={Stories.WithOneAction} />

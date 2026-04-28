@@ -1,0 +1,9 @@
+.docblock-code-toggle--disabled,
+.docblock-code-toggle {
+    display: none !important;
+}
+
+div.playground-wrapper > div:first-child > div:first-child {
+    margin: 0 !important;
+    padding: 16px 16px 0 16px;
+}

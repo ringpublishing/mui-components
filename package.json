@@ -1,0 +1,131 @@
+{
+    "name": "@ringpublishing/mui-components",
+    "description": "Ring Publishing UI Components library",
+    "type": "module",
+    "license": "LGPL-3.0-or-later",
+    "repository": "ringpublishing/mui-components",
+    "homepage": "https://design.ringpublishing.com",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "engines": {
+        "node": "^18||^20||^22||^24"
+    },
+    "bin": {
+        "run-migration": "bin/run-migration.sh"
+    },
+    "scripts": {
+        "build": "npm-run-all build:*",
+        "build:check-ts": "tsc",
+        "build:library": "tsc -p tsconfig.build.json",
+        "build:move-images": "mkdir -p dist/components/Molecules/Placeholder/images && cp src/components/Molecules/Placeholder/images/*.svg dist/components/Molecules/Placeholder/images",
+        "build:storybook": "storybook build",
+        "lint": "npm run lint:js",
+        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .storybook/ src/ stories/ tests/",
+        "lint:js:fix": "npm run lint:js -- --fix",
+        "prebuild": "rimraf dist",
+        "prepare": "npm run build && husky",
+        "storybook:preview": "storybook dev",
+        "test": "vitest --run",
+        "test:update": "vitest -u --run",
+        "test:watch": "vitest",
+        "watch": "tsc --watch"
+    },
+    "dependencies": {
+        "@dnd-kit/core": "^6.1.0",
+        "@dnd-kit/sortable": "^10.0.0",
+        "@dnd-kit/utilities": "^3.2.0",
+        "@emotion/react": "^11.0.0",
+        "@emotion/styled": "^11.0.0",
+        "@floating-ui/dom": "^1.6.0",
+        "@ringpublishing/mui-theme": "^4.5.0",
+        "@tanstack/react-virtual": "^3.13.0",
+        "@tiptap/core": "^3.0.0",
+        "@tiptap/extension-bold": "^3.0.0",
+        "@tiptap/extension-code": "^3.0.0",
+        "@tiptap/extension-document": "^3.0.0",
+        "@tiptap/extension-heading": "^3.0.0",
+        "@tiptap/extension-image": "^3.0.0",
+        "@tiptap/extension-italic": "^3.0.0",
+        "@tiptap/extension-link": "^3.0.0",
+        "@tiptap/extension-list": "^3.0.0",
+        "@tiptap/extension-paragraph": "^3.0.0",
+        "@tiptap/extension-text": "^3.0.0",
+        "@tiptap/extensions": "^3.0.0",
+        "@tiptap/pm": "^3.0.0",
+        "@tiptap/react": "^3.0.0",
+        "classnames": "^2.0.0",
+        "dompurify": "^3.4.0",
+        "lodash": "^4.0.0",
+        "react-full-screen": "^1.1.0"
+    },
+    "devDependencies": {
+        "@ringieraxelspringer/eslint-config": "^24.0.0",
+        "@ringieraxelspringer/tsconfig": "^7.0.0",
+        "@storybook/addon-docs": "^10.0.0",
+        "@storybook/cli": "^10.0.0",
+        "@storybook/react-vite": "^10.0.0",
+        "@testing-library/dom": "^10.0.0",
+        "@testing-library/react": "^16.0.0",
+        "@testing-library/user-event": "^14.0.0",
+        "@types/lodash": "^4.0.0",
+        "@types/node": "^22.0.0",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "@vitest/ui": "^3.0.0",
+        "dayjs": "^1.0.0",
+        "eslint-config-prettier": "^10.0.0",
+        "eslint-plugin-storybook": "^0.12.0",
+        "husky": "^9.0.0",
+        "jsdom": "^26.0.0",
+        "lint-staged": "^16.0.0",
+        "npm-run-all": "^4.0.0",
+        "prettier": "^3.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "remark-gfm": "^4.0.0",
+        "rimraf": "^6.0.0",
+        "storybook": "^10.0.0",
+        "storybook-addon-code-editor": "~6.1.0",
+        "typescript": "~5.1.0",
+        "uuid": "^11.0.0",
+        "vite": "~6.2.0",
+        "vitest": "^3.0.0"
+    },
+    "peerDependencies": {
+        "@mui/icons-material": "^7.0.0",
+        "@mui/lab": "^7.0.0-beta.17",
+        "@mui/material": "^7.0.0",
+        "@mui/utils": "^7.0.0",
+        "@mui/x-data-grid": "^8.17.0",
+        "@mui/x-data-grid-pro": "^8.17.0",
+        "@mui/x-date-pickers": "^8.17.0",
+        "@mui/x-date-pickers-pro": "^8.17.0",
+        "@mui/x-license": "^8.17.0",
+        "@mui/x-tree-view": "^8.17.0",
+        "dayjs": "^1.0.0",
+        "react": "^18||^19",
+        "react-dom": "^18||^19"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": "eslint",
+        "*.{ts,tsx,js,jsx,json,md,mdx,css}": "prettier --check"
+    },
+    "eslintConfig": {
+        "extends": [
+            "@ringieraxelspringer/eslint-config",
+            "plugin:storybook/csf-strict",
+            "plugin:storybook/recommended",
+            "prettier"
+        ],
+        "rules": {
+            "n/no-unsupported-features/node-builtins": "off",
+            "react/prop-types": "off"
+        },
+        "ignorePatterns": [
+            "**/code/*"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

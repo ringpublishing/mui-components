@@ -1,0 +1,33 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './FiltersWrapper.stories.js';
+
+<Meta isTemplate />
+
+# FiltersWrapper
+
+A themed wrapper component for organizing filter controls with an optional clear button and customizable styling. It provides consistent theming for child form elements.
+
+- Configurable label and clear button with callback
+- Themed child elements via `variant` and `size` props
+- Supports standard, outlined, and filled input variants
+- Customizable button styling via `buttonStyle` prop
+- Works with Accordion, DatePicker, TextField, Checkbox, Switch, Radio, Select, Slider, and custom inputs
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+
+## Default
+
+The default example demonstrates FiltersWrapper with various filter controls organized in Accordion sections, including date pickers, text fields, checkboxes, switches, autocompletes, radio groups, selects, sliders, and custom inputs.
+
+<Canvas of={Stories.Default} />
+
+## How Theming Works
+
+FiltersWrapper uses a MUI `ThemeProvider` to override default props for child MUI components. The `variant` and `size` props apply to **all nested MUI form elements** (TextField, Select, Autocomplete, Checkbox, Radio, Switch, Slider, and Button), not to the wrapper itself. The `buttonStyle` prop similarly configures default size and variant for all `MuiButton` instances within the wrapper.
+
+## Component API
+
+<ArgTypes />

@@ -1,0 +1,53 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Placeholder.stories.js';
+
+<Meta isTemplate />
+
+# Placeholder
+
+`Placeholder` displays an empty/error-like state with an icon and contextual text to help users understand what happened and what they can do next.
+
+- Supports predefined variants for common scenarios (error, not found, empty)
+- Supports custom labels for localized or domain-specific messaging
+- Supports optional action buttons and a custom image/icon
+- Uses theme locale for localized defaults
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Not Found](#not-found)
+- [Empty](#empty)
+- [With Buttons, Custom Icon and Labels](#with-buttons-custom-icon-and-custom-labels)
+
+## Default
+
+The default variant presents a generic error state with built-in labels.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Not Found
+
+Use the `not_found` variant when search/filter actions return no results.
+
+<Canvas of={Stories.NotFound} />
+
+## Empty
+
+Use the `empty` variant when no item is selected yet or when details are not available.
+
+<Canvas of={Stories.Empty} />
+
+## With Buttons, Custom Icon and Labels
+
+This example shows how to fully customize:
+
+- labels (`header`, `description`, `footer`)
+- action buttons (`buttons`)
+- visual icon (`img`)
+
+<Canvas of={Stories.WithButtonsCustomIconAndCustomLabels} />

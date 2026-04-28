@@ -1,0 +1,315 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MultimediaGrid > should render correctly with a spacer item 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render correctly with empty items 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="MuiStack-root css-f3a0ab-MuiStack-root"
+        data-testid="ring-placeholder-not_found"
+      >
+        <div
+          class="MuiBox-root css-co4xce"
+        >
+          <img
+            alt="Not found"
+            src="/src/components/Molecules/Placeholder/images/Not_found.svg"
+          />
+        </div>
+        <div
+          class="MuiStack-root css-t66xbi-MuiStack-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-19nfv5h-MuiTypography-root"
+          >
+            No results
+          </h6>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1xrrpwr-MuiTypography-root"
+          >
+            Check your spelling, type the phrase differently, or change the filters.
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-z80jug"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render correctly with media items 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render toolbar when showRingToolbar is true 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px; position: relative;"
+    >
+      <div
+        class="MuiStack-root css-1k60ign-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-1rlitzi-MuiStack-root"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
+          >
+            Results
+            : 
+            0
+          </span>
+        </div>
+        <div
+          class="MuiStack-root css-1oxswqj-MuiStack-root"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should not render empty state when loading is true 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    />
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should not render error state when loading is true even if error is true 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    />
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should prioritize error state over empty state when both conditions are met 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="MuiStack-root css-f3a0ab-MuiStack-root"
+        data-testid="ring-placeholder-error_list"
+      >
+        <div
+          class="MuiBox-root css-co4xce"
+        >
+          <img
+            alt="Error"
+            src="/src/components/Molecules/Placeholder/images/Error.svg"
+          />
+        </div>
+        <div
+          class="MuiStack-root css-t66xbi-MuiStack-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-19nfv5h-MuiTypography-root"
+          >
+            Failed to load the list
+          </h6>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1xrrpwr-MuiTypography-root"
+          >
+            Refresh the page and try again. If the problem persists, please contact our technical support.
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-z80jug"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should render empty state when items array is empty and not loading 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="MuiStack-root css-f3a0ab-MuiStack-root"
+        data-testid="ring-placeholder-not_found"
+      >
+        <div
+          class="MuiBox-root css-co4xce"
+        >
+          <img
+            alt="Not found"
+            src="/src/components/Molecules/Placeholder/images/Not_found.svg"
+          />
+        </div>
+        <div
+          class="MuiStack-root css-t66xbi-MuiStack-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-19nfv5h-MuiTypography-root"
+          >
+            No results
+          </h6>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1xrrpwr-MuiTypography-root"
+          >
+            Check your spelling, type the phrase differently, or change the filters.
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-z80jug"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should render error state when error prop is true 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="MuiStack-root css-f3a0ab-MuiStack-root"
+        data-testid="ring-placeholder-error_list"
+      >
+        <div
+          class="MuiBox-root css-co4xce"
+        >
+          <img
+            alt="Error"
+            src="/src/components/Molecules/Placeholder/images/Error.svg"
+          />
+        </div>
+        <div
+          class="MuiStack-root css-t66xbi-MuiStack-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-19nfv5h-MuiTypography-root"
+          >
+            Failed to load the list
+          </h6>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1xrrpwr-MuiTypography-root"
+          >
+            Refresh the page and try again. If the problem persists, please contact our technical support.
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-z80jug"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid empty and error states > should render grid when loading more items (items exist and loading is true) 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid slots > should render with a custom slot component 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid with infinite scroll > should render with infinite scroll props 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-qs3qvz-MuiStack-root"
+  >
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1nhxh9b"
+      />
+    </div>
+  </div>
+</div>
+`;

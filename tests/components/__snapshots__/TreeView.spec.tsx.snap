@@ -1,0 +1,832 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Component: TreeView > renders correctly with all props 1`] = `
+<div>
+  <ul
+    aria-multiselectable="true"
+    class="ring-tree-view MuiSimpleTreeView-root css-7lz98x-MuiSimpleTreeView-root"
+    id="mui-tree-view-2"
+    role="tree"
+    style="--TreeView-itemChildrenIndentation: 12px;"
+  >
+    <div
+      class="MuiStack-root ring-search-box css-1hotza9-MuiStack-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ichemu-MuiSvgIcon-root"
+        data-testid="SearchIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+        />
+      </svg>
+      <div
+        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1uy24sg-MuiInputBase-root-MuiInput-root"
+      >
+        <input
+          class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
+          placeholder=""
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-178qus3"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-caption css-14rdshv-MuiTypography-root"
+      >
+        Name
+      </span>
+      <div
+        class="MuiBox-root css-eqqcv6"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-caption css-qiviy5-MuiTypography-root"
+        >
+          First Column
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-qiviy5-MuiTypography-root"
+        >
+          Second Column
+        </span>
+        <div
+          class="MuiBox-root css-13s8c95"
+        />
+      </div>
+    </div>
+    <div
+      style="opacity: 1; cursor: default;"
+    >
+      <li
+        aria-expanded="true"
+        aria-selected="false"
+        class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+        id="mui-tree-view-2-0"
+        role="treeitem"
+        tabindex="0"
+      >
+        <div
+          class="MuiTreeItem-content Mui-expanded css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          >
+            <div
+              class="MuiBox-root css-129jg2i"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                data-testid="RemoveOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 13H5v-2h14z"
+                />
+              </svg>
+            </div>
+          </div>
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+              data-indeterminate="false"
+              disabled=""
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+          <div
+            aria-label="Drag and drop"
+            class="MuiBox-root css-111ltjz"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-165kszr-MuiTypography-root"
+            >
+              Item 0
+            </p>
+            <div
+              class="MuiBox-root css-1qtqwpn"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column1 0
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column2 0
+              </p>
+              <div
+                class="MuiBox-root css-1exc0hf"
+              >
+                <button
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1xo2tin-MuiButtonBase-root-MuiIconButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-i0l78e-MuiSvgIcon-root"
+                    data-testid="MoreVertIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul
+          class="MuiCollapse-root MuiCollapse-vertical MuiTreeItem-groupTransition MuiCollapse-entered css-a63mq8-MuiCollapse-root-MuiTreeItem2-groupTransition"
+          role="group"
+          style="min-height: 0px;"
+        >
+          <div
+            class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+          >
+            <div
+              class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+            >
+              <div
+                aria-describedby="DndDescribedBy-0"
+                aria-disabled="false"
+                aria-roledescription="sortable"
+                role="button"
+                style="opacity: 1; cursor: grab;"
+                tabindex="0"
+              >
+                <li
+                  aria-selected="false"
+                  class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+                  id="mui-tree-view-2-0.0"
+                  role="treeitem"
+                  tabindex="-1"
+                >
+                  <div
+                    class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+                  >
+                    <div
+                      class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+                    />
+                    <span
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                    >
+                      <input
+                        checked=""
+                        class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+                        data-indeterminate="false"
+                        type="checkbox"
+                      />
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                        data-testid="CheckBoxIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                        />
+                      </svg>
+                    </span>
+                    <div
+                      aria-label=""
+                      class="MuiBox-root css-111ltjz"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-165kszr-MuiTypography-root"
+                      >
+                        Item 0.0
+                      </p>
+                      <div
+                        class="MuiBox-root css-1qtqwpn"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column1 0.0
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column2 0.0
+                        </p>
+                        <div
+                          class="MuiBox-root css-1exc0hf"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </div>
+              <div
+                aria-describedby="DndDescribedBy-0"
+                aria-disabled="false"
+                aria-roledescription="sortable"
+                role="button"
+                style="opacity: 1; cursor: grab;"
+                tabindex="0"
+              >
+                <li
+                  aria-expanded="false"
+                  aria-selected="false"
+                  class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+                  id="mui-tree-view-2-0.1"
+                  role="treeitem"
+                  tabindex="-1"
+                >
+                  <div
+                    class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+                  >
+                    <div
+                      class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+                    >
+                      <div
+                        class="MuiBox-root css-129jg2i"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                          data-testid="AddOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <span
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                    >
+                      <input
+                        checked=""
+                        class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+                        data-indeterminate="false"
+                        type="checkbox"
+                      />
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                        data-testid="CheckBoxIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                        />
+                      </svg>
+                    </span>
+                    <div
+                      aria-label=""
+                      class="MuiBox-root css-111ltjz"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-ts8n7l-MuiTypography-root"
+                      >
+                        Item 0.1
+                      </p>
+                      <div
+                        class="MuiBox-root css-fp103w"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column1 0.1
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column2 0.1
+                        </p>
+                        <div
+                          class="MuiBox-root css-1exc0hf"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </div>
+              <div
+                aria-describedby="DndDescribedBy-0"
+                aria-disabled="false"
+                aria-roledescription="sortable"
+                role="button"
+                style="opacity: 1; cursor: grab;"
+                tabindex="0"
+              >
+                <li
+                  aria-selected="false"
+                  class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+                  id="mui-tree-view-2-0.2"
+                  role="treeitem"
+                  tabindex="-1"
+                >
+                  <div
+                    class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+                  >
+                    <div
+                      class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+                    />
+                    <div
+                      aria-label=""
+                      class="MuiBox-root css-111ltjz"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-uzfdjy-MuiTypography-root"
+                      >
+                        Item 0.2
+                      </p>
+                      <div
+                        class="MuiBox-root css-zhvexg"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column1 0.2
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column2 0.2
+                        </p>
+                        <div
+                          class="MuiBox-root css-1exc0hf"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </div>
+              <div
+                aria-describedby="DndDescribedBy-0"
+                aria-disabled="false"
+                aria-roledescription="sortable"
+                role="button"
+                style="opacity: 1; cursor: grab;"
+                tabindex="0"
+              >
+                <li
+                  aria-selected="false"
+                  class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+                  id="mui-tree-view-2-0.3"
+                  role="treeitem"
+                  tabindex="-1"
+                >
+                  <div
+                    class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+                  >
+                    <div
+                      class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+                    />
+                    <div
+                      aria-label=""
+                      class="MuiBox-root css-111ltjz"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-uzfdjy-MuiTypography-root"
+                      >
+                        Item 0.3
+                      </p>
+                      <div
+                        class="MuiBox-root css-zhvexg"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column1 0.3
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+                        >
+                          Column2 0.3
+                        </p>
+                        <div
+                          class="MuiBox-root css-1exc0hf"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </li>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <li
+        aria-expanded="false"
+        aria-selected="false"
+        class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+        id="mui-tree-view-2-1"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <div
+          class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          >
+            <div
+              class="MuiBox-root css-129jg2i"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                data-testid="AddOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+          <div
+            aria-label=""
+            class="MuiBox-root css-111ltjz"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-165kszr-MuiTypography-root"
+            >
+              Item 1
+            </p>
+            <div
+              class="MuiBox-root css-1qtqwpn"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column1 1
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column2 1
+              </p>
+              <div
+                class="MuiBox-root css-1exc0hf"
+              >
+                <button
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1xo2tin-MuiButtonBase-root-MuiIconButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-i0l78e-MuiSvgIcon-root"
+                    data-testid="MoreVertIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <li
+        aria-expanded="false"
+        aria-selected="false"
+        class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+        id="mui-tree-view-2-2"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <div
+          class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          >
+            <div
+              class="MuiBox-root css-129jg2i"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                data-testid="AddOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+          <div
+            aria-label=""
+            class="MuiBox-root css-111ltjz"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-165kszr-MuiTypography-root"
+            >
+              Item 2
+            </p>
+            <div
+              class="MuiBox-root css-1qtqwpn"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column1 2
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column2 2
+              </p>
+              <div
+                class="MuiBox-root css-1exc0hf"
+              />
+            </div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <li
+        aria-selected="false"
+        class="MuiTreeItem-root css-6o8scx-MuiTreeItem2-root"
+        id="mui-tree-view-2-3"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <div
+          class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          />
+          <span
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="CheckBoxIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+          </span>
+          <div
+            aria-label=""
+            class="MuiBox-root css-111ltjz"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-wkiel7-MuiTypography-root"
+            >
+              Item 3
+            </p>
+            <div
+              class="MuiBox-root css-2e35cz"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column1 3
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-t173yb-MuiTypography-root"
+              >
+                Column2 3
+              </p>
+              <div
+                class="MuiBox-root css-1exc0hf"
+              >
+                <button
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1xo2tin-MuiButtonBase-root-MuiIconButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-i0l78e-MuiSvgIcon-root"
+                    data-testid="MoreVertIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <div
+      id="DndDescribedBy-0"
+      style="display: none;"
+    >
+
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+
+    </div>
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      id="DndLiveRegion-0"
+      role="status"
+      style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    />
+  </ul>
+</div>
+`;
+
+exports[`Component: TreeView > renders correctly with default props 1`] = `
+<div>
+  <ul
+    aria-multiselectable="false"
+    class="MuiSimpleTreeView-root css-1o8c9x7-MuiSimpleTreeView-root"
+    id="mui-tree-view-1"
+    role="tree"
+    style="--TreeView-itemChildrenIndentation: 12px;"
+  >
+    <div
+      style="opacity: 1; cursor: default;"
+    >
+      <li
+        aria-selected="false"
+        class="MuiTreeItem-root css-1exkj6e-MuiTreeItem2-root"
+        id="mui-tree-view-1-1"
+        role="treeitem"
+        tabindex="0"
+      >
+        <div
+          class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          />
+          <div
+            aria-label=""
+            class="MuiBox-root css-1t05j5u"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1g24rot-MuiTypography-root"
+            >
+              Item 1
+            </p>
+            <div
+              class="MuiBox-root css-1g2fc0h"
+            />
+          </div>
+        </div>
+      </li>
+    </div>
+    <div
+      style="opacity: 1; cursor: default;"
+    >
+      <li
+        aria-selected="false"
+        class="MuiTreeItem-root css-1exkj6e-MuiTreeItem2-root"
+        id="mui-tree-view-1-2"
+        role="treeitem"
+        tabindex="-1"
+      >
+        <div
+          class="MuiTreeItem-content css-x2kpga-MuiTreeItem2-content"
+        >
+          <div
+            class="MuiTreeItem-iconContainer css-1qa0aux-MuiTreeItem2-iconContainer"
+          />
+          <div
+            aria-label=""
+            class="MuiBox-root css-1t05j5u"
+            data-mui-internal-clone-element="true"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1g24rot-MuiTypography-root"
+            >
+              Item 2
+            </p>
+            <div
+              class="MuiBox-root css-1g2fc0h"
+            />
+          </div>
+        </div>
+      </li>
+    </div>
+  </ul>
+</div>
+`;

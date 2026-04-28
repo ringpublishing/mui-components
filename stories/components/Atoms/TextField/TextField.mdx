@@ -1,0 +1,44 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './TextField.stories.js';
+
+<Meta isTemplate />
+
+# TextField
+
+TextField extends [MUI Text Field](https://mui.com/material-ui/react-text-field) component and supports all its properties. It adds support for contextual **actions** rendered as icon buttons in the field's end adornment.
+
+**Key Features:**
+
+- Single action rendered as a standalone icon button with tooltip
+- Multiple actions collapsed into a `MoreVert` menu via `ActionBox`
+- Full MUI TextField API support (variants, sizes, states, etc.)
+- Controlled and uncontrolled usage patterns
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Multiple Actions](#with-multiple-actions)
+- [Controlled](#controlled)
+
+## Default
+
+Basic usage with a single action button displayed in the end adornment.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Multiple Actions
+
+When more than one action is provided, they are collapsed into a `MoreVert` dropdown menu.
+
+<Canvas of={Stories.WithMultipleActions} />
+
+## Controlled
+
+A controlled TextField that dynamically shows a clear button when the field has a value.
+
+<Canvas of={Stories.Controlled} />

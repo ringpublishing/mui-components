@@ -1,0 +1,35 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './SearchBox.stories.js';
+
+<Meta isTemplate />
+
+# SearchBox
+
+SearchBox is a lightweight search component that provides a simple search input field with customizable styling and behavior. It supports both controlled and uncontrolled modes, debounced search functionality, and a clearable input option. The component is built on top of Material-UI and provides flexible styling options through className and sx props.
+
+- Debounced search input with customizable delay
+- Clearable input with optional clear button
+- Supports both controlled and uncontrolled modes
+- Customizable labels and styling
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Controlled Mode](#controlled-mode)
+
+## Default
+
+The default SearchBox configuration with debounced search functionality and clear button.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Controlled Mode
+
+A controlled SearchBox implementation, where the input value and its changes are managed by the parent component. This pattern is recommended for scenarios requiring validation, state synchronization, or integration with complex business logic.
+
+<Canvas of={Stories.Controlled} />

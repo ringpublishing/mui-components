@@ -1,0 +1,538 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Detail > DescriptionField > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-2imjyh"
+  >
+    <span
+      class="MuiTypography-root MuiTypography-label css-cqjkmn-MuiTypography-root"
+    >
+      Test Field
+    </span>
+    <div
+      class="MuiBox-root css-1eszy8t"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-caption css-du86ev-MuiTypography-root"
+      >
+        Test Value
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Detail > DetailMain > should have a close button if onCloseClick is set 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-1yvzp6t"
+  >
+    <div
+      class="MuiBox-root css-12k63x3"
+    >
+      <button
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-eq8ojd-MuiButtonBase-root-MuiIconButton-root"
+        data-testid="close-button"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+          data-testid="CloseOutlinedIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Detail > DetailMain > should render properly without media props 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-1yvzp6t"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-h6 css-1lizuzb-MuiTypography-root"
+    >
+      Test Title
+    </h6>
+  </div>
+</div>
+`;
+
+exports[`Detail > EditableField > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiStack-root css-1hls35x-MuiStack-root"
+  >
+    <span
+      class="MuiTypography-root MuiTypography-label css-cqjkmn-MuiTypography-root"
+    >
+      Test Field
+    </span>
+    <div
+      class="MuiBox-root css-81vj86"
+    >
+      <div
+        class="MuiBox-root css-wzpdyn"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-1055dke-MuiTypography-root"
+        >
+          Test Value
+        </p>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="EditOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
+            />
+          </svg>
+           
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Detail > should render correctly 1`] = `
+<div>
+  <div
+    class="ring-detail MuiBox-root css-cpuq89"
+  >
+    <div
+      class="MuiBox-root css-1yvzp6t"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-b82juz-MuiPaper-root-MuiCard-root"
+        style="--Paper-shadow: none;"
+      >
+        <figure
+          class="MuiBox-root css-14hubqc"
+        >
+          <div
+            class="MuiBox-root css-80hwle"
+          >
+            <div
+              class="css-yb3dvp"
+            >
+              <div
+                class="css-l9y6au"
+              >
+                <img
+                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-1ozvcu8-MuiCardMedia-root"
+                  data-first-child=""
+                  src="url"
+                />
+              </div>
+            </div>
+          </div>
+        </figure>
+      </div>
+      <div
+        class="MuiBox-root css-12efcmn"
+      />
+      <div
+        class="MuiStack-root css-t3oovu-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-m69qwo-MuiStack-root"
+        >
+          <button
+            aria-label="Test Tooltip"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-111jbtv-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <div>
+              Test Icon
+            </div>
+          </button>
+        </div>
+        <div
+          class="MuiStack-root css-m69qwo-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-111jbtv-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="DownloadOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9h-4V3H9v6H5l7 7zm-8 2V5h2v6h1.17L12 13.17 9.83 11zm-6 7h14v2H5z"
+              />
+            </svg>
+          </button>
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-111jbtv-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+              data-testid="ZoomInOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14m.5-7H9v2H7v1h2v2h1v-2h2V9h-2z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-12k63x3"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-eq8ojd-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="close-button"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+            data-testid="CloseOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="MuiBox-root css-2oey38"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-52yt16-MuiTypography-root"
+        >
+          Test Title
+        </p>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1l3taou-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+            data-testid="EditOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
+            />
+          </svg>
+           
+        </button>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-nvllow"
+    >
+      <div
+        class="MuiBox-root css-0"
+      >
+        Custom slot after main
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-1oeodld"
+    >
+      <div
+        class="MuiStack-root css-axwy7e-MuiStack-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-headline2 css-cb12gn-MuiTypography-root"
+        >
+          Test Section
+        </span>
+        <div
+          class="MuiStack-root css-fmfw5r-MuiStack-root"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-label css-1r5iefj-MuiTypography-root"
+          >
+            Test Field
+          </span>
+          <div
+            class="MuiBox-root css-81vj86"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-caption css-p9id2v-MuiTypography-root"
+            >
+              Test Value
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiStack-root css-fmfw5r-MuiStack-root"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-label css-1r5iefj-MuiTypography-root"
+          >
+            icons
+          </span>
+          <div
+            class="MuiBox-root css-81vj86"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-caption css-p9id2v-MuiTypography-root"
+            />
+            <div
+              class="MuiBox-root css-ke5m7n"
+            >
+              <div
+                class="MuiBox-root css-1pg8bi"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                  data-testid="WebIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-5 14H4v-4h11zm0-5H4V9h11zm5 5h-4V9h4z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiBox-root css-1pg8bi"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                  data-testid="PublicIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiStack-root css-1hls35x-MuiStack-root"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-label css-p7lidi-MuiTypography-root"
+          >
+            Editable Field
+          </span>
+          <div
+            class="MuiBox-root css-81vj86"
+          >
+            <div
+              class="MuiBox-root css-wzpdyn"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-52yt16-MuiTypography-root"
+              >
+                Editable value
+              </p>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1l3taou-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i0l78e-MuiSvgIcon-root"
+                  data-testid="EditOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
+                  />
+                </svg>
+                 
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-2imjyh"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-label css-p7lidi-MuiTypography-root"
+          >
+            Description Field
+          </span>
+          <div
+            class="MuiBox-root css-1eszy8t"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-caption css-p9id2v-MuiTypography-root"
+            >
+              Description value
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiStack-root css-fmfw5r-MuiStack-root"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-label css-1r5iefj-MuiTypography-root"
+          >
+            Chips Field
+          </span>
+          <div
+            class="MuiBox-root css-81vj86"
+          >
+            <div
+              class="MuiBox-root css-1jf6i0q"
+            >
+              <div
+                class="ring-chips-group MuiBox-root css-hbiacx"
+                data-testid="chips-group-container"
+              >
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-ickb3i-MuiChip-root"
+                  data-testid="chip-0-fixed"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                  >
+                    chip1
+                  </span>
+                </div>
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-ickb3i-MuiChip-root"
+                  data-testid="chip-1-fixed"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                  >
+                    chip2
+                  </span>
+                </div>
+                <div
+                  aria-haspopup="true"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-mgla2j-MuiButtonBase-root-MuiChip-root"
+                  id="chips-button"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                  >
+                    +2
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-1ebprri"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          Custom slot after description items
+        </div>
+      </div>
+      <div
+        class="MuiStack-root css-hwnj0i-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-1gi1ppv-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-wvmei9-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+            >
+              <div>
+                Test Icon
+              </div>
+            </span>
+            Test Action
+          </button>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-1sf3xto"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          Custom slot after bottom actions
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Detail > should show placeholder when empty is true 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-350nye"
+  >
+    <div
+      class="MuiStack-root css-f3a0ab-MuiStack-root"
+    >
+      <div
+        class="MuiBox-root css-co4xce"
+      >
+        <img
+          alt="Empty"
+          src="/src/components/Molecules/Placeholder/images/Empty.svg"
+        />
+      </div>
+      <div
+        class="MuiStack-root css-t66xbi-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-107rx5a-MuiTypography-root"
+        >
+          Select an item to view its details
+        </p>
+      </div>
+      <div
+        class="MuiBox-root css-z80jug"
+      />
+    </div>
+  </div>
+</div>
+`;

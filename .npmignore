@@ -1,0 +1,17 @@
+/.github
+/.idea
+/.storybook
+/.vscode
+/CONTRIBUTING.md
+/coverage
+/deploy
+/docs
+/stories
+/storybook-static
+/tests
+/tsconfig.build.json
+/tsconfig.json
+/vitest.config.ts
+/.prettier*
+/.husky
+.env

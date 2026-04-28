@@ -1,0 +1,42 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Comments.stories.js';
+
+<Meta isTemplate />
+
+# Comments
+
+The Comments component provides a complete interface for displaying, creating, editing, and deleting comments. It handles loading states during async operations and includes error handling.
+
+- Display a list of comments with author, timestamp, and ownership indicators
+- Add new comments via a dedicated create panel
+- Edit and delete owned comments with inline editing
+- Async operation support with loading states and error messages
+- Customizable labels, minimum text length, and comment ownership display
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Error Handling](#error-handling)
+
+## Default
+
+The default story demonstrates the Comments component with full CRUD functionality. Adding, updating, and deleting comments are simulated with a short delay to showcase loading states. Owned comments display edit and delete actions on hover.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Error Handling
+
+Demonstrates how the Comments component handles errors returned from async operations. All callbacks (`onAdd`, `onUpdate`, `onDelete`) call `setError` instead of the success method, showing inline error messages for each action.
+
+### Key Features:
+
+- Error messages displayed inline below the affected comment or input
+- Controls are re-enabled after an error, allowing the user to retry
+- Each operation (add, update, delete) can show independent error messages
+
+<Canvas of={Stories.ErrorHandling} />

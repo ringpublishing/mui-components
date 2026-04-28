@@ -1,0 +1,126 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Atomic Design" />
+
+# Atomic Design
+
+In this project we aim to follow the principles of Atomic Design in building our MUI components.
+
+Atomic Design is a methodology for creating design systems in which the user interface is divided into the smallest
+possible components and gradually composed into larger structures. This concept was developed by Brad Frost - he
+distinguished five levels of hierarchy: atoms, molecules, organisms, templates, and pages. The main goal of such
+division is to ensure consistency, modularity, and scalability of the interface: small components are reused and
+combined into larger blocks, which simplifies the development and maintenance of the design system.
+
+To better understand the concept of Atomic Design, see
+[Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/chapter-2/).
+
+## Basic principles
+
+In this project we focus on the first four levels of Atomic Design: atoms, molecules, organisms, and templates.
+
+### Atoms - The smallest building blocks
+
+Atoms are the smallest, indivisible components of the interface. They are the basic building blocks of our system -
+equivalents of HTML tags or native UI elements: buttons, input fields, labels, icons, images, etc. Atoms establish the
+base styles (colors, typography, spacing) and fundamental behaviors of the interface. Thanks to consistent atoms, we
+maintain a uniform appearance and functionality throughout all areas of the application - e.g., the same button style or
+font is used globally.
+
+### Molecules - Combinations of Atoms
+
+Molecules are groups of several connected atoms, together creating a functionally coherent whole. These are simple
+composite components that have a specific function resulting from the interaction of their constituent atoms. Example: a
+search field - combines a magnifying glass icon (atom) and a text field (atom) into a single control with search logic.
+Molecules show how atoms interact - they already have defined properties (e.g., element arrangement, minor
+interactions), but if needed, they can be part of even larger structures (organisms).
+
+The boundary between an atom and a molecule can be fluid. We are guided by whether the component contains another
+component - if so, it ceases to be an atom. The examples above show that even a relatively simple component like
+EditableText can be treated as a molecule due to its internal complexity.
+
+### Organisms - Complex UI Sections
+
+Organisms are high-level components built from many atoms and molecules. They constitute elaborate interface fragments,
+often performing complex tasks or presenting more data than molecules. Unlike molecules (which are single controls),
+organisms can occupy large screen areas and contain diverse elements within. Examples: page header consisting of a logo,
+navigation menu, and search engine; product card containing an image, title, price, and buttons; comment section with a
+list of multiple entries and an add form. Organisms often consist of repeatable molecules - e.g., a comment list is many
+instances of a "single comment" molecule - as well as unique elements (e.g., list header).
+
+Category boundaries can overlap - some larger molecules are sometimes called organisms and vice versa. More important
+than rigid classification is the consistent understanding of complexity: when a component contains diverse elements and
+constitutes a significant part of the screen, we treat it as an organism.
+
+### Templates - Page Layout Patterns
+
+Templates define general page layouts, arranging organisms and molecules within a specific structure. A template is a
+page schema - it determines what is located where, but without specific content. For example, a "list + details"
+template will organize the view into two columns: on the left, a list of elements (e.g., a table), on the right, a
+details panel, with a page header at the top. The template itself doesn't yet contain specific data (e.g., column names
+or content), but it serves as a ready model for creating many similarly structured pages. Multiple use of templates
+ensures consistency of layouts between different screens - e.g., all object list pages look similar, differing only in
+content.
+
+## Best Practices
+
+When implementing the Atomic Design methodology in a project, it is important to follow certain principles. These
+ensure that the component taxonomy remains clear, useful, and sustainable. Below are the key practices:
+
+1. **Insect your existing components**: Start by reviewing the existing UI – list all observed interface elements and
+   group them into Atomic Design categories. This UI audit helps identify existing components (e.g., duplicate buttons
+   with different styles) and plan for unification. In our project, we performed such an inventory, assigning components
+   to atoms, molecules, etc.
+
+2. **Define Category Criteria**: Ensure the entire team understands what qualifies as an atom, molecule, organism, etc.
+   Establish shared definitions – e.g., "an atom does not contain other components, a molecule combines a few atoms to
+   provide new functionality, an organism is a significant part of the page composed of many elements." Documenting
+   these criteria helps classify new components correctly and maintain consistent naming.
+
+3. **Engage a Cross-Functional Team**: Building a design system is a collaborative effort between designers and
+   engineers. The best results come from workshops where both sides establish the taxonomy, discuss edge cases, and
+   share perspectives. This fosters a sense of ownership and ensures that names and classifications are clear to
+   everyone. Avoid situations where one person imposes the structure, as others may not understand or follow it.
+
+4. **Use Tools to Organize**: Leverage available tools to maintain the taxonomy. Storybook is an excellent place to
+   reflect Atomic Design – you can create directories like `Atoms`, `Molecules`, etc., and place components there. In
+   our Storybook documentation, we group components this way. Additionally, tools like Style Dictionary (for managing
+   design tokens) or Backlight/zeroheight (for documenting the design system) can help maintain order as the system
+   grows.
+
+5. **Document the Taxonomy**: Create centralized documentation for the design system. It should include an explanation
+   of the Atomic Design concept, a list of components in each category, and guidelines on when to use each component. In
+   our case, the documentation could take the form of a Confluence page or a comprehensive README, with a table listing
+   atoms, molecules, etc., and screenshots of examples. Good documentation serves as a reference for the entire team
+   (current and new members). Include naming conventions (e.g., prefixes/suffixes) to ensure new components are named
+   correctly from the start.
+
+6. **Ensure Clear Component Naming**: Component names should be unambiguous and descriptive. Avoid names that conflict
+   with external terms – e.g., in our case, `Skeleton` vs. "MUI Skeleton" taught us to name our components more
+   specifically (e.g., `MasterDetailTemplate`). The name should indicate what the component is (e.g., `UserCard` instead
+   of "Card1"). Stick to PascalCase for components and consistent suffixes/prefixes where helpful (e.g., `DatePicker`,
+   `TimePicker` share a common suffix). Document naming rules and enforce them during code reviews. Best practices
+   include avoiding abbreviations and aligning names with their level (e.g., organisms often have names describing
+   sections like `Header`, `Footer`).
+
+7. **Ensure Taxonomy Scalability**: The project (and its component system) will evolve. Design the taxonomy with
+   scalability in mind – will it be easy to add a new component type? Will there be room for new atoms? Atomic Design is
+   flexible, but if a component doesn't fit the definitions, consider refining them. Regularly review the structure: if
+   there are too many molecules, consider introducing subcategories (e.g., dividing molecules into _form controls_,
+   _navigation_ etc., in the documentation). The goal is to keep the architecture readable as the system grows,
+   avoiding chaos.
+
+8. **Test and Validate the Taxonomy in Practice**: Treat example pages and use cases as tests. If you notice a missing
+   intermediate element or something that doesn't fit the concept while building a page, revisit and update the
+   taxonomy. Ask team members if they can easily find the needed component in the structure. Give a new team member the
+   task of "finding component X" – if they struggle, it signals a need to improve the name or location of the component.
+   This iterative approach ensures the taxonomy is intuitive for users (developers) and adapted to real needs, not just
+   theoretically correct.
+
+9. **Treat the Design System as a Living Product**: Atomic Design assumes the system will continuously evolve. Establish
+   maintenance processes: e.g., code reviews to ensure compliance with the design system (is someone duplicating an
+   existing component? Are they following the style?), periodic design system reviews (are new patterns needed? Are all
+   components used? Has any become obsolete?). Educate the team on the benefits of a consistent system. When people see
+   that a well-organized component set speeds up their work, they are more likely to follow it. Remember, an
+   inconsistent or neglected system quickly loses value – the key is to keep it updated and improved in response to
+   project changes.

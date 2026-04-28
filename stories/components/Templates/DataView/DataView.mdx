@@ -1,0 +1,150 @@
+import * as Stories from './DataView.stories.js';
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+
+<Meta isTemplate />
+
+# DataView
+
+`DataView` is a layout component that provides a structured interface for Ring applications.
+It organizes content into configurable slots — a main content area, optional left filter panel, optional right detail panel,
+a top search bar, and a bottom bar.
+
+Key features:
+
+- **Slot-based architecture**: Compose the layout with `slots.main`, `slots.left`, `slots.right`, `slots.top`, and `slots.bottom`
+- **Responsive design**: Automatically switches to mobile drawer-based layout on smaller screens
+- **Resizable left panel**: Optional dynamic width with drag-to-resize support
+- **Detail panel toggle**: Show/hide the right detail panel with controlled or uncontrolled state
+- **Search bar integration**: Built-in `SearchBar` or custom top slot component
+- **BottomBar support**: Integrated bottom bar for selection management and bulk actions
+- **Mobile support**: Left and right panels render as drawers on mobile with controlled/uncontrolled open state
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Example Slots Usage](#example-slots-usage)
+- [With Dynamic Width Filter](#with-dynamic-width-filter)
+- [Without Detail And Filter](#without-detail-and-filter)
+- [With Multimedia Grid](#with-multimedia-grid)
+- [With Selection Mode](#with-selection-mode)
+- [With BottomBar Selection](#with-bottombar-selection)
+
+## Default
+
+Basic `DataView` layout with a `DataGrid` in the main slot, a filter panel on the left, and a `Detail` panel on the right.
+Clicking a row in the grid opens the detail panel with the selected item's information.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Example Slots Usage
+
+```jsx
+<DataView
+    slots={{
+        main: <RingDataGrid rows={rows} columns={columns} totalRowCount={rows.length} />,
+        left: (
+            <FiltersWrapper onClear={handleClear} label="Filters">
+                <Accordion label="Status" defaultExpanded={true}>
+                    <FormControlLabel label="Active" control={<Checkbox />} />
+                    <FormControlLabel label="Archived" control={<Checkbox />} />
+                </Accordion>
+            </FiltersWrapper>
+        ),
+        right: (
+            <Detail
+                main={{
+                    title: { value: selectedItem?.name },
+                    mediaProps: { image: selectedItem?.image, objectFit: 'cover' },
+                }}
+            />
+        ),
+    }}
+    slotProps={{
+        top: {
+            defaultValue: '',
+            searchFunc: (query) => handleSearch(query),
+            children: [
+                <SplitButton key="action" size="small" actions={[{ label: 'Publish', onClick: handlePublish }]} />,
+            ],
+            menuActions: [
+                { label: 'Edit', icon: <EditOutlined />, onClick: handleEdit },
+                { label: 'Delete', icon: <DeleteOutline />, onClick: handleDelete },
+            ],
+            openSlotsOnMobileLabels: {
+                leftSlot: 'Filters',
+                rightSlot: 'Detail',
+            },
+        },
+        bottom: {
+            labels: { selected: 'selected' },
+            showVisibilityToggle: true,
+            fieldMap: { name: 'title', image: 'image' },
+        },
+    }}
+    rightSlotOpen={detailOpen}
+    setRightSlotOpen={setDetailOpen}
+    leftSlotOpen={filterOpen}
+    setLeftSlotOpen={setFilterOpen}
+/>
+```
+
+## With Dynamic Width Filter
+
+Demonstrates the resizable left slot panel. Users can drag the right edge of the left panel to change its width
+within the defined `minWidth` and `maxWidth` range.
+
+### Key Properties:
+
+- `leftSlotDynamicWidth.enabled: true` — enables width resizing capability
+- `leftSlotDynamicWidth.minWidth: 200` — minimum left slot width in pixels
+- `leftSlotDynamicWidth.maxWidth: 500` — maximum left slot width in pixels
+- `leftSlotDynamicWidth.onChange` — callback function triggered when width changes
+
+### How to Test:
+
+1. Hover over the right edge of the filter panel
+2. The cursor changes to a resize cursor (↔)
+3. Click and drag to resize the filter width
+4. Width is constrained between 200–500px
+5. New width value is automatically saved to localStorage
+
+<Canvas of={Stories.WithDynamicWidthFilter} />
+
+## Without Detail And Filter
+
+`DataView` in its minimal configuration — without left and right slots. Only the search bar and main grid content
+are displayed.
+
+<Canvas of={Stories.WithoutDetailAndFilter} />
+
+## With Multimedia Grid
+
+`DataView` with an embedded `MultimediaGrid` in the main slot.
+
+<Canvas of={Stories.WithMultimediaGrid} />
+
+## With Selection Mode
+
+Demonstrates `DataView` with `MultimediaGrid` checkbox selection and bottom bar integration for tracking selected items.
+Selection state is managed via `checkboxSelection` and `disableSelectionOnClick` props on MultimediaGrid.
+
+<Canvas of={Stories.WithSelectionMode} />
+
+## With BottomBar Selection
+
+Full-featured `DataView` with `MultimediaGrid` and bottom bar for managing multi-item selection.
+
+### Selection Features
+
+**MultimediaGrid Configuration**
+
+- `checkboxSelection={true}` — enables checkbox-based multi-select mode
+- `disableSelectionOnClick={true}` — cards open detail view; only checkboxes toggle selection
+- `showOnHover={true}` — checkboxes appear on hover for a cleaner interface
+
+<Canvas of={Stories.WithBottomBarSelection} />

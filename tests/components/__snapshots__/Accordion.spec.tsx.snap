@@ -1,0 +1,251 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Component: Accordion > should correctly render borderless 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+  >
+    <h3
+      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+    >
+      <button
+        aria-expanded="false"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-yfrx4k-MuiAccordionSummary-content"
+        >
+          <div
+            class="MuiStack-root css-1n921lv-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-gmuwbf"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-headline2 css-z2uw0f-MuiTypography-root"
+              >
+                Accordion
+              </span>
+            </div>
+          </div>
+        </span>
+        <span
+          class="MuiAccordionSummary-expandIconWrapper css-1wqf3nl-MuiAccordionSummary-expandIconWrapper"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="ExpandMoreIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            role="region"
+          >
+            <div
+              class="MuiAccordionDetails-root css-b27cyl-MuiAccordionDetails-root"
+            >
+              <div
+                class="MuiStack-root css-1sazv7p-MuiStack-root"
+              >
+                <div>
+                  Opened accordion
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Component: Accordion > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+  >
+    <h3
+      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+    >
+      <button
+        aria-expanded="false"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-yfrx4k-MuiAccordionSummary-content"
+        >
+          <div
+            class="MuiStack-root css-1n921lv-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-gmuwbf"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-headline2 css-z2uw0f-MuiTypography-root"
+              >
+                Accordion
+              </span>
+            </div>
+          </div>
+        </span>
+        <span
+          class="MuiAccordionSummary-expandIconWrapper css-1wqf3nl-MuiAccordionSummary-expandIconWrapper"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="ExpandMoreIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            role="region"
+          >
+            <div
+              class="MuiAccordionDetails-root css-b27cyl-MuiAccordionDetails-root"
+            >
+              <div
+                class="MuiStack-root css-1sazv7p-MuiStack-root"
+              >
+                <div>
+                  Opened accordion
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Component: Accordion > should render with button 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+  >
+    <h3
+      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+    >
+      <button
+        aria-expanded="false"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-yfrx4k-MuiAccordionSummary-content"
+        >
+          <div
+            class="MuiStack-root css-1n921lv-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-gmuwbf"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-headline2 css-z2uw0f-MuiTypography-root"
+              >
+                Accordion
+              </span>
+            </div>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-1blvszr-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              Button
+            </button>
+          </div>
+        </span>
+        <span
+          class="MuiAccordionSummary-expandIconWrapper css-1wqf3nl-MuiAccordionSummary-expandIconWrapper"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="ExpandMoreIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </svg>
+        </span>
+      </button>
+    </h3>
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            role="region"
+          >
+            <div
+              class="MuiAccordionDetails-root css-b27cyl-MuiAccordionDetails-root"
+            >
+              <div
+                class="MuiStack-root css-1sazv7p-MuiStack-root"
+              >
+                <div>
+                  Opened accordion
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

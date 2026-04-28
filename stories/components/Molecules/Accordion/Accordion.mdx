@@ -1,0 +1,107 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Accordion.stories.js';
+
+<Meta isTemplate />
+
+# Accordion
+
+A collapsible content container that extends MUI's Accordion component with additional features like integrated action buttons and customizable labels. Perfect for organizing content sections that can be expanded or collapsed by users.
+
+## Key Features
+
+- **Custom labels**: Set custom header text for each accordion
+- **Action button**: Optional button in the header for quick actions
+- **Borderless variant**: Seamless styling for stacked accordions
+- **Expandable icon**: Built-in expand/collapse indicator
+- **Accessible**: Follows ARIA patterns for keyboard navigation
+- **MUI integration**: Extends all MUI Accordion properties
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Label](#with-label)
+- [With Button](#with-button)
+- [Borderless](#borderless)
+
+## Default
+
+Basic accordion with a text field as content. Shows the simplest use case with default label and standard styling.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Label
+
+Accordion with a custom label. The label appears in the header section and helps identify the accordion's content.
+
+<Canvas of={Stories.WithLabel} />
+
+## With Button
+
+Accordion with an integrated action button in the header. The button click event is isolated from the expand/collapse action, allowing for additional functionality without expanding the accordion.
+
+### Key Features:
+
+- Button appears in the header next to the label
+- Button click doesn't trigger accordion expansion
+- Useful for quick actions like "Edit", "Delete", or "Add"
+
+<Canvas of={Stories.WithButton} />
+
+## Borderless
+
+Multiple accordions stacked with the borderless variant for a seamless appearance. Ideal for creating grouped content sections without visual separation.
+
+### Key Features:
+
+- No borders between stacked accordions
+- Creates a unified appearance
+- Perfect for settings panels or FAQ sections
+
+<Canvas of={Stories.Borderless} />
+
+## Usage Example
+
+```typescript
+import { Accordion } from '@ringpublishing/mui-components';
+import { TextField } from '@mui/material';
+
+function MyComponent() {
+  return (
+    <Accordion
+      label="Personal Information"
+      buttonLabel="Edit"
+      buttonOnClick={() => console.log('Edit clicked')}
+    >
+      <TextField label="Name" fullWidth />
+      <TextField label="Email" fullWidth />
+    </Accordion>
+  );
+}
+```
+
+### Label and Content
+
+- **`label`**: Header text displayed in the accordion summary (default: "Test")
+- **`children`**: Content displayed when accordion is expanded (required)
+
+### Action Button
+
+- **`buttonLabel`**: Text shown on the action button in header
+- **`buttonOnClick`**: Click handler for the action button (receives React MouseEvent)
+
+The action button is optional and only appears when `buttonLabel` is provided. The button click event is stopped from propagating to prevent triggering the accordion expansion.
+
+### Styling
+
+- **`variant`**: MUI Accordion variant ('elevation' | 'outlined' | 'borderless')
+- **`sx`**: Custom styles using MUI's sx prop
+- **`className`**: CSS class name applied to root element
+
+### Testing
+
+- **`dataTestIdSuffix`**: Suffix for data-testid attributes (e.g., "ring-accordion-\{suffix\}")

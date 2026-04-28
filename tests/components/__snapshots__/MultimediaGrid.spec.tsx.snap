@@ -1,0 +1,103 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MultimediaGrid > should render correctly with a spacer item 1`] = `
+<div>
+  <div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-vxul3l"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render correctly with empty items 1`] = `
+<div>
+  <div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1esfv"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render correctly with media items 1`] = `
+<div>
+  <div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-vxul3l"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid > should render toolbar when showRingToolbar is true 1`] = `
+<div>
+  <div>
+    <div
+      style="border-bottom: 1px solid #D9D9D9; display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px; position: relative;"
+    >
+      <div
+        class="MuiStack-root css-tmsmf9-MuiStack-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
+        >
+          Results
+          : 
+          0
+        </span>
+        <div
+          class="MuiStack-root css-1oxswqj-MuiStack-root"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-1x370f9"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid slots > should render with a custom slot component 1`] = `
+<div>
+  <div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-vxul3l"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MultimediaGrid with infinite scroll > should render with infinite scroll props 1`] = `
+<div>
+  <div>
+    <div
+      class="MuiBox-root css-qfcxy1"
+    >
+      <div
+        class="css-vxul3l"
+      />
+    </div>
+  </div>
+</div>
+`;

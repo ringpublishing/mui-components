@@ -1,0 +1,278 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './MediaCard.stories.js';
+
+<Meta isTemplate />
+
+# MediaCard
+
+MediaCard is a versatile component for displaying multimedia resources such as photos, videos, podcasts along with additional information and actions.
+
+- **Media Display** - handles images, videos, and custom elements
+- **Customization** - configurable appearance with different aspect ratios and fitting methods
+- **Status Labels** - ability to display status labels over the image and control their visibility on hover
+- **Actions** - set of actions available to the user
+- **Selection** - optional checkbox for card selection
+- **Focus Management** - visual effects when focusing and interacting
+- **Information Fields** - ability to add descriptions below the image
+
+The component is built with flexibility in mind and can be used in various scenarios - from photo galleries to advanced asset management interfaces.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Aspect Ratio](#aspect-ratio)
+- [Placeholder](#placeholder)
+- [Actions](#actions)
+- [Status Labels](#status-labels)
+- [Hoverable](#hoverable)
+- [Checkbox](#checkbox)
+- [Slots](#slots)
+- [Advanced Example](#advanced-example)
+
+## Default
+
+Basic configuration of the MediaCard component with the most commonly used properties.
+
+### Available Variants
+
+MediaCard supports the following main variants:
+
+- **outlined** (default) - card with a border
+- **elevation** - card with a shadow
+
+### Basic Properties
+
+| Property    | Type                                                       | Default      | Description                     |
+| ----------- | ---------------------------------------------------------- | ------------ | ------------------------------- |
+| `title`     | `string`                                                   | -            | Title of the card               |
+| `variant`   | `'outlined' \| 'elevation'`                                | `'outlined'` | Style of the card               |
+| `square`    | `boolean`                                                  | `false`      | Disable rounded corners         |
+| `ratio`     | `string \| number`                                         | `'4/3'`      | Aspect ratio of the image       |
+| `objectFit` | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'`    | How the image should fit        |
+| `image`     | `string`                                                   | -            | URL of the image                |
+| `fields`    | `MediaCardFieldsItem[]`                                    | -            | List of fields with information |
+
+```jsx
+<MediaCard
+    title="Resource title"
+    variant="outlined"
+    square={false}
+    image="https://example.com/image.jpg"
+    ratio="16/9"
+    objectFit="cover"
+    fields={[{ value: 'Author / Source' }, { value: 'Brief description or summary of the content' }]}
+    sx={{ width: '300px' }}
+/>
+```
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Aspect Ratio
+
+The MediaCard component allows you to control the aspect ratio of the displayed image using the `ratio` prop.
+
+- Default aspect ratio is `4/3`
+- You can change the ratio by providing a custom value, e.g., `9/16`, `4/3`, `1/1`, etc.
+
+### Image Fitting (objectFit)
+
+The `objectFit` prop determines how the image should be fitted within the MediaCard dimensions.
+
+| Parameter    | Description                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------- |
+| `contain`    | The image will fit entirely within the space while maintaining its aspect ratio             |
+| `cover`      | The image will fill the entire space while maintaining its aspect ratio, but may be cropped |
+| `fill`       | The image will fill the space without maintaining aspect ratio                              |
+| `none`       | The image will retain its original dimensions                                               |
+| `scale-down` | Similar to contain, but never enlarges the image beyond its natural size                    |
+
+### Image Behavior
+
+- If the image aspect ratio differs from the MediaCard's set ratio, the image will be adjusted according to the `objectFit` value
+- With `objectFit: "cover"`, the image may be cropped to fill the entire space
+- With `objectFit: "contain"`, the entire image will be visible, but there may be empty spaces
+
+```jsx
+<MediaCard ratio="9/16" objectFit="cover" />
+<MediaCard ratio={1} objectFit="contain" />
+<MediaCard ratio="4/3" objectFit="fill" />
+```
+
+<Canvas of={Stories.AspectRatio} />
+
+## Placeholder
+
+The MediaCard component displays a placeholder when the media source is unavailable.
+
+By default, it shows the MUI `PhotoOutlined` icon as a placeholder.
+You can customize the placeholder icon by passing a different icon through the `iconPlaceholder` property.
+
+```jsx
+import { VideocamOutlined } from '@mui/icons-material';
+
+<MediaCard iconPlaceholder={<VideocamOutlined />} />;
+```
+
+This feature ensures that the MediaCard always has a visual representation, even when media content is not available, improving the user experience and maintaining layout consistency.
+
+<Canvas of={Stories.Placeholder} />
+
+## Actions
+
+The MediaCard component has been extended with a "show more" button functionality. This additional option allows for displaying extra actions related to the card's content.
+
+The "show more" functionality utilizes the `ActionBox` component, which accepts an array of actions conforming to the `Action` interface.
+
+### Notes
+
+- Actions are rendered in the order they are defined in the array.
+- Disabled actions are still visible but cannot be clicked.
+- Icons are optional and can be omitted if not needed.
+
+<Canvas of={Stories.Actions} />
+
+## Status Labels
+
+The MediaCard component is designed to display status labels with various configurations.
+
+An array of objects representing the status labels to be displayed.
+
+Each object in the array can have the following properties:
+
+| Property      | Type              | Description                                                     |
+| ------------- | ----------------- | --------------------------------------------------------------- |
+| `label`       | `string`          | The text to be displayed on the status label                    |
+| `color`       | `string`          | The color of the label, chosen from a predefined color palette  |
+| `icon`        | `React.ReactNode` | (Optional) An icon to be displayed alongside the label          |
+| `showOnHover` | `boolean`         | (Optional) If true, the label will only be visible on hover     |
+| `tip`         | `string`          | (Optional) Tooltip text for the label                           |
+| `key`         | `string`          | (Optional) Unique key for the label, useful for React rendering |
+
+<Canvas of={Stories.StatusLabels} />
+
+## Hoverable
+
+The `MediaCard` component includes an optional hoverable functionality that enhances user interaction and provides visual feedback. When enabled, this feature allows for dynamic color changes based on the hover state and utilizes the MUI `CardActionArea` for improved accessibility.
+
+### Props
+
+| Prop        | Type       | Default | Description                                                                |
+| ----------- | ---------- | ------- | -------------------------------------------------------------------------- |
+| `hoverable` | `boolean`  | `false` | Enables the hoverable functionality                                        |
+| `active`    | `boolean`  | `false` | Indicates the current active/highlighted state                             |
+| `onClick`   | `function` | -       | Callback function that will be called after clicking on the card component |
+
+### Functionality
+
+When the hoverable feature is enabled (`hoverable={true}`):
+
+1. **Color Change**: The component can change its color based on the hover state. This is achieved through the `onClick` callback.
+2. **Interactive Area**: The entire card becomes interactive using hover effect. This provides visual feedback to the user about possible actions.
+3. **Focus Management**: The parent component is responsible for managing the focus state. The `MediaCard` only receives the current state through props and reports changes via the callback.
+
+```jsx
+const [active, setActive] = useState(false);
+
+<MediaCard hoverable={true} active={active} onClick={() => setActive(!active)} />;
+```
+
+### Important Notes
+
+- The `MediaCard` component itself does not manage the hover state. It relies on the parent component to control this.
+- When `hoverable` is `false`, the component behaves as a standard, non-interactive `MediaCard`.
+
+<Canvas of={Stories.Hoverable} />
+
+## Checkbox
+
+MediaCard includes checkbox functionality implemented using the Checkbox component from the Material-UI (MUI) library.
+
+### Notes
+
+1. The parent component should manage the checkbox's `checked` state.
+2. The implementation uses an `onClick` callback, which provides information about state changes to the parent component.
+3. In the click event handler, `event.stopPropagation()` should be called to prevent the event from bubbling up to parent elements.
+4. The parent component should also manage the `showOnHover` property for status labels to control checkbox visibility based on hover or active state.
+
+```jsx
+const [checked, setChecked] = useState(false);
+const handleCheckboxChange = (event) => {
+    setChecked(!checked);
+    event.stopPropagation();
+};
+
+<MediaCard
+    slotProps={{
+        checkbox: {
+            checked,
+            onClick: handleCheckboxChange,
+            showOnHover: !checked,
+        },
+    }}
+    statusLabels={[
+        {
+            label: 'New Feature',
+        },
+    ]}
+/>;
+```
+
+<Canvas of={Stories.Checkbox} />
+
+## Slots
+
+The MediaCard component offers a slot system that allows for advanced customization by replacing default parts of the component with your own implementations.
+
+### Available Slots
+
+| Slot name   | Default component | Description                                                                                                                                    |
+| ----------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mediaCard` | `CardMedia`       | Custom component replacing the default media display element. Props `ratio` and `objectFit` affect its proportions and content fitting method. |
+| `footer`    | -                 | Custom component for the footer area.                                                                                                          |
+
+### Using Slots
+
+Slots provide full control over the behavior and appearance of specific parts of the component while maintaining the overall style and functionality of the MediaCard. This is particularly useful when you need to:
+
+1. **Replace the default image display element** with your own, such as a video player, interactive visualization, or other React component.
+2. **Add advanced features** that are not available in the default implementation.
+
+```jsx
+<MediaCard
+    slots={{
+        mediaCard: (
+            <video controls autoPlay muted>
+                <source src="path/to/your/video.mp4" type="video/mp4" />
+                Your browser does not support video playback.
+            </video>
+        ),
+    }}
+    ratio="16/9"
+    title="My video"
+/>
+```
+
+<Canvas of={Stories.Slots} />
+
+## Advanced Example
+
+This example shows how to combine different features of the MediaCard component to create a rich user interface.
+
+### Combined Features
+
+- Image with specific aspect ratio and fitting
+- Status labels with hover effects
+- Selection capability (checkbox)
+- Focus capability (hover effect and color change)
+- Action list
+- Information fields with different styles
+- Custom slots for footer content
+
+Note that both the checkbox state and focus state are managed by the parent component.
+
+<Canvas of={Stories.AdvancedExample} />

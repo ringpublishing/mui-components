@@ -1,0 +1,52 @@
+import React from 'react';
+import type { StoryObj } from '@storybook/react-vite';
+import { Box } from '@mui/material';
+import { ImageRounded, AcUnit, AccessAlarm } from '@mui/icons-material';
+import { createCodeStory } from '../../../../helpers.js';
+import DefaultExampleCode from './code/DefaultExample.tsx?raw';
+import { Media } from '../../../../../src/index.js';
+import { getImagePath, TestImage, ImageSize } from '../../../../../src/helpers/stories/imagesData.js';
+import defaultArgs from '../common/defaultArgs.js';
+
+type Story = StoryObj<typeof Media>;
+
+const Example = (args: React.ComponentProps<typeof Media>): React.JSX.Element => (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '50vw', marginLeft: '25vw' }}>
+        <Media {...args} />
+    </Box>
+);
+
+export const Default: Story = {
+    args: {
+        ...defaultArgs,
+        image: {
+            src: getImagePath(TestImage.BEACH, ImageSize.LARGE),
+            thumbnailSrc: getImagePath(TestImage.BEACH, ImageSize.LARGE),
+            title: TestImage.BEACH,
+        },
+        statusLabels: [
+            { label: 'Label 1', color: 'primary', icon: <AccessAlarm /> },
+            { label: 'Label 2, with a longer text', color: 'error', icon: <ImageRounded /> },
+        ],
+        actions: [
+            { label: 'Action 1', icon: <AcUnit /> },
+            { label: 'Action 2', icon: <AccessAlarm /> },
+        ],
+        bottomTooltips: [
+            { title: 'Tooltip text 1', icon: <AcUnit /> },
+            { title: 'Tooltip text 2', icon: <AccessAlarm /> },
+        ],
+    },
+    render: (args, context) => {
+        if (context?.viewMode === 'story') {
+            return <Example {...args} />;
+        }
+
+        return createCodeStory({
+            context,
+            customProps: {},
+            customCode: DefaultExampleCode,
+            example: <Example {...args} />,
+        });
+    },
+};

@@ -1,0 +1,126 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './DatePicker.stories.js';
+
+<Meta isTemplate />
+
+# DatePicker
+
+A date selection component that wraps MUI's [DatePicker](https://mui.com/x/react-date-pickers/date-picker/) with Ring Design System styling. Provides a calendar popup for selecting a single date with built-in support for clearable input, custom actions, and a "Now" shortcut button.
+
+- Clearable input with calendar icon
+- Configurable label
+- Custom action buttons (e.g., copy, share) via the `actions` prop
+- Quick-select "Now" button via `currentDateLabel`
+- Extends all MUI DatePicker props
+- Supports `sx` and `className` for custom styling
+
+## Prerequisites
+
+DatePicker requires a `LocalizationProvider` wrapper with a date adapter. Set this up once at the root of your application:
+
+```tsx
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import 'dayjs/locale/en';
+
+function App() {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+            {/* Your app content */}
+        </LocalizationProvider>
+    );
+}
+```
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Disabled](#disabled)
+- [Custom Styles](#custom-styles)
+- [Default Value](#default-value)
+- [Label](#label)
+- [Actions](#actions)
+- [Now Button](#now-button)
+- [Outlined](#outlined)
+
+## Default
+
+Basic date picker with clearable input.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Disabled
+
+Use the `disabled` prop to prevent user interaction. The picker input and calendar button become non-interactive.
+
+<Canvas of={Stories.Disabled} />
+
+## Custom Styles
+
+Apply custom styles using the `sx` prop. The component accepts all MUI system properties for flexible styling.
+
+<Canvas of={Stories.CustomStyles} />
+
+## Default Value
+
+Set an initial date using `defaultValue` with a `dayjs` instance. The user can still change or clear the value.
+
+<Canvas of={Stories.DefaultValue} />
+
+## Label
+
+Use the `label` prop to add a floating label above the input. This helps users understand what the date field represents in a form context.
+
+<Canvas of={Stories.Label} />
+
+## Actions
+
+Add custom action buttons next to the input using the `actions` prop. Each action requires a `label` and an `onClick` handler. Actions appear as icon buttons at the end of the input field.
+
+```tsx
+<DatePicker
+    actions={[
+        { label: 'Copy', onClick: () => handleCopy() },
+        { label: 'Share', onClick: () => handleShare() },
+    ]}
+/>
+```
+
+<Canvas of={Stories.Actions} />
+
+## Now Button
+
+Set `currentDateLabel` to display a shortcut button in the calendar popup that selects the current date. Useful for forms where "today" is a common selection.
+
+```tsx
+<DatePicker currentDateLabel="Now" />
+```
+
+<Canvas of={Stories.NowButton} />
+
+## Outlined
+
+Use the `outlined` variant via `slotProps.textField` for a bordered input style. The floating label appears inside the border and moves to the top edge when focused or when a value is present.
+
+```tsx
+<DatePicker
+    label="Date"
+    slotProps={{
+        textField: {
+            variant: 'outlined',
+        },
+    }}
+/>
+```
+
+<Canvas of={Stories.Outlined} />
+
+## Related Components
+
+- **DateTimePicker** — for selecting both date and time
+- **TimePicker** — for selecting time only

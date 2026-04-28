@@ -1,0 +1,94 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './DataGrid.stories.js';
+
+<Meta isTemplate />
+
+# DataGrid
+
+An enhanced data grid component built on top of MUI X DataGrid with additional features:
+
+- Custom toolbar with refresh, auto-refresh toggle, sorting, and additional components
+- Bulk actions mode with select all/deselect all and configurable max selection
+- Built-in custom cell renderers: combo cell, link cell, action cell, and spacer rows
+- Auto-refresh with configurable rate, user interaction debounce, and initial state
+- Filter chips group for active filter display
+- Checkbox selection with optional disabled select-all header
+- Error and no-results placeholder states
+
+## Quick Navigation
+
+- [All Custom Cells](#all-custom-cells)
+- [Component API](#component-api)
+- [Custom Toolbar](#custom-toolbar)
+- [Bulk Actions](#bulk-actions)
+- [No Results](#no-results)
+- [Error State](#error-state)
+- [Auto Refresh — Active](#auto-refresh--active)
+- [Auto Refresh — Ignore User Interaction](#auto-refresh--ignore-user-interaction)
+- [Auto Refresh — Initially Disabled](#auto-refresh--initially-disabled)
+- [Auto Refresh — Disabled](#auto-refresh--disabled)
+- [Classic Selection](#classic-selection)
+
+## Custom Cells
+
+Demonstrates custom cell renderers (`renderComboCell`, `renderLinkCell`, `renderActionCell`) together with spacer rows (`createSpacerItem`), bulk actions, sorting, auto-refresh, and the custom toolbar. Also includes combo cells with `showPlaceholder` enabled to display image placeholders when the image URL is missing or broken.
+
+<Canvas of={Stories.CustomCells} />
+
+## Component API
+
+<ArgTypes />
+
+## Custom Toolbar
+
+Shows the RingDataGrid toolbar with sorting fields, refresh controls, auto-refresh toggle, and an additional custom component slot.
+
+<Canvas of={Stories.CustomToolbar} />
+
+## Bulk Actions
+
+Enables bulk operation mode with checkbox selection, select all/deselect all, and configurable bulk action buttons (e.g., Delete, Edit). The `maxSelectedRowsCount` limits the number of selectable rows.
+
+<Canvas of={Stories.BulkActions} />
+
+## No Results
+
+Displays the built-in "no results" placeholder when `rows` is an empty array.
+
+<Canvas of={Stories.NoResults} />
+
+## Error State
+
+Displays the error placeholder when `error` is set to `true` and `rows` is empty.
+
+<Canvas of={Stories.Error} />
+
+## Auto Refresh — Active
+
+Auto-refresh enabled with a 5-second interval. User interactions (mouse, touch, scroll) temporarily pause refresh with a configurable debounce delay.
+
+<Canvas of={Stories.AutoRefreshActive} />
+
+## Auto Refresh — Ignore User Interaction
+
+Auto-refresh with `disableAutoRefreshOnUserInteraction` set to `false` — the grid continues refreshing regardless of user interaction.
+
+<Canvas of={Stories.AutoRefreshIgnoreInteraction} />
+
+## Auto Refresh — Initially Disabled
+
+Auto-refresh is configured but starts disabled via `initialState.autoRefreshEnabled: false`. The user can enable it manually via the toolbar toggle.
+
+<Canvas of={Stories.AutoRefreshInitiallyDisabled} />
+
+## Auto Refresh — Disabled
+
+No auto-refresh configuration — the grid only refreshes on manual user action.
+
+<Canvas of={Stories.AutoRefreshDisabled} />
+
+## Classic Selection
+
+Checkbox selection with `disableSelectAllCheckbox` set to `true`, removing the header checkbox. Uses a controlled `rowSelectionModel` with `clearSelectionOnRefresh` disabled.
+
+<Canvas of={Stories.ClassicSelection} />

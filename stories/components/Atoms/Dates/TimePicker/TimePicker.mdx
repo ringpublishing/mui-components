@@ -1,0 +1,97 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './TimePicker.stories.js';
+
+<Meta isTemplate />
+
+# TimePicker
+
+A time selection component that wraps MUI's [TimePicker](https://mui.com/x/react-date-pickers/time-picker/) with Ring Design System styling. Provides a clock popup for selecting hours and minutes with built-in support for clearable input.
+
+- Clearable input with clock icon
+- Configurable label
+- Extends all MUI TimePicker props
+- Supports `sx` and `className` for custom styling
+
+## Prerequisites
+
+TimePicker requires a `LocalizationProvider` wrapper with a date adapter. Set this up once at the root of your application:
+
+```tsx
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import 'dayjs/locale/en';
+
+function App() {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+            {/* Your app content */}
+        </LocalizationProvider>
+    );
+}
+```
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Disabled](#disabled)
+- [Custom Styles](#custom-styles)
+- [Default Value](#default-value)
+- [Label](#label)
+- [Outlined](#outlined)
+
+## Default
+
+Basic time picker with clearable input.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Disabled
+
+Use the `disabled` prop to prevent user interaction. The picker input and clock button become non-interactive.
+
+<Canvas of={Stories.Disabled} />
+
+## Custom Styles
+
+Apply custom styles using the `sx` prop. The component accepts all MUI system properties for flexible styling.
+
+<Canvas of={Stories.CustomStyles} />
+
+## Default Value
+
+Set an initial time using `defaultValue` with a `dayjs` instance. The user can still change or clear the value.
+
+<Canvas of={Stories.DefaultValue} />
+
+## Label
+
+Use the `label` prop to add a floating label above the input. This helps users understand what the time field represents in a form context.
+
+<Canvas of={Stories.Label} />
+
+## Outlined
+
+Use the `outlined` variant via `slotProps.textField` for a bordered input style. The floating label appears inside the border and moves to the top edge when focused or when a value is present.
+
+```tsx
+<TimePicker
+    label="Time"
+    slotProps={{
+        textField: {
+            variant: 'outlined',
+        },
+    }}
+/>
+```
+
+<Canvas of={Stories.Outlined} />
+
+## Related Components
+
+- **DatePicker** — for selecting date only (also supports custom actions and a "Now" shortcut button)
+- **DateTimePicker** — for selecting both date and time

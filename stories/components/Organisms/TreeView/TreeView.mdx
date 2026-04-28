@@ -1,0 +1,77 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './TreeView.stories.js';
+
+<Meta isTemplate />
+
+# TreeView
+
+The TreeView component displays hierarchical data in an expandable/collapsible tree structure. It supports two variants: **default** (with columns, checkboxes, row actions, and drag-and-drop) and **compact** (a minimal layout with custom elements).
+
+**Key Features:**
+
+- Two layout variants: `default` (tabular with columns) and `compact` (minimal)
+- Expandable/collapsible nested items
+- Search and filter with word-based matching and highlighting
+- Checkbox selection with disable capability (default variant)
+- Drag and drop reordering (default variant)
+- Drop-in nesting to create new hierarchy levels (default variant)
+- Dynamic/lazy loading of child items with error handling and retry
+- Row action buttons (default variant)
+- Controlled and uncontrolled selection modes
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Compact View Variant](#compact-view-variant)
+- [With Search](#with-search)
+- [With Drag And Drop](#with-drag-and-drop)
+- [With Drop In](#with-drop-in)
+- [With Dynamic Loading](#with-dynamic-loading)
+- [Controlled Selection](#controlled-selection)
+
+## Default
+
+Basic TreeView with columns, checkboxes, and row actions in the default variant.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Compact View Variant
+
+A compact layout variant with custom elements (Chip badges) and search functionality. Ideal for simpler tree structures that don't require columns or row actions.
+
+<Canvas of={Stories.CompactViewVariant} />
+
+## With Search
+
+TreeView with search/filter functionality enabled. Items are filtered by matching words in their labels, with matched text highlighted.
+
+<Canvas of={Stories.WithSearch} />
+
+## With Drag And Drop
+
+TreeView with drag and drop support for reordering items. Expanded items must be collapsed before they can be dragged.
+
+<Canvas of={Stories.WithDragAndDrop} />
+
+## With Drop In
+
+Extends drag and drop with drop-in functionality, allowing items to be dropped into other items to create new nesting levels.
+
+<Canvas of={Stories.WithDropIn} />
+
+## With Dynamic Loading
+
+Demonstrates lazy loading of child items when a parent is expanded. The `loadItems` function is called on demand and supports error handling with retry.
+
+<Canvas of={Stories.WithDynamicLoading} />
+
+## Controlled Selection
+
+Externally controlled item selection using `selectedItems` and `onSelectedItemsChange` props. Buttons allow programmatic selection of different item groups.
+
+<Canvas of={Stories.ControlledSelection} />

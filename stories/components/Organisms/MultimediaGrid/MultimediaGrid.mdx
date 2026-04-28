@@ -1,0 +1,249 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './MultimediaGrid.stories.js';
+
+<Meta isTemplate />
+
+# MultimediaGrid
+
+MultimediaGrid is a component for displaying media elements (photos and videos) in a responsive grid layout. It serves as an alternative to DataGrid, optimized for visual content presentation.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Slots](#slots)
+- [Infinite Scroll](#infinite-scroll)
+- [Selection](#selection)
+- [Empty State](#empty-state)
+- [Error State](#error-state)
+- [Dynamic Layout](#dynamic-layout)
+
+## Component Features:
+
+- **Responsive grid layout** - configurable parameters for different container breakpoints (xs, sm, md, lg)
+- **Flexible aspect ratios** - support for various cell aspect ratios with responsive configuration
+- **Virtualized rendering** - efficient handling of large media collections
+- **Infinite scrolling**
+- **Configurable spacing** - responsive spacing between elements (spacing, rowSpacing, columnSpacing)
+- **Toolbar integration** - filtering and sorting capabilities
+- **Loading state handling** - built-in loading indicators
+- **Separator support** - spacer elements for visual organization
+- **Slots system** - customizable appearance through replaceable components
+- **Auto-scroll to active card on container resize** - maintains visibility of selected items when grid width changes
+
+## Default
+
+Basic usage of MultimediaGrid with toolbar, sorting, and responsive columns. This demonstrates the standard configuration with demo data.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Slots
+
+MultimediaGrid offers a slot system that allows replacing default components with your own implementations. This enables complete customization of card appearance and behavior while maintaining the grid's performance and features.
+
+### Available Slots
+
+| Slot name   | Default component | Description                                                     |
+| ----------- | ----------------- | --------------------------------------------------------------- |
+| `mediaCard` | `MediaCard`       | Component that replaces the default MediaCard for grid elements |
+
+### Properties of the mediaCard Slot
+
+The `mediaCard` slot receives the following context properties:
+
+- `item` - element data
+- `itemWidth` - element width in pixels
+- `itemHeight` - element height in pixels
+- `globalIndex` - global index of the element
+- `indexInRow` - element index in the row
+- `rowIndex` - row index
+- `isFirstInRow` - whether it's the first element in the row
+- `isLastInRow` - whether it's the last element in the row
+- `isFirstRow` - whether it's the first row
+- `isLastRow` - whether it's the last row
+- `breakpoint` - current container breakpoint (xs, sm, md, lg)
+- `isSelected` - whether the item is selected
+
+### Using slotProps
+
+You can pass additional properties to slots using `slotProps`:
+
+```typescript
+<MultimediaGrid
+    slots={{
+        mediaCard: MyCustomMediaCard
+    }}
+    slotProps={{
+        mediaCard: {
+            // additional props for MyCustomMediaCard
+            customProp: 'value'
+        }
+    }}
+/>
+```
+
+### Functional slotProps - Access to Context
+
+The `slotProps` can also use **functions** that receive context information, allowing dynamic styling based on item state:
+
+```typescript
+<MultimediaGrid
+    slotProps={{
+        mediaCard: {
+            // Function that receives context with item data and state
+            sx: (context) => ({
+                height: '100%',
+                // Dynamic styling based on selection state
+                ...(context.isSelected && {
+                    border: '2px solid blue',
+                    borderRadius: 1
+                }),
+                // Different styling based on item position
+                ...(context.isFirstInRow && {
+                    marginLeft: 0
+                })
+            }),
+            // You can also use functions for other props
+            tabIndex: (context) => context.isSelected ? 0 : -1
+        }
+    }}
+/>
+```
+
+### Context Properties Available in Functions:
+
+- `item` - element data
+- `isSelected` - whether the item is selected
+- `itemWidth`, `itemHeight` - element dimensions
+- `globalIndex` - global position in the grid
+- `indexInRow`, `rowIndex` - position within row and row number
+- `isFirstInRow`, `isLastInRow` - row position flags
+- `isFirstRow`, `isLastRow` - grid position flags
+- `breakpoint` - current responsive breakpoint
+
+The slot system provides full control over the appearance and behavior of elements in the grid while maintaining interface consistency and performance.
+
+<Canvas of={Stories.Slots} />
+
+## Infinite Scroll
+
+This story demonstrates infinite scrolling functionality in MultimediaGrid, allowing seamless loading of additional content as the user scrolls.
+
+### Features:
+
+- **Automatic loading** - new data loads when the user scrolls near the end
+- **Loading state** - the component shows a loading indicator while fetching data
+- **`hasMore` control** - prevents unnecessary calls when there is no more data
+- **Smooth operation** - seamless integration with existing grid functionality
+
+### Key Points:
+
+- Infinite scroll only works when `hasMore` is `true`
+- The component automatically detects when the user approaches the end of the list and calls the `onLoadMore` function
+- The `onLoadMore` function is automatically protected against multiple calls
+
+### Usage Tips:
+
+- Scroll down to see automatic loading of new elements
+- Notice how the loading state is handled during data fetching
+- The `overscan` prop controls how many off-screen items are pre-rendered for smooth scrolling
+
+<Canvas of={Stories.InfiniteScroll} />
+
+## Selection
+
+MultimediaGrid provides comprehensive selection functionality with checkboxes, mirroring the DataGrid selection API for consistency across components.
+
+### Features:
+
+- **checkboxSelection** - displays a checkbox on each item for selection
+- **Controlled mode** - selection state managed by parent component
+- **Card click selection** - clicking on cards can also select/deselect items
+- **disableSelectionOnClick** - set to `true` to disable card click selection (only checkboxes work)
+
+### Usage:
+
+- Click on checkboxes OR on cards to select/deselect items (depending on `disableSelectionOnClick`)
+- Use toolbar "Select all" / "Deselect all" buttons
+- Use the Controls panel to toggle selection features:
+    - Toggle `checkboxSelection` to show/hide checkboxes
+    - Toggle `disableSelection` to disable all selection
+    - Toggle `disableSelectionOnClick` to disable card click selection
+- Check the Actions panel to see selection state changes
+
+### API Consistency:
+
+This functionality mirrors the DataGrid selection API for consistency across components. The same props and patterns work in both components.
+
+<Canvas of={Stories.Selection} />
+
+## Empty State
+
+This story demonstrates the empty state that appears when there are no items to display in the grid.
+
+### Features:
+
+- **Automatic display** - shown only when not loading and no error
+- **Language support** - respects the theme locale setting
+
+### Usage:
+
+The empty state is displayed when:
+
+- `items` array is empty
+- `loading` is `false`
+- `error` is `false`
+
+<Canvas of={Stories.EmptyState} />
+
+## Error State
+
+This story demonstrates the error state that appears when an error occurs while loading data.
+
+### Features:
+
+- **Priority over empty state** - error state takes precedence when both conditions are met
+- **Retry action** - displays a "Try again" button if `refreshItems` is provided
+- **Language support** - respects the theme locale setting
+
+### Usage:
+
+Error state is displayed when:
+
+- `error` is `true`
+- `loading` is `false`
+
+Toggle the `error` prop in Controls to show/hide error state.
+
+<Canvas of={Stories.ErrorState} />
+
+## Dynamic Layout
+
+Dynamic layout automatically calculates optimal card dimensions and column count based on container width, providing the best visual experience across different screen sizes.
+
+### How it Works:
+
+For each candidate column count, the algorithm:
+
+1. Calculates effective width (accounting for gaps)
+2. Computes scale factor relative to target dimensions
+3. Selects the count with scale closest to 1.0 to minimize distortion
+
+### Props:
+
+- `dynamicLayout` (boolean, default: `false`) - enables the feature
+- `dynamicCardWidth` (number, default: `200`) - target card width in pixels
+- `dynamicCardHeight` (number, default: `300`) - target card height in pixels
+
+### Features:
+
+- **Responsive** - recalculates on container resize
+- **Spacing-aware** - accounts for column gaps in calculations
+- **Overrides** - automatically overrides `columns` and `cellRatio` when enabled
+- **Performance** - uses memoization to avoid unnecessary recalculations
+
+<Canvas of={Stories.DynamicLayout} />

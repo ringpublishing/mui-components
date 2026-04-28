@@ -1,0 +1,103 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TextField Component > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiFormControl-root MuiTextField-root ring-textfield css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink="false"
+      for="test-textfield"
+      id="test-textfield-label"
+    >
+      Test Label
+    </label>
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-rbdfmn-MuiInputBase-root-MuiOutlinedInput-root"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+        id="test-textfield"
+        type="text"
+        value=""
+      />
+      <button
+        aria-label="Action Label"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1tlwp1b-MuiButtonBase-root-MuiIconButton-root"
+        data-mui-internal-clone-element="true"
+        tabindex="0"
+        type="button"
+      >
+        <span>
+          Icon
+        </span>
+      </button>
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          class="css-1n64csd-MuiNotchedOutlined-root"
+        >
+          <span>
+            Test Label
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TextField Component > should render the action button when action prop is provided 1`] = `
+<div>
+  <div
+    class="MuiFormControl-root MuiTextField-root ring-textfield css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink="false"
+      for="test-textfield"
+      id="test-textfield-label"
+    >
+      Test Label
+    </label>
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-rbdfmn-MuiInputBase-root-MuiOutlinedInput-root"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+        id="test-textfield"
+        type="text"
+        value=""
+      />
+      <button
+        aria-label="Action Label"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1tlwp1b-MuiButtonBase-root-MuiIconButton-root"
+        data-mui-internal-clone-element="true"
+        tabindex="0"
+        type="button"
+      >
+        <span>
+          Icon
+        </span>
+      </button>
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          class="css-1n64csd-MuiNotchedOutlined-root"
+        >
+          <span>
+            Test Label
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+</div>
+`;

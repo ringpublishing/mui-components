@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Comments > should render correctly 1`] = `
+<div>
+  <div
+    class="ring-comments MuiBox-root css-flbvz9"
+  >
+    <div
+      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-18l0x22-MuiPaper-root-MuiCard-root"
+    >
+      <div
+        class="MuiCardHeader-root css-149tc0y-MuiCardHeader-root"
+      >
+        <div
+          class="MuiCardHeader-content css-1jkp9bu-MuiCardHeader-content"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiCardHeader-subheader css-1ro85z9-MuiTypography-root"
+          >
+            <div
+              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
+            >
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline css-zsp0bh-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <textarea
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r0:"
+                  placeholder="Add a comment..."
+                  style="height: 0px; overflow: hidden;"
+                />
+                <textarea
+                  aria-hidden="true"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input"
+                  readonly=""
+                  style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
+                  tabindex="-1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-1nf2c5d-MuiNotchedOutlined-root"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

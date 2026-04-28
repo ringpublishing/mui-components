@@ -1,0 +1,160 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Moving From Legacy Components/Detail Migration" />
+
+# Migrate Detail from old library
+
+## Both versions accept three major properties
+
+### main - title and image with actions
+
+```
+{
+    title: {
+        value: 'Test title',
+        editable: true,
+        onSubmit: function cb() {
+            return new Promise(resolve => {
+                resolve(true);
+            });
+        },
+        label: 'Title'
+    },
+     mediaImageProps: {
+        bottomIcons: [
+            {
+                icon: <InfoOutlined />,
+                onClick: () => null,
+                tooltip: 'Info'
+            },
+            {
+                icon: <EditOutlined />,
+                onClick: () => null,
+                tooltip: 'Edit'
+            },
+        ],
+        imageUrl: 'url',
+        ratio: 'fixed',
+        imageFullScreenPreview: true,
+        fullScreenImageUrl: 'url'
+    },
+}
+```
+
+#### title
+
+- a string can be passed or an object with value property
+- for an editable title, pass an object with value, editable set to true, onSubmit (which returns a promise with boolean result), and label properties
+
+#### mediaImageProps
+
+- imageFullScreenPreview - if true icon will be shown to open image in LightBox
+- bottomIcons is now a list of objects with icon (component with MUI icon should be passed), onClick, and tooltip properties
+
+### descriptionItems
+
+```
+descriptionItems: [
+    {
+        sectionTitle: 'title',
+        fields: [
+            {
+                icon: <Public />,
+                name: 'WITH ICON',
+                value: 'Published'
+            },
+            {
+                type: DetailDescriptionItemFieldType.DESCRIPTION,
+                name: 'DESCRIPTION',
+                value: 'description',
+                maxLength: 100,
+                layout: DetailDescriptionItemFieldLayout.VERTICAL,
+                showMoreLabel: 'Show more',
+                showLessLabel: 'Show less'
+            },
+            {
+                name: 'DATE FORMATTED',
+                formatDate: true,
+                value: '2023-07-27T09:32:09Z',
+                 subValue: {
+                    label: '',
+                    value: 'John Doe'
+                },
+            },
+            {
+                type: DetailDescriptionItemFieldType.EDITABLE,
+                name: 'EDITABLE',
+                value: 'Editable value',
+                onSubmit: function cb() {
+                    return new Promise(resolve => {
+                        resolve(true);
+                    });
+                }
+            },
+            {
+                type: DetailDescriptionItemFieldType.CHIPS,
+                name: 'LIST OF CUSTOMISED CHIPS',
+                value: [
+                    {
+                        onClick: action('on click'),
+                        value: 'chip with onClick'
+                    },
+                    {
+                        badgeColor: '#00A7EE',
+                        value: 'chip with color'
+                    },
+                    {
+                        id: 'some Id',
+                        onClick: action('on click'),
+                        value: 'chips with onClick and id'
+                    }
+                ]
+            }
+        ]
+    },
+],
+```
+
+- every object in descriptionItems is a section with sectionTitle and fields properties
+- fields have 4 types: default, description, chips and editable
+- all fields have name and value properties (required) and layout - 'horizontal' (default) or 'vertical'
+- default field
+    - formatDate
+    - url - for links
+    - icon - component with MUI icon or an array of icon components
+    - subValue - object with label and value properties
+- description field
+    - type: 'DESCRIPTION'
+    - maxLength - maximum number of characters to show (optional)
+    - showMoreLabel - label for show more button
+    - showLessLabel - label for show less button
+- chips field
+    - type: 'CHIPS'
+    - value - array of strings or objects with value, badgeColor, and onClick properties
+- editable field
+    - type: 'EDITABLE'
+    - onSubmit - function that returns a promise with boolean result
+
+### bottomActions
+
+```
+    bottomActions: [
+        {
+            name: 'ACTION WITH URL',
+            url: 'url',
+            icon: <Web />
+        },
+        {
+            name: 'ACTION WITH ON CLICK',
+            onClick: () => null,
+            icon: <Download />
+        },
+        {
+            name: 'ACTION WITHOUT ICON',
+            onClick: () => null
+        }
+    ],
+```
+
+- url, onClick and icon are all optional
+- bottomActions have only one change - icon can be passed (component with MUI icon)

@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Typography.stories.js';
+
+<Meta isTemplate />
+
+# Typography
+
+Typography component with overflow handling and tooltip support. This component extends MUI's Typography component and adds intelligent overflow handling with tooltips.
+
+**Key Features:**
+
+- Automatic text overflow detection
+- Ellipsis display for overflowing text
+- Tooltip with full text on hover when overflowed
+- All MUI Typography variants supported
+- Customizable tooltip behavior
+
+**Use Cases:**
+
+- Display text in constrained spaces
+- Show user-generated content with unknown length
+- Create consistent text styling across the application
+- Provide accessible text overflow handling
+
+**Extends:** [MUI Typography](https://mui.com/material-ui/react-typography) - supports all MUI Typography properties.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Overflow and Tooltip](#with-overflow-and-tooltip)
+
+## Default
+
+The default Typography component displays text that wraps naturally within its container. When `enableOverflow` is false (default), text wraps normally without truncation.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes include={['enableOverflow']} />
+
+## With Overflow and Tooltip
+
+When `enableOverflow` is enabled, the component automatically detects text overflow and displays an ellipsis. Hovering over the truncated text shows a tooltip with the full content.
+
+### Key Features:
+
+- Automatic overflow detection using layout effects
+- Single-line text with ellipsis
+- Interactive tooltip on hover
+- Customizable tooltip appearance via `tooltipProps`
+
+### Usage:
+
+```typescript
+<Typography enableOverflow={true} sx={{ width: '300px' }}>
+  This is a very long text that will overflow and show ellipsis.
+</Typography>
+```
+
+<Canvas of={Stories.WithOverflowAndTooltip} />

@@ -1,0 +1,142 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Components: ContentList > should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-ye7b6t"
+    data-testid="ring-contentlist"
+    style="height: 0px;"
+  >
+    <div
+      class="MuiBox-root css-1tub11v"
+    >
+      <div
+        class="MuiBox-root css-1q95k2i"
+      >
+        <div
+          class="MuiBox-root css-81vptx"
+        >
+          <button
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-t1d9mp-MuiTypography-root-MuiLink-root"
+            type="button"
+          >
+            <div
+              class="MuiBox-root css-pehwr4"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-9mrpfe-MuiTypography-root"
+              >
+                Header1
+              </p>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
+                data-testid="RocketLaunchIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9.19 6.35c-2.04 2.29-3.44 5.58-3.57 5.89L2 10.69l4.05-4.05c.47-.47 1.15-.68 1.81-.55zM11.17 17s3.74-1.55 5.89-3.7c5.4-5.4 4.5-9.62 4.21-10.57-.95-.3-5.17-1.19-10.57 4.21C8.55 9.09 7 12.83 7 12.83zm6.48-2.19c-2.29 2.04-5.58 3.44-5.89 3.57L13.31 22l4.05-4.05c.47-.47.68-1.15.55-1.81zM9 18c0 .83-.34 1.58-.88 2.12C6.94 21.3 2 22 2 22s.7-4.94 1.88-6.12C4.42 15.34 5.17 15 6 15c1.66 0 3 1.34 3 3m4-9c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2"
+                />
+              </svg>
+            </div>
+          </button>
+          <button
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-tnj49q-MuiTypography-root-MuiLink-root"
+            type="button"
+          >
+            <div
+              class="MuiBox-root css-pehwr4"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ipeq5q-MuiTypography-root"
+              >
+                Header2
+              </p>
+            </div>
+          </button>
+          <button
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-tnj49q-MuiTypography-root-MuiLink-root"
+            type="button"
+          >
+            <div
+              class="MuiBox-root css-pehwr4"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ipeq5q-MuiTypography-root"
+              >
+                Header3
+              </p>
+              23
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-20g8h3"
+      >
+        <div
+          class="MuiBox-root css-i5jds0"
+        >
+          <div
+            class="MuiBox-root css-19n8dai"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+            >
+              Header1
+            </h6>
+          </div>
+          <div
+            class="MuiBox-root css-0"
+          >
+            <div>
+              Header1 children
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-i5jds0"
+        >
+          <div
+            class="MuiBox-root css-19n8dai"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+            >
+              Header2
+            </h6>
+          </div>
+          <div
+            class="MuiBox-root css-0"
+          >
+            <div>
+              Header2 children
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-19aghlf"
+        >
+          <div
+            class="MuiBox-root css-19n8dai"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+            >
+              Header3
+            </h6>
+          </div>
+          <div
+            class="MuiBox-root css-0"
+          >
+            <div>
+              Header3 children
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

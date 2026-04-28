@@ -1,0 +1,66 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Detail.stories.js';
+
+<Meta isTemplate />
+
+# Detail
+
+A rich detail panel component for displaying item information with media, sections, editable fields, and action buttons. Commonly used as a side panel in DataView.
+
+- Displays media with image preview, light box, and download support
+- Supports multiple field types: default, description, chips, and editable
+- Customizable bottom actions
+- Configurable slots for injecting custom content after main, description items, and bottom actions
+- Bottom icons on media section as icon buttons or chips
+- Empty state placeholder support
+
+For migration from the old component version please refer to Detail Migration guide in Migration FAQ -> Moving From Legacy Components section.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Empty State](#empty-state)
+- [With Custom Slots](#with-custom-slots)
+- [With Bottom Icon Buttons](#with-bottom-icon-buttons)
+- [With Bottom Chips](#with-bottom-chips)
+
+## Default
+
+The default story demonstrates all major features of the Detail component including an editable title, media with icon buttons, multiple description sections with various field types (description, icons, date formatting, editable text, editable select, strings, links, chips with colors), sub-values, and bottom actions.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Empty State
+
+When no data is available, the Detail component can display an empty state placeholder by setting the `empty` prop to `true`.
+
+<Canvas of={Stories.EmptyState} />
+
+## With Custom Slots
+
+The Detail component provides three customizable slots for injecting additional content:
+
+| Slot                    | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `afterMain`             | Rendered after the main media/title section   |
+| `afterDescriptionItems` | Rendered after the description items sections |
+| `afterBottomActions`    | Rendered after the bottom action buttons      |
+
+<Canvas of={Stories.WithCustomSlots} />
+
+## With Bottom Icon Buttons
+
+Display icon buttons at the bottom of the media section. Each button supports tooltips and click handlers. Bottom icons must be all of type `'icon'` or all of type `'chip'` — mixing types is not supported.
+
+<Canvas of={Stories.WithBottomIconButtons} />
+
+## With Bottom Chips
+
+Display colored chip labels at the bottom of the media section. Each chip supports custom background colors with automatic text color contrast calculation.
+
+<Canvas of={Stories.WithBottomChips} />

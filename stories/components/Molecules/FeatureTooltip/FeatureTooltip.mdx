@@ -1,0 +1,54 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './FeatureTooltip.stories.js';
+
+<Meta isTemplate />
+
+# FeatureTooltip
+
+A feature announcement tooltip that automatically manages its display state using `localStorage`. It extends MUI's [Tooltip](https://mui.com/material-ui/react-tooltip/) with a rich card layout, supporting media content, configurable action buttons, and frequency-capping logic.
+
+- Displays automatically on mount based on `capping` count and `endDate` expiration
+- Persists display history in `localStorage` to control re-display frequency
+- Supports text messages, embedded videos (`videoEmbed`), and images (`image`)
+- Configurable action buttons — up to two: primary and optional secondary
+- Close button always available for the user
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With One Action](#with-one-action)
+- [With No Actions](#with-no-actions)
+- [With Image](#with-image)
+
+## Default
+
+Shows two tooltip configurations side by side: a **standard tooltip** (displayed only once per user) and a **capping tooltip** (displayed up to 3 times). Both use `localStorage` to track display history.
+
+> **Note:** If you don't see the tooltip, click **Clear tooltip data** to reset the `localStorage` state and reload the page.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With One Action
+
+A tooltip with a **single primary action** button and an embedded YouTube video. Use this when you want to direct users to a specific resource without offering a secondary option.
+
+<Canvas of={Stories.WithOneAction} />
+
+## With No Actions
+
+A tooltip displaying only a title and message body — without any action buttons. Ideal for purely informational announcements where no user interaction is needed beyond dismissal.
+
+<Canvas of={Stories.WithNoActions} />
+
+## With Image
+
+A tooltip enriched with an **image**. Shown side by side: one variant with two action buttons, another without actions — both using the same image URL.
+
+> **Note:** If both `image` and `videoEmbed` are passed, the **video takes priority** and the image is not rendered.
+
+<Canvas of={Stories.WithImage} />

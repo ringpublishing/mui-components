@@ -1,0 +1,67 @@
+import { Markdown } from '@storybook/addon-docs/blocks';
+import Changelog from '../../CHANGELOG.md?raw';
+
+# Ring MUI Components
+
+#### Shared internal React components and foundations built on top of Material UI.
+
+#### This Storybook provides reusable building blocks, live examples, migration notes, and contribution standards for Ring applications.
+
+**Requirements:** Node 18+ · React 18+ · Material UI 7+
+
+> **Note:** Ring Publishing MUI Components are not intended to function as a general-purpose UI toolkit — they are only useful in the context of integrating with the Ring Publishing system.
+
+---
+
+## Start here
+
+- **Browse components** — Explore atoms, molecules, organisms, and templates in the sidebar.
+- **[Setup](?path=/docs/introduction-setup--docs)** — Install the package, configure the theme, and review peer dependencies.
+- **[Contribution](?path=/docs/introduction-contribution--docs)** — Git, Code and Storybook rules.
+
+---
+
+## About the library
+
+MUI Components is a shared internal library built on top of MUI.
+
+It extends the base MUI ecosystem with internal components, theme integration, and shared documentation standards.
+
+Use this Storybook to:
+
+- explore available shared components,
+- review usage examples and API documentation,
+- check migration notes for breaking changes,
+- follow contribution standards for new components and stories.
+
+For base functionality that belongs to MUI itself, use the [official MUI documentation](https://mui.com/material-ui/all-components/) together with this Storybook.
+
+---
+
+## Environment
+
+MUI Components supports **Node 18+** and **React 18+**.
+
+Some components depend on selected MUI and MUI X packages.
+Install only the peer dependencies required by the components you use.
+
+Detailed installation, theme setup, and licensing instructions are available on the [Setup](?path=/docs/introduction-setup--docs) page.
+
+---
+
+## Support
+
+### Report an issue
+
+To report bugs contact the Components Team by sending an <a href="mailto:ringcomponentsteam@groups.ringieraxelspringer.pl">email</a>.
+
+The Components Team maintains the MUI Components library.
+If the issue is caused by MUI, it will be verified and forwarded further when needed.
+
+### Request a component
+
+If you need a new shared component or a major enhancement, <a href="mailto:ringcomponentsteam@groups.ringieraxelspringer.pl">contact the Components Team</a> before implementation.
+
+---
+
+<Markdown>{Changelog}</Markdown>
