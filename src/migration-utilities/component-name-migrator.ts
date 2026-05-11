@@ -1,45 +1,8 @@
-import { readdirSync, readFileSync, writeFileSync } from 'fs';
-import path from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+
+import { findFiles, SOURCE_FILE_EXTENSIONS } from './file-walker.js';
 
 const PACKAGE_NAME = '@ringpublishing/mui-components';
-
-function findFiles(dir = '.', extensions: string[] = [], ignoreDirs: string[] = []): string[] {
-    let results: string[] = [];
-
-    // Check if directory should be ignored
-    if (
-        ignoreDirs.some((ignoreDir) => {
-            const relativePath = path.relative('.', dir);
-
-            return relativePath === ignoreDir || relativePath.endsWith(ignoreDir) || dir === ignoreDir;
-        })
-    ) {
-        return results;
-    }
-
-    console.info('Checking directory:', dir);
-
-    // Read directory contents
-    const items = readdirSync(dir, { withFileTypes: true });
-
-    for (const item of items) {
-        const fullPath = path.join(dir, item.name);
-
-        if (item.isDirectory()) {
-            // Recursively process subdirectories
-            results = results.concat(findFiles(fullPath, extensions, ignoreDirs));
-        } else if (item.isFile()) {
-            // Check if file extension matches
-            const ext = path.extname(item.name).slice(1);
-
-            if (extensions.includes(ext)) {
-                results.push(fullPath);
-            }
-        }
-    }
-
-    return results;
-}
 
 export function migrateFile(
     filePath: string,
@@ -48,7 +11,6 @@ export function migrateFile(
     packageName: string = PACKAGE_NAME,
 ): boolean {
     try {
-        // Read file content
         const content = readFileSync(filePath, 'utf8');
         let modified = false;
         let newContent: string = content;
@@ -107,11 +69,7 @@ export function runComponentNameMigration(
     packageName: string = PACKAGE_NAME,
 ): void {
     try {
-        const files = findFiles(
-            migrationDir,
-            ['js', 'jsx', 'ts', 'tsx'],
-            ['node_modules', 'dist', 'build', '.git', '.github'],
-        );
+        const files = findFiles(migrationDir, SOURCE_FILE_EXTENSIONS);
 
         console.info(`Found ${files.length} files to process...`);
 
@@ -130,7 +88,7 @@ export function runComponentNameMigration(
 
         if (migratedCount === 0) {
             console.info('No files were modified. Possible reasons:');
-            console.info('- Your codebase may not be using the Skeleton component');
+            console.info(`- Your codebase may not be using the ${oldComponentName} component`);
             console.info('- The component might be imported from a different path than expected');
             console.info('- You might be using a different import pattern not covered by this script');
         }

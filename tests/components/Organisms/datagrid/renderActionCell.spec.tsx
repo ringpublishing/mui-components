@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Edit } from '@mui/icons-material';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { renderActionCell } from '../../../../src/index.js';
 import { Action } from '../../../../src/types.js';
@@ -26,5 +26,23 @@ describe('DataGrid - renderActionCell', () => {
         ];
 
         expect(render(<DataGrid rows={rows} columns={columns} />).container).toMatchSnapshot();
+    });
+
+    it('should not select the row when clicking the action button', () => {
+        const rows: GridRowsProp = [{ id: 1, name: 'George Washington', actions }];
+        const columns: GridColDef[] = [
+            { field: 'name', headerName: 'Name' },
+            { field: 'actions', headerName: 'Action', renderCell: renderActionCell },
+        ];
+
+        const { container } = render(<DataGrid rows={rows} columns={columns} checkboxSelection={true} />);
+
+        const checkbox = container.querySelector('input[type="checkbox"][aria-label="Select row"]') as HTMLInputElement;
+        expect(checkbox.checked).toBe(false);
+
+        const actionButton = container.querySelector('button') as HTMLButtonElement;
+        fireEvent.click(actionButton);
+
+        expect(checkbox.checked).toBe(false);
     });
 });

@@ -7,6 +7,3 @@
 /dist
 /node_modules
 /storybook-static
-/.github
-/deploy
-/.env

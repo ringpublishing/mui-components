@@ -24,6 +24,9 @@ For migration from the old component version please refer to Detail Migration gu
 - [With Custom Slots](#with-custom-slots)
 - [With Bottom Icon Buttons](#with-bottom-icon-buttons)
 - [With Bottom Chips](#with-bottom-chips)
+- [With Custom Media Slot](#with-custom-media-slot)
+- [Slots](#slots)
+- [Slot props](#slot-props)
 
 ## Default
 
@@ -64,3 +67,35 @@ Display icon buttons at the bottom of the media section. Each button supports to
 Display colored chip labels at the bottom of the media section. Each chip supports custom background colors with automatic text color contrast calculation.
 
 <Canvas of={Stories.WithBottomChips} />
+
+## With Custom Media Slot
+
+The `mediaProps.slots.media` slot lets consumers replace the default `<CardMedia>` with any React node — for example a custom video player with overlay controls, an interactive preview component, or a third-party library wrapper. The slot is wrapped in `<AspectRatio>` so `mediaProps.ratio` and `mediaProps.objectFit` still apply to the surrounding box.
+
+When `slots.media` is provided, the built-in LightBox / fullscreen preview is suppressed (the slot replaces the default media render and `<LightBox>` only handles still images, not arbitrary React nodes). Detail's zoom/download bottom-icons row is also suppressed in this case.
+
+Use `mediaProps.slotProps.card` to attach DOM events (e.g. hover-driven `play()` / `pause()` for a video preview).
+
+<Canvas of={Stories.WithCustomMediaSlot} />
+
+## Slots
+
+Detail exposes slots on two levels: top-level slots for injecting content around the body, and nested slots on `main.mediaProps` that mirror the [Media](?path=/docs/components-molecules-media--docs) molecule's own slot system.
+
+| Slot                          | Type                | Default     | Description                                                                                                                                                                                                                                           |
+| ----------------------------- | ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slots.afterMain`             | `React.JSX.Element` | —           | Rendered after the main media/title section.                                                                                                                                                                                                          |
+| `slots.afterDescriptionItems` | `React.JSX.Element` | —           | Rendered after the description items sections.                                                                                                                                                                                                        |
+| `slots.afterBottomActions`    | `React.JSX.Element` | —           | Rendered after the bottom action buttons.                                                                                                                                                                                                             |
+| `main.mediaProps.slots.media` | `ReactNode`         | `CardMedia` | Custom React node rendered in place of the default `<CardMedia>` in the media area. Wrapped in `<AspectRatio>` so `mediaProps.ratio` and `mediaProps.objectFit` still apply. When provided, the built-in LightBox / fullscreen preview is suppressed. |
+
+## Slot props
+
+Detail does not expose `slotProps` at the root level. The `main.mediaProps.slotProps` channel forwards directly to the inner `<Media>` molecule.
+
+| Slot prop                         | Type                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `main.mediaProps.slotProps.media` | `CardMediaProps & AudioHTMLAttributes & VideoHTMLAttributes`                                     | Props applied to the default `<CardMedia>` in the media area. Used by the default render path (replaced when `main.mediaProps.slots.media` is set). Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, attach native media attributes.                                                                                                                                                    |
+| `main.mediaProps.slotProps.card`  | `Omit<CardProps, "children" \| "variant" \| "square" \| "tabIndex" \| "elevation" \| "onClick">` | Props applied to the root MUI `<Card>` rendered inside `<Media>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …) on the media area. `onClick` is excluded for the same reason as in `Media` — Media is not a clickable container; use `main.mediaProps.slotProps.media.onClick` for clicks scoped to `<CardMedia>`, or attach a handler outside Detail. |
+
+> Detail uses the [Media](?path=/docs/components-molecules-media--docs) molecule under the hood — `mediaProps.slots` and `mediaProps.slotProps` mirror Media's API one-to-one. See the Media docs for full precedence rules and additional details.

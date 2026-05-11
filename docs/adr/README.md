@@ -10,6 +10,8 @@ This directory contains Architecture Decision Records for the ring-ui-components
 | [002](002-placeholder-labels-flat-structure.md) | Placeholder – Flat Labels Structure | Accepted | 2026-03-12 |
 | [003](003-dual-typography-mode-rem-legacy-px.md) | Dual Typography Mode (rem / legacy-px) | Accepted | 2026-03 |
 | [004](004-ring-feature-tooltip-rename.md) | `RingFeatureTooltip` renamed to `FeatureTooltip` | Accepted | 2026-03-17 |
+| [005](005-treeview-split-and-tanstack-query.md) | TreeView split into SimpleTree / DataTree with TanStack Query | Pending | 2026-04-01 |
+| [006](006-pluggable-migrator-architecture.md) | Pluggable migrator architecture + package-rename codemod | Accepted | 2026-05-07 |
 
 ## Template
 

@@ -3,7 +3,7 @@
 exports[`MediaCard common tests: > Should render correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1d7yotw-MuiPaper-root-MuiCard-root"
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-btwplu-MuiPaper-root-MuiCard-root"
     data-testid="ring-mediacard"
   >
     <div

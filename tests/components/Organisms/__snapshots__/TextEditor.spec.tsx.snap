@@ -141,7 +141,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
             style="white-space: normal;"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-b82juz-MuiPaper-root-MuiCard-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-en36hu-MuiPaper-root-MuiCard-root"
               data-testid="ring-media"
               style="--Paper-shadow: none;"
             >
@@ -160,6 +160,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
                       <img
                         class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-19cjceo-MuiCardMedia-root"
                         data-first-child=""
+                        draggable="false"
                         src="https://ocdn.eu/pulscms-transforms/1/vKzktkuTURBXy9lMTY1ZTU0Zi00YTg4LTRmNWQtYWYwZi0xOTUzM2U4MmY4Y2YuanBlZ5GVAs0CigDDww"
                         title="Image title"
                       />
@@ -351,7 +352,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
             style="white-space: normal;"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-b82juz-MuiPaper-root-MuiCard-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-en36hu-MuiPaper-root-MuiCard-root"
               data-testid="ring-media"
               style="--Paper-shadow: none;"
             >
@@ -370,6 +371,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
                       <img
                         class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-19cjceo-MuiCardMedia-root"
                         data-first-child=""
+                        draggable="false"
                         src="https://ocdn.eu/pulscms-transforms/1/vKzktkuTURBXy9lMTY1ZTU0Zi00YTg4LTRmNWQtYWYwZi0xOTUzM2U4MmY4Y2YuanBlZ5GVAs0CigDDww"
                         title="Image title"
                       />

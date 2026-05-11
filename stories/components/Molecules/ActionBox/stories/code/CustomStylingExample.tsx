@@ -19,6 +19,18 @@ export default function CustomStylingExample(): React.JSX.Element {
             disabledReason: 'Disabled because of some reason',
             icon: <DoNotDisturb />,
         },
+        {
+            label: 'Styled last action',
+            onClick: () => null,
+            icon: <RocketLaunch />,
+            sx: (theme: Theme) => ({
+                color: theme.palette.common.white,
+                backgroundColor: theme.palette.error.main,
+                '&:hover': {
+                    backgroundColor: theme.palette.error.dark,
+                },
+            }),
+        },
     ];
 
     return (

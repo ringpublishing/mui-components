@@ -5,5 +5,5 @@
         "rootDir": ".",
         "declaration": true
     },
-    "include": [".storybook", "src", "stories", "tests", "declarations.d.ts"]
+    "include": [".storybook/**/*", "src", "stories", "tests", "declarations.d.ts"]
 }

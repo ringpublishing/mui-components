@@ -185,6 +185,29 @@ describe('Detail', () => {
         expect(onClick).toHaveBeenCalled();
     });
 
+    it('should suppress zoom/download bottom-icons when slots.media is provided alongside image', () => {
+        const mockProps: DetailProps = {
+            main: {
+                title: { value: 'Test Title' },
+                mediaProps: {
+                    image: 'url',
+                    imageFullScreenPreview: true,
+                    slots: {
+                        media: <div data-testid="custom-media">Custom</div>,
+                    },
+                },
+            },
+        };
+        const { queryByTestId, getByTestId } = renderDetail(mockProps);
+
+        // Custom slot replaces the default media render.
+        expect(getByTestId('custom-media')).toBeDefined();
+        // Zoom / download bottom-icons row is suppressed because the slot can host non-image media
+        // (e.g. a video player) which the LightBox cannot show — see CHANGELOG 1.3.0.
+        expect(queryByTestId('ring-detail-zoom-in-image')).toBeNull();
+        expect(queryByTestId('ring-detail-download-image')).toBeNull();
+    });
+
     describe('EditableField', () => {
         it('should render correctly', () => {
             const mockProps: DetailDescriptionItemFieldEditable = {

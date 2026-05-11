@@ -11,7 +11,7 @@ A collapsible content container that extends MUI's Accordion component with addi
 
 - **Custom labels**: Set custom header text for each accordion
 - **Action button**: Optional button in the header for quick actions
-- **Borderless variant**: Seamless styling for stacked accordions
+- **Multiple accordions**: Seamless styling for stacked accordions
 - **Expandable icon**: Built-in expand/collapse indicator
 - **Accessible**: Follows ARIA patterns for keyboard navigation
 - **MUI integration**: Extends all MUI Accordion properties
@@ -20,9 +20,9 @@ A collapsible content container that extends MUI's Accordion component with addi
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Label](#with-label)
+- [With Border](#with-border)
 - [With Button](#with-button)
-- [Borderless](#borderless)
+- [Multiple](#multiple)
 
 ## Default
 
@@ -34,11 +34,11 @@ Basic accordion with a text field as content. Shows the simplest use case with d
 
 <ArgTypes />
 
-## With Label
+## With Border
 
-Accordion with a custom label. The label appears in the header section and helps identify the accordion's content.
+Accordion using the outlined/bordered variant to provide clear visual separation from surrounding content or between stacked items. Ideal when you want the accordion to stand out more than the borderless version.
 
-<Canvas of={Stories.WithLabel} />
+<Canvas of={Stories.WithBorder} />
 
 ## With Button
 
@@ -52,7 +52,7 @@ Accordion with an integrated action button in the header. The button click event
 
 <Canvas of={Stories.WithButton} />
 
-## Borderless
+## Multiple
 
 Multiple accordions stacked with the borderless variant for a seamless appearance. Ideal for creating grouped content sections without visual separation.
 
@@ -62,7 +62,7 @@ Multiple accordions stacked with the borderless variant for a seamless appearanc
 - Creates a unified appearance
 - Perfect for settings panels or FAQ sections
 
-<Canvas of={Stories.Borderless} />
+<Canvas of={Stories.Multiple} />
 
 ## Usage Example
 

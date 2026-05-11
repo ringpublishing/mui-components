@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { Button } from '@mui/material';
+import { Button, Theme } from '@mui/material';
+import { RocketLaunch } from '@mui/icons-material';
 import type { StoryObj } from '@storybook/react-vite';
 
 import { createCodeStory } from '../../../../helpers.js';
@@ -31,7 +32,21 @@ function ActionBoxExample(props: ActionBoxProps): React.JSX.Element {
 export const CustomStyling: Story = {
     args: {
         ...defaultArgs,
-        actions: defaultArgs.actions?.slice(0, 2),
+        actions: [
+            ...(defaultArgs.actions?.slice(0, 2) ?? []),
+            {
+                label: 'Styled last action',
+                onClick: () => null,
+                icon: <RocketLaunch />,
+                sx: (theme: Theme) => ({
+                    color: theme.palette.common.black,
+                    backgroundColor: theme.palette.error.main,
+                    '&:hover': {
+                        backgroundColor: theme.palette.error.dark,
+                    },
+                }),
+            },
+        ],
         sx: (theme) => ({
             color: theme.palette.common.white,
             backgroundColor: theme.palette.success.main,

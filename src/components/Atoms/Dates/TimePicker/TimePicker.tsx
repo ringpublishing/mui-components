@@ -5,6 +5,7 @@ import type {} from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker as MuiTimePicker, TimePickerProps as MuiTimePickerProps } from '@mui/x-date-pickers-pro';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
+import { tv } from '../../../../helpers/typographyMode.js';
 
 /**
  * Props for the TimePicker component.
@@ -58,7 +59,7 @@ export function TimePicker(props: TimePickerProps): React.JSX.Element {
             },
             clearIcon: {
                 sx: {
-                    fontSize: '2.25rem',
+                    fontSize: tv('1.25rem'),
                 },
                 ...otherProps.slotProps?.clearIcon,
             },

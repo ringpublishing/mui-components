@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import type { StoryContext } from 'storybook/internal/types';
+import type { Meta } from '@storybook/react-vite';
 import * as MyLibrary from '../src/components/index.js';
 import * as RingDataGridHelpers from './components/Organisms/DataGrid/common/helpers.js';
 import * as RingDataGridColumnsAndRows from './components/Organisms/DataGrid/DataGrid.stories.columnsandrows.js';
@@ -15,10 +16,30 @@ import { Playground } from 'storybook-addon-code-editor';
 import * as Heading from '@tiptap/extension-heading';
 import * as Code from '@tiptap/extension-code';
 import * as dndKitSortable from '@dnd-kit/sortable';
+import * as tanstackReactQuery from '@tanstack/react-query';
 import * as RingDemoData from '../src/helpers/stories/ringDemoData.js';
 import * as RingDemoImages from '../src/helpers/stories/imagesData.js';
 
 export type CustomProps = Record<string, unknown>;
+
+/**
+ * Loosens the `argTypes` field of `Meta<T>` to accept dot-notation keys
+ * (`'slots.media'`, `'slotProps.card'`, …) that aren't part of the component's
+ * prop interface. Storybook supports such keys at runtime, but strict
+ * `Meta<typeof X>` rejects them. Use with `satisfies`:
+ *
+ * ```ts
+ * const meta = {
+ *     component: Foo,
+ *     argTypes: {
+ *         'slots.bar': { ... },
+ *     },
+ * } satisfies LooseArgTypesMeta<typeof Foo>;
+ * ```
+ */
+export type LooseArgTypesMeta<TComponent> = Omit<Meta<TComponent>, 'argTypes'> & {
+    argTypes: Record<string, unknown>;
+};
 
 function customPropsToString(customProps: CustomProps): string {
     let customPropsString = '';
@@ -130,6 +151,7 @@ export function createCodeStory<T = Record<string, unknown>>({
                     '@tiptap/extension-heading': Heading,
                     '@tiptap/extension-code': Code,
                     '@dnd-kit/sortable': dndKitSortable,
+                    '@tanstack/react-query': tanstackReactQuery,
                 }}
             />
         </div>

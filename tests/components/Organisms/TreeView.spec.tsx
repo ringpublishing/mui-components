@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material';
 import { EditOutlined } from '@mui/icons-material';
 import { render, fireEvent, RenderOptions, RenderResult, waitFor } from '@testing-library/react';
 
-import { getCreatedTheme, TreeView, TreeViewProps } from '../../../src/index.js';
+import { filterItems, getCreatedTheme, TreeView, TreeViewItem, TreeViewProps } from '../../../src/index.js';
 
 describe('Component: TreeView', () => {
     function renderTreeView(mockProps: TreeViewProps, options: RenderOptions = {}): RenderResult {
@@ -369,5 +369,33 @@ describe('Component: TreeView', () => {
                 expect(queryByText('Child Item')).toBeDefined();
             });
         });
+    });
+});
+
+describe('TreeView filterItems — regex metacharacters in the query', () => {
+    it('does not throw when the query is a regex metacharacter that also appears in the label', () => {
+        const items: TreeViewItem[] = [{ itemId: '1', label: 'Apple (red)' }];
+
+        expect(() => filterItems(items, '(')).not.toThrow();
+
+        const result = filterItems(items, '(');
+
+        expect(result).toHaveLength(1);
+        expect(result[0].label).toContain('Ring-TreeView-matchedLabel');
+    });
+
+    it('does not throw on "[" / "*" / "+" / "?" / "{" / "\\\\"', () => {
+        const items: TreeViewItem[] = [
+            { itemId: '1', label: 'Item [draft]' },
+            { itemId: '2', label: 'Note * important' },
+            { itemId: '3', label: 'Path C:\\\\users' },
+            { itemId: '4', label: 'Plus + sign' },
+            { itemId: '5', label: 'Maybe ? value' },
+            { itemId: '6', label: 'Brace { open' },
+        ];
+
+        for (const q of ['[', '*', '\\', '+', '?', '{']) {
+            expect(() => filterItems(items, q)).not.toThrow();
+        }
     });
 });

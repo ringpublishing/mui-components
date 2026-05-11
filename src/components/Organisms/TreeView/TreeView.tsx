@@ -1,11 +1,22 @@
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { Action } from '../../../types.js';
+import { escapeRegExp } from '../treeShared.js';
 import { DefaultTreeView, DefaultTreeViewProps } from './DefaultTreeView.js';
 import { CompactTreeView, CompactTreeViewProps } from './CompactTreeView.js';
 
+/**
+ * @deprecated Use `SimpleTree` or `DataTree` instead.
+ */
 export type VariantType = 'default' | 'compact';
+
+/**
+ * @deprecated Use `SimpleTree` or `DataTree` instead. Dynamic item caching is now handled by TanStack Query internally.
+ */
 export const globalDynamicItemsCache = new Map<string, { items: TreeViewItem[]; expandedChildren: Set<string> }>();
 
+/**
+ * @deprecated Use `SimpleTreeProps` or `DataTreeProps` instead.
+ */
 export interface CommonTreeViewProps extends CommonComponentProps {
     variant: VariantType;
     /**
@@ -45,6 +56,9 @@ export interface CommonTreeViewProps extends CommonComponentProps {
     onSelectedItemsChange?: (itemIds: string[]) => void;
 }
 
+/**
+ * @deprecated Use `SimpleTreeItem` or `DataTreeItem` instead.
+ */
 export interface TreeViewItem {
     /**
      * Unique identifier of the item.
@@ -96,8 +110,15 @@ export interface TreeViewItem {
     [columnName: string]: any;
 }
 
+/**
+ * @deprecated Use `SimpleTreeProps` or `DataTreeProps` instead.
+ */
 export type TreeViewProps = DefaultTreeViewProps | CompactTreeViewProps;
 
+/**
+ * @deprecated Use `SimpleTree` (compact variant) or `DataTree` (default variant) instead.
+ * This component is kept for backwards compatibility and will be removed in a future major version.
+ */
 export const TreeView = (props: TreeViewProps): React.JSX.Element => {
     switch (props.variant) {
         case 'compact':
@@ -150,7 +171,7 @@ export function filterItems(
             if (isMatch) {
                 highlightedLabel = queryWords.reduce((label, word) => {
                     return label.replace(
-                        new RegExp(word, 'gi'),
+                        new RegExp(escapeRegExp(word), 'gi'),
                         (match) => `<span class="Ring-TreeView-matchedLabel">${match}</span>`,
                     );
                 }, item.label);

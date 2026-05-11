@@ -91,7 +91,7 @@ exports[`Detail > EditableField > should render correctly 1`] = `
           Test Value
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
@@ -125,7 +125,7 @@ exports[`Detail > should render correctly 1`] = `
       class="MuiBox-root css-1yvzp6t"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-b82juz-MuiPaper-root-MuiCard-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-en36hu-MuiPaper-root-MuiCard-root"
         data-testid="ring-media"
         style="--Paper-shadow: none;"
       >
@@ -144,6 +144,7 @@ exports[`Detail > should render correctly 1`] = `
                 <img
                   class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-1rdlwal-MuiCardMedia-root"
                   data-first-child=""
+                  draggable="false"
                   src="url"
                 />
               </div>
@@ -246,7 +247,7 @@ exports[`Detail > should render correctly 1`] = `
           Test Title
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
@@ -375,7 +376,7 @@ exports[`Detail > should render correctly 1`] = `
                 Editable value
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
                 data-testid="ring-editabletext-detail-2-edit"
                 tabindex="0"
                 type="button"
@@ -487,7 +488,7 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-1gi1ppv-MuiStack-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1vdeyaj-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1s71c2p-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-detail-bottom-action-0"
             tabindex="0"
             type="button"

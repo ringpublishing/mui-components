@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import type { StoryObj } from '@storybook/react-vite';
 import { createCodeStory } from '../../../../helpers.js';
 import { Accordion } from '../../../../../src/index.js';
@@ -17,6 +17,14 @@ export const Default: Story = {
         children: <TextField required={true} id="outlined-required" label="Required" defaultValue="Hello World" />,
     },
     render: (args, context) => {
+        if (context?.viewMode === 'story') {
+            return (
+                <Box style={{ margin: '0 auto', width: '300px', marginTop: '50vh' }}>
+                    <Example {...args} />
+                </Box>
+            );
+        }
+
         return createCodeStory({
             context,
             customProps: {},

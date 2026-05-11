@@ -24,6 +24,7 @@ export function renderActionCell<T extends ActionCellProps>(params: GridRenderCe
                 ref={anchorRef}
                 size={size}
                 onClick={(e): void => {
+                    e.stopPropagation();
                     document.dispatchEvent(new MouseEvent('click', {}));
                 }}
             >

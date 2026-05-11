@@ -28,6 +28,8 @@ The component is built with flexibility in mind and can be used in various scena
 - [Hoverable](#hoverable)
 - [Checkbox](#checkbox)
 - [Slots](#slots)
+- [Slot props](#slot-props)
+- [Card Events](#card-events)
 - [Advanced Example](#advanced-example)
 
 ## Default
@@ -230,10 +232,10 @@ The MediaCard component offers a slot system that allows for advanced customizat
 
 ### Available Slots
 
-| Slot name   | Default component | Description                                                                                                                                    |
-| ----------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mediaCard` | `CardMedia`       | Custom component replacing the default media display element. Props `ratio` and `objectFit` affect its proportions and content fitting method. |
-| `footer`    | -                 | Custom component for the footer area.                                                                                                          |
+| Slot        | Type        | Default     | Description                                                                                                                                                 |
+| ----------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mediaCard` | `ReactNode` | `CardMedia` | Custom React node rendered in place of the default `<CardMedia>`. Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box. |
+| `footer`    | `ReactNode` | —           | Optional custom footer rendered below the card content (inside `<CardActions>`).                                                                            |
 
 ### Using Slots
 
@@ -258,6 +260,78 @@ Slots provide full control over the behavior and appearance of specific parts of
 ```
 
 <Canvas of={Stories.Slots} />
+
+## Slot props
+
+The `slotProps` prop lets you forward arbitrary props to the internal sub-components without redefining each one as a top-level MediaCard prop. It mirrors the [MUI `slotProps` convention](https://mui.com/material-ui/customization/slots-and-classes/).
+
+| Slot prop   | Type                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `card`      | `Omit<CardProps, "children" \| "variant" \| "square" \| "onClick" \| "tabIndex" \| "elevation">` | Props applied to the root MUI `<Card>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level MediaCardProps (`variant`, `square`, `onClick`, `tabIndex`, `className`, `sx`) take precedence and are merged on top. `elevation` is excluded because MediaCard manages it implicitly via `variant` (`outlined` → 0, `elevation` → 1) — overriding it would diverge from the design system. |
+| `cardMedia` | `CardMediaProps`                                                                                 | Props applied to the default `<CardMedia>`. Used **only** when `slots.mediaCard` is not provided. Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, etc.                                                                                                                                                                                                                                                                       |
+| `checkbox`  | `CheckboxProps & { showOnHover?: boolean }`                                                      | Props applied to the selection `<Checkbox>`. The custom `showOnHover` flag hides the checkbox until the card is hovered (useful for grid scenarios). When `undefined`, the checkbox is not rendered.                                                                                                                                                                                                                                                                         |
+| `footer`    | `CardActionsProps`                                                                               | Props applied to the `<CardActions>` element wrapping `slots.footer` (e.g. `sx`, `disableSpacing`).                                                                                                                                                                                                                                                                                                                                                                          |
+
+### Precedence rules
+
+When the same prop can be supplied through more than one channel:
+
+- **`variant`, `square`, `onClick`, `tabIndex`** — only top-level MediaCardProps. Excluded from `slotProps.card` typing to prevent accidental override.
+- **`className`, `sx`** — additive: top-level value is **merged on top of** `slotProps.card` value (for `className` they are concatenated, for `sx` they form an array layer).
+- **All other props** — supplied through `slotProps.card` are forwarded to `<Card>` directly.
+
+```jsx
+<MediaCard
+    slotProps={{
+        card: {
+            onMouseEnter: () => setHovered(true),
+            onMouseLeave: () => setHovered(false),
+            onContextMenu: (e) => {
+                e.preventDefault();
+                openMenu();
+            },
+            'aria-label': 'Open detail view',
+        },
+        checkbox: { checked, onClick: toggle, showOnHover: !checked },
+    }}
+/>
+```
+
+## Card Events
+
+`MediaCard` exposes the underlying MUI `<Card>` element through the `slotProps.card` channel. Any prop that the `Card` component accepts is forwarded to the root element — including all native DOM event handlers.
+
+### Common Use-Cases
+
+- **Hover-driven interactions** — `onMouseEnter` / `onMouseLeave` to trigger a video preview, fetch on demand, or update tooltips.
+- **Keyboard accessibility** — `onKeyDown` / `onFocus` / `onBlur` to integrate the card into custom keyboard navigation.
+- **Right-click menus** — `onContextMenu` for custom action menus.
+- **Accessibility attributes** — `aria-*`, `role`, `aria-describedby`, etc.
+- **Test hooks** — `data-*` attributes beyond the built-in `dataTestIdSuffix`.
+
+### Precedence
+
+Top-level `MediaCardProps` (`variant`, `square`, `tabIndex`, `onClick`, `className`, `sx`) take precedence over values supplied through `slotProps.card`. They are merged on top — top-level wins. Use `slotProps.card` for everything that is not already exposed at the top level. `elevation` is excluded from `slotProps.card` because MediaCard manages it implicitly via `variant` — overriding would diverge from the design system.
+
+```jsx
+<MediaCard
+    slotProps={{
+        card: {
+            onMouseEnter: () => setHovered(true),
+            onMouseLeave: () => setHovered(false),
+            onContextMenu: (e) => {
+                e.preventDefault();
+                openMenu();
+            },
+            'aria-label': 'Open detail view',
+        },
+    }}
+/>
+```
+
+The example below combines `slots.mediaCard` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
+
+<Canvas of={Stories.CardEvents} />
 
 ## Advanced Example
 

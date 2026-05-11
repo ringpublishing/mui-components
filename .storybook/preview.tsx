@@ -1,19 +1,18 @@
 /// <reference types="vite/client" />
 
-import * as React from 'react';
 import { Box, PaletteMode } from '@mui/material';
 import { Preview, ReactRenderer } from '@storybook/react-vite';
 import { ThemeConfig } from '../src/index.js';
 import { ArgTypes, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs/blocks';
 import { setupMonaco } from 'storybook-addon-code-editor';
+import type * as Monaco from 'monaco-editor';
 import { LicenseInfo } from '@mui/x-license';
 
 import './styles.css';
 import { CommonLanguages } from '../src/helpers/commonTypes.js';
 
-//FIXME: co z typami??
 setupMonaco({
-    onMonacoLoad(monaco) {
+    onMonacoLoad: (monaco: typeof Monaco) => {
         // Add type definitions for this library.
         monaco.languages.typescript.typescriptDefaults.addExtraLib('file:///node_modules/@mui/types/index.d.ts');
         monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -37,12 +36,20 @@ const preview: Preview = {
             const mode = (context.globals.theme ?? 'light') as PaletteMode;
             const language = (context.globals.locale ?? CommonLanguages.enUS) as CommonLanguages;
 
+            const isCentered = context.viewMode !== 'docs' && context.parameters?.layout === 'centered';
+
             return (
                 <ThemeConfig mode={mode} language={language}>
                     <Box
                         sx={{
                             minHeight: context.viewMode === 'docs' ? undefined : '100vh',
                             bgcolor: 'background.default',
+                            ...(isCentered && {
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: 3,
+                            }),
                         }}
                     >
                         {context.viewMode !== 'docs' && context.parameters?.customButtons && (
@@ -58,7 +65,13 @@ const preview: Preview = {
     ],
     parameters: {
         actions: {
-            argTypesRegex: '^on.*',
+            // Auto-binding every `on*` callback prop to a Storybook action
+            // means components see a function for callbacks the consumer never
+            // passed (e.g. `onDragAndDropEnd` is always non-undefined in
+            // stories), which breaks any "is the callback present?" gating.
+            // Stories that want action logging should add `action:` to the
+            // specific argType (or call `action(...)` explicitly in render).
+            argTypesRegex: null,
         },
         controls: {
             matchers: {

@@ -147,5 +147,22 @@ describe('Media', () => {
             expect(video).toBeTruthy();
             expect(video?.src).toContain('test-video.mp4');
         });
+
+        it('should render slots.media instead of the default <CardMedia> when both image and slots.media are provided', () => {
+            const { getByTestId } = renderWithTheme(
+                <Media
+                    title="Custom slot"
+                    image="https://placehold.co/600x300/black/white"
+                    slots={{
+                        media: <div data-testid="custom-media">Custom React node</div>,
+                    }}
+                />,
+            );
+
+            // Custom slot replaces the default render.
+            expect(getByTestId('custom-media')).toBeDefined();
+            // Default <img> should not be rendered when slots.media is provided.
+            expect(document.querySelector('img')).toBeNull();
+        });
     });
 });

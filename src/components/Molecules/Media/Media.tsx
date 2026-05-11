@@ -4,10 +4,13 @@ import {
     Card,
     CardMedia,
     CardMediaProps,
+    CardProps,
     Chip,
     ChipProps,
     IconButton,
     Stack,
+    SxProps,
+    Theme,
     Tooltip,
     Typography,
 } from '@mui/material';
@@ -62,6 +65,11 @@ export interface MediaProps extends CommonComponentProps, AspectRatioOwnerStateP
     disableFullScreenPreview?: boolean;
 
     /**
+     * Overridable component slots. `media` accepts any ReactNode and replaces the default
+     * `<CardMedia>` (e.g. for a custom video player or interactive preview component).
+     */
+    slots?: Slots;
+    /**
      * The props used for each component slot.
      * @default {}
      */
@@ -73,12 +81,34 @@ interface MediaSlotPropsBackgroundColor {
 }
 
 type MediaSlotProps = CardMediaProps &
-    React.AudioHTMLAttributes<HTMLAudioElement> & {
+    React.AudioHTMLAttributes<HTMLAudioElement> &
+    React.VideoHTMLAttributes<HTMLVideoElement> & {
         sx?: MediaSlotPropsBackgroundColor;
     };
 
+interface Slots {
+    /**
+     * Custom React node rendered in place of the default `<CardMedia>`.
+     * Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box.
+     *
+     * **Note:** when this slot is provided, the built-in `<LightBox>` full-screen preview is
+     * suppressed (the slot replaces the default render and `<LightBox>` only handles still
+     * images). To support a custom full-screen viewer (e.g. a video player), render your own
+     * modal triggered via `slotProps.card` event handlers.
+     */
+    media?: ReactNode;
+}
+
 interface SlotProps {
     media?: MediaSlotProps;
+    /**
+     * Props applied to the root MUI `<Card>` element. Useful for attaching event handlers
+     * (`onMouseEnter`, `onMouseLeave`, `onFocus`) or extra DOM attributes.
+     *
+     * Top-level Media props (`sx`, internal classes, `data-testid`) take precedence — they
+     * are merged on top, not replaced.
+     */
+    card?: Omit<CardProps, 'children' | 'variant' | 'square' | 'tabIndex' | 'elevation' | 'onClick'>;
 }
 
 /**
@@ -96,7 +126,9 @@ export function Media(props: MediaProps): React.JSX.Element {
         disableFullScreenPreview = false,
         ratio,
         objectFit,
+        slots,
         slotProps = {},
+        className,
         sx,
         dataTestIdSuffix,
     } = props;
@@ -137,21 +169,29 @@ export function Media(props: MediaProps): React.JSX.Element {
         setImageFullScreenPreview(false);
     }, [setImageFullScreenPreview]);
 
+    const { sx: cardSlotSx, className: cardSlotClassName, ...cardSlotRest } = slotProps?.card ?? {};
+
+    const mergedClassName = [cardSlotClassName, className].filter(Boolean).join(' ') || undefined;
+
+    type SxItem = boolean | Exclude<SxProps<Theme>, ReadonlyArray<unknown>>;
+    const internalCardSx: Exclude<SxProps<Theme>, ReadonlyArray<unknown> | ((theme: Theme) => unknown)> = {
+        width: '100%',
+        height: 'auto',
+        alignItems: 'center',
+        position: 'relative',
+        borderRadius: 0,
+        ...(isAudio && { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }),
+    };
+
+    const sxArray: SxItem[] = [
+        internalCardSx,
+        ...(Array.isArray(cardSlotSx) ? cardSlotSx : cardSlotSx ? [cardSlotSx] : []),
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+    ];
+
     return (
         <>
-            <Card
-                elevation={0}
-                sx={{
-                    width: '100%',
-                    height: 'auto',
-                    alignItems: 'center',
-                    position: 'relative',
-                    borderRadius: 0,
-                    ...(isAudio && { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }),
-                    ...sx,
-                }}
-                data-testid={dataTestId}
-            >
+            <Card {...cardSlotRest} elevation={0} className={mergedClassName} sx={sxArray} data-testid={dataTestId}>
                 <Box
                     component="figure"
                     margin={0}
@@ -173,7 +213,11 @@ export function Media(props: MediaProps): React.JSX.Element {
                             <StatusLabelsStack statusLabels={statusLabels} />
                         )}
                         {actions?.length && <MediaActions actions={actions} dataTestIdSuffix={dataTestIdSuffix} />}
-                        {(image || slotProps?.media?.src) && (isLoading || isSuccessfullyLoaded) ? (
+                        {slots?.media ? (
+                            <AspectRatio ratio={ratio} objectFit={objectFit}>
+                                {slots.media}
+                            </AspectRatio>
+                        ) : (image || slotProps?.media?.src) && (isLoading || isSuccessfullyLoaded) ? (
                             <AspectRatio
                                 ratio={ratio}
                                 objectFit={objectFit}
@@ -187,6 +231,7 @@ export function Media(props: MediaProps): React.JSX.Element {
                                     component="img"
                                     src={isImage(image) ? image.src : image}
                                     title={title}
+                                    draggable={false}
                                     onClick={openImageFullScreenPreview}
                                     onLoad={handleImageSuccessfullyLoaded}
                                     onError={handleImageLoadingError}
@@ -220,7 +265,7 @@ export function Media(props: MediaProps): React.JSX.Element {
                 </Box>
             </Card>
             <Box sx={{ position: 'absolute' }}>
-                {image && (
+                {image && !slots?.media && (
                     <LightBox
                         onClose={onLightBoxClose}
                         dataTestIdSuffix={dataTestIdSuffix}

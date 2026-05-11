@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react-vite';
+import type { LooseArgTypesMeta } from '../../../helpers.js';
 import { MediaCard } from '../../../../src/index.js';
 import { Default } from './stories/Default.js';
 import { AspectRatio } from './stories/AspectRatio.js';
@@ -8,11 +8,12 @@ import { StatusLabels } from './stories/StatusLabels.js';
 import { Hoverable } from './stories/Hoverable.js';
 import { Checkbox } from './stories/Checkbox.js';
 import { Slots } from './stories/Slots.js';
+import { CardEvents } from './stories/CardEvents.js';
 import { AdvancedExample } from './stories/AdvancedExample.js';
 import defaultArgs from './common/defaultArgs.js';
 import MediaCardMdx from './MediaCard.mdx';
 
-const meta: Meta<typeof MediaCard> = {
+const meta = {
     component: MediaCard,
     parameters: {
         docs: {
@@ -147,26 +148,100 @@ const meta: Meta<typeof MediaCard> = {
         // customization
         slots: {
             control: 'object',
-            description: 'Overridable component slots.',
+            description: 'The components used for each slot inside. See the **Slots** section below.',
             table: {
                 category: 'customization',
-                type: { summary: '{ mediaCard: ReactNode; footer?: ReactNode }' },
+                type: { summary: 'object' },
             },
         },
         slotProps: {
             control: 'object',
-            description: 'Props applied to the slots inside the component.',
+            description: 'The props used for each slot inside. See the **Slot props** section below.',
             table: {
                 category: 'customization',
-                type: {
-                    summary:
-                        '{ cardMedia?: CardMediaProps; checkbox?: CheckboxProps & {showOnHover?: boolean}; footer?: CardActionsProps }',
-                },
+                type: { summary: 'object' },
             },
         },
+
+        // slots — one row per slot, MUI-style breakdown of the `slots` object
+        'slots.mediaCard': {
+            name: 'slots.mediaCard',
+            description:
+                'Custom React node rendered in place of the default `<CardMedia>`. Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box.',
+            table: {
+                category: 'slots',
+                type: { summary: 'ReactNode' },
+            },
+            control: false,
+        },
+        'slots.footer': {
+            name: 'slots.footer',
+            description: 'Optional custom footer rendered below the card content (inside `<CardActions>`).',
+            table: {
+                category: 'slots',
+                type: { summary: 'ReactNode' },
+            },
+            control: false,
+        },
+
+        // slotProps — one row per slot prop, MUI-style breakdown of the `slotProps` object
+        'slotProps.card': {
+            name: 'slotProps.card',
+            description:
+                'Props applied to the root MUI `<Card>`. **Recommended channel for DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level MediaCardProps (`variant`, `square`, `onClick`, `tabIndex`, `className`, `sx`) take precedence and are merged on top.',
+            table: {
+                category: 'slotProps',
+                type: {
+                    summary:
+                        'Omit<CardProps, "children" | "variant" | "square" | "onClick" | "tabIndex" | "elevation">',
+                },
+            },
+            control: false,
+        },
+        'slotProps.cardMedia': {
+            name: 'slotProps.cardMedia',
+            description:
+                'Props applied to the default `<CardMedia>`. Used only when `slots.mediaCard` is **not** provided. Lets you switch the underlying element (`component: "video" | "audio" | "img"`), tweak `src`, etc.',
+            table: {
+                category: 'slotProps',
+                type: { summary: 'CardMediaProps' },
+            },
+            control: false,
+        },
+        'slotProps.checkbox': {
+            name: 'slotProps.checkbox',
+            description:
+                'Props applied to the selection `<Checkbox>`. The custom `showOnHover` flag hides the checkbox until the card is hovered (useful for grids). When `undefined`, the checkbox is not rendered.',
+            table: {
+                category: 'slotProps',
+                type: { summary: 'CheckboxProps & { showOnHover?: boolean }' },
+            },
+            control: false,
+        },
+        'slotProps.footer': {
+            name: 'slotProps.footer',
+            description:
+                'Props applied to the `<CardActions>` element wrapping `slots.footer` (e.g. `sx`, `disableSpacing`).',
+            table: {
+                category: 'slotProps',
+                type: { summary: 'CardActionsProps' },
+            },
+            control: false,
+        },
     },
-};
+} satisfies LooseArgTypesMeta<typeof MediaCard>;
 
 export default meta;
 
-export { Default, AspectRatio, Placeholder, Actions, StatusLabels, Hoverable, Checkbox, Slots, AdvancedExample };
+export {
+    Default,
+    AspectRatio,
+    Placeholder,
+    Actions,
+    StatusLabels,
+    Hoverable,
+    Checkbox,
+    Slots,
+    CardEvents,
+    AdvancedExample,
+};

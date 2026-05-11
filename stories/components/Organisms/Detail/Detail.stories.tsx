@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react-vite';
+import type { LooseArgTypesMeta } from '../../../helpers.js';
 import { Detail } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
 import { Default } from './stories/Default.js';
@@ -6,6 +6,7 @@ import { EmptyState } from './stories/EmptyState.js';
 import { WithCustomSlots } from './stories/WithCustomSlots.js';
 import { WithBottomIconButtons } from './stories/WithBottomIconButtons.js';
 import { WithBottomChips } from './stories/WithBottomChips.js';
+import { WithCustomMediaSlot } from './stories/WithCustomMediaSlot.js';
 import DetailMdx from './Detail.mdx';
 
 const meta = {
@@ -75,13 +76,10 @@ const meta = {
         },
         slots: {
             control: 'object',
-            description: 'Overridable slots: afterMain, afterDescriptionItems, afterBottomActions.',
+            description: 'The components used for each slot inside. See the **Slots** section below.',
             table: {
                 category: 'customization',
-                type: {
-                    summary:
-                        '{ afterMain?: React.JSX.Element; afterDescriptionItems?: React.JSX.Element; afterBottomActions?: React.JSX.Element }',
-                },
+                type: { summary: 'object' },
             },
         },
         dataTestIdSuffix: {
@@ -92,9 +90,67 @@ const meta = {
                 type: { summary: 'string' },
             },
         },
+
+        // slots — one row per slot, MUI-style breakdown
+        'slots.afterMain': {
+            name: 'slots.afterMain',
+            description: 'Custom React node rendered after the main media/title section.',
+            table: { category: 'slots', type: { summary: 'React.JSX.Element' } },
+            control: false,
+        },
+        'slots.afterDescriptionItems': {
+            name: 'slots.afterDescriptionItems',
+            description: 'Custom React node rendered after the description items sections.',
+            table: { category: 'slots', type: { summary: 'React.JSX.Element' } },
+            control: false,
+        },
+        'slots.afterBottomActions': {
+            name: 'slots.afterBottomActions',
+            description: 'Custom React node rendered after the bottom action buttons.',
+            table: { category: 'slots', type: { summary: 'React.JSX.Element' } },
+            control: false,
+        },
+        'main.mediaProps.slots.media': {
+            name: 'main.mediaProps.slots.media',
+            description:
+                'Custom React node rendered in place of the default `<CardMedia>` in the media area. ' +
+                'Wrapped in `<AspectRatio>` so `mediaProps.ratio` and `mediaProps.objectFit` still apply. ' +
+                'When provided, the built-in LightBox / fullscreen preview is suppressed.',
+            table: { category: 'slots', type: { summary: 'ReactNode' } },
+            control: false,
+        },
+
+        // slotProps — one row per slot prop, MUI-style breakdown
+        'main.mediaProps.slotProps.media': {
+            name: 'main.mediaProps.slotProps.media',
+            description:
+                'Props applied to the default `<CardMedia>` in the media area. Used by the default render path ' +
+                '(replaced when `main.mediaProps.slots.media` is set). Lets you switch the underlying element ' +
+                '(`component: "video" | "audio" | "img"`), tweak `src`, attach native media attributes.',
+            table: {
+                category: 'slotProps',
+                type: { summary: 'CardMediaProps & AudioHTMLAttributes & VideoHTMLAttributes' },
+            },
+            control: false,
+        },
+        'main.mediaProps.slotProps.card': {
+            name: 'main.mediaProps.slotProps.card',
+            description:
+                'Props applied to the root MUI `<Card>` rendered inside `<Media>`. ' +
+                '**Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, ' +
+                '`onKeyDown`, `aria-*`, `data-*`, …) on the media area.',
+            table: {
+                category: 'slotProps',
+                type: {
+                    summary:
+                        'Omit<CardProps, "children" | "variant" | "square" | "tabIndex" | "elevation" | "onClick">',
+                },
+            },
+            control: false,
+        },
     },
-} satisfies Meta<typeof Detail>;
+} satisfies LooseArgTypesMeta<typeof Detail>;
 
 export default meta;
 
-export { Default, EmptyState, WithCustomSlots, WithBottomIconButtons, WithBottomChips };
+export { Default, EmptyState, WithCustomSlots, WithBottomIconButtons, WithBottomChips, WithCustomMediaSlot };

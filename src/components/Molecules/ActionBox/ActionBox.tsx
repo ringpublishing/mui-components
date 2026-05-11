@@ -13,6 +13,8 @@ import {
     PopperPlacementType,
     PopperProps,
     Stack,
+    SxProps,
+    Theme,
     Tooltip,
     TooltipProps,
     useTheme,
@@ -32,6 +34,10 @@ export interface ActionBoxItem extends Action {
      * If true, the Action Box will have a separator before the first action
      */
     hasSeparatorBefore?: boolean;
+    /**
+     * Custom styles applied to the MenuItem element for this action
+     */
+    sx?: SxProps<Theme>;
 }
 
 export interface ActionBoxProps extends CommonComponentProps, Omit<PopperProps, 'open' | 'children' | 'anchorEl'> {
@@ -157,7 +163,14 @@ export function ActionBox(props: ActionBoxProps): React.JSX.Element {
                                                     }}
                                                     disabled={action.disabled || false}
                                                     data-testid={`${dataTestId}-item-${action.label.toLowerCase()}`}
-                                                    sx={action.disabled ? { pointerEvents: 'none' } : undefined}
+                                                    sx={[
+                                                        action.disabled ? { pointerEvents: 'none' } : {},
+                                                        ...(Array.isArray(action.sx)
+                                                            ? action.sx
+                                                            : action.sx
+                                                              ? [action.sx]
+                                                              : []),
+                                                    ]}
                                                 >
                                                     <Stack
                                                         direction="row"

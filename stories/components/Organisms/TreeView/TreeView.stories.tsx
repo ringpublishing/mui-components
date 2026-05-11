@@ -9,173 +9,70 @@ import { WithDynamicLoading } from './stories/WithDynamicLoading.js';
 import { ControlledSelection } from './stories/ControlledSelection.js';
 import TreeViewMdx from './TreeView.mdx';
 
+/**
+ * @deprecated Use `SimpleTree` (compact) or `DataTree` (default) instead.
+ */
 const meta: Meta<typeof TreeView> = {
     component: TreeView,
+    // eslint-disable-next-line storybook/no-title-property-in-meta
+    title: 'Organisms/TreeView (Deprecated)',
     parameters: {
         docs: {
             page: TreeViewMdx,
         },
+        componentSubtitle: 'Deprecated — prefer `SimpleTree` or `DataTree`.',
+        layout: 'fullscreen',
     },
     argTypes: {
         variant: {
-            control: 'radio',
+            control: 'select',
             options: ['default', 'compact'],
-            description: 'The visual variant of the TreeView.',
-            table: {
-                category: 'appearance',
-                type: { summary: "'default' | 'compact'" },
-                defaultValue: { summary: "'default'" },
-            },
+            description: 'Presentation variant.',
+            table: { category: 'behavior' },
         },
         items: {
             control: 'object',
             description:
-                'Tree items to be displayed. Their attributes contain itemId, label, items (children), expanded, rowActions, withCheckbox, checked, checkboxDisabled and values for columns.',
-            table: {
-                category: 'content',
-                type: {
-                    summary: 'TreeViewItem[]',
-                    detail: '{ itemId: string; label: string; items?: TreeViewItem[]; expanded?: boolean; rowActions?: Action[]; withCheckbox?: boolean; checked?: boolean; checkboxDisabled?: boolean; element?: React.JSX.Element; loadItems?: (item: TreeViewItem) => Promise<TreeViewItem[]> | TreeViewItem[]; [columnName: string]: any }[]',
-                },
-            },
-        },
-        onExpand: {
-            description: 'Callback fired when the item is expanded or collapsed.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(itemId: string) => void' },
-            },
-        },
-        onClickRow: {
-            description: 'Callback fired when the row is clicked.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(itemId: string) => void' },
-            },
+                'Tree items: itemId, label, items (children), expanded, rowActions, withCheckbox, checked, columns, loadItems, etc.',
+            table: { category: 'content' },
         },
         withSearch: {
             control: 'boolean',
-            description: 'If true, the search box will be shown and user will be able to filter by item labels.',
-            table: {
-                category: 'behavior',
-                type: { summary: 'boolean' },
-                defaultValue: { summary: 'false' },
-            },
+            description: 'Show label search.',
+            table: { category: 'behavior', defaultValue: { summary: 'false' } },
         },
         searchDebounceTime: {
             control: 'number',
-            description: 'Debounce time for the search box in milliseconds.',
-            table: {
-                category: 'behavior',
-                type: { summary: 'number' },
-                defaultValue: { summary: '500' },
-            },
+            table: { category: 'behavior', defaultValue: { summary: '500' } },
         },
-        searchPlaceholder: {
-            control: 'text',
-            description:
-                'Placeholder for the search input. When `withSearch` is true, this will be used as the placeholder text.',
-            table: {
-                category: 'content',
-                type: { summary: 'string' },
-            },
-        },
-        selectedItems: {
-            control: 'object',
-            description:
-                'If specified, this prop controls the selected items. If not provided, the component will manage selection state internally.',
-            table: {
-                category: 'state',
-                type: { summary: 'string[]' },
-            },
-        },
-        onSelectedItemsChange: {
-            description: 'Callback fired when the selection changes.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(itemIds: string[]) => void' },
-            },
-        },
+        searchPlaceholder: { control: 'text', table: { category: 'content' } },
+        selectedItems: { control: 'object', table: { category: 'state' } },
+        onSelectedItemsChange: { control: false, table: { category: 'callbacks' } },
+        onExpand: { control: false, table: { category: 'callbacks' } },
+        onClickRow: { control: false, table: { category: 'callbacks' } },
         columns: {
             control: 'object',
-            description:
-                'Columns definition for the default variant. Each column should have a name (matching item attributes), width, and header.',
-            table: {
-                category: 'content',
-                type: {
-                    summary: 'Column[]',
-                    detail: '{ name: string; width: number; header: string; }[]',
-                },
-            },
+            description: 'Default variant: column definitions (name, width, header).',
+            table: { category: 'content' },
         },
-        showColumnHeaders: {
-            control: 'boolean',
-            description: 'If true, column headers will be displayed. Only applicable to the default variant.',
-            table: {
-                category: 'appearance',
-                type: { summary: 'boolean' },
-                defaultValue: { summary: 'false' },
-            },
-        },
-        itemsLabelColumnHeader: {
-            control: 'text',
-            description: 'The label for the item label column header. Only applicable to the default variant.',
-            table: {
-                category: 'content',
-                type: { summary: 'string' },
-                defaultValue: { summary: "''" },
-            },
-        },
-        onCheckboxChange: {
-            description:
-                'Callback fired when the checkbox is checked or unchecked. Only applicable to the default variant.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(itemId: string, checked: boolean) => void' },
-            },
-        },
+        showColumnHeaders: { control: 'boolean', table: { category: 'appearance' } },
+        itemsLabelColumnHeader: { control: 'text', table: { category: 'content' } },
+        onCheckboxChange: { control: false, table: { category: 'callbacks' } },
         onDragAndDropEnd: {
-            description:
-                'Callback fired when drag and drop is finished. If not provided, drag and drop will not be enabled. Only applicable to the default variant.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(sourceAbsolutePosition: number[], destinationAbsolutePosition: number[]) => void' },
-            },
+            control: false,
+            description: 'Default variant: reorder callback.',
+            table: { category: 'callbacks' },
         },
         onDropIn: {
-            description:
-                'Callback fired when an item is dropped into another item. If not provided, drop-in will not be available. Only applicable to the default variant.',
-            table: {
-                category: 'callbacks',
-                type: { summary: '(itemId: string, dropInItemId: string) => void' },
-            },
+            control: false,
+            description: 'Default variant: nest-under-target callback.',
+            table: { category: 'callbacks' },
         },
-        dragAndDropTooltipTitle: {
-            control: 'text',
-            description:
-                'Title for tooltip shown when user hovers over an item with expanded children and drag and drop is enabled.',
-            table: {
-                category: 'content',
-                type: { summary: 'string' },
-            },
-        },
-        dragAndDropTooltipPlacement: {
-            control: 'text',
-            description: 'Placement of the drag and drop tooltip.',
-            table: {
-                category: 'appearance',
-                type: { summary: "PopperProps['placement']" },
-                defaultValue: { summary: "'top'" },
-            },
-        },
-        dataTestIdSuffix: {
-            control: 'text',
-            description: 'Suffix appended to the data-testid attribute.',
-            table: {
-                category: 'testing',
-                type: { summary: 'string' },
-            },
-        },
+        dragAndDropTooltipTitle: { control: 'text', table: { category: 'content' } },
+        dragAndDropTooltipPlacement: { control: 'text', table: { category: 'appearance' } },
+        dataTestIdSuffix: { control: 'text', table: { category: 'testing' } },
+        sx: { control: 'object', table: { category: 'customization' } },
+        className: { control: 'text', table: { category: 'customization' } },
     },
 };
 

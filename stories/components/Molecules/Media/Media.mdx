@@ -21,6 +21,9 @@ Renders multimedia content (images, video, and audio) in a card container with c
 - [Video](#video)
 - [Audio](#audio)
 - [Audio with Background](#audio-with-background)
+- [Slots](#slots)
+- [Slot props](#slot-props)
+- [Card Events](#card-events)
 
 ## Default
 
@@ -102,3 +105,73 @@ Audio player with a custom pastel background color applied via `slotProps.media.
 ```
 
 <Canvas of={Stories.AudioWithBackground} />
+
+## Slots
+
+The `Media` component exposes a slot system that lets you replace the default media element with your own implementation.
+
+### Available Slots
+
+| Slot    | Type        | Default     | Description                                                                                                                                                 |
+| ------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media` | `ReactNode` | `CardMedia` | Custom React node rendered in place of the default `<CardMedia>`. Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box. |
+
+### Using `slots.media`
+
+Use the `media` slot when you need full control over the rendered element — for example a custom video player, an interactive preview component, or a third-party library wrapper. When `slots.media` is provided, `slotProps.media` is ignored and the LightBox full-screen preview is suppressed.
+
+```jsx
+<Media
+    ratio="16/9"
+    slots={{
+        media: <CustomPlayer src="https://example.com/clip.mp4" />,
+    }}
+/>
+```
+
+## Slot props
+
+The `slotProps` prop forwards arbitrary props to internal sub-components without redefining each one as a top-level Media prop. It mirrors the [MUI `slotProps` convention](https://mui.com/material-ui/customization/slots-and-classes/).
+
+| Slot prop | Type                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media`   | `CardMediaProps & AudioHTMLAttributes & VideoHTMLAttributes`                                     | Props applied to the default `<CardMedia>`. Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, attach native media attributes (`controls`, `autoPlay`, `muted`, `playsInline`, etc.). When `slots.media` replaces the default render, only `component: 'audio'` is still consulted to apply audio-specific wrapper styling (transparent background); other props on `slotProps.media` are not forwarded to the custom slot node.                                        |
+| `card`    | `Omit<CardProps, "children" \| "variant" \| "square" \| "tabIndex" \| "elevation" \| "onClick">` | Props applied to the root MUI `<Card>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level Media props (`sx`) take precedence and are merged on top. `onClick` is excluded — Media is not designed as a clickable container; use `slotProps.media.onClick` for clicks scoped to the default `<CardMedia>` element, or wrap Media in your own click handler. `elevation` is excluded — Media always renders as `elevation={0}`. |
+
+### Precedence rules
+
+When the same prop can be supplied through more than one channel:
+
+- **`elevation`, `variant`, `square`, `tabIndex`** — managed internally by `Media` (the root `<Card>` is always rendered with `elevation={0}`). Excluded from `slotProps.card` typing to prevent accidental override.
+- **`onClick`** — excluded. `Media` is not designed as a clickable container, and exposing both `slotProps.card.onClick` (whole card) and `slotProps.media.onClick` (default `<CardMedia>` only) at once would create two competing click channels for similar interactions. If you need a click handler on the rendered media element, use `slotProps.media.onClick`. If you need a click handler on the entire card, wrap `<Media>` in your own click container.
+- **`sx`** — additive: top-level `sx` is **merged on top of** `slotProps.card.sx` (they form an array layer for MUI).
+- **All other props** — supplied through `slotProps.card` are forwarded to `<Card>` directly.
+
+```jsx
+<Media
+    slots={{ media: <video ref={videoRef} muted /> }}
+    slotProps={{
+        card: {
+            onMouseEnter: () => videoRef.current?.play(),
+            onMouseLeave: () => videoRef.current?.pause(),
+            'aria-label': 'Hover to preview',
+        },
+    }}
+/>
+```
+
+## Card Events
+
+`Media` forwards the underlying MUI `<Card>` element through the `slotProps.card` channel. Any prop that the `Card` component accepts is forwarded to the root element — including all native DOM event handlers.
+
+### Common Use-Cases
+
+- **Hover-driven interactions** — `onMouseEnter` / `onMouseLeave` to trigger a video preview, fetch on demand, or update tooltips.
+- **Keyboard accessibility** — `onKeyDown` / `onFocus` / `onBlur` to integrate the media into custom keyboard navigation.
+- **Right-click menus** — `onContextMenu` for custom action menus.
+- **Accessibility attributes** — `aria-*`, `role`, `aria-describedby`, etc.
+- **Test hooks** — `data-*` attributes beyond the built-in `dataTestIdSuffix`.
+
+The example below combines `slots.media` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
+
+<Canvas of={Stories.CardEvents} />

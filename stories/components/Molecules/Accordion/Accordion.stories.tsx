@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { Accordion } from '../../../../src/index.js';
 import { Default } from './stories/Default.js';
-import { WithLabel } from './stories/WithLabel.js';
+import { WithBorder } from './stories/WithBorder.js';
 import { WithButton } from './stories/WithButton.js';
-import { Borderless } from './stories/Borderless.js';
+import { Multiple } from './stories/Multiple.js';
 import AccordionMDX from './Accordion.mdx';
 
 const meta: Meta<typeof Accordion> = {
@@ -113,4 +113,4 @@ const meta: Meta<typeof Accordion> = {
 
 export default meta;
 
-export { Default, WithLabel, WithButton, Borderless };
+export { Default, WithBorder, WithButton, Multiple };

@@ -12,6 +12,7 @@ import { Action } from '../../../../types.js';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { ActionsWithClearIconButton } from '../ActionsWithClearIconButton.js';
 import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
+import { tv } from '../../../../helpers/typographyMode.js';
 
 /**
  * Props for the DateTimePicker component.
@@ -73,7 +74,7 @@ export function DateTimePicker(props: DateTimePickerProps): React.JSX.Element {
             },
             clearIcon: {
                 sx: {
-                    fontSize: '2.25rem',
+                    fontSize: tv('1.25rem'),
                 },
                 ...otherProps.slotProps?.clearIcon,
             },

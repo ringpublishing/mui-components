@@ -1,0 +1,110 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './SimpleTree.stories.js';
+
+<Meta isTemplate />
+
+# SimpleTree
+
+A compact, lightweight tree component for displaying hierarchical data with minimal styling.
+
+## Key Features
+
+- **Compact spacing**: 8px nesting indentation, 18px icons
+- **Single-item selection**: Click to select individual items
+- **Search filtering**: Filter items by label with matching text highlighted
+- **Dynamic child loading**: Load children on expand via TanStack Query
+- **Custom element rendering**: Render custom elements per item (badges, chips, etc.)
+- **localStorage persistence**: Cache dynamic items and restore last selection across sessions
+
+For a full-featured tree with checkboxes, columns, drag-and-drop, and row actions, use `DataTree`.
+
+## Optional peer dependency
+
+`@tanstack/react-query` (v4 or v5) is declared as an **optional** peer dependency. You only need to install it if you use `loadItems` on any tree item to fetch children dynamically:
+
+```bash
+# Only required if your tree uses loadItems
+npm install @tanstack/react-query
+```
+
+If your tree is fully static (`items` is the only source of children, no `loadItems`), you do **not** need to install `@tanstack/react-query` — the component will work without it. When dynamic loading is in use, the component manages its own internal `QueryClient` and `QueryClientProvider`, so you do not need to set up a provider in your app.
+
+If your app already runs TanStack Query, you can pass your existing client through the `queryClient` prop instead of letting the tree create its own — see [With External QueryClient](#with-external-queryclient). This keeps tree queries visible in React Query DevTools, lets you invalidate / prefetch them programmatically, and shares cache policies (retry, staleTime, error handlers) with the rest of your app.
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Search](#with-search)
+- [With Dynamic Loading](#with-dynamic-loading)
+- [With External QueryClient](#with-external-queryclient)
+- [With Custom Elements](#with-custom-elements)
+- [Controlled Selection](#controlled-selection)
+- [With Persistence](#with-persistence)
+
+## Default
+
+Basic tree with static items and expand/collapse.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Search
+
+Enable search filtering with `withSearch`. Items are filtered by label with matching text highlighted.
+
+<Canvas of={Stories.WithSearch} />
+
+## With Dynamic Loading
+
+**Requires `@tanstack/react-query`** (v4 or v5) — this story, and any tree that uses `loadItems`, will fail to render if the package is not installed (`npm install @tanstack/react-query`).
+
+Items with a `loadItems` function load children dynamically when expanded. Powered by TanStack Query for automatic caching and error handling. The component manages its own `QueryClient` internally.
+
+<Canvas of={Stories.WithDynamicLoading} />
+
+## With External QueryClient
+
+**Requires `@tanstack/react-query`** (v4 or v5).
+
+Pass an external `QueryClient` via the `queryClient` prop to share the cache with the rest of your app, inspect tree queries in React Query DevTools, or apply custom retry / staleTime / error handlers globally. Combine with `queryKeyPrefix` when multiple tree instances on the same page share a single client to avoid query-key collisions.
+
+<Canvas of={Stories.WithExternalQueryClient} />
+
+## With Custom Elements
+
+Each item can render a custom `element` on the right side, such as badges or chips.
+
+<Canvas of={Stories.WithCustomElements} />
+
+## Controlled Selection
+
+Control selected items externally via `selectedItems` and `onSelectedItemsChange`.
+
+<Canvas of={Stories.ControlledSelection} />
+
+## With Persistence
+
+The cache-key half of persistence (caching of dynamically-loaded items) only does work when `loadItems` is used and therefore requires `@tanstack/react-query`. The `restoreExpandedItems` / `restoreSelectedItem` flags work without it.
+
+Pass a `persistence` object with a `cacheKey` to enable localStorage caching of dynamically loaded items. Use `restoreExpandedItems` and `restoreSelectedItem` to restore the tree state across page reloads.
+
+```tsx
+<SimpleTree
+    items={items}
+    persistence={{
+        cacheKey: 'my-tree',
+        restoreExpandedItems: true,
+        restoreSelectedItem: true,
+    }}
+/>
+```
+
+- **`cacheKey`** (required): Unique key used to namespace the localStorage entries. Use different keys for different tree instances.
+- **`restoreExpandedItems`** (optional): When `true`, the expanded items are persisted and restored on mount.
+- **`restoreSelectedItem`** (optional): When `true`, the selected item is persisted and restored on mount. Only applies in uncontrolled mode (when `selectedItems` prop is not provided).
+
+<Canvas of={Stories.WithPersistence} />

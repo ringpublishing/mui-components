@@ -1,0 +1,53 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Ranges.stories.js';
+
+<Meta isTemplate />
+
+# Ranges
+
+Ranges is a component for creating and managing multiple range filters. It allows users to select a metric and define its value range — either as free-form numeric input with optional min/max bounds, or using predefined select options.
+
+Key features:
+
+- Add and remove multiple range filters dynamically
+- Supports numeric input ranges with configurable min/max bounds
+- Supports select-based ranges with predefined ordered options
+- Configurable maximum number of applied ranges
+- Pre-populate ranges via `initialState`
+- Programmatic control via `apiRef` (get, set, reset)
+- Built-in validation: boundary checks, required fields, and from ≤ to constraint
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [With Initial State](#with-initial-state)
+- [With Api Ref](#with-api-ref)
+
+## Default
+
+The default Ranges configuration showing all three metric types: numeric ranges with bounds (`imagesCount`, `authorsCount`) and a select-based range with predefined options (`charactersCount`). Users can add up to 3 ranges and remove them individually.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Initial State
+
+Ranges pre-populated with an initial state. In this example, the `imagesCount` range is pre-set to 10–50 and `charactersCount` starts from 1K. Use the `initialState` prop to restore previously saved filter configurations.
+
+<Canvas of={Stories.WithInitialState} />
+
+## With Api Ref
+
+Demonstrates programmatic control of the Ranges component via the `apiRef` prop. The `RangesApiRef` interface exposes three methods:
+
+- `getRanges()` — returns the current ranges state
+- `setRanges(ranges)` — replaces the current state with the provided ranges
+- `resetRanges()` — resets ranges back to `initialState` (or empty if not set)
+
+The Reset button in this story calls `apiRef.current?.resetRanges()` to clear all applied ranges.
+
+<Canvas of={Stories.WithApiRef} />

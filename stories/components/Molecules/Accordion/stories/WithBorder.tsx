@@ -1,8 +1,9 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import type { StoryObj } from '@storybook/react-vite';
 import { createCodeStory } from '../../../../helpers.js';
 import { Accordion } from '../../../../../src/index.js';
-import WithLabelExampleCode from './code/WithLabelExample.tsx?raw';
+import WithBorderExampleCode from './code/WithBorderExample.tsx?raw';
 
 type Story = StoryObj<typeof Accordion>;
 
@@ -10,16 +11,25 @@ const Example = (args: React.ComponentProps<typeof Accordion>): React.JSX.Elemen
     return <Accordion {...args} />;
 };
 
-export const WithLabel: Story = {
+export const WithBorder: Story = {
     args: {
-        label: 'Label',
+        label: 'With Border',
         children: <div>Opened accordion</div>,
+        variant: 'outlined',
     },
     render: (args, context) => {
+        if (context?.viewMode === 'story') {
+            return (
+                <Box style={{ margin: '0 auto', width: '300px', marginTop: '50vh' }}>
+                    <Example {...args} />
+                </Box>
+            );
+        }
+
         return createCodeStory({
             context,
             customProps: {},
-            customCode: WithLabelExampleCode,
+            customCode: WithBorderExampleCode,
             example: <Example {...args} />,
         });
     },

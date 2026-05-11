@@ -57,7 +57,7 @@ exports[`FeatureTooltip > should render correctly 1`] = `
         class="MuiCardActions-root MuiCardActions-spacing css-etctwq-MuiCardActions-root"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textContrast MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorContrast MuiButton-root MuiButton-text MuiButton-textContrast MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorContrast css-1k8eq1n-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textContrast MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorContrast css-1k8eq1n-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-featuretooltip-button-secondary"
           label="Secondary action"
           tabindex="0"
@@ -67,7 +67,7 @@ exports[`FeatureTooltip > should render correctly 1`] = `
           Secondary action
         </button>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedContrast MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorContrast MuiButton-root MuiButton-contained MuiButton-containedContrast MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorContrast css-1p7eunq-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedContrast MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorContrast css-1p7eunq-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-featuretooltip-button-primary"
           href="https://ringpublishing.com/?utm_source=inapp&utm_medium=bubble"
           label="Default action"

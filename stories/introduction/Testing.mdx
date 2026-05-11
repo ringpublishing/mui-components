@@ -306,12 +306,31 @@ Every toggle button in editor's menu has a `data-testid` attribute.
 
 #### `TreeView`
 
+> Deprecated — prefer `SimpleTree` or `DataTree`.
+
 Items in the `TreeView` have the following `data-testid` attributes:
 
 - `ring-treeview[-<suffix>]-item-<id>-expand` - The expand button.
 - `ring-treeview[-<suffix>]-item-<id>-collapse` - The collapse button.
 - `ring-treeview[-<suffix>]-item-<id>-refresh` - The refresh button.
 - `ring-treeview[-<suffix>]-item-<id>-actions` - The actions button that opens `ActionBox`.
+
+#### `SimpleTree`
+
+Items in the `SimpleTree` have the following `data-testid` attributes:
+
+- `ring-simpletree[-<suffix>]-item-<id>-expand` - The expand button.
+- `ring-simpletree[-<suffix>]-item-<id>-collapse` - The collapse button.
+- `ring-simpletree[-<suffix>]-item-<id>-refresh` - The refresh button (only rendered when a dynamic `loadItems` query fails).
+
+#### `DataTree`
+
+Items in the `DataTree` have the following `data-testid` attributes:
+
+- `ring-datatree[-<suffix>]-item-<id>-expand` - The expand button.
+- `ring-datatree[-<suffix>]-item-<id>-collapse` - The collapse button.
+- `ring-datatree[-<suffix>]-item-<id>-refresh` - The refresh button (only rendered when a dynamic `loadItems` query fails).
+- `ring-datatree[-<suffix>]-item-<id>-actions` - The actions button that opens `ActionBox`.
 
 ### Templates
 

@@ -171,4 +171,161 @@ describe('Autocomplete', () => {
         const { getByDisplayValue } = render(<Autocomplete {...mockProps} />);
         expect(getByDisplayValue('Custom value')).toBeDefined();
     });
+
+    it('should store single option (not array) in recently used when multiple is true', () => {
+        const localStorageKey = 'recentlyUsedMultiple';
+        localStorage.setItem(localStorageKey, '[]');
+
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+            multiple: true,
+        };
+
+        const { getByRole, getByText } = render(<Autocomplete {...mockProps} />);
+
+        const input = getByRole('combobox');
+        fireEvent.click(input);
+        fireEvent.change(input, { target: { value: 'Onet' } });
+
+        vi.advanceTimersByTime(100);
+
+        fireEvent.click(getByText('Onet'));
+
+        const stored = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
+        expect(Array.isArray(stored)).toBe(true);
+        expect(stored.length).toBe(1);
+        // Should be a single object, not a nested array
+        expect(stored[0]).toHaveProperty('label', 'Onet');
+        expect(Array.isArray(stored[0])).toBe(false);
+        // Should not contain internal groupBy/sortBy properties
+        expect(stored[0]).not.toHaveProperty('groupBy');
+        expect(stored[0]).not.toHaveProperty('sortBy');
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should not update recently used on removeOption in multiple mode', () => {
+        const localStorageKey = 'recentlyUsedRemove';
+        localStorage.setItem(localStorageKey, JSON.stringify([{ label: 'Onet', id: 1 }]));
+
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+            multiple: true,
+            defaultValue: [options[0]],
+        };
+
+        const { getAllByRole } = render(<Autocomplete {...mockProps} />);
+
+        const clearButtons = getAllByRole('button');
+        const chipCancelButton = clearButtons.find(
+            (btn) => btn.querySelector('svg[data-testid="CancelIcon"]') !== null,
+        );
+
+        expect(chipCancelButton).toBeDefined();
+        fireEvent.click(chipCancelButton as HTMLElement);
+
+        const stored = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
+        // Recently used should still contain the original item (not modified on remove)
+        expect(stored.length).toBe(1);
+        expect(stored[0]).toHaveProperty('label', 'Onet');
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should not allow selecting the same option twice in multiple mode with showRecentlyUsed', () => {
+        const localStorageKey = 'recentlyUsedDuplicate';
+        localStorage.setItem(localStorageKey, '[]');
+
+        const handleChange = vi.fn();
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+            multiple: true,
+            filterSelectedOptions: true,
+            value: [options[0]],
+            onChange: handleChange,
+            openOnFocus: true,
+        };
+
+        const { getByRole, queryAllByText } = render(<Autocomplete {...mockProps} />);
+
+        const input = getByRole('combobox');
+        fireEvent.mouseDown(input);
+
+        vi.advanceTimersByTime(100);
+
+        // With filterSelectedOptions, "Onet" (already selected) should be filtered out
+        const onetOptions = queryAllByText('Onet').filter((el) => el.closest('[role="option"]') !== null);
+        expect(onetOptions.length).toBe(0);
+
+        // "Fakt" should still appear as an option
+        const faktOptions = queryAllByText('Fakt').filter((el) => el.closest('[role="option"]') !== null);
+        expect(faktOptions.length).toBe(1);
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should use custom isOptionEqualToValue with showRecentlyUsed', () => {
+        const localStorageKey = 'recentlyUsedCustomEqual';
+        localStorage.setItem(localStorageKey, '[]');
+
+        const customIsOptionEqualToValue = vi.fn(
+            (option: unknown, value: unknown) => (option as { id: number }).id === (value as { id: number }).id,
+        );
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+            multiple: true,
+            filterSelectedOptions: true,
+            value: [options[0]],
+            isOptionEqualToValue: customIsOptionEqualToValue,
+            openOnFocus: true,
+        };
+
+        const { getByRole, queryAllByText } = render(<Autocomplete {...mockProps} />);
+
+        const input = getByRole('combobox');
+        fireEvent.mouseDown(input);
+
+        vi.advanceTimersByTime(100);
+
+        // The custom isOptionEqualToValue should have been called
+        expect(customIsOptionEqualToValue).toHaveBeenCalled();
+        // It should receive clean options without groupBy/sortBy
+        const firstCall = customIsOptionEqualToValue.mock.calls[0];
+        expect(firstCall[0]).not.toHaveProperty('groupBy');
+        expect(firstCall[0]).not.toHaveProperty('sortBy');
+
+        // "Onet" should be filtered out (recognized as selected via custom comparator)
+        const onetOptions = queryAllByText('Onet').filter((el) => el.closest('[role="option"]') !== null);
+        expect(onetOptions.length).toBe(0);
+
+        localStorage.removeItem(localStorageKey);
+    });
 });

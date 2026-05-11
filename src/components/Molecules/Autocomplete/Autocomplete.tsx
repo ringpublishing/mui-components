@@ -123,9 +123,19 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
 
     const refAnchor = useRef<HTMLButtonElement>(null);
 
-    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(
-        JSON.parse(localStorage.getItem(recentlyLocalStorageKey as string) || '[]'),
-    );
+    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() => {
+        try {
+            const parsed: unknown = JSON.parse(localStorage.getItem(recentlyLocalStorageKey as string) || '[]');
+            const stored: unknown[] = Array.isArray(parsed) ? parsed : [];
+
+            return stored
+                .flat()
+                .filter((item): item is MuiOption => item !== null && typeof item === 'object' && !Array.isArray(item))
+                .map((item) => omit(item, 'groupBy', 'sortBy') as MuiOption);
+        } catch {
+            return [];
+        }
+    });
 
     let parsedOptions = options as Array<MuiOption>;
 
@@ -135,6 +145,19 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         }
 
         otherProps.groupBy = (o: unknown): string => (o as MuiOption).groupBy;
+
+        const originalIsOptionEqualToValue = otherProps.isOptionEqualToValue;
+
+        otherProps.isOptionEqualToValue = (option: unknown, value: unknown): boolean => {
+            const cleanOption = omit(option as object, 'groupBy', 'sortBy');
+            const cleanValue = omit(value as object, 'groupBy', 'sortBy');
+
+            if (originalIsOptionEqualToValue) {
+                return originalIsOptionEqualToValue(cleanOption, cleanValue);
+            }
+
+            return isEqual(cleanOption, cleanValue);
+        };
 
         parsedOptions = (
             options.map((p) => {
@@ -162,14 +185,20 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<unknown> | undefined,
     ): void => {
-        if (showRecentlyUsed) {
-            const newRecentlyUsedItems = [...recentlyUsedItems]
-                .filter((r: unknown) => {
-                    return !isEqual(omit(r as object, 'groupBy', 'sortBy'), omit(value as object, 'groupBy', 'sortBy'));
-                })
-                .slice(0, recentlyUsedLimit - 1);
+        if (showRecentlyUsed && reason === 'selectOption') {
+            const rawOption = (otherProps.multiple ? details?.option : value) as MuiOption | undefined;
 
-            setRecentlyUsedItems([value as MuiOption, ...newRecentlyUsedItems]);
+            if (rawOption && typeof rawOption === 'object') {
+                const selectedOption = omit(rawOption, 'groupBy', 'sortBy') as MuiOption;
+
+                const newRecentlyUsedItems = [...recentlyUsedItems]
+                    .filter((r: unknown) => {
+                        return !isEqual(omit(r as object, 'groupBy', 'sortBy'), selectedOption);
+                    })
+                    .slice(0, recentlyUsedLimit - 1);
+
+                setRecentlyUsedItems([selectedOption, ...newRecentlyUsedItems]);
+            }
         }
 
         onChange?.(event, value, reason, details);
@@ -178,6 +207,10 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
     const customGetOptionLabel = (option: unknown): string => {
         if (getOptionLabel) {
             return getOptionLabel(option);
+        }
+
+        if (typeof option === 'string') {
+            return option;
         }
 
         const { label } = option as { label: string };
@@ -230,6 +263,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             options={parsedOptions}
             onChange={handleOnChange}
             loading={loading}
+            getOptionLabel={customGetOptionLabel}
             ref={ref}
             loadingText={loadingText}
             renderOption={renderOption || renderOptionWithCustomLabelAndCaption}

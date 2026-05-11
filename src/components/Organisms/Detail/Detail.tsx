@@ -558,17 +558,12 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
 
     return (
         <Box sx={{ position: 'relative', minHeight: '50px' }}>
-            {(mediaProps?.image || mediaProps?.slotProps?.media?.src) && (
-                <Media
-                    ratio={mediaProps.ratio}
-                    objectFit={mediaProps.objectFit}
-                    disableFullScreenPreview={true}
-                    image={mediaProps.image}
-                    slotProps={mediaProps?.slotProps}
-                    {...mediaProps}
-                />
+            {(mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media) && (
+                <Media {...mediaProps} disableFullScreenPreview={true} />
             )}
-            {mediaProps?.image || mediaProps?.slotProps?.media?.src ? <DetailMainBottomIons {...mediaProps} /> : null}
+            {mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media ? (
+                <DetailMainBottomIons {...mediaProps} />
+            ) : null}
             {shouldShowCloseIcon ? (
                 <Box
                     sx={{
@@ -606,7 +601,8 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                             px: 2,
                             pb: 0,
                             pt:
-                                shouldShowCloseIcon && !(mediaProps?.image || mediaProps?.slotProps?.media?.src)
+                                shouldShowCloseIcon &&
+                                !(mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media)
                                     ? 5
                                     : 2,
                             justifyContent: 'space-between',
@@ -634,7 +630,7 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
 }
 
 function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
-    const { bottomIcons, image, imageFullScreenPreview, fullScreenImageUrl, dataTestIdSuffix } = props;
+    const { bottomIcons, image, imageFullScreenPreview, fullScreenImageUrl, slots, dataTestIdSuffix } = props;
     const [lightBoxOpen, setLightBoxOpen] = useState(false);
 
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
@@ -709,7 +705,7 @@ function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
                     {bottomIconsLeft}
                 </Stack>
             )}
-            {image && imageFullScreenPreview && (
+            {image && imageFullScreenPreview && !slots?.media && (
                 <Stack direction="row" spacing={0}>
                     <IconButton
                         data-testid={`${dataTestId}-download-image`}

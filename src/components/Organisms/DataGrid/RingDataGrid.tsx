@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { LinearProgress, useTheme } from '@mui/material';
 import { RingDataGridToolbar } from './RingDataGridToolbar.js';
 import { useSpacer } from './spacer.js';
@@ -458,21 +458,26 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
         return gridPropsAffectingBulkActions;
     };
 
-    if (disableSelectAllCheckbox) {
-        gridProps.columns = [
-            {
-                ...GRID_CHECKBOX_SELECTION_COL_DEF,
-                renderHeader: () => <></>,
-            },
-            ...gridProps.columns,
-        ];
-    }
+    const columns = useMemo(() => {
+        if (disableSelectAllCheckbox) {
+            return [
+                {
+                    ...GRID_CHECKBOX_SELECTION_COL_DEF,
+                    renderHeader: () => <></>,
+                },
+                ...gridProps.columns,
+            ];
+        }
+
+        return gridProps.columns;
+    }, [disableSelectAllCheckbox, gridProps.columns]);
 
     return (
         <>
             <FilterChipGroup chips={filterChips?.chips} onDeleteAll={filterChips?.onDeleteAll} />
             <DataGrid
                 {...gridProps}
+                columns={columns}
                 apiRef={apiRef}
                 // FIXME: Checkboxes should be immediately disabled when maxRowsCount limit is reached
                 isRowSelectable={canSelectRow({

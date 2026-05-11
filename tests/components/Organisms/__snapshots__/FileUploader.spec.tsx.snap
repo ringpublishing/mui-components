@@ -50,7 +50,7 @@ exports[`FileUploader Component > should render correctly with Large size 1`] = 
             class="MuiBox-root css-1c1kq07"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
               data-testid="ring-fileuploader-browse"
               tabindex="0"
               type="button"
@@ -123,7 +123,7 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
           class="MuiBox-root css-1c1kq07"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -382,7 +382,7 @@ exports[`FileUploader Component > should render correctly with default props 1`]
           class="MuiBox-root css-1c1kq07"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -724,7 +724,7 @@ exports[`FileUploader Component > should render multiple files when multiple pro
           class="MuiBox-root css-1c1kq07"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -750,7 +750,7 @@ exports[`FileUploader Component > should render multiple files when multiple pro
       class="MuiBox-root css-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1buck6l-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-e6dsz-MuiButtonBase-root-MuiButton-root"
         data-testid="ring-fileuploader-expand"
         tabindex="0"
         type="button"
@@ -989,7 +989,7 @@ exports[`FileUploader Component > should render with error message 1`] = `
           class="MuiBox-root css-1c1kq07"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"

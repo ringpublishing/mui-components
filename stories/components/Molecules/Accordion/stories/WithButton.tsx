@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
@@ -19,6 +20,14 @@ export const WithButton: Story = {
         children: <div>Opened accordion</div>,
     },
     render: (args, context) => {
+        if (context?.viewMode === 'story') {
+            return (
+                <Box style={{ margin: '0 auto', width: '300px', marginTop: '50vh' }}>
+                    <Example {...args} />
+                </Box>
+            );
+        }
+
         return createCodeStory({
             context,
             customProps: {},

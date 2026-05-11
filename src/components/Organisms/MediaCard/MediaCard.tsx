@@ -7,6 +7,7 @@ import {
     CardContent,
     CardMedia,
     CardMediaProps,
+    CardProps,
     Checkbox,
     CheckboxProps,
     Chip,
@@ -15,6 +16,7 @@ import {
     Skeleton,
     Stack,
     SxProps,
+    Theme,
     TypographyProps,
 } from '@mui/material';
 import { BrokenImageOutlined, MoreVert, PhotoOutlined } from '@mui/icons-material';
@@ -105,6 +107,15 @@ export interface MediaCardProps extends CommonComponentProps, AspectRatioOwnerSt
      */
     slotProps?: {
         /**
+         * Props applied to the root MUI `<Card>` element. Useful for attaching event
+         * handlers (e.g. `onMouseEnter`, `onMouseLeave`, `onFocus`) or extra DOM
+         * attributes that are not exposed as top-level MediaCardProps.
+         *
+         * Top-level MediaCardProps (`variant`, `square`, `onClick`, `tabIndex`,
+         * `className`, `sx`) take precedence — they are merged on top, not replaced.
+         */
+        card?: Omit<CardProps, 'children' | 'variant' | 'square' | 'onClick' | 'tabIndex' | 'elevation'>;
+        /**
          * Props applied to the CardMedia component.
          */
         cardMedia?: CardMediaProps;
@@ -140,38 +151,51 @@ export function MediaCard(props: MediaCardProps): React.JSX.Element {
 
     const dataTestId = useRingDataTestId(MediaCard.name, dataTestIdSuffix);
 
+    const { sx: cardSlotSx, className: cardSlotClassName, ...cardSlotRest } = slotProps?.card ?? {};
+
+    const mergedClassName = [cardSlotClassName, className].filter(Boolean).join(' ') || undefined;
+
+    type SxItem = boolean | Exclude<SxProps<Theme>, ReadonlyArray<unknown>>;
+    const internalCardSx: Exclude<SxProps<Theme>, ReadonlyArray<unknown> | ((theme: Theme) => unknown)> = {
+        display: 'flex',
+        flexDirection: 'column',
+        ...(hoverable && {
+            transition: 'background-color 0.3s',
+            cursor: 'pointer',
+            position: 'relative',
+            '&:hover': {
+                '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    pointerEvents: 'none',
+                },
+            },
+        }),
+        ...(active && {
+            backgroundColor: 'primary.focusVisible',
+        }),
+    };
+
+    const sxArray: SxItem[] = [
+        internalCardSx,
+        ...(Array.isArray(cardSlotSx) ? cardSlotSx : cardSlotSx ? [cardSlotSx] : []),
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+    ];
+
     return (
         <Card
-            className={className}
+            {...cardSlotRest}
+            className={mergedClassName}
             variant={variant}
             square={square}
             tabIndex={tabIndex}
             onClick={onClick}
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                ...(hoverable && {
-                    transition: 'background-color 0.3s',
-                    cursor: 'pointer',
-                    position: 'relative',
-                    '&:hover': {
-                        '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                            pointerEvents: 'none',
-                        },
-                    },
-                }),
-                ...(active && {
-                    backgroundColor: 'primary.focusVisible',
-                }),
-                ...sx,
-            }}
+            sx={sxArray}
             data-testid={dataTestId}
         >
             <Box>
@@ -328,7 +352,7 @@ function MediaRenderer(props: MediaCardProps): React.JSX.Element {
     if (slotProps?.cardMedia) {
         return (
             <AspectRatio ratio={ratio} objectFit={objectFit}>
-                <CardMedia src={image} {...slotProps.cardMedia} />
+                <CardMedia draggable={false} src={image} {...slotProps.cardMedia} />
             </AspectRatio>
         );
     }
@@ -471,6 +495,7 @@ function ImageCard({ image, ratio, objectFit }: MediaImageProps): React.JSX.Elem
                         ref={imageRef}
                         component="img"
                         src={image}
+                        draggable={false}
                         onLoad={handleLoad}
                         onError={handleError}
                         loading="lazy"

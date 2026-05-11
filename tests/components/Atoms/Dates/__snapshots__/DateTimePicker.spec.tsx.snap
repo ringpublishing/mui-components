@@ -1027,7 +1027,7 @@ exports[`Components: DateTimePicker > should render correctly with default value
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-jpafmv-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-q1akcw-MuiSvgIcon-root"
               data-testid="ClearIcon"
               focusable="false"
               viewBox="0 0 24 24"

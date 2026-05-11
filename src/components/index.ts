@@ -34,5 +34,7 @@ export * from './Organisms/TextEditor/TextEditor.js';
 export * from './Organisms/TextEditor/TextEditorMenuSelectHeading.js';
 export * from './Organisms/TextEditor/TextEditorMenuToggleButton.js';
 export * from './Organisms/TreeView/TreeView.js';
+export * from './Organisms/SimpleTree/SimpleTree.js';
+export * from './Organisms/DataTree/DataTree.js';
 export * from './Organisms/FileUploader/FileUploader.js';
 export * from './Templates/DataView/DataView.js';

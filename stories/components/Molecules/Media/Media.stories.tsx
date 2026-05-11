@@ -1,14 +1,15 @@
-import type { Meta } from '@storybook/react-vite';
+import type { LooseArgTypesMeta } from '../../../helpers.js';
 import { Media } from '../../../../src/index.js';
 import { Default } from './stories/Default.js';
 import { NoImageUrl } from './stories/NoImageUrl.js';
 import { Video } from './stories/Video.js';
 import { Audio } from './stories/Audio.js';
 import { AudioWithBackground } from './stories/AudioWithBackground.js';
+import { CardEvents } from './stories/CardEvents.js';
 import defaultArgs from './common/defaultArgs.js';
 import MediaMdx from './Media.mdx';
 
-const meta: Meta<typeof Media> = {
+const meta = {
     component: Media,
     parameters: {
         docs: {
@@ -116,15 +117,20 @@ const meta: Meta<typeof Media> = {
                 defaultValue: { summary: '"contain"' },
             },
         },
-        slotProps: {
+        slots: {
             control: 'object',
-            description:
-                'Props forwarded to internal component slots. ' +
-                'Use `slotProps.media` to render a `<video>` or `<audio>` element instead of an image, ' +
-                'passing any native HTML media attributes.',
+            description: 'The components used for each slot inside. See the **Slots** section below.',
             table: {
                 category: 'customization',
-                type: { summary: '{ media?: CardMediaProps & VideoHTMLAttributes & AudioHTMLAttributes }' },
+                type: { summary: 'object' },
+            },
+        },
+        slotProps: {
+            control: 'object',
+            description: 'The props used for each slot inside. See the **Slot props** section below.',
+            table: {
+                category: 'customization',
+                type: { summary: 'object' },
                 defaultValue: { summary: '{}' },
             },
         },
@@ -135,9 +141,46 @@ const meta: Meta<typeof Media> = {
                 category: 'customization',
             },
         },
+
+        // slots — one row per slot, MUI-style breakdown of the `slots` object
+        'slots.media': {
+            name: 'slots.media',
+            description:
+                'Custom React node rendered in place of the default `<CardMedia>`. Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box.',
+            table: {
+                category: 'slots',
+                type: { summary: 'ReactNode' },
+            },
+            control: false,
+        },
+
+        // slotProps — one row per slot prop, MUI-style breakdown of the `slotProps` object
+        'slotProps.media': {
+            name: 'slotProps.media',
+            description:
+                'Props applied to the default `<CardMedia>`. Lets you switch the underlying element (`component: "video" | "audio" | "img"`), tweak `src`, attach native media attributes (`controls`, `autoPlay`, `muted`, `playsInline`, etc.). When `slots.media` replaces the default render, only `component: "audio"` is still consulted for audio-specific wrapper styling.',
+            table: {
+                category: 'slotProps',
+                type: { summary: 'CardMediaProps & VideoHTMLAttributes & AudioHTMLAttributes' },
+            },
+            control: false,
+        },
+        'slotProps.card': {
+            name: 'slotProps.card',
+            description:
+                'Props applied to the root MUI `<Card>`. **Recommended channel for DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level MediaProps (`sx`) take precedence and are merged on top.',
+            table: {
+                category: 'slotProps',
+                type: {
+                    summary:
+                        'Omit<CardProps, "children" | "variant" | "square" | "tabIndex" | "elevation" | "onClick">',
+                },
+            },
+            control: false,
+        },
     },
-};
+} satisfies LooseArgTypesMeta<typeof Media>;
 
 export default meta;
 
-export { Default, NoImageUrl, Video, Audio, AudioWithBackground };
+export { Default, NoImageUrl, Video, Audio, AudioWithBackground, CardEvents };
