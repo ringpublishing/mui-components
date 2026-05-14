@@ -20,12 +20,15 @@
         "build:move-images": "mkdir -p dist/components/Molecules/Placeholder/images && cp src/components/Molecules/Placeholder/images/*.svg dist/components/Molecules/Placeholder/images",
         "build:storybook": "storybook build",
         "lint": "npm run lint:js",
-        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .storybook/ src/ stories/ tests/",
+        "lint:js": "eslint --ext .js,.jsx,.ts,.tsx .storybook/ src/ stories/ tests/ e2e/",
         "lint:js:fix": "npm run lint:js -- --fix",
         "prebuild": "rimraf dist",
         "prepare": "npm run build && husky",
         "storybook:preview": "storybook dev",
         "test": "vitest --run",
+        "test:e2e": "playwright test",
+        "test:e2e:ui": "playwright test --ui",
+        "test:e2e:report": "playwright show-report",
         "test:update": "vitest -u --run",
         "test:watch": "vitest",
         "watch": "tsc --watch"
@@ -59,6 +62,8 @@
         "react-full-screen": "^1.1.0"
     },
     "devDependencies": {
+        "@axe-core/playwright": "^4.11.1",
+        "@playwright/test": "^1.59.1",
         "@ringieraxelspringer/eslint-config": "^24.0.0",
         "@ringieraxelspringer/tsconfig": "^7.0.0",
         "@storybook/addon-docs": "^10.0.0",

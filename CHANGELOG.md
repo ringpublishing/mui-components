@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] - 2026-05-11
+
+### Added
+- [@pjarolewski]: Added Playwright-based WCAG accessibility e2e tests (`e2e/accessibility/`). Tests run against WCAG 2.1 AA standard using `@axe-core/playwright` and cover critical/serious violations as well as component-scoped checks (initial coverage: `DataGrid`).
+- [@pjarolewski]: Added `playwright.config.ts` with Chromium desktop and mobile projects, configurable base URL via `E2E_BASE_URL` env variable.
+
 ## [1.4.2] - 2026-05-08
 
 ### Added
