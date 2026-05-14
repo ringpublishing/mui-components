@@ -63,7 +63,7 @@
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.11.1",
-        "@playwright/test": "^1.59.1",
+        "@playwright/test": "1.60.0",
         "@ringieraxelspringer/eslint-config": "^24.0.0",
         "@ringieraxelspringer/tsconfig": "^7.0.0",
         "@storybook/addon-docs": "^10.0.0",

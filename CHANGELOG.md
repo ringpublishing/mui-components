@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] - 2026-05-14
+
+### Fixed
+- [@pjarolewski]: CI — updated Playwright Docker image in `ci-storybook.yaml` from `v1.59.1` to `v1.60.0` to match the installed `@playwright/test` version. The mismatch caused all E2E tests to fail after merge to master with `Executable doesn't exist` error.
+
 ## [1.5.0] - 2026-05-11
 
 ### Added
