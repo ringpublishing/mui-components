@@ -14,6 +14,20 @@ export interface PlaceholderLabels {
     footer?: string;
 }
 
+/**
+ * Labels for the error and empty placeholders rendered internally by a parent component
+ * (e.g. a grid or list), plus the retry button text the parent owns. When omitted, each
+ * inner `Placeholder` falls back to its default localized labels.
+ */
+export interface PlaceholderStateLabels {
+    /** Labels for the error state placeholder (rendered when the parent is in an error state). */
+    error?: PlaceholderLabels;
+    /** Labels for the empty state placeholder (rendered when the parent has nothing to show). */
+    empty?: PlaceholderLabels;
+    /** Text for the "Try again" button rendered in the error placeholder when a retry handler is wired up. */
+    tryAgainButton?: string;
+}
+
 export interface PlaceholderProps extends CommonComponentProps {
     /**
      * Labels object. If not provided, default labels are used based on the current `variant` and `theme.locale`.

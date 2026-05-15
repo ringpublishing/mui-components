@@ -3,7 +3,7 @@ import { LinearProgress, useTheme } from '@mui/material';
 import { RingDataGridToolbar } from './RingDataGridToolbar.js';
 import { useSpacer } from './spacer.js';
 import { canSelectRow, CustomNoRowsOverlay, getSpacerAndNonSpacerRowIds } from './helpers.js';
-import { Placeholder, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
+import { Placeholder, PlaceholderStateLabels, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
 import { CommonLanguages } from '../../../helpers/commonTypes.js';
 import {
     GridRowId,
@@ -226,6 +226,12 @@ export interface RingDataGridProps extends DataGridProProps {
         chips: FilterChip[];
         onDeleteAll?: () => void | Promise<void>;
     };
+
+    /**
+     * Labels for the placeholders rendered when the grid is in an error or empty state.
+     * When omitted, the Placeholder component falls back to its default localized labels.
+     */
+    placeholderLabels?: PlaceholderStateLabels;
 }
 
 export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
@@ -242,6 +248,7 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
         clearSelectionOnRefresh = true,
         disableSelectAllCheckbox = false,
         filterChips,
+        placeholderLabels,
         ...restProps
     } = props;
 
@@ -501,8 +508,11 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                 keepNonExistentRowsSelected={true}
                 showToolbar={showRingToolbar}
                 slots={{
-                    noResultsOverlay: () => <Placeholder variant={PlaceholderVariant.NOT_FOUND} />,
-                    noRowsOverlay: () => CustomNoRowsOverlay(error, language, props?.refreshCallback),
+                    noResultsOverlay: () => (
+                        <Placeholder variant={PlaceholderVariant.NOT_FOUND} labels={placeholderLabels?.empty} />
+                    ),
+                    noRowsOverlay: () =>
+                        CustomNoRowsOverlay(error, language, props?.refreshCallback, placeholderLabels),
                     loadingOverlay: () => <LinearProgress />,
                     ...(gridProps.slots || {}),
                     toolbar: showRingToolbar ? RingDataGridToolbar : undefined,

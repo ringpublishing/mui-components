@@ -6,6 +6,7 @@ import { InfiniteScrollOptions } from './useInfiniteScroll.js';
 import { GridRowId, GridCallbackDetails } from '@mui/x-data-grid';
 import { MediaGridApi, MediaGridItemsProps } from './gridApi.js';
 import { GridRowSelectionModel } from '@mui/x-data-grid-pro';
+import { PlaceholderStateLabels } from '../../Molecules/Placeholder/Placeholder.js';
 
 export type BreakpointValue = 'xs' | 'sm' | 'md' | 'lg';
 export type ResponsiveValue<T> = T | Partial<Record<BreakpointValue, T>>;
@@ -187,6 +188,12 @@ export interface MultimediaGridProps<TSlots extends MultimediaGridSlots = Multim
      */
     additionalComponent?: React.ReactNode;
     apiRef?: MediaGridApi;
+
+    /**
+     * Labels for the placeholders rendered when the grid is in an error or empty state.
+     * When omitted, the Placeholder component falls back to its default localized labels.
+     */
+    placeholderLabels?: PlaceholderStateLabels;
 }
 
 /**

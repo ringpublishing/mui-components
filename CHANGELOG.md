@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-05-11
+
+### Added
+- [@omaziarz]: `MultimediaGrid` and `RingDataGrid` — new optional `placeholderLabels` prop. Lets consumers override the error/empty placeholder labels and the retry button text.
+
 ## [1.5.1] - 2026-05-14
 
 ### Fixed

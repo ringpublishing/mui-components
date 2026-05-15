@@ -3,7 +3,7 @@ import { Chip } from '@mui/material';
 import { GridApi, GridRowHeightReturnValue, GridRowId, GridRowParams } from '@mui/x-data-grid';
 
 import { ComboCellChips } from './renderComboCell.js';
-import { Placeholder, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
+import { Placeholder, PlaceholderStateLabels, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
 import { Action } from '../../../types.js';
 import { CommonLanguages } from '../../../helpers/commonTypes.js';
 import { GridRowSelectionModel } from '@mui/x-data-grid-pro';
@@ -109,18 +109,21 @@ export function CustomNoRowsOverlay(
     error: boolean,
     language: CommonLanguages,
     onClick?: () => void,
+    placeholderLabels?: PlaceholderStateLabels,
 ): React.JSX.Element {
-    const buttonLabel = language === CommonLanguages.plPL ? 'Spróbuj ponownie' : 'Try again';
+    const buttonLabel =
+        placeholderLabels?.tryAgainButton ?? (language === CommonLanguages.plPL ? 'Spróbuj ponownie' : 'Try again');
 
     if (error) {
         return (
             <Placeholder
                 {...(onClick ? { buttons: [{ children: buttonLabel, variant: 'contained', onClick }] } : {})}
                 variant={PlaceholderVariant.ERROR_LIST}
+                labels={placeholderLabels?.error}
             />
         );
     } else {
-        return <Placeholder variant={PlaceholderVariant.NOT_FOUND} />;
+        return <Placeholder variant={PlaceholderVariant.NOT_FOUND} labels={placeholderLabels?.empty} />;
     }
 }
 

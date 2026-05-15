@@ -7,7 +7,9 @@ import { InfiniteScroll } from './stories/InfiniteScroll.js';
 import { Slots } from './stories/Slots.js';
 import { Selection } from './stories/Selection.js';
 import { EmptyState } from './stories/EmptyState.js';
+import { EmptyStateCustomLabels } from './stories/EmptyStateCustomLabels.js';
 import { ErrorState } from './stories/ErrorState.js';
+import { ErrorStateCustomLabels } from './stories/ErrorStateCustomLabels.js';
 import { DynamicLayout } from './stories/DynamicLayout.js';
 import defaultArgs from './common/defaultArgs.js';
 import MultimediaGridMDX from './MultimediaGrid.mdx';
@@ -63,6 +65,18 @@ const meta = {
             description: 'If true, displays error message instead of grid.',
             table: {
                 defaultValue: { summary: 'false' },
+                category: 'states',
+            },
+        },
+        placeholderLabels: {
+            control: 'object',
+            description:
+                'Custom labels for the error and empty state placeholders. When omitted, default localized labels are used.',
+            table: {
+                type: {
+                    summary:
+                        '{ error?: { header?: string; description?: string; footer?: string }; empty?: { header?: string; description?: string; footer?: string }; tryAgainButton?: string }',
+                },
                 category: 'states',
             },
         },
@@ -273,4 +287,14 @@ const meta = {
 
 export default meta;
 
-export { Default, InfiniteScroll, Slots, Selection, EmptyState, ErrorState, DynamicLayout };
+export {
+    Default,
+    InfiniteScroll,
+    Slots,
+    Selection,
+    EmptyState,
+    EmptyStateCustomLabels,
+    ErrorState,
+    ErrorStateCustomLabels,
+    DynamicLayout,
+};

@@ -67,6 +67,7 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         dynamicCardWidth = 200,
         dynamicCardHeight = 300,
         dataTestIdSuffix,
+        placeholderLabels,
     } = props;
     const internalApiRef = useGridApiRef();
     const apiRef = externalApiRef || internalApiRef;
@@ -197,12 +198,14 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
                 {showErrorState && (
                     <Placeholder
                         variant={PlaceholderVariant.ERROR_LIST}
+                        labels={placeholderLabels?.error}
                         {...(refreshItems
                             ? {
                                   buttons: [
                                       {
                                           children:
-                                              language === CommonLanguages.plPL ? 'Spróbuj ponownie' : 'Try again',
+                                              placeholderLabels?.tryAgainButton ??
+                                              (language === CommonLanguages.plPL ? 'Spróbuj ponownie' : 'Try again'),
                                           variant: 'contained',
                                           onClick: () => refreshItems(),
                                       },
@@ -211,7 +214,9 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
                             : {})}
                     />
                 )}
-                {showEmptyState && <Placeholder variant={PlaceholderVariant.NOT_FOUND} />}
+                {showEmptyState && (
+                    <Placeholder variant={PlaceholderVariant.NOT_FOUND} labels={placeholderLabels?.empty} />
+                )}
                 {showGrid && (
                     <GridInnerContainer totalHeight={totalHeight}>
                         {rowVirtualizer.getVirtualItems().map((virtualItem) => {

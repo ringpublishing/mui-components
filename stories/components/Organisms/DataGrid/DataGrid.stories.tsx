@@ -6,7 +6,9 @@ import { CustomCells } from './stories/CustomCells.js';
 import { CustomToolbar } from './stories/CustomToolbar.js';
 import { BulkActions } from './stories/BulkActions.js';
 import { NoResults } from './stories/NoResults.js';
+import { NoResultsCustomLabels } from './stories/NoResultsCustomLabels.js';
 import { Error } from './stories/Error.js';
+import { ErrorCustomLabels } from './stories/ErrorCustomLabels.js';
 import { AutoRefreshActive } from './stories/AutoRefreshActive.js';
 import { AutoRefreshIgnoreInteraction } from './stories/AutoRefreshIgnoreInteraction.js';
 import { AutoRefreshInitiallyDisabled } from './stories/AutoRefreshInitiallyDisabled.js';
@@ -236,6 +238,18 @@ const meta: Meta<typeof RingDataGridComponent> = {
                 category: 'states',
             },
         },
+        placeholderLabels: {
+            control: 'object',
+            description:
+                'Custom labels for the error and empty state placeholders. When omitted, default localized labels are used.',
+            table: {
+                type: {
+                    summary:
+                        '{ error?: { header?: string; description?: string; footer?: string }; empty?: { header?: string; description?: string; footer?: string }; tryAgainButton?: string }',
+                },
+                category: 'states',
+            },
+        },
         loading: {
             control: 'boolean',
             type: 'boolean',
@@ -338,7 +352,9 @@ export {
     CustomToolbar,
     BulkActions,
     NoResults,
+    NoResultsCustomLabels,
     Error,
+    ErrorCustomLabels,
     AutoRefreshActive,
     AutoRefreshIgnoreInteraction,
     AutoRefreshInitiallyDisabled,
