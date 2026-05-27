@@ -12,7 +12,7 @@ exports[`Components: TimePicker > should render correctly 1`] = `
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-lwzpzt-MuiPickersInputBase-root-MuiPickersInput-root"
+        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1nlo4z7-MuiPickersInputBase-root-MuiPickersInput-root"
         role="group"
       >
         <div
@@ -177,7 +177,7 @@ exports[`Components: TimePicker > should render correctly with custom labels 1`]
       <div
         aria-invalid="false"
         aria-labelledby="_r_5_-label"
-        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-lwzpzt-MuiPickersInputBase-root-MuiPickersInput-root"
+        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1nlo4z7-MuiPickersInputBase-root-MuiPickersInput-root"
         role="group"
       >
         <div
@@ -333,7 +333,7 @@ exports[`Components: TimePicker > should render correctly with default value 1`]
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-lwzpzt-MuiPickersInputBase-root-MuiPickersInput-root"
+        class="MuiPickersInputBase-root MuiPickersFilledInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-1nlo4z7-MuiPickersInputBase-root-MuiPickersInput-root"
         role="group"
       >
         <div

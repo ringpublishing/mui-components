@@ -10,6 +10,7 @@ import { LicenseInfo } from '@mui/x-license';
 
 import './styles.css';
 import { CommonLanguages } from '../src/helpers/commonTypes.js';
+import { getStorySourceCode } from '../stories/storySourceRegistry.js';
 
 setupMonaco({
     onMonacoLoad: (monaco: typeof Monaco) => {
@@ -82,6 +83,10 @@ const preview: Preview = {
         backgrounds: { disable: true },
         layout: 'fullscreen',
         docs: {
+            source: {
+                transform: (src: string, storyContext: { id: string }): string =>
+                    getStorySourceCode(storyContext.id) ?? src,
+            },
             page: () => (
                 <>
                     <Title />

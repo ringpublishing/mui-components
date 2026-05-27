@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.1] - 2026-05-26
+
+### Fixed
+- [@dhebda]: Storybook `<Canvas>` copy button was copying 96k lines (serialized `<Playground availableImports>` tree) instead of the code example. Fixed by introducing a lightweight `stories/storySourceRegistry.ts` module; `createCodeStory()` registers the `customCode` string on each render, and a global `docs.source.transform` in `.storybook/preview.tsx` returns it for the copy button. Registry entries are cleared when `customCode` is absent to prevent stale results during HMR.
+
 ## [1.6.0] - 2026-05-11
 
 ### Added

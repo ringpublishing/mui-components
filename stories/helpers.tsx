@@ -19,6 +19,7 @@ import * as dndKitSortable from '@dnd-kit/sortable';
 import * as tanstackReactQuery from '@tanstack/react-query';
 import * as RingDemoData from '../src/helpers/stories/ringDemoData.js';
 import * as RingDemoImages from '../src/helpers/stories/imagesData.js';
+import { setStorySourceCode, deleteStorySourceCode } from './storySourceRegistry.js';
 
 export type CustomProps = Record<string, unknown>;
 
@@ -108,6 +109,12 @@ export function createCodeStory<T = Record<string, unknown>>({
         // for example context.kind = Components/Filters/Accordion
         const kind = context.kind.split('/');
         componentName = kind?.pop() || '';
+    }
+
+    if (customCode) {
+        setStorySourceCode(context.id, customCode);
+    } else {
+        deleteStorySourceCode(context.id);
     }
 
     if (context?.viewMode === 'story') {
