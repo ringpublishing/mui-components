@@ -36,6 +36,7 @@ const meta: Meta<typeof SplitButton> = {
             table: {
                 category: 'customization',
                 defaultValue: { summary: 'medium' },
+                type: { summary: "'small' | 'medium' | 'large'" },
             },
         },
         variant: {
@@ -45,6 +46,7 @@ const meta: Meta<typeof SplitButton> = {
             table: {
                 category: 'customization',
                 defaultValue: { summary: 'outlined' },
+                type: { summary: "'contained' | 'outlined' | 'text'" },
             },
         },
         color: {
@@ -54,6 +56,7 @@ const meta: Meta<typeof SplitButton> = {
             table: {
                 category: 'customization',
                 defaultValue: { summary: 'primary' },
+                type: { summary: "'primary' | 'secondary'" },
             },
         },
         orientation: {
@@ -63,6 +66,7 @@ const meta: Meta<typeof SplitButton> = {
             table: {
                 category: 'customization',
                 defaultValue: { summary: 'horizontal' },
+                type: { summary: "'horizontal' | 'vertical'" },
             },
         },
         className: {
@@ -70,6 +74,7 @@ const meta: Meta<typeof SplitButton> = {
             control: 'text',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         sx: {
@@ -84,6 +89,7 @@ const meta: Meta<typeof SplitButton> = {
             control: 'text',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
     },

@@ -57,6 +57,7 @@ const meta = {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {
@@ -72,6 +73,7 @@ const meta = {
             description: 'Floating label text displayed above the input field.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         actions: {
@@ -88,6 +90,7 @@ const meta = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         defaultValue: {

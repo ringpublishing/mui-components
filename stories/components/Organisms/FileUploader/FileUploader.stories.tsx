@@ -33,6 +33,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         headline: {
@@ -40,6 +41,7 @@ const meta = {
             description: 'Optional headline text',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         labels: {
@@ -59,6 +61,7 @@ const meta = {
                 'Error message to display. When set, dropzone shows error state with red background and solid border',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         maxFileSize: {
@@ -66,6 +69,7 @@ const meta = {
             description: 'Maximum file size in bytes',
             table: {
                 category: 'validation',
+                type: { summary: 'number' },
             },
         },
         accept: {
@@ -73,6 +77,7 @@ const meta = {
             description: 'Accepted file types (e.g., "image/*", ".pdf")',
             table: {
                 category: 'validation',
+                type: { summary: 'string' },
             },
         },
         multiple: {
@@ -80,6 +85,7 @@ const meta = {
             description: 'Allow multiple file selection',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
                 defaultValue: { summary: 'false' },
             },
         },
@@ -88,6 +94,7 @@ const meta = {
             description: 'Whether files list is initially collapsed (for multiple files)',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
                 defaultValue: { summary: 'false' },
             },
         },
@@ -99,6 +106,7 @@ const meta = {
                 'Available options: Small (compact, horizontal layout), Medium (balanced, vertical layout), Large (spacious, prominent)',
             table: {
                 category: 'appearance',
+                type: { summary: 'FileUploaderSize' },
                 defaultValue: { summary: `'${FileUploaderSize.Medium}'` },
             },
         },

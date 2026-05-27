@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react-vite';
 import { SearchBox } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { Controlled } from './stories/Controlled.js';
-import defaultArgs from './common/defaultArgs.js';
 import { searchBoxArgTypes } from './common/argTypes.js';
+import defaultArgs from './common/defaultArgs.js';
 import SearchBoxMdx from './SearchBox.mdx';
+import { Controlled } from './stories/Controlled.js';
+import { Default } from './stories/Default.js';
 
 const meta: Meta<typeof SearchBox> = {
     component: SearchBox,

@@ -7,18 +7,6 @@ import { Controlled } from './stories/Controlled.js';
 import defaultArgs from './common/defaultArgs.js';
 import SearchBarMdx from './SearchBar.mdx';
 
-// SearchBar argTypes include children prop in addition to SearchBox argTypes
-const searchBarArgTypes = {
-    ...searchBoxArgTypes,
-    children: {
-        description: 'Action buttons, controls, or other elements to display alongside the search input.',
-        table: {
-            category: 'Content',
-            type: { summary: 'React.ReactNode' },
-        },
-    },
-};
-
 const meta: Meta<typeof SearchBar> = {
     component: SearchBar,
     parameters: {
@@ -32,7 +20,16 @@ const meta: Meta<typeof SearchBar> = {
     args: {
         ...defaultArgs,
     },
-    argTypes: searchBarArgTypes,
+    argTypes: {
+        ...searchBoxArgTypes,
+        children: {
+            description: 'Action buttons, controls, or other elements to display alongside the search input.',
+            table: {
+                category: 'content',
+                type: { summary: 'React.ReactNode' },
+            },
+        },
+    },
 };
 
 export default meta;

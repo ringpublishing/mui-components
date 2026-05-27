@@ -38,6 +38,7 @@ const meta: Meta<typeof ContentList> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: '0' },
+                type: { summary: 'number' },
             },
         },
         onHeaderClick: {
@@ -62,6 +63,7 @@ const meta: Meta<typeof ContentList> = {
             control: 'text',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
         sx: {
@@ -77,6 +79,7 @@ const meta: Meta<typeof ContentList> = {
             control: 'text',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
     },

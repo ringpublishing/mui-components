@@ -36,6 +36,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {
@@ -43,6 +44,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Suffix for data-testid attributes.',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
         items: {
@@ -50,6 +52,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Tree items to display.',
             table: {
                 category: 'content',
+                type: { summary: 'SimpleTreeItem[]' },
             },
         },
         withSearch: {
@@ -58,6 +61,7 @@ const meta: Meta<typeof SimpleTree> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         searchDebounceTime: {
@@ -66,6 +70,7 @@ const meta: Meta<typeof SimpleTree> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: '500' },
+                type: { summary: 'number' },
             },
         },
         searchPlaceholder: {
@@ -73,6 +78,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Placeholder text for the search input.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         selectedItems: {
@@ -80,6 +86,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Controlled selected item IDs.',
             table: {
                 category: 'state',
+                type: { summary: 'string[]' },
             },
         },
         onSelectedItemsChange: {
@@ -87,6 +94,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Callback fired when selection changes.',
             table: {
                 category: 'callbacks',
+                type: { summary: '(itemIds: string[]) => void' },
             },
         },
         onExpand: {
@@ -94,6 +102,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Callback fired when an item is expanded or collapsed.',
             table: {
                 category: 'callbacks',
+                type: { summary: '(itemId: string) => void' },
             },
         },
         onClickRow: {
@@ -101,6 +110,7 @@ const meta: Meta<typeof SimpleTree> = {
             description: 'Callback fired when a row is clicked.',
             table: {
                 category: 'callbacks',
+                type: { summary: '(itemId: string) => void' },
             },
         },
         persistence: {

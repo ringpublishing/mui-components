@@ -33,6 +33,7 @@ const meta: Meta<typeof ChipsGroup> = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {
@@ -40,6 +41,7 @@ const meta: Meta<typeof ChipsGroup> = {
             description: 'Suffix appended to the data-testid attribute for testing purposes.',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
         chips: {
@@ -58,6 +60,7 @@ const meta: Meta<typeof ChipsGroup> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         collapsable: {
@@ -67,6 +70,7 @@ const meta: Meta<typeof ChipsGroup> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         customLabels: {

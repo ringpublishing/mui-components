@@ -1,0 +1,32 @@
+{
+    "name": "@ringpublishing/mui-components-mcp",
+    "description": "MCP server for Ring Publishing MUI Components documentation",
+    "type": "module",
+    "bin": {
+        "mui-components-mcp": "./dist/index.js"
+    },
+    "files": [
+        "dist/**",
+        "data/knowledge.json",
+        "README.md"
+    ],
+    "scripts": {
+        "build:scripts": "tsc -p tsconfig.scripts.json",
+        "generate-knowledge": "npm run build:scripts && node dist-scripts/scripts/generate-knowledge.js",
+        "prebuild": "npm run generate-knowledge",
+        "build": "tsc -p tsconfig.json",
+        "dev": "tsc -p tsconfig.json --watch",
+        "start": "node dist/index.js"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.0",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "typescript": "~5.1.0"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

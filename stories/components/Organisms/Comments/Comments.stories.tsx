@@ -57,6 +57,7 @@ const meta = {
             description: 'Minimum number of characters required for the text field input to enable the submit button.',
             table: {
                 category: 'validation',
+                type: { summary: 'number' },
                 defaultValue: {
                     summary: defaultValues.minLength.toString(),
                 },
@@ -67,6 +68,7 @@ const meta = {
             description: 'Comment panel will be hidden.',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
                 defaultValue: {
                     summary: defaultValues.disableCreatePanel.toString(),
                 },
@@ -151,12 +153,14 @@ const meta = {
             description: 'MUI System properties for customizing the style of the root element.',
             table: {
                 category: 'common',
+                type: { summary: 'SxProps<Theme>' },
             },
         },
         className: {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'common',
+                type: { summary: 'string' },
             },
         },
     },

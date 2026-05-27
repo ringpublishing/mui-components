@@ -31,6 +31,7 @@ const meta = {
             description: 'Controls which predefined placeholder variant is rendered.',
             table: {
                 category: 'behavior',
+                type: { summary: "'error' | 'error_list' | 'not_found' | 'empty' | 'empty_box'" },
                 defaultValue: { summary: `'${PlaceholderVariant.ERROR}'` },
             },
         },
@@ -83,6 +84,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
     },

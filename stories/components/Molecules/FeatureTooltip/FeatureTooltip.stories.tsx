@@ -23,6 +23,7 @@ const meta: Meta<typeof FeatureTooltip> = {
             description: 'Feature tooltip title displayed in the header of the tooltip card.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         message: {
@@ -30,6 +31,7 @@ const meta: Meta<typeof FeatureTooltip> = {
             description: 'Feature tooltip message body. Not required if `videoEmbed` is passed.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         actions: {
@@ -51,6 +53,7 @@ const meta: Meta<typeof FeatureTooltip> = {
                 'Not required if `message` is passed. Takes priority over `image`.',
             table: {
                 category: 'content',
+                type: { summary: 'ReactNode' },
             },
         },
         image: {
@@ -59,6 +62,7 @@ const meta: Meta<typeof FeatureTooltip> = {
                 'URL to an image displayed in the tooltip card. ' + 'Not shown if `videoEmbed` is also provided.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         children: {
@@ -76,6 +80,7 @@ const meta: Meta<typeof FeatureTooltip> = {
                 'Must be unique across all tooltip instances in your application.',
             table: {
                 category: 'behavior',
+                type: { summary: 'string' },
             },
         },
         endDate: {
@@ -85,6 +90,7 @@ const meta: Meta<typeof FeatureTooltip> = {
                 'Example: `"2026-12-31T00:00:00.000Z"`.',
             table: {
                 category: 'behavior',
+                type: { summary: 'string' },
             },
         },
         capping: {
@@ -95,6 +101,7 @@ const meta: Meta<typeof FeatureTooltip> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: '1' },
+                type: { summary: 'number' },
             },
         },
         showDelay: {
@@ -103,6 +110,7 @@ const meta: Meta<typeof FeatureTooltip> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: '0' },
+                type: { summary: 'number' },
             },
         },
         offset: {
@@ -140,6 +148,7 @@ const meta: Meta<typeof FeatureTooltip> = {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {

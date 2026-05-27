@@ -34,6 +34,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         main: {
@@ -71,6 +72,7 @@ const meta = {
             description: 'If true, shows a placeholder for the empty state.',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
                 defaultValue: { summary: 'false' },
             },
         },

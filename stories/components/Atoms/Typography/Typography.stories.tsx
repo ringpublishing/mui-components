@@ -21,6 +21,7 @@ const meta: Meta<typeof Typography> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
     },

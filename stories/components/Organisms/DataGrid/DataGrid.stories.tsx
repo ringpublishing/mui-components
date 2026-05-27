@@ -34,6 +34,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Displays the custom Ring toolbar with sorting, refresh and bulk actions controls.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'toolbar',
             },
         },
@@ -60,6 +61,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             control: 'text',
             description: 'Key of the currently sorted field. Overrides the internally held value.',
             table: {
+                type: { summary: 'string' },
                 category: 'toolbar',
             },
         },
@@ -75,6 +77,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             type: 'number',
             description: 'Total row count displayed in the toolbar.',
             table: {
+                type: { summary: 'number' },
                 category: 'toolbar',
             },
         },
@@ -95,6 +98,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Enables the auto-refresh functionality.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'auto refresh',
             },
         },
@@ -104,6 +108,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Auto-refresh interval in milliseconds.',
             table: {
                 defaultValue: { summary: '60000' },
+                type: { summary: 'number' },
                 category: 'auto refresh',
             },
         },
@@ -137,6 +142,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Pauses auto-refresh on user interaction (mouseover, touchmove, scroll).',
             table: {
                 defaultValue: { summary: 'true' },
+                type: { summary: 'boolean' },
                 category: 'auto refresh',
             },
         },
@@ -146,6 +152,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Debounce delay in milliseconds for user interaction events that pause auto-refresh.',
             table: {
                 defaultValue: { summary: '250' },
+                type: { summary: 'number' },
                 category: 'auto refresh',
             },
         },
@@ -155,6 +162,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Enables the bulk actions toolbar. Automatically enables checkbox selection.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'bulk actions',
             },
         },
@@ -183,6 +191,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Maximum number of rows that can be selected at once.',
             table: {
                 defaultValue: { summary: '5000' },
+                type: { summary: 'number' },
                 category: 'bulk actions',
             },
         },
@@ -192,6 +201,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Shows a checkbox column for row selection.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'selection',
             },
         },
@@ -201,6 +211,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Removes the select-all checkbox from the header.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'selection',
             },
         },
@@ -226,6 +237,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Clears row selection when the list refreshes.',
             table: {
                 defaultValue: { summary: 'true' },
+                type: { summary: 'boolean' },
                 category: 'selection',
             },
         },
@@ -235,6 +247,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Shows error placeholder when rows are empty instead of the no-results placeholder.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'states',
             },
         },
@@ -256,6 +269,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Shows a linear progress bar loading overlay.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'states',
             },
         },
@@ -281,6 +295,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Fixed height in pixels for each row.',
             table: {
                 defaultValue: { summary: '52' },
+                type: { summary: 'number' },
                 category: 'layout',
             },
         },
@@ -290,6 +305,7 @@ const meta: Meta<typeof RingDataGridComponent> = {
             description: 'Height in pixels of the column headers.',
             table: {
                 defaultValue: { summary: '56' },
+                type: { summary: 'number' },
                 category: 'layout',
             },
         },

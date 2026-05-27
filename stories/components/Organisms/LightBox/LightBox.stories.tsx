@@ -31,6 +31,7 @@ const meta: Meta<typeof LightBox> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         onClose: {
@@ -47,6 +48,7 @@ const meta: Meta<typeof LightBox> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'true' },
+                type: { summary: 'boolean' },
             },
         },
         enableDownloadIcon: {
@@ -55,6 +57,7 @@ const meta: Meta<typeof LightBox> = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'true' },
+                type: { summary: 'boolean' },
             },
         },
         onImagesScrollEnd: {
@@ -70,6 +73,7 @@ const meta: Meta<typeof LightBox> = {
             description: 'Whether more images are currently being loaded and a loading indicator should be shown.',
             table: {
                 category: 'state',
+                type: { summary: 'boolean' },
             },
         },
         handleImageDownload: {
@@ -117,6 +121,7 @@ const meta: Meta<typeof LightBox> = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {

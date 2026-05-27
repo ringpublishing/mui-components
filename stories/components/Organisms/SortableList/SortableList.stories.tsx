@@ -48,6 +48,7 @@ const meta: Meta<typeof SortableList> = {
                 '**Warning:** Setting this to `true` without rendering `<SortableList.DragHandle />` inside items will make the list un-draggable.',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
                 defaultValue: { summary: 'false' },
             },
         },
@@ -73,6 +74,7 @@ const meta: Meta<typeof SortableList> = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {

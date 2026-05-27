@@ -40,6 +40,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         labels: {

@@ -31,6 +31,7 @@ const meta: Meta<typeof ChipsInput> = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {
@@ -38,6 +39,7 @@ const meta: Meta<typeof ChipsInput> = {
             description: 'Test ID suffix for testing purposes.',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
         labels: {

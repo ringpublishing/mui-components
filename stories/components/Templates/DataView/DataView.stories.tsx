@@ -29,6 +29,7 @@ const meta = {
                 ' Left, right, and bottom slots are optional. ' +
                 'Top slot can be used to override the default SearchBar component.',
             table: {
+                category: 'customization',
                 type: {
                     summary:
                         '{ main: React.JSX.Element; left?: React.JSX.Element; ' +
@@ -42,6 +43,7 @@ const meta = {
                 'Allows passing props to the slot components. Top slot accepts children, menuActions and openSlotsOnMobileLabels. ' +
                 'Bottom slot accepts BottomBarSlotProps.',
             table: {
+                category: 'customization',
                 type: {
                     summary:
                         '{ top?: { children?: React.JSX.Element[]; menuActions?: Action[]; ' +
@@ -191,6 +193,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
     },

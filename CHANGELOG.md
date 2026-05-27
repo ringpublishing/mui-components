@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] - 2026-05-27
+
+### Added
+- [@rmusial2]: Added `mcp-server` — MCP server for AI tooling, deployed as separate package `@ringpublishing/mui-components-mcp`.
+- [@rmusial2]: Enriched all 33 components with complete argTypes metadata (descriptions, types, categories).
+
 ## [1.6.1] - 2026-05-26
 
 ### Fixed

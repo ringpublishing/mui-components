@@ -23,6 +23,7 @@ const meta: Meta<typeof Accordion> = {
             table: {
                 category: 'content',
                 defaultValue: { summary: 'Test' },
+                type: { summary: 'string' },
             },
         },
         children: {
@@ -38,6 +39,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'Label for the action button in accordion header',
             table: {
                 category: 'action',
+                type: { summary: 'string' },
             },
         },
         buttonOnClick: {
@@ -55,6 +57,7 @@ const meta: Meta<typeof Accordion> = {
             table: {
                 category: 'style',
                 defaultValue: { summary: 'borderless' },
+                type: { summary: "'elevation' | 'outlined' | 'borderless'" },
             },
         },
         expanded: {
@@ -62,6 +65,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'If true, the accordion is expanded',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
             },
         },
         defaultExpanded: {
@@ -69,6 +73,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'If true, the accordion is expanded by default',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
             },
         },
         disabled: {
@@ -76,6 +81,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'If true, the accordion is disabled',
             table: {
                 category: 'behavior',
+                type: { summary: 'boolean' },
             },
         },
         onChange: {
@@ -91,6 +97,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'Optional suffix added to data-testid attributes for testing',
             table: {
                 category: 'testing',
+                type: { summary: 'string' },
             },
         },
         sx: {
@@ -106,6 +113,7 @@ const meta: Meta<typeof Accordion> = {
             description: 'CSS class name applied to the root element',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
     },

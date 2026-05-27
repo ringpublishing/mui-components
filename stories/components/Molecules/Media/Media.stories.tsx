@@ -34,6 +34,7 @@ const meta = {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         image: {
@@ -51,6 +52,7 @@ const meta = {
             description: 'Caption text displayed in the bottom left corner below the media.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         type: {
@@ -58,6 +60,7 @@ const meta = {
             description: 'Media type label displayed in the top left corner above the image.',
             table: {
                 category: 'content',
+                type: { summary: "'image' | 'video' | 'embed'" },
             },
         },
         statusLabels: {
@@ -96,6 +99,7 @@ const meta = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         ratio: {
@@ -106,6 +110,7 @@ const meta = {
             table: {
                 category: 'appearance',
                 defaultValue: { summary: '"4/3"' },
+                type: { summary: 'string' },
             },
         },
         objectFit: {
@@ -115,6 +120,7 @@ const meta = {
             table: {
                 category: 'appearance',
                 defaultValue: { summary: '"contain"' },
+                type: { summary: "'cover' | 'contain' | 'fill'" },
             },
         },
         slots: {
@@ -139,6 +145,7 @@ const meta = {
             description: 'Suffix appended to the `data-testid` attribute for test targeting.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
 

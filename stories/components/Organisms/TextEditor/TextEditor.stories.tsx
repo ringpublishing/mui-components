@@ -95,6 +95,7 @@ const meta: Meta<typeof TextEditor> = {
             description: 'The maximum number of characters allowed in the editor.',
             table: {
                 category: 'validation',
+                type: { summary: 'number' },
             },
         },
         allowExceedLimit: {
@@ -102,6 +103,7 @@ const meta: Meta<typeof TextEditor> = {
             description: 'If true, the editor will allow the content to exceed the defined limit.',
             table: {
                 category: 'validation',
+                type: { summary: 'boolean' },
                 defaultValue: { summary: 'true' },
             },
         },
@@ -118,6 +120,7 @@ const meta: Meta<typeof TextEditor> = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {

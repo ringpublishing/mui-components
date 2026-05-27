@@ -1,19 +1,19 @@
-import React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import type { Meta } from '@storybook/react-vite';
 import 'dayjs/locale/en';
+import React from 'react';
 import { DatePicker } from '../../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { Disabled } from './stories/Disabled.js';
-import { CustomStyles } from './stories/CustomStyles.js';
-import { DefaultValue } from './stories/DefaultValue.js';
-import { Label } from './stories/Label.js';
-import { Actions } from './stories/Actions.js';
-import { NowButton } from './stories/NowButton.js';
-import { Outlined } from './stories/Outlined.js';
 import defaultArgs from './common/defaultArgs.js';
 import DatePickerMdx from './DatePicker.mdx';
+import { Actions } from './stories/Actions.js';
+import { CustomStyles } from './stories/CustomStyles.js';
+import { Default } from './stories/Default.js';
+import { DefaultValue } from './stories/DefaultValue.js';
+import { Disabled } from './stories/Disabled.js';
+import { Label } from './stories/Label.js';
+import { NowButton } from './stories/NowButton.js';
+import { Outlined } from './stories/Outlined.js';
 
 const meta = {
     component: DatePicker,
@@ -58,6 +58,7 @@ const meta = {
             description: 'CSS class name applied to the root element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         dataTestIdSuffix: {
@@ -73,6 +74,7 @@ const meta = {
             description: 'Floating label text displayed above the input field.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         currentDateLabel: {
@@ -81,6 +83,7 @@ const meta = {
                 'Label for the "Now" shortcut button in the calendar popup. When set, a button appears that selects the current date.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         actions: {
@@ -97,6 +100,7 @@ const meta = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         defaultValue: {

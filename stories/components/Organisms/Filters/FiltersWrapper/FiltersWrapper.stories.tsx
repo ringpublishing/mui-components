@@ -20,6 +20,7 @@ const meta = {
             description: 'Label of the component displayed at the top.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         withClearButton: {
@@ -28,6 +29,7 @@ const meta = {
             table: {
                 category: 'behavior',
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
             },
         },
         clearButtonLabel: {
@@ -35,6 +37,7 @@ const meta = {
             description: 'Label for the clear button.',
             table: {
                 category: 'content',
+                type: { summary: 'string' },
             },
         },
         onClear: {
@@ -54,6 +57,7 @@ const meta = {
             table: {
                 category: 'appearance',
                 defaultValue: { summary: `'${VariantEnum.STANDARD}'` },
+                type: { summary: "'outlined' | 'standard'" },
             },
         },
         size: {
@@ -64,6 +68,7 @@ const meta = {
             table: {
                 category: 'appearance',
                 defaultValue: { summary: `'${SizeEnum.SMALL}'` },
+                type: { summary: "'small' | 'medium'" },
             },
         },
         buttonStyle: {
@@ -89,6 +94,7 @@ const meta = {
             description: 'CSS class name applied to the main element.',
             table: {
                 category: 'customization',
+                type: { summary: 'string' },
             },
         },
         children: {

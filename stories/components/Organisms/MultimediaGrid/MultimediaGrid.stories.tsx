@@ -47,6 +47,7 @@ const meta = {
             type: 'number',
             table: {
                 defaultValue: { summary: '1' },
+                type: { summary: 'number' },
                 category: 'data toolbar',
             },
         },
@@ -56,6 +57,7 @@ const meta = {
             description: 'Determines whether the component is in loading state.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'data toolbar',
             },
         },
@@ -65,6 +67,7 @@ const meta = {
             description: 'If true, displays error message instead of grid.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
                 category: 'states',
             },
         },
@@ -86,6 +89,7 @@ const meta = {
             table: {
                 defaultValue: { summary: JSON.stringify(DEFAULT_COLUMNS) },
                 type: { summary: 'ResponsiveValue<number>' },
+                category: 'layout',
             },
         },
         cellRatio: {
@@ -94,12 +98,14 @@ const meta = {
             table: {
                 defaultValue: { summary: JSON.stringify(DEFAULT_CELL_RATIO) },
                 type: { summary: 'ResponsiveValue<string>' },
+                category: 'layout',
             },
         },
         refreshItems: {
             type: 'function',
             description: 'Function called when refresh icon is clicked or during auto-refresh.',
             table: {
+                type: { summary: '() => void' },
                 category: 'data toolbar',
             },
             action: 'refreshItems',
@@ -110,6 +116,8 @@ const meta = {
             description: 'Determines whether the toolbar should be visible.',
             table: {
                 defaultValue: { summary: 'false' },
+                type: { summary: 'boolean' },
+                category: 'data toolbar',
             },
         },
         spacing: {
@@ -118,6 +126,7 @@ const meta = {
             table: {
                 type: { summary: 'ResponsiveValue<number>' },
                 defaultValue: { summary: '0' },
+                category: 'layout',
             },
         },
         rowSpacing: {
@@ -125,6 +134,7 @@ const meta = {
             description: 'Vertical spacing between rows (in theme.spacing() units). Can be responsive.',
             table: {
                 type: { summary: 'ResponsiveValue<number>' },
+                category: 'layout',
             },
         },
         columnSpacing: {
@@ -132,12 +142,17 @@ const meta = {
             description: 'Horizontal spacing between columns (in theme.spacing() units). Can be responsive.',
             table: {
                 type: { summary: 'ResponsiveValue<number>' },
+                category: 'layout',
             },
         },
         items: {
             control: 'object',
             description:
                 'Media elements to display in the grid. Each item should contain data needed to display a media card.',
+            table: {
+                type: { summary: 'MultimediaGridItem[]' },
+                category: 'data',
+            },
         },
         sx: {
             control: 'object',
@@ -153,6 +168,7 @@ const meta = {
             type: 'string',
             description: 'CSS class name applied to the main element.',
             table: {
+                type: { summary: 'string' },
                 category: 'customization',
             },
         },

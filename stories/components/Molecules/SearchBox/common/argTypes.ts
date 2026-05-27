@@ -1,10 +1,7 @@
-// Separated into variables to keep argTypes for controlled and uncontrolled props organized
-// and reusable across different stories or configurations.
-// `as const` preserves literal types for control fields (e.g. 'text' instead of string).
-const controlledArgTypes = {
+export const searchBoxArgTypes = {
     value: {
         description: 'The value of the input element, required for a controlled component.',
-        control: 'text',
+        control: 'text' as const,
         table: {
             category: 'controlled',
             type: { summary: 'string' },
@@ -17,12 +14,9 @@ const controlledArgTypes = {
             type: { summary: '(value: string) => void' },
         },
     },
-} as const;
-
-const uncontrolledArgTypes = {
     defaultValue: {
         description: 'The default value, required for an uncontrolled component.',
-        control: 'text',
+        control: 'text' as const,
         table: {
             category: 'uncontrolled',
             type: { summary: 'string' },
@@ -37,18 +31,13 @@ const uncontrolledArgTypes = {
     },
     debounceTime: {
         description: 'Delay of calling searchFunc in milliseconds, only for uncontrolled component.',
-        control: 'number',
+        control: 'number' as const,
         table: {
             category: 'uncontrolled',
             type: { summary: 'number' },
             defaultValue: { summary: '500' },
         },
     },
-} as const;
-
-export const searchBoxArgTypes = {
-    ...controlledArgTypes,
-    ...uncontrolledArgTypes,
     withClearButton: {
         description: 'Show/hide clear button.',
         control: 'boolean' as const,
