@@ -79,6 +79,9 @@ const config: StorybookConfig = {
             optimizeDeps: {
                 include: reactQueryPath ? ['@tanstack/react-query'] : [],
             },
+            esbuild: {
+                keepNames: true,
+            },
             build: {
                 chunkSizeWarningLimit: 100,
                 rollupOptions: {

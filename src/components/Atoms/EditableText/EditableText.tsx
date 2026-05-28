@@ -145,6 +145,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                 </Typography>
                 <Button
                     data-testid={`${dataTestId}-edit`}
+                    aria-label="Edit"
                     onClick={openEditMode}
                     sx={{ padding: 0, width: 20, minWidth: 20, marginLeft: 1 }}
                 >

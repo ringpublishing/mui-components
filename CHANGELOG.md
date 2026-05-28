@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.2] - 2026-05-28
+
+### Fixed
+- [@pjarolewski]: Fixed WCAG AA accessibility in `TextField`, `EditableText`, `DatePicker`, `DateTimePicker`, and `TimePicker` — label and icon button colors now meet the required 4.5:1 contrast ratio; updated test snapshots.
+
 ## [1.7.1] - 2026-05-27
 
 ### Fixed

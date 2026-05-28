@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 const BASE_URL = process.env.E2E_BASE_URL || 'https://design.ringpublishing.com';
+const AUTH_FILE = path.resolve('playwright', '.auth', 'user.json');
 
 /**
  * Playwright configuration for WCAG accessibility testing
@@ -20,16 +22,24 @@ export default defineConfig({
     },
     projects: [
         {
+            name: 'setup',
+            testMatch: /variant\.setup\.ts/,
+        },
+        {
             name: 'desktop-chromium',
             use: {
                 ...devices['Desktop Chrome'],
+                storageState: AUTH_FILE,
             },
+            dependencies: ['setup'],
         },
         {
             name: 'mobile-chromium',
             use: {
                 ...devices['Pixel 5'],
+                storageState: AUTH_FILE,
             },
+            dependencies: ['setup'],
         },
     ],
 });

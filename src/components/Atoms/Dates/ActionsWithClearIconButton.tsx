@@ -16,10 +16,10 @@ export function ActionsWithClearIconButton({
 
     return (
         <>
-            <IconButton size="small">
+            <IconButton size="small" aria-label="Clear">
                 <ClearIcon fontSize="small" onClick={() => pickerContext.clearValue()} />
             </IconButton>
-            <IconButton size="small" ref={anchorRef} sx={{ ml: '1', p: '0.5' }}>
+            <IconButton size="small" aria-label="More" ref={anchorRef} sx={{ ml: '1', p: '0.5' }}>
                 <MoreVert />
             </IconButton>
             <ActionBox actions={actions} anchorEl={anchorRef} placement="bottom-end" tooltipPlacement="right" />

@@ -91,6 +91,7 @@ exports[`Detail > EditableField > should render correctly 1`] = `
           Test Value
         </p>
         <button
+          aria-label="Edit"
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
@@ -247,6 +248,7 @@ exports[`Detail > should render correctly 1`] = `
           Test Title
         </p>
         <button
+          aria-label="Edit"
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
@@ -376,6 +378,7 @@ exports[`Detail > should render correctly 1`] = `
                 Editable value
               </p>
               <button
+                aria-label="Edit"
                 class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
                 data-testid="ring-editabletext-detail-2-edit"
                 tabindex="0"

@@ -480,6 +480,7 @@ exports[`Components: DateTimePicker > should render correctly with custom action
           </span>
         </div>
         <button
+          aria-label="Clear"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"
@@ -497,6 +498,7 @@ exports[`Components: DateTimePicker > should render correctly with custom action
           </svg>
         </button>
         <button
+          aria-label="More"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1fbstsb-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"
@@ -1285,6 +1287,7 @@ exports[`Components: DateTimePicker > should render correctly with empty actions
           </span>
         </div>
         <button
+          aria-label="Clear"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"
@@ -1302,6 +1305,7 @@ exports[`Components: DateTimePicker > should render correctly with empty actions
           </svg>
         </button>
         <button
+          aria-label="More"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1fbstsb-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"

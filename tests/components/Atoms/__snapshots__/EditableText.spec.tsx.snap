@@ -12,6 +12,7 @@ exports[`EditableText > should render correctly 1`] = `
       Test Text
     </p>
     <button
+      aria-label="Edit"
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
       data-testid="ring-editabletext-edit"
       tabindex="0"

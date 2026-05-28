@@ -56,6 +56,7 @@ export function TextField(props: TextFieldProps): React.JSX.Element {
                         <Tooltip title={actions[0].disabledReason || actions[0].label}>
                             <IconButton
                                 sx={{ p: '4px', ml: 1 }}
+                                aria-label={actions[0].label}
                                 onClick={(event: React.MouseEvent<HTMLElement>): void => {
                                     event.preventDefault();
                                     actions[0].onClick?.(event);
@@ -67,7 +68,12 @@ export function TextField(props: TextFieldProps): React.JSX.Element {
                             </IconButton>
                         </Tooltip>
                     ) : (
-                        <IconButton ref={ref} sx={{ p: '4px', ml: 1 }} data-testid={`${dataTestId}-actions`}>
+                        <IconButton
+                            ref={ref}
+                            sx={{ p: '4px', ml: 1 }}
+                            aria-label="More actions"
+                            data-testid={`${dataTestId}-actions`}
+                        >
                             <MoreVert />
                             <ActionBox actions={actions} anchorEl={ref} dataTestIdSuffix={dataTestIdSuffix} />
                         </IconButton>
