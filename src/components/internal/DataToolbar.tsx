@@ -468,7 +468,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
                             totalRowCount={totalRowCount}
                             maxRowsCount={maxRowsCount}
                         />
-                        <IconButton onClick={(e): void => onBulkActionsClose?.(e)}>
+                        <IconButton onClick={(e): void => onBulkActionsClose?.(e)} aria-label="Close bulk actions">
                             <Close />
                         </IconButton>
                     </Stack>
@@ -481,7 +481,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
         if (isMobile) {
             return (
                 <>
-                    <IconButton ref={sortIconRef} sx={{ marginLeft: 'auto' }}>
+                    <IconButton ref={sortIconRef} aria-label="Sort" sx={{ marginLeft: 'auto' }}>
                         <Sort />
                     </IconButton>
                     <ActionBox
@@ -505,6 +505,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
         } else {
             return (
                 <Select
+                    inputProps={{ 'aria-label': 'Sort by' }}
                     sx={{
                         '&::before': {
                             display: 'none',
@@ -542,11 +543,19 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
 
     const renderToolbar = (): React.JSX.Element => {
         const autoRefreshIcon = autoRefreshManualEnabled ? (
-            <IconButton title={labels?.disableAutoRefresh} onClick={(): void => handleAutoRefreshIconClick(false)}>
+            <IconButton
+                title={labels?.disableAutoRefresh}
+                aria-label={labels?.disableAutoRefresh || 'Disable auto refresh'}
+                onClick={(): void => handleAutoRefreshIconClick(false)}
+            >
                 <Sync />
             </IconButton>
         ) : (
-            <IconButton title={labels?.enableAutoRefresh} onClick={(): void => handleAutoRefreshIconClick(true)}>
+            <IconButton
+                title={labels?.enableAutoRefresh}
+                aria-label={labels?.enableAutoRefresh || 'Enable auto refresh'}
+                onClick={(): void => handleAutoRefreshIconClick(true)}
+            >
                 <SyncDisabled />
             </IconButton>
         );
@@ -563,6 +572,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
                     {!dataViewState.isMobile && dataViewState.hasLeftSlot && (
                         <IconButton
                             data-testid="toggle-left-slot-button"
+                            aria-label={dataViewState.isLeftSlotOpen ? 'Close filters' : 'Open filters'}
                             onClick={(): void => dataViewState.setLeftSlotOpen?.(!dataViewState.isLeftSlotOpen)}
                         >
                             {dataViewState.isLeftSlotOpen ? <FilterListOff /> : <FilterList />}
@@ -576,7 +586,12 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
                 <Stack direction={'row'} gap={1}>
                     {autoRefresh && autoRefreshIcon}
                     {refreshItems && (
-                        <IconButton title={labels?.refresh} onClick={handleClickRefresh} disabled={loading}>
+                        <IconButton
+                            title={labels?.refresh}
+                            aria-label={labels?.refresh || 'Refresh'}
+                            onClick={handleClickRefresh}
+                            disabled={loading}
+                        >
                             <Refresh />
                         </IconButton>
                     )}
@@ -610,6 +625,7 @@ export const DataToolbar: React.FC<DataToolbarProps> = (props): React.ReactEleme
             {enableBulkActions ? renderBulkActions() : renderToolbar()}
             {isStandalone && loading && (
                 <LinearProgress
+                    aria-label="Loading"
                     style={{
                         position: 'absolute',
                         bottom: -5, // Adjusted to fit the toolbar height

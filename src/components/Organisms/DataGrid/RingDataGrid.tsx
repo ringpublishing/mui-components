@@ -17,6 +17,7 @@ import {
     MuiEvent,
     useGridApiRef,
     GRID_CHECKBOX_SELECTION_COL_DEF,
+    GridOverlay,
 } from '@mui/x-data-grid-pro';
 import { useBottomBarContext } from '../../internal/BottomBar/BottomBarContext.js';
 import { FilterChip, FilterChipGroup } from '../../internal/FilterChipGroup.js';
@@ -513,7 +514,15 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                     ),
                     noRowsOverlay: () =>
                         CustomNoRowsOverlay(error, language, props?.refreshCallback, placeholderLabels),
-                    loadingOverlay: () => <LinearProgress />,
+                    loadingOverlay: () => (
+                        <GridOverlay>
+                            <div role="row" style={{ width: '100%' }}>
+                                <div role="gridcell" style={{ width: '100%' }}>
+                                    <LinearProgress aria-label="Loading" sx={{ width: '100%' }} />
+                                </div>
+                            </div>
+                        </GridOverlay>
+                    ),
                     ...(gridProps.slots || {}),
                     toolbar: showRingToolbar ? RingDataGridToolbar : undefined,
                 }}

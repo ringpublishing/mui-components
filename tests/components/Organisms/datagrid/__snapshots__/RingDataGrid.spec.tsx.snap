@@ -33,6 +33,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
+              aria-label="Sort by"
               class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-14zuiwb-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
               role="combobox"
               tabindex="0"
@@ -62,6 +63,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
             class="MuiStack-root css-1oxswqj-MuiStack-root"
           >
             <button
+              aria-label="Disable auto refresh"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               title="Disable auto refresh"
@@ -80,6 +82,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
               </svg>
             </button>
             <button
+              aria-label="Refresh"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               title="Refresh"
@@ -606,6 +609,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                 5000
               </span>
               <button
+                aria-label="Close bulk actions"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
@@ -1217,6 +1221,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
+              aria-label="Sort by"
               class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-14zuiwb-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
               role="combobox"
               tabindex="0"
@@ -1246,6 +1251,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
             class="MuiStack-root css-1oxswqj-MuiStack-root"
           >
             <button
+              aria-label="Refresh"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               title="Refresh"

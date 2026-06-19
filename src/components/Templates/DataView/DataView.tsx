@@ -348,7 +348,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         ...React.Children.toArray(slotProps?.top?.children),
         ...(menuActions.length > 0
             ? [
-                  <IconButton key={'menu-actions'} ref={moreActionsButtonRef}>
+                  <IconButton key={'menu-actions'} ref={moreActionsButtonRef} aria-label="More actions">
                       <MoreVert />
                       <ActionBox actions={menuActions} anchorEl={moreActionsButtonRef} />
                   </IconButton>,
@@ -356,7 +356,12 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
             : []),
         ...(!isMobile && slots.right
             ? [
-                  <IconButton key={'right-slot-open'} onClick={(): void => handleSetRightSlotOpen(!rightSlotOpen)}>
+                  <IconButton
+                      key={'right-slot-open'}
+                      onClick={(): void => handleSetRightSlotOpen(!rightSlotOpen)}
+                      aria-label={rightSlotOpen ? 'Close details' : 'Open details'}
+                      aria-pressed={rightSlotOpen}
+                  >
                       <InfoOutlined />
                   </IconButton>,
               ]
@@ -488,7 +493,7 @@ export function RingDrawer(props: RingDrawerProps): React.JSX.Element {
     return (
         <Drawer className="ring-drawer" transitionDuration={500} {...otherProps} onClose={onClose}>
             <AppBar sx={{ alignItems: 'flex-start', position: 'static' }}>
-                <IconButton onClick={onClose}>
+                <IconButton onClick={onClose} aria-label="Close">
                     <CloseOutlined />
                 </IconButton>
             </AppBar>

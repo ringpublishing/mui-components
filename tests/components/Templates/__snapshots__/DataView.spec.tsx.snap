@@ -51,6 +51,7 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
             >
               <input
+                aria-label="Search"
                 class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
                 data-testid="ring-searchbox-input"
                 placeholder=""
@@ -63,6 +64,7 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
             class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
           >
             <button
+              aria-label="Open details"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
@@ -102,6 +104,7 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                     class="MuiStack-root css-1rlitzi-MuiStack-root"
                   >
                     <button
+                      aria-label="Close filters"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
                       data-testid="toggle-left-slot-button"
                       tabindex="0"
@@ -286,6 +289,7 @@ exports[`Component: DataView > should render correctly with required props 1`] =
               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
             >
               <input
+                aria-label="Search"
                 class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
                 data-testid="ring-searchbox-input"
                 placeholder=""

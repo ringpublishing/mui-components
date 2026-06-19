@@ -14,6 +14,11 @@ export interface GridSpacerProps extends CommonComponentProps {
      * @default true
      */
     withBottomBorder?: boolean;
+    /**
+     * ARIA role for the spacer container
+     * @default separator
+     */
+    role?: React.AriaRole;
 }
 
 export const GridSpacer = ({
@@ -21,10 +26,22 @@ export const GridSpacer = ({
     withTopBorder = true,
     withBottomBorder = true,
     sx,
+    role = 'separator',
 }: GridSpacerProps): React.JSX.Element => {
+    const isRow = role === 'row';
+
+    const content = (
+        <>
+            {separator.icon}
+            <Typography sx={{ ml: 1 }} variant="caption" color={separator.color}>
+                {separator.title}
+            </Typography>
+        </>
+    );
+
     return (
         <Box
-            role="separator"
+            role={role}
             sx={{
                 height: `${SEPARATOR_ROW_HEIGHT}px`,
                 minHeight: `${SEPARATOR_ROW_HEIGHT}px`,
@@ -40,10 +57,20 @@ export const GridSpacer = ({
                 ...sx,
             }}
         >
-            {separator.icon}
-            <Typography sx={{ ml: 1 }} variant="caption" color={separator.color}>
-                {separator.title}
-            </Typography>
+            {isRow ? (
+                <Box
+                    role="gridcell"
+                    sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        width: '100%',
+                    }}
+                >
+                    {content}
+                </Box>
+            ) : (
+                content
+            )}
         </Box>
     );
 };

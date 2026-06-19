@@ -174,24 +174,29 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
             >
               <div
                 class="MuiBox-root css-13o1lsh"
-                role="separator"
+                role="row"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
-                  data-testid="CalendarMonthIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <div
+                  class="MuiBox-root css-6gei9z"
+                  role="gridcell"
                 >
-                  <path
-                    d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 16H5V10h14zM9 14H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2zm-8 4H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2z"
-                  />
-                </svg>
-                <span
-                  class="MuiTypography-root MuiTypography-caption css-2vzjgd-MuiTypography-root"
-                >
-                  default
-                </span>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
+                    data-testid="CalendarMonthIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 16H5V10h14zM9 14H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2zm-8 4H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption css-2vzjgd-MuiTypography-root"
+                  >
+                    default
+                  </span>
+                </div>
               </div>
               <div
                 aria-rowindex="3"
@@ -228,24 +233,29 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
               </div>
               <div
                 class="MuiBox-root css-1t2rcpd"
-                role="separator"
+                role="row"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-2oawe7-MuiSvgIcon-root"
-                  data-testid="EditIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <div
+                  class="MuiBox-root css-6gei9z"
+                  role="gridcell"
                 >
-                  <path
-                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
-                  />
-                </svg>
-                <span
-                  class="MuiTypography-root MuiTypography-caption css-taxw80-MuiTypography-root"
-                >
-                  custom
-                </span>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-2oawe7-MuiSvgIcon-root"
+                    data-testid="EditIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption css-taxw80-MuiTypography-root"
+                  >
+                    custom
+                  </span>
+                </div>
               </div>
             </div>
           </div>

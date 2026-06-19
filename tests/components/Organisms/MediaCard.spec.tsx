@@ -48,14 +48,14 @@ describe('MediaCard media source tests:', () => {
     });
 
     it('Should display image when image is provided', () => {
-        const { getByRole } = renderWithTheme(<MediaCard image="image-mock.jpeg" />);
+        const { getByRole } = renderWithTheme(<MediaCard image="image-mock.jpeg" title="Test image" />);
 
         getByRole('img');
     });
 
     it('Should display image when src is provided by slotProps.cardMedia', () => {
         const { getByRole } = renderWithTheme(
-            <MediaCard slotProps={{ cardMedia: { component: 'img', src: 'image-mock.jpeg' } }} />,
+            <MediaCard title="Test image" slotProps={{ cardMedia: { src: 'image-mock.jpeg' } }} />,
         );
 
         getByRole('img');

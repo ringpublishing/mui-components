@@ -116,9 +116,10 @@ export interface MediaCardProps extends CommonComponentProps, AspectRatioOwnerSt
          */
         card?: Omit<CardProps, 'children' | 'variant' | 'square' | 'onClick' | 'tabIndex' | 'elevation'>;
         /**
-         * Props applied to the CardMedia component.
+         * Props applied to the CardMedia component (rendered as `<img>`).
+         * The `component` prop is fixed to `"img"` and cannot be overridden here.
          */
-        cardMedia?: CardMediaProps;
+        cardMedia?: Omit<CardMediaProps<'img'>, 'component'>;
         /**
          * Props applied to the Checkbox component.
          */
@@ -321,6 +322,7 @@ function Actions(props: { actions: Action[]; dataTestIdSuffix?: string }): React
                 ref={ref}
                 disableRipple={false}
                 data-testid={`${dataTestId}-actions`}
+                aria-label="More actions"
                 onClick={(event): void => {
                     event.stopPropagation();
                 }}
@@ -352,13 +354,19 @@ function MediaRenderer(props: MediaCardProps): React.JSX.Element {
     if (slotProps?.cardMedia) {
         return (
             <AspectRatio ratio={ratio} objectFit={objectFit}>
-                <CardMedia draggable={false} src={image} {...slotProps.cardMedia} />
+                <CardMedia
+                    component="img"
+                    draggable={false}
+                    src={image}
+                    alt={props.title || ''}
+                    {...slotProps.cardMedia}
+                />
             </AspectRatio>
         );
     }
 
     if (image) {
-        return <ImageCard image={image} ratio={ratio} objectFit={objectFit} />;
+        return <ImageCard image={image} ratio={ratio} objectFit={objectFit} title={props.title} />;
     }
 
     return <PlaceholderCard ratio={ratio} objectFit={objectFit} iconPlaceholder={iconPlaceholder} />;
@@ -452,9 +460,10 @@ function StatusLabel(params: StatusLabelProps): React.JSX.Element {
 
 interface MediaImageProps extends AspectRatioOwnerStateProps {
     image: string;
+    title?: string;
 }
 
-function ImageCard({ image, ratio, objectFit }: MediaImageProps): React.JSX.Element {
+function ImageCard({ image, ratio, objectFit, title }: MediaImageProps): React.JSX.Element {
     const { status, handleLoad, handleError, resetStatus } = useImageLoader();
 
     const imageRef = useRef<HTMLImageElement>(null);
@@ -495,6 +504,7 @@ function ImageCard({ image, ratio, objectFit }: MediaImageProps): React.JSX.Elem
                         ref={imageRef}
                         component="img"
                         src={image}
+                        alt={title || ''}
                         draggable={false}
                         onLoad={handleLoad}
                         onError={handleError}

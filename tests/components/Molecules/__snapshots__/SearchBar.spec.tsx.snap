@@ -25,6 +25,7 @@ exports[`SearchBar > should render correctly 1`] = `
         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-nlitp9-MuiInputBase-root-MuiInput-root"
       >
         <input
+          aria-label="Test Placeholder"
           class="MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"
           data-testid="ring-searchbox-input"
           placeholder="Test Placeholder"
@@ -65,6 +66,7 @@ exports[`SearchBar > should render correctly with sx selector for children stack
         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-nlitp9-MuiInputBase-root-MuiInput-root"
       >
         <input
+          aria-label="Search"
           class="MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"
           data-testid="ring-searchbox-input"
           placeholder=""

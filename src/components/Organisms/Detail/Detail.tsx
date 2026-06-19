@@ -582,6 +582,7 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                         }}
                         data-testid={`${dataTestId}-close`}
                         onClick={onCloseClick}
+                        aria-label="Close"
                     >
                         <CloseOutlined />
                     </IconButton>
@@ -685,6 +686,7 @@ function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
                             color="default"
                             size="medium"
                             onClick={icon.onClick}
+                            aria-label={icon.tooltip || 'Action'}
                         >
                             {icon.icon}
                         </IconButton>
@@ -712,6 +714,7 @@ function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
                         color="default"
                         size="medium"
                         onClick={(): Promise<void> => downloadImage(fullScreenImageUrl || image || '')}
+                        aria-label="Download image"
                     >
                         <DownloadOutlined />
                     </IconButton>
@@ -720,6 +723,7 @@ function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
                         color="default"
                         size="medium"
                         onClick={(): void => setLightBoxOpen(true)}
+                        aria-label="Zoom in"
                     >
                         <ZoomInOutlined />
                     </IconButton>

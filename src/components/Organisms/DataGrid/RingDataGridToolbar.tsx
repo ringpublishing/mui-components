@@ -326,7 +326,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 <Stack direction={'row'} alignItems={'baseline'} gap={3}>
                     <Stack direction={'row'} alignItems={'center'} gap={2}>
                         <RowSelectionSummary selectedRowsCount={selectedRowsCount} maxRowsCount={maxRowsCount} />
-                        <IconButton onClick={(e): void => onBulkActionsClose?.(e)}>
+                        <IconButton onClick={(e): void => onBulkActionsClose?.(e)} aria-label="Close bulk actions">
                             <Close />
                         </IconButton>
                     </Stack>
@@ -339,7 +339,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
         if (isMobile) {
             return (
                 <>
-                    <IconButton ref={sortIconRef} sx={{ marginLeft: 'auto' }}>
+                    <IconButton ref={sortIconRef} aria-label="Sort" sx={{ marginLeft: 'auto' }}>
                         <Sort />
                     </IconButton>
                     <ActionBox
@@ -363,6 +363,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
         } else {
             return (
                 <Select
+                    inputProps={{ 'aria-label': 'Sort by' }}
                     sx={{
                         '&::before': {
                             display: 'none',
@@ -399,11 +400,19 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
 
     const renderToolbar = (): React.JSX.Element => {
         const autoRefreshIcon = autoRefreshManualEnabled ? (
-            <IconButton title={labels?.disableAutoRefresh} onClick={(): void => handleAutoRefreshIconClick(false)}>
+            <IconButton
+                title={labels?.disableAutoRefresh}
+                aria-label={labels?.disableAutoRefresh || 'Disable auto refresh'}
+                onClick={(): void => handleAutoRefreshIconClick(false)}
+            >
                 <Sync />
             </IconButton>
         ) : (
-            <IconButton title={labels?.enableAutoRefresh} onClick={(): void => handleAutoRefreshIconClick(true)}>
+            <IconButton
+                title={labels?.enableAutoRefresh}
+                aria-label={labels?.enableAutoRefresh || 'Enable auto refresh'}
+                onClick={(): void => handleAutoRefreshIconClick(true)}
+            >
                 <SyncDisabled />
             </IconButton>
         );
@@ -414,6 +423,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                     {!dataViewState.isMobile && dataViewState.hasLeftSlot && dataViewState.showLeftSlotToggleButton && (
                         <IconButton
                             data-testid="toggle-left-slot-button"
+                            aria-label={dataViewState.isLeftSlotOpen ? 'Close filters' : 'Open filters'}
                             onClick={(): void => dataViewState.setLeftSlotOpen?.(!dataViewState.isLeftSlotOpen)}
                         >
                             {dataViewState.isLeftSlotOpen ? <FilterListOff /> : <FilterList />}
@@ -427,7 +437,11 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 <Stack direction={'row'} gap={1}>
                     {autoRefresh && autoRefreshIcon}
                     {refreshItems && (
-                        <IconButton title={labels?.refresh} onClick={handleClickRefresh}>
+                        <IconButton
+                            title={labels?.refresh}
+                            aria-label={labels?.refresh || 'Refresh'}
+                            onClick={handleClickRefresh}
+                        >
                             <Refresh />
                         </IconButton>
                     )}

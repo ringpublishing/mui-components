@@ -111,6 +111,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
       >
         <input
+          aria-label="Search"
           class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
           data-testid="ring-searchbox-input"
           placeholder=""

@@ -41,6 +41,7 @@ export const CustomGridRow = (props: GridRowProps): React.ReactNode => {
                 separator={props.row.separator}
                 withTopBorder={Boolean(props?.index)}
                 withBottomBorder={false}
+                role="row"
             />
         );
     }

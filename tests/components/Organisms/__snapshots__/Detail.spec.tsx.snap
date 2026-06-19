@@ -32,6 +32,7 @@ exports[`Detail > DetailMain > should have a close button if onCloseClick is set
       class="MuiBox-root css-12k63x3"
     >
       <button
+        aria-label="Close"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-j2qt72-MuiButtonBase-root-MuiIconButton-root"
         data-testid="ring-detail-close"
         tabindex="0"
@@ -179,6 +180,7 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-m69qwo-MuiStack-root"
         >
           <button
+            aria-label="Download image"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-download-image"
             tabindex="0"
@@ -197,6 +199,7 @@ exports[`Detail > should render correctly 1`] = `
             </svg>
           </button>
           <button
+            aria-label="Zoom in"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-zoom-in-image"
             tabindex="0"
@@ -220,6 +223,7 @@ exports[`Detail > should render correctly 1`] = `
         class="MuiBox-root css-12k63x3"
       >
         <button
+          aria-label="Close"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-j2qt72-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-detail-close"
           tabindex="0"

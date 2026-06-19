@@ -303,6 +303,7 @@ export const GridModeToggle: React.FC<GridModeToggleProps> = ({ gridMode, onGrid
         <IconButton
             onClick={handleToggle}
             title={gridMode === 'dataGrid' ? 'Switch to MultimediaGrid' : 'Switch to DataGrid'}
+            aria-label={gridMode === 'dataGrid' ? 'Switch to MultimediaGrid' : 'Switch to DataGrid'}
             size="medium"
         >
             {gridMode === 'dataGrid' ? <GridViewOutlined /> : <TableRows />}

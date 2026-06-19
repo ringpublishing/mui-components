@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.3] - 2026-06-11
+
+### Fixed
+- [@pjarolewski]: Fixed WCAG AA accessibility across `SearchBox`, `RingDataGrid`, `RingDataGridToolbar`, `DataToolbar`, `Detail`, `MediaCard`, `DataView`, and `GridSpacer` — added missing `aria-label` attributes to icon buttons, loading overlays, and media elements.
+
 ## [1.7.2] - 2026-05-28
 
 ### Fixed

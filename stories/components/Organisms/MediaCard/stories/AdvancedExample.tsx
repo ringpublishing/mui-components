@@ -92,9 +92,7 @@ export const AdvancedExample: Story = {
                 checked: false,
                 showOnHover: true,
             },
-            cardMedia: {
-                component: 'img',
-            },
+            cardMedia: {},
         },
         statusLabels: [
             {

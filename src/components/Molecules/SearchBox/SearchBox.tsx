@@ -135,7 +135,10 @@ export function SearchBox(props: SearchBoxProps): React.JSX.Element {
                         setIsIconHighlighted(false);
                     }
                 }}
-                inputProps={{ 'data-testid': `${dataTestId}-input` }}
+                inputProps={{
+                    'data-testid': `${dataTestId}-input`,
+                    'aria-label': labels.placeholder || 'Search',
+                }}
                 value={controlled ? value : valueInternal}
                 onChange={(e): void => {
                     if (controlled) {

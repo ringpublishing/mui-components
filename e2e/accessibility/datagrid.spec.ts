@@ -28,6 +28,11 @@ const KNOWN_VIOLATIONS = [
 test.describe('DataGrid - Custom Cells accessibility', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto(`/iframe.html?id=${STORY_ID}&viewMode=story`, { waitUntil: 'networkidle' });
+        // Wait for Storybook to finish preparing the story (cold Vite start may add
+        // `sb-show-preparing-story` to body and keep content hidden for >30 s).
+        await page.waitForFunction(() => !document.body.classList.contains('sb-show-preparing-story'), {
+            timeout: 60_000,
+        });
         await page.locator('.MuiDataGrid-root').first().waitFor({ state: 'visible' });
     });
 
