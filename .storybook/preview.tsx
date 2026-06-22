@@ -2,6 +2,7 @@
 
 import { Box, PaletteMode } from '@mui/material';
 import { Preview, ReactRenderer } from '@storybook/react-vite';
+import type { ThemeVersion } from '@ringpublishing/mui-theme';
 import { ThemeConfig } from '../src/index.js';
 import { ArgTypes, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs/blocks';
 import { setupMonaco } from 'storybook-addon-code-editor';
@@ -28,6 +29,7 @@ const preview: Preview = {
     initialGlobals: {
         theme: 'light',
         locale: CommonLanguages.enUS,
+        themeVersion: 'reference',
     },
 
     decorators: [
@@ -36,11 +38,12 @@ const preview: Preview = {
 
             const mode = (context.globals.theme ?? 'light') as PaletteMode;
             const language = (context.globals.locale ?? CommonLanguages.enUS) as CommonLanguages;
+            const version = (context.globals.themeVersion ?? 'reference') as ThemeVersion;
 
             const isCentered = context.viewMode !== 'docs' && context.parameters?.layout === 'centered';
 
             return (
-                <ThemeConfig mode={mode} language={language}>
+                <ThemeConfig mode={mode} language={language} version={version}>
                     <Box
                         sx={{
                             minHeight: context.viewMode === 'docs' ? undefined : '100vh',
@@ -66,12 +69,8 @@ const preview: Preview = {
     ],
     parameters: {
         actions: {
-            // Auto-binding every `on*` callback prop to a Storybook action
-            // means components see a function for callbacks the consumer never
-            // passed (e.g. `onDragAndDropEnd` is always non-undefined in
-            // stories), which breaks any "is the callback present?" gating.
-            // Stories that want action logging should add `action:` to the
-            // specific argType (or call `action(...)` explicitly in render).
+            // Disable auto-binding of `on*` props — stories that want action logging
+            // should add explicit `action:` to the argType instead.
             argTypesRegex: null,
         },
         controls: {

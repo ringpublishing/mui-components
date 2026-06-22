@@ -17,7 +17,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
         >
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bold"
             tabindex="0"
             type="button"
@@ -37,7 +37,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-italic"
             tabindex="0"
             type="button"
@@ -57,7 +57,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bullet-list"
             tabindex="0"
             type="button"
@@ -77,7 +77,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-numbered-list"
             tabindex="0"
             type="button"
@@ -228,7 +228,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
         >
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bold"
             tabindex="0"
             type="button"
@@ -248,7 +248,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-italic"
             tabindex="0"
             type="button"
@@ -268,7 +268,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bullet-list"
             tabindex="0"
             type="button"
@@ -288,7 +288,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-1gz5iy8-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-19afr4y-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-numbered-list"
             tabindex="0"
             type="button"

@@ -12,6 +12,7 @@ This directory contains Architecture Decision Records for the ring-ui-components
 | [004](004-ring-feature-tooltip-rename.md) | `RingFeatureTooltip` renamed to `FeatureTooltip` | Accepted | 2026-03-17 |
 | [005](005-treeview-split-and-tanstack-query.md) | TreeView split into SimpleTree / DataTree with TanStack Query | Pending | 2026-04-01 |
 | [006](006-pluggable-migrator-architecture.md) | Pluggable migrator architecture + package-rename codemod | Accepted | 2026-05-07 |
+| [007](007-themeconfig-passthrough-and-mui-x-integration.md) | ThemeConfig as thin passthrough wrapper with opt-in MUI X | Proposed | 2026-05-09 |
 
 ## Template
 

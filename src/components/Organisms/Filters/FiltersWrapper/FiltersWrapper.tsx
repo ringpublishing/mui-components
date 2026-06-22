@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, ButtonOwnProps, ThemeProvider, Typography, useTheme, Box } from '@mui/material';
+import { Button, ButtonOwnProps, Typography, useTheme, Box } from '@mui/material';
+import { ScopedThemeOverrides } from '@ringpublishing/mui-theme';
 import classNames from 'classnames';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
-import { filtersWrapperThemeCreator, SizeEnum, VariantEnum } from './filtersWrapperTheme.js';
+import { filtersWrapperComponents, SizeEnum, VariantEnum } from './filtersWrapperTheme.js';
 
 export interface FiltersWrapperProps extends CommonComponentProps {
     /**
@@ -55,7 +56,7 @@ export function FiltersWrapper(props: FiltersWrapperProps): React.JSX.Element {
     const theme = useTheme();
 
     return (
-        <ThemeProvider theme={filtersWrapperThemeCreator(size, variant, buttonStyle, theme)}>
+        <ScopedThemeOverrides components={filtersWrapperComponents(size, variant, buttonStyle)}>
             <Box
                 sx={{
                     maxHeight: '100%',
@@ -87,6 +88,6 @@ export function FiltersWrapper(props: FiltersWrapperProps): React.JSX.Element {
                 )}
                 {children}
             </Box>
-        </ThemeProvider>
+        </ScopedThemeOverrides>
     );
 }

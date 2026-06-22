@@ -156,6 +156,16 @@ export function SearchBar(props: SearchBarProps): React.JSX.Element {
 
 The type assertion is necessary because TypeScript's overload resolution cannot narrow a union through destructuring. The outer overloads guarantee the assertion is safe.
 
+## Theme primitives
+
+Components MUST NOT import `ThemeProvider` or `createTheme` directly from `@mui/material` to scope theme overrides. Use the primitives from `@ringpublishing/mui-theme` instead:
+
+1. **Top-level theming** — applications MUST wrap the tree in `<ThemeConfig>` from `@ringpublishing/mui-theme`. This provides the Ring theme, `CssBaseline`, and `InspectorBridge` exactly once.
+2. **Scoped component-level overrides** — when a component needs to override MUI `components` (default props, style overrides) for its subtree, it MUST use `<ScopedThemeOverrides components={...}>` from `@ringpublishing/mui-theme`. The primitive deep-merges the override into the parent theme, so palette, typography, locales, and existing component overrides are preserved. It does NOT render `CssBaseline` or `InspectorBridge` (those belong to `ThemeConfig` only).
+3. **Reading the current theme** — components MAY use `useTheme()` from `@mui/material` for read access (e.g. `theme.spacing(...)` inside `sx`), but MUST NOT call `createTheme(...)` to build a sibling theme.
+
+Rationale: a single root `ThemeConfig` guarantees one CssBaseline / one InspectorBridge / one set of locale-aware MUI X overrides. Scoped overrides via `ScopedThemeOverrides` prevent the common bug of rebuilding the theme from scratch and dropping parent state. See `docs/adr/013-scoped-theme-overrides-primitive.md` in `@ringpublishing/mui-theme` for design rationale.
+
 ## Pull request
 
 When your code is ready for review create _Pull request_ to `master` branch.

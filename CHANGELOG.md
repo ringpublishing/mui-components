@@ -2,6 +2,17 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.0] - 2026-05-31
+
+### Added
+- [@wniemiec]: `<ThemeConfig>` exposes `themeOverrides`, `externalLocales`, and `version` props.
+
+### Changed
+- [@wniemiec]: `ThemeConfig` and `getCreatedTheme` are thin passthroughs over `@ringpublishing/mui-theme` — full `ThemeConfigProps` / `GetThemeOptions` surface. Ring MUI X defaults merged underneath consumer values.
+- [@wniemiec]: Component overrides routed through `themeOverrides.components`. Deep-merge semantics differ for shallow style functions / slot-prop callbacks.
+- [@wniemiec]: `externalLocales` prepended with Ring's MUI X locales; consumer entries win on collision.
+- [@wniemiec]: MUI sub-module augmentations mirrored in `src/theme/muiAugmentation.ts`.
+
 ## [1.7.3] - 2026-06-11
 
 ### Fixed

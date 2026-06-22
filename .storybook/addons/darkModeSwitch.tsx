@@ -8,7 +8,11 @@ const TOOL_ID = `${ADDON_ID}/tool`;
 function DarkModeToggle(): React.JSX.Element | null {
     const state = useStorybookState();
 
-    if (!state.storyId?.startsWith('components-') && !state.storyId?.startsWith('introduction-overview')) {
+    if (
+        !state.storyId?.startsWith('components-') &&
+        !state.storyId?.startsWith('introduction-overview') &&
+        !state.storyId?.startsWith('introduction-typography')
+    ) {
         return null;
     }
 

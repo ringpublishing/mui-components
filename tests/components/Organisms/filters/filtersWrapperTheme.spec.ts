@@ -1,50 +1,47 @@
 import { describe, expect, it } from 'vitest';
-import { ButtonOwnProps, createTheme } from '@mui/material';
+import { ButtonOwnProps } from '@mui/material';
 import {
-    filtersWrapperThemeCreator,
+    filtersWrapperComponents,
     SizeEnum,
     VariantEnum,
 } from '../../../../src/components/Organisms/Filters/FiltersWrapper/filtersWrapperTheme.js';
 
-describe('filtersWrapperThemeCreator', () => {
+describe('filtersWrapperComponents', () => {
     const buttonStyle: Pick<ButtonOwnProps, 'size' | 'variant'> = {
         size: 'small',
         variant: 'outlined',
     };
 
-    it('creates a theme with the correct default props for small size and outlined variant', () => {
-        const theme = filtersWrapperThemeCreator(SizeEnum.SMALL, VariantEnum.OUTLINE, buttonStyle, createTheme());
+    it('builds component overrides with the correct default props for small size and outlined variant', () => {
+        const components = filtersWrapperComponents(SizeEnum.SMALL, VariantEnum.OUTLINE, buttonStyle);
 
-        const expectedComponents = {
+        expect(components).toMatchObject({
             MuiAutocomplete: { defaultProps: { size: 'small' } },
             MuiTextField: { defaultProps: { size: 'small', variant: 'outlined', fullWidth: true } },
             MuiButton: { defaultProps: { size: 'small', variant: 'outlined' } },
             MuiInputLabel: { defaultProps: { size: 'small', variant: 'outlined' } },
-        };
-
-        expect(theme.components).toMatchObject(expectedComponents);
+        });
     });
 
-    it('creates a theme with the correct default props for medium size and filled variant', () => {
-        const theme = filtersWrapperThemeCreator(SizeEnum.MEDIUM, VariantEnum.FILLED, buttonStyle, createTheme());
+    it('builds component overrides with the correct default props for medium size and filled variant', () => {
+        const components = filtersWrapperComponents(SizeEnum.MEDIUM, VariantEnum.FILLED, buttonStyle);
 
-        const expectedComponents = {
+        expect(components).toMatchObject({
             MuiAutocomplete: { defaultProps: { size: 'medium' } },
             MuiTextField: { defaultProps: { size: 'medium', variant: 'filled', fullWidth: true } },
             MuiButton: { defaultProps: { size: 'small', variant: 'outlined' } },
             MuiInputLabel: { defaultProps: { size: 'medium', variant: 'filled' } },
-        };
-        expect(theme.components).toMatchObject(expectedComponents);
+        });
     });
 
-    it('creates a theme with the correct default props for different button style', () => {
+    it('builds component overrides with the correct default props for different button style', () => {
         const buttonStyle: Pick<ButtonOwnProps, 'size' | 'variant'> = {
             size: 'large',
             variant: 'text',
         };
-        const theme = filtersWrapperThemeCreator(SizeEnum.SMALL, VariantEnum.OUTLINE, buttonStyle, createTheme());
+        const components = filtersWrapperComponents(SizeEnum.SMALL, VariantEnum.OUTLINE, buttonStyle);
 
-        expect(theme.components?.MuiButton?.defaultProps?.size).toEqual('large');
-        expect(theme.components?.MuiButton?.defaultProps?.variant).toEqual('text');
+        expect(components.MuiButton?.defaultProps?.size).toEqual('large');
+        expect(components.MuiButton?.defaultProps?.variant).toEqual('text');
     });
 });

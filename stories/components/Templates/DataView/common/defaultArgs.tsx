@@ -29,7 +29,6 @@ import {
     DetailDescriptionItemFieldType,
     FiltersWrapper,
     SplitButton,
-    ThemeConfig,
     DataViewProps,
 } from '../../../../../src/index.js';
 
@@ -62,74 +61,72 @@ interface FilterProps {
 
 export const Filter: React.FC<FilterProps> = ({ customCode }) => {
     return (
-        <ThemeConfig mode={'light'}>
-            <FiltersWrapper onClear={action('Filter: onClear clicked')} label="Filters">
-                <Accordion label="Basic" defaultExpanded={true}>
-                    <TextField label="Text" name="basic.text" />
-                    <TextField sx={{ marginTop: 1 }} label="Text2" name="basic.text2" value="default" />
-                    <FormControlLabel name="basic.checkbox" value={true} label="Checkbox" control={<Checkbox />} />
-                    <FormControlLabel name="basic.switch" value={true} label="Switch" control={<Switch />} />
-                    <Autocomplete
-                        // @ts-expect-error FIXME
-                        name="basic.autocomplete"
-                        labels={{
-                            title: 'Autocomplete',
+        <FiltersWrapper onClear={action('Filter: onClear clicked')} label="Filters">
+            <Accordion label="Basic" defaultExpanded={true}>
+                <TextField label="Text" name="basic.text" />
+                <TextField sx={{ marginTop: 1 }} label="Text2" name="basic.text2" value="default" />
+                <FormControlLabel name="basic.checkbox" value={true} label="Checkbox" control={<Checkbox />} />
+                <FormControlLabel name="basic.switch" value={true} label="Switch" control={<Switch />} />
+                <Autocomplete
+                    // @ts-expect-error FIXME
+                    name="basic.autocomplete"
+                    labels={{
+                        title: 'Autocomplete',
+                    }}
+                    options={[
+                        { label: 'Onet', id: 1 },
+                        { label: 'Fakt', id: 2 },
+                        { label: 'Komputer świat', id: 3 },
+                        { label: 'Newsweek', id: 4 },
+                        { label: 'Forbes', id: 5 },
+                        { label: 'Business insider', id: 6 },
+                    ]}
+                    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+                    renderInput={(params: any): ReactNode => <TextField {...params} label="Autocomplete" />}
+                />
+            </Accordion>
+            <Accordion label="Radio">
+                <RadioGroup name="radio" value="opt1">
+                    <FormControlLabel value="opt1" label="Option 1" control={<Radio />} />
+                    <FormControlLabel value="opt2" label="Option 2" control={<Radio />} />
+                </RadioGroup>
+            </Accordion>
+            <Accordion label="Select">
+                <FormControlLabel
+                    name="select"
+                    value={10}
+                    label="units"
+                    control={
+                        <Select>
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                    }
+                />
+            </Accordion>
+            <Accordion label="Slider">
+                <Slider name="slider" valueLabelDisplay="auto" max={10} step={1} value={1} />
+            </Accordion>
+            {customCode && (
+                <Accordion label="Custom Code" defaultExpanded={false}>
+                    <TextField
+                        label="Code Preview"
+                        multiline={true}
+                        rows={8}
+                        value={customCode}
+                        disabled={true}
+                        sx={{
+                            width: '100%',
+                            '& .MuiInputBase-input': {
+                                fontFamily: 'monospace',
+                                fontSize: '12px',
+                            },
                         }}
-                        options={[
-                            { label: 'Onet', id: 1 },
-                            { label: 'Fakt', id: 2 },
-                            { label: 'Komputer świat', id: 3 },
-                            { label: 'Newsweek', id: 4 },
-                            { label: 'Forbes', id: 5 },
-                            { label: 'Business insider', id: 6 },
-                        ]}
-                        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-                        renderInput={(params: any): ReactNode => <TextField {...params} label="Autocomplete" />}
                     />
                 </Accordion>
-                <Accordion label="Radio">
-                    <RadioGroup name="radio" value="opt1">
-                        <FormControlLabel value="opt1" label="Option 1" control={<Radio />} />
-                        <FormControlLabel value="opt2" label="Option 2" control={<Radio />} />
-                    </RadioGroup>
-                </Accordion>
-                <Accordion label="Select">
-                    <FormControlLabel
-                        name="select"
-                        value={10}
-                        label="units"
-                        control={
-                            <Select>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        }
-                    />
-                </Accordion>
-                <Accordion label="Slider">
-                    <Slider name="slider" valueLabelDisplay="auto" max={10} step={1} value={1} />
-                </Accordion>
-                {customCode && (
-                    <Accordion label="Custom Code" defaultExpanded={false}>
-                        <TextField
-                            label="Code Preview"
-                            multiline={true}
-                            rows={8}
-                            value={customCode}
-                            disabled={true}
-                            sx={{
-                                width: '100%',
-                                '& .MuiInputBase-input': {
-                                    fontFamily: 'monospace',
-                                    fontSize: '12px',
-                                },
-                            }}
-                        />
-                    </Accordion>
-                )}
-            </FiltersWrapper>
-        </ThemeConfig>
+            )}
+        </FiltersWrapper>
     );
 };
 

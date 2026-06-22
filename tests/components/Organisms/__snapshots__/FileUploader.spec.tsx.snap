@@ -460,7 +460,7 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
             test.pdf
           </h6>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-rqu98-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-gvdsun-MuiTypography-root"
           >
             Upload failed
           </p>

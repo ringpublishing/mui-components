@@ -19,14 +19,5 @@ export interface CommonComponentProps extends PropsWithChildren, WithDataTestIdS
     className?: string;
 }
 
-export enum CommonLanguages {
-    // Pick<SupportedLocales, 'plPL' | 'enUS'>
-    /**
-     * en translation
-     */
-    plPL = 'plPL',
-    /**
-     * pl translation
-     */
-    enUS = 'enUS',
-}
+// Re-export the canonical enum from the theme to avoid drift.
+export { CommonLanguages } from '@ringpublishing/mui-theme';

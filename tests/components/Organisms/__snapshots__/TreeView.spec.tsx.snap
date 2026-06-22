@@ -21,7 +21,7 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -56,7 +56,7 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -159,7 +159,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent Mui-expanded css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent Mui-expanded css-1uf9se8-MuiTreeItem-content"
           data-expanded=""
         >
           <div
@@ -284,7 +284,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -364,7 +364,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -462,7 +462,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -516,7 +516,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -576,7 +576,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -693,7 +693,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -790,7 +790,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -913,7 +913,7 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -948,7 +948,7 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-ecgsuv-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"

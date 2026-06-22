@@ -1,4 +1,4 @@
-import { ButtonOwnProps, createTheme, Theme } from '@mui/material';
+import { ButtonOwnProps, Components, Theme } from '@mui/material';
 
 export enum VariantEnum {
     OUTLINE = 'outlined',
@@ -11,64 +11,66 @@ export enum SizeEnum {
     MEDIUM = 'medium',
 }
 
-export const filtersWrapperThemeCreator = (
+/**
+ * Per-component `defaultProps` slice used by `FiltersWrapper` to enforce
+ * a consistent `size` / `variant` across all MUI controls inside the
+ * filter subtree. Returned shape matches `theme.components` (and
+ * `themeOverrides.components` in `@ringpublishing/mui-theme`'s
+ * `ThemeConfig`), so it plugs directly into `<ScopedThemeOverrides>`.
+ */
+export const filtersWrapperComponents = (
     size: SizeEnum,
     variant: VariantEnum,
     buttonStyle: Pick<ButtonOwnProps, 'size' | 'variant'>,
-    theme: Theme,
-): Theme => {
-    return createTheme(theme, {
-        components: {
-            MuiAutocomplete: {
-                defaultProps: {
-                    size,
-                },
-            },
-            MuiTextField: {
-                defaultProps: {
-                    size,
-                    fullWidth: true,
-                    variant,
-                },
-            },
-            MuiInputLabel: {
-                defaultProps: {
-                    size,
-                    variant,
-                },
-            },
-            MuiSelect: {
-                defaultProps: {
-                    size,
-                    variant,
-                },
-            },
-            MuiCheckbox: {
-                defaultProps: {
-                    size,
-                },
-            },
-            MuiSwitch: {
-                defaultProps: {
-                    size,
-                },
-            },
-            MuiRadio: {
-                defaultProps: {
-                    size,
-                },
-            },
-            MuiButton: {
-                defaultProps: {
-                    size: buttonStyle.size,
-                    variant: buttonStyle.variant,
-                },
-            },
-            MuiSlider: {
-                defaultProps: {
-                    size,
-                },
-            },
+): Components<Omit<Theme, 'components'>> => ({
+    MuiAutocomplete: {
+        defaultProps: {
+            size,
         },
-    });
-};
+    },
+    MuiTextField: {
+        defaultProps: {
+            size,
+            fullWidth: true,
+            variant,
+        },
+    },
+    MuiInputLabel: {
+        defaultProps: {
+            size,
+            variant,
+        },
+    },
+    MuiSelect: {
+        defaultProps: {
+            size,
+            variant,
+        },
+    },
+    MuiCheckbox: {
+        defaultProps: {
+            size,
+        },
+    },
+    MuiSwitch: {
+        defaultProps: {
+            size,
+        },
+    },
+    MuiRadio: {
+        defaultProps: {
+            size,
+        },
+    },
+    MuiButton: {
+        defaultProps: {
+            size: buttonStyle.size,
+            variant: buttonStyle.variant,
+        },
+    },
+    MuiSlider: {
+        defaultProps: {
+            size,
+        },
+    },
+});
