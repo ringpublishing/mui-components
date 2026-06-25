@@ -71,7 +71,7 @@ exports[`Media > Should render correctly 1`] = `
             class="css-l9y6au"
           >
             <img
-              class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-19cjceo-MuiCardMedia-root"
+              class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-11zu7jv-MuiCardMedia-root"
               data-first-child=""
               draggable="false"
               src="https://placehold.co/600x300/black/white"
@@ -80,31 +80,31 @@ exports[`Media > Should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-qb5jxj"
+          class="MuiStack-root css-1sul0vv-MuiStack-root"
         >
-          <div
-            class="MuiStack-root css-va70d0-MuiStack-root"
+          <button
+            aria-label="Tooltip text 1"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-18nmj04-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
           >
-            <button
-              aria-label="Tooltip text 1"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-18nmj04-MuiButtonBase-root-MuiIconButton-root"
-              data-mui-internal-clone-element="true"
-              tabindex="0"
-              type="button"
-            >
-              <div>
-                test icon
-              </div>
-            </button>
-          </div>
+            <div>
+              test icon
+            </div>
+          </button>
         </div>
       </div>
       <figcaption>
-        <p
-          class="MuiTypography-root MuiTypography-body2 css-9a9pmt-MuiTypography-root"
+        <div
+          class="MuiStack-root css-j3ygch-MuiStack-root"
         >
-          Image title
-        </p>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-9a9pmt-MuiTypography-root"
+          >
+            Image title
+          </p>
+        </div>
       </figcaption>
     </figure>
   </div>

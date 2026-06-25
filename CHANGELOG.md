@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - 2026-06-11
+
+### Added
+- [@rsarata]: `Media` — added `description` prop and support for editing title and description text via `onTitleSubmit` and `onDescriptionSubmit` callbacks.
+- [@rsarata]: `Media` — added `height` prop that switches the component into a fixed-height layout mode. When set, the component always renders at exactly the specified height, the image fills the full height, and its width is derived from the `ratio` prop.
+
 ## [1.8.0] - 2026-05-31
 
 ### Added

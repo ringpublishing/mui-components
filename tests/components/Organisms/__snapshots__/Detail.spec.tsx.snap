@@ -100,7 +100,7 @@ exports[`Detail > EditableField > should render correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
             data-testid="EditOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -144,7 +144,7 @@ exports[`Detail > should render correctly 1`] = `
                 class="css-l9y6au"
               >
                 <img
-                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-1rdlwal-MuiCardMedia-root"
+                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-p029uz-MuiCardMedia-root"
                   data-first-child=""
                   draggable="false"
                   src="url"
@@ -260,7 +260,7 @@ exports[`Detail > should render correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
             data-testid="EditOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -390,7 +390,7 @@ exports[`Detail > should render correctly 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
                   data-testid="EditOutlinedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

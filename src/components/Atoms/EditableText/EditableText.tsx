@@ -39,13 +39,18 @@ export interface EditableTextProps extends CommonComponentProps {
     label?: string;
 
     /**
+     * Placeholder shown when text is empty.
+     */
+    placeholder?: string;
+
+    /**
      * Props to customize the internal component slots.
      */
     slotProps?: EditableTextSlotProps;
 }
 
 function EditableText(props: EditableTextProps): React.JSX.Element {
-    const { text, onSubmit, label, sx, className, dataTestIdSuffix, slotProps: componentSlotProps } = props;
+    const { text, onSubmit, label, placeholder, sx, className, dataTestIdSuffix, slotProps: componentSlotProps } = props;
 
     const dataTestId = useRingDataTestId(EditableText.name, dataTestIdSuffix);
 
@@ -120,6 +125,8 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
 
     if (!editMode) {
         const { sx: typographySx, ...restTypographyProps } = componentSlotProps?.typography ?? {};
+        const isTextEmpty = editedText === '';
+        const displayText = isTextEmpty ? (placeholder ?? '') : editedText;
 
         return (
             <Box
@@ -134,14 +141,17 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     data-testid={`${dataTestId}-text`}
                     sx={[
                         {
-                            color: (theme): string => theme.palette.text.primary,
+                            color: (theme): string =>
+                                isTextEmpty && placeholder !== undefined
+                                    ? theme.palette.text.secondary
+                                    : theme.palette.text.primary,
                             fontSize: tv('0.75rem'),
                             lineHeight: tv('1.25rem'),
                         },
                         ...(Array.isArray(typographySx) ? typographySx : typographySx ? [typographySx] : []),
                     ]}
                 >
-                    {editedText}
+                    {displayText}
                 </Typography>
                 <Button
                     data-testid={`${dataTestId}-edit`}
@@ -149,7 +159,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     onClick={openEditMode}
                     sx={{ padding: 0, width: 20, minWidth: 20, marginLeft: 1 }}
                 >
-                    <EditOutlined />{' '}
+                    <EditOutlined fontSize="small" />{' '}
                 </Button>
             </Box>
         );
@@ -171,6 +181,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     variant="standard"
                     {...restTextFieldProps}
                     label={label}
+                    placeholder={restTextFieldProps.placeholder ?? placeholder}
                     autoFocus={true}
                     onChange={(e): void => {
                         !isSubmitting && setEditedText(e.target.value);
@@ -178,6 +189,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     value={editedText}
                     sx={[
                         {
+                            width: '100%',
                             '& .MuiInputBase-input': {
                                 fontSize: tv('0.75rem'),
                                 lineHeight: tv('1.25rem'),

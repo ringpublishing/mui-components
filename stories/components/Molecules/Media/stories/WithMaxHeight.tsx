@@ -1,12 +1,11 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { Box } from '@mui/material';
-import { ImageRounded, AcUnit, AccessAlarm } from '@mui/icons-material';
+import { AccessAlarm, AcUnit } from '@mui/icons-material';
 import { createCodeStory } from '../../../../helpers.js';
-import DefaultExampleCode from './code/DefaultExample.tsx?raw';
+import WithMaxHeightExampleCode from './code/WithMaxHeightExample.tsx?raw';
 import { Media } from '../../../../../src/index.js';
 import { getImagePath, TestImage, ImageSize } from '../../../../../src/helpers/stories/imagesData.js';
-import defaultArgs from '../common/defaultArgs.js';
 
 type Story = StoryObj<typeof Media>;
 
@@ -16,27 +15,23 @@ const Example = (args: React.ComponentProps<typeof Media>): React.JSX.Element =>
     </Box>
 );
 
-export const Default: Story = {
+export const WithMaxHeight: Story = {
     args: {
-        ...defaultArgs,
         image: {
             src: getImagePath(TestImage.BEACH, ImageSize.LARGE),
             thumbnailSrc: getImagePath(TestImage.BEACH, ImageSize.LARGE),
             title: TestImage.BEACH,
         },
-        title: 'The Cat Takes a Long and Peaceful Nap in a Warm Patch of Afternoon Sunlight.',
-        description: '(James Veysey / Shutterstock)',
-        statusLabels: [
-            { label: 'Label 1', color: 'primary', icon: <AccessAlarm /> },
-            { label: 'Label 2, with a longer text', color: 'error', icon: <ImageRounded /> },
-        ],
+        ratio: '1/1',
+        objectFit: 'cover',
+        height: '200px',
+        title: 'Beach image',
+        description: 'Sample description rendered below media area',
+        disableFullScreenPreview: true,
+        statusLabels: [{ label: 'Main Image', color: 'primary', icon: <AccessAlarm /> }],
         actions: [
             { label: 'Action 1', icon: <AcUnit /> },
             { label: 'Action 2', icon: <AccessAlarm /> },
-        ],
-        bottomTooltips: [
-            { title: 'Tooltip text 1', icon: <AcUnit /> },
-            { title: 'Tooltip text 2', icon: <AccessAlarm /> },
         ],
     },
     render: (args, context) => {
@@ -47,7 +42,7 @@ export const Default: Story = {
         return createCodeStory({
             context,
             customProps: {},
-            customCode: DefaultExampleCode,
+            customCode: WithMaxHeightExampleCode,
             example: <Example {...args} />,
         });
     },

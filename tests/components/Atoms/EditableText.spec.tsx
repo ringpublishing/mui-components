@@ -127,6 +127,31 @@ describe('EditableText', () => {
         }
     });
 
+    it('should render placeholder text in display mode when text is empty', () => {
+        const mockProps = {
+            text: '',
+            placeholder: 'Add value',
+            onSubmit: createMockedOnSubmit(),
+        };
+
+        const { getByText } = render(<EditableText {...mockProps} />);
+        expect(getByText('Add value')).toBeDefined();
+    });
+
+    it('should use placeholder in edit mode when text is empty', async () => {
+        const mockProps = {
+            text: '',
+            placeholder: 'Add value',
+            onSubmit: createMockedOnSubmit(),
+        };
+
+        const { getByRole, getByPlaceholderText } = render(<EditableText {...mockProps} />);
+        await act(async () => {
+            fireEvent.click(getByRole('button'));
+        });
+        expect(getByPlaceholderText('Add value')).toBeDefined();
+    });
+
     describe('slotProps', () => {
         it('should forward slotProps.typography props to the Typography element in display mode', () => {
             const mockProps = {

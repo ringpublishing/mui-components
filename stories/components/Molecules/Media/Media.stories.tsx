@@ -6,6 +6,8 @@ import { Video } from './stories/Video.js';
 import { Audio } from './stories/Audio.js';
 import { AudioWithBackground } from './stories/AudioWithBackground.js';
 import { CardEvents } from './stories/CardEvents.js';
+import { WithEditableCaption } from './stories/WithEditableCaption.js';
+import { WithMaxHeight } from './stories/WithMaxHeight.js';
 import defaultArgs from './common/defaultArgs.js';
 import MediaMdx from './Media.mdx';
 
@@ -50,6 +52,14 @@ const meta = {
         title: {
             control: 'text',
             description: 'Caption text displayed in the bottom left corner below the media.',
+            table: {
+                category: 'content',
+                type: { summary: 'string' },
+            },
+        },
+        description: {
+            control: 'text',
+            description: 'Secondary text displayed below the title.',
             table: {
                 category: 'content',
                 type: { summary: 'string' },
@@ -102,6 +112,26 @@ const meta = {
                 type: { summary: 'boolean' },
             },
         },
+        onTitleSubmit: {
+            description:
+                'Callback invoked when the title is submitted in edit mode. ' +
+                'When provided, the title becomes editable via EditableText. ' +
+                'Should return a Promise resolving to true on success or false on failure.',
+            table: {
+                category: 'callbacks',
+                type: { summary: '(value: string) => Promise<boolean>' },
+            },
+        },
+        onDescriptionSubmit: {
+            description:
+                'Callback invoked when the description is submitted in edit mode. ' +
+                'When provided, the description becomes editable via EditableText. ' +
+                'Should return a Promise resolving to true on success or false on failure.',
+            table: {
+                category: 'callbacks',
+                type: { summary: '(value: string) => Promise<boolean>' },
+            },
+        },
         ratio: {
             control: 'text',
             description:
@@ -121,6 +151,18 @@ const meta = {
                 category: 'appearance',
                 defaultValue: { summary: '"contain"' },
                 type: { summary: "'cover' | 'contain' | 'fill'" },
+            },
+        },
+        height: {
+            control: 'text',
+            description:
+                'Height for the media area. When provided, the media area renders at this height. ' +
+                'The image height matches the container and its width is derived from the `ratio` prop, ' +
+                'producing gray bars on the sides where the image does not fill the container. ' +
+                'Accepts any valid CSS length value (e.g. `"200px"`, `"50vh"`).',
+            table: {
+                category: 'appearance',
+                type: { summary: 'React.CSSProperties["height"]' },
             },
         },
         slots: {
@@ -190,4 +232,4 @@ const meta = {
 
 export default meta;
 
-export { Default, NoImageUrl, Video, Audio, AudioWithBackground, CardEvents };
+export { Default, NoImageUrl, Video, Audio, AudioWithBackground, CardEvents, WithEditableCaption, WithMaxHeight };

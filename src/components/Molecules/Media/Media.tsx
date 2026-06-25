@@ -19,6 +19,7 @@ import { AudioFileRounded, ImageRounded, MoreVert, MovieRounded, SvgIconComponen
 
 import { CommonComponentProps, WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
 import { Action, Image } from '../../../types.js';
+import { EditableText } from '../../Atoms/EditableText/EditableText.js';
 import { isImage } from '../../../helpers/types.js';
 import { LightBox } from '../../Organisms/LightBox/LightBox.js';
 import { ActionBox } from '../ActionBox/ActionBox.js';
@@ -37,6 +38,35 @@ export interface MediaProps extends CommonComponentProps, AspectRatioOwnerStateP
      * Image title displayed in the bottom left corner.
      */
     title?: string;
+
+    /**
+     * Description text displayed below the title.
+     */
+    description?: string;
+
+    /**
+     * Callback invoked when the title is submitted in edit mode.
+     * When provided, the title becomes editable via EditableText.
+     */
+    onTitleSubmit?: (value: string) => Promise<boolean>;
+
+    /**
+     * Placeholder shown for the editable title when it is empty.
+     * @default 'Enter title'
+     */
+    titlePlaceholder?: string;
+
+    /**
+     * Callback invoked when the description is submitted in edit mode.
+     * When provided, the description becomes editable via EditableText.
+     */
+    onDescriptionSubmit?: (value: string) => Promise<boolean>;
+
+    /**
+     * Placeholder shown for the editable description when it is empty.
+     * @default 'Enter description'
+     */
+    descriptionPlaceholder?: string;
 
     /**
      * Image type title displayed in the top left corner.
@@ -74,6 +104,17 @@ export interface MediaProps extends CommonComponentProps, AspectRatioOwnerStateP
      * @default {}
      */
     slotProps?: SlotProps;
+
+    /**
+     * Height for the media area (image/background section). When provided, the visual media
+     * region renders at this height while caption content (title/description) is rendered below it.
+     * This prop does not change default `objectFit` behaviour.
+     * Accepts any valid CSS length value (e.g. `'200px'`, `'50vh'`).
+     *
+     * When not provided, the component uses the default aspect-ratio behaviour where height
+     * is derived from the container width and the `ratio` prop.
+     */
+    height?: React.CSSProperties['height'];
 }
 
 interface MediaSlotPropsBackgroundColor {
@@ -122,10 +163,16 @@ export function Media(props: MediaProps): React.JSX.Element {
         actions,
         bottomTooltips,
         title,
+        description,
+        onTitleSubmit,
+        titlePlaceholder = 'Enter title',
+        onDescriptionSubmit,
+        descriptionPlaceholder = 'Enter description',
         type,
         disableFullScreenPreview = false,
-        ratio,
-        objectFit,
+        ratio = '4/3',
+        objectFit = 'contain',
+        height,
         slots,
         slotProps = {},
         className,
@@ -189,6 +236,147 @@ export function Media(props: MediaProps): React.JSX.Element {
         ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
     ];
 
+    const shouldRenderTitle = onTitleSubmit !== undefined || (title !== undefined && title !== '');
+    const shouldRenderDescription =
+        onDescriptionSubmit !== undefined || (description !== undefined && description !== '');
+    const descriptionTypographySx: SxProps<Theme> = { color: 'text.secondary' };
+    const hasMediaSource = Boolean(image || slotProps?.media?.src);
+
+    type FlatSx = Exclude<SxProps<Theme>, ReadonlyArray<unknown> | ((theme: Theme) => unknown)>;
+    interface RenderCardMediaProps {
+        useAspectRatioWrapper: boolean;
+        wrapperSx?: FlatSx;
+        mediaSx?: FlatSx;
+        mediaBackgroundColor?: string;
+    }
+
+    interface RenderCaptionFieldProps {
+        shouldRender: boolean;
+        value?: string;
+        onSubmit?: (value: string) => Promise<boolean>;
+        placeholder: string;
+        fieldName: 'title' | 'description';
+        typographySx?: SxProps<Theme>;
+        editableTypographySx?: SxProps<Theme>;
+    }
+
+    const renderCardMedia = ({
+        useAspectRatioWrapper,
+        wrapperSx,
+        mediaSx,
+        mediaBackgroundColor,
+    }: RenderCardMediaProps): React.JSX.Element => {
+        if (!hasMediaSource || (!isLoading && !isSuccessfullyLoaded)) {
+            return <IconPlaceholder ratio={ratio} component={(slotProps?.media?.component as MediaType) || 'img'} />;
+        }
+
+        const cardMedia = (
+            <CardMedia
+                component="img"
+                src={isImage(image) ? image.src : image}
+                title={title}
+                draggable={false}
+                onClick={openImageFullScreenPreview}
+                onLoad={handleImageSuccessfullyLoaded}
+                onError={handleImageLoadingError}
+                {...slotProps.media}
+                sx={{
+                    ...(useAspectRatioWrapper ? {} : { width: '100%', height: '100%' }),
+                    ':hover': {
+                        cursor: disableFullScreenPreview ? 'auto' : 'pointer',
+                    },
+                    ...slotProps?.media?.sx,
+                    ...mediaSx,
+                    objectFit,
+                    backgroundColor: mediaBackgroundColor,
+                }}
+            />
+        );
+
+        if (useAspectRatioWrapper) {
+            return (
+                <AspectRatio ratio={ratio} objectFit={objectFit} sx={wrapperSx}>
+                    {cardMedia}
+                </AspectRatio>
+            );
+        }
+
+        return (
+            <Box
+                sx={{
+                    height: '100%',
+                    aspectRatio: ratio,
+                    flexShrink: 0,
+                    ...wrapperSx,
+                }}
+            >
+                {cardMedia}
+            </Box>
+        );
+    };
+
+    const renderCaptionField = ({
+        shouldRender,
+        value,
+        onSubmit,
+        placeholder,
+        fieldName,
+        typographySx,
+        editableTypographySx,
+    }: RenderCaptionFieldProps): React.JSX.Element | null => {
+        if (!shouldRender) {
+            return null;
+        }
+
+        if (onSubmit) {
+            return (
+                <EditableText
+                    text={value ?? ''}
+                    placeholder={placeholder}
+                    onSubmit={onSubmit}
+                    sx={{ width: '100%' }}
+                    dataTestIdSuffix={dataTestIdSuffix ? `${dataTestIdSuffix}-${fieldName}` : fieldName}
+                    slotProps={{
+                        typography: {
+                            variant: 'body2',
+                            ...(editableTypographySx ? { sx: editableTypographySx } : {}),
+                        },
+                    }}
+                />
+            );
+        }
+
+        return (
+            <Typography variant="body2" sx={typographySx}>
+                {value}
+            </Typography>
+        );
+    };
+
+    const renderMediaSlot = (useAspectRatioWrapper: boolean): React.JSX.Element => {
+        const slottedMedia = (
+            <AspectRatio ratio={ratio} objectFit={objectFit}>
+                {slots?.media}
+            </AspectRatio>
+        );
+
+        if (useAspectRatioWrapper) {
+            return slottedMedia;
+        }
+
+        return (
+            <Box
+                sx={{
+                    height: '100%',
+                    aspectRatio: ratio,
+                    flexShrink: 0,
+                }}
+            >
+                {slottedMedia}
+            </Box>
+        );
+    };
+
     return (
         <>
             <Card {...cardSlotRest} elevation={0} className={mergedClassName} sx={sxArray} data-testid={dataTestId}>
@@ -204,6 +392,14 @@ export function Media(props: MediaProps): React.JSX.Element {
                     <Box
                         sx={{
                             position: 'relative',
+                            ...(height && {
+                                height,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'components.appBar.defaultFill',
+                                overflow: 'hidden',
+                            }),
                             ...(isAudio && {
                                 backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent',
                             }),
@@ -214,52 +410,49 @@ export function Media(props: MediaProps): React.JSX.Element {
                         )}
                         {actions?.length && <MediaActions actions={actions} dataTestIdSuffix={dataTestIdSuffix} />}
                         {slots?.media ? (
-                            <AspectRatio ratio={ratio} objectFit={objectFit}>
-                                {slots.media}
-                            </AspectRatio>
-                        ) : (image || slotProps?.media?.src) && (isLoading || isSuccessfullyLoaded) ? (
-                            <AspectRatio
-                                ratio={ratio}
-                                objectFit={objectFit}
-                                sx={
-                                    isAudio
-                                        ? { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }
-                                        : undefined
-                                }
-                            >
-                                <CardMedia
-                                    component="img"
-                                    src={isImage(image) ? image.src : image}
-                                    title={title}
-                                    draggable={false}
-                                    onClick={openImageFullScreenPreview}
-                                    onLoad={handleImageSuccessfullyLoaded}
-                                    onError={handleImageLoadingError}
-                                    {...slotProps.media}
-                                    sx={{
-                                        ':hover': {
-                                            cursor: disableFullScreenPreview ? 'auto' : 'pointer',
-                                        },
-                                        ...slotProps?.media?.sx,
-                                        backgroundColor: isAudio
-                                            ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
-                                            : 'components.appBar.defaultFill',
-                                    }}
-                                />
-                            </AspectRatio>
+                            renderMediaSlot(!height)
+                        ) : height ? (
+                            renderCardMedia({
+                                useAspectRatioWrapper: false,
+                                mediaBackgroundColor: isAudio
+                                    ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
+                                    : undefined,
+                            })
                         ) : (
-                            <IconPlaceholder
-                                ratio={ratio}
-                                component={(slotProps?.media?.component as MediaType) || 'img'}
-                            />
+                            renderCardMedia({
+                                useAspectRatioWrapper: true,
+                                wrapperSx: isAudio
+                                    ? { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }
+                                    : undefined,
+                                mediaBackgroundColor: isAudio
+                                    ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
+                                    : 'components.appBar.defaultFill',
+                            })
                         )}
                         {bottomTooltips !== undefined && Boolean(bottomTooltips.length) && (
                             <BottomTooltipsStack bottomTooltips={bottomTooltips} />
                         )}
                     </Box>
-                    {title && (
+                    {(shouldRenderTitle || shouldRenderDescription) && (
                         <figcaption>
-                            <Typography variant="body2">{title}</Typography>
+                            <Stack direction="column" spacing="4px">
+                                {renderCaptionField({
+                                    shouldRender: shouldRenderTitle,
+                                    value: title,
+                                    onSubmit: onTitleSubmit,
+                                    placeholder: titlePlaceholder,
+                                    fieldName: 'title',
+                                })}
+                                {renderCaptionField({
+                                    shouldRender: shouldRenderDescription,
+                                    value: description,
+                                    onSubmit: onDescriptionSubmit,
+                                    placeholder: descriptionPlaceholder,
+                                    fieldName: 'description',
+                                    typographySx: descriptionTypographySx,
+                                    editableTypographySx: descriptionTypographySx,
+                                })}
+                            </Stack>
                         </figcaption>
                     )}
                 </Box>
@@ -405,24 +598,22 @@ function BottomTooltipsStack(params: { bottomTooltips: BottomTooltipProps[] }): 
     const { bottomTooltips } = params;
 
     return (
-        <Box sx={{ float: 'bottom', position: 'relative' }}>
-            <Stack
-                direction="row"
-                spacing={0}
-                sx={{
-                    position: 'absolute',
-                    float: 'bottom',
-                    bottom: 0,
-                    zIndex: 1,
-                }}
-            >
-                {bottomTooltips.map(
-                    (tooltipParams): React.JSX.Element => (
-                        <BottomTooltip key={tooltipParams.title} {...tooltipParams} />
-                    ),
-                )}
-            </Stack>
-        </Box>
+        <Stack
+            direction="row"
+            spacing={0}
+            sx={{
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                zIndex: 1,
+            }}
+        >
+            {bottomTooltips.map(
+                (tooltipParams): React.JSX.Element => (
+                    <BottomTooltip key={tooltipParams.title} {...tooltipParams} />
+                ),
+            )}
+        </Stack>
     );
 }
 

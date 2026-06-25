@@ -24,6 +24,7 @@ Renders multimedia content (images, video, and audio) in a card container with c
 - [Slots](#slots)
 - [Slot props](#slot-props)
 - [Card Events](#card-events)
+- [Editable Caption](#editable-caption)
 
 ## Default
 
@@ -175,3 +176,24 @@ When the same prop can be supplied through more than one channel:
 The example below combines `slots.media` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
 
 <Canvas of={Stories.CardEvents} />
+
+## Editable Caption
+
+Pass `onTitleSubmit` and/or `onDescriptionSubmit` to enable inline editing of the caption fields. Each prop is independent — you can make only one of them editable.
+
+When a callback is provided, the field renders via `EditableText`: a pencil icon appears next to the text, and clicking it activates an inline input. Press **Enter** or click away to submit. Press **Escape** to cancel. On submit failure the value reverts to its previous state.
+
+```typescript
+const [title, setTitle] = useState('Image title');
+const [description, setDescription] = useState('(Author / Source)');
+
+<Media
+    image={image}
+    title={title}
+    description={description}
+    onTitleSubmit={async (value) => { setTitle(value); return true; }}
+    onDescriptionSubmit={async (value) => { setDescription(value); return true; }}
+/>
+```
+
+<Canvas of={Stories.WithEditableCaption} />

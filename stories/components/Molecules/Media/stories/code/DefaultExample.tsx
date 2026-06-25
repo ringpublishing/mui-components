@@ -9,7 +9,8 @@ export default function DefaultExample(): React.JSX.Element {
         thumbnailSrc: getImagePath(TestImage.BEACH, ImageSize.LARGE),
         title: TestImage.BEACH,
     };
-    const title = 'Image title';
+    const title = 'The Cat Takes a Long and Peaceful Nap in a Warm Patch of Afternoon Sunlight.';
+    const description = '(James Veysey / Shutterstock)';
     const type = 'Image Type Title';
     const ratio = '4/3';
     const statusLabels = [
@@ -49,6 +50,7 @@ export default function DefaultExample(): React.JSX.Element {
         <Media
             image={image}
             title={title}
+            description={description}
             type={type}
             ratio={ratio}
             statusLabels={statusLabels}
