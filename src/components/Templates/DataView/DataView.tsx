@@ -16,6 +16,18 @@ import BottomBarContainer, { BottomBarSlotProps } from '../../internal/BottomBar
 
 const LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY = 'ring-dataview-left-slot-width';
 
+function clampSlotWidth(width: number, minWidth: number, maxWidth: number): number {
+    return Math.min(maxWidth, Math.max(minWidth, width));
+}
+
+function readStoredLeftSlotWidth(): number {
+    try {
+        return Number.parseInt(localStorage.getItem(LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY) || '', 10);
+    } catch {
+        return NaN;
+    }
+}
+
 export type TopSlotProps = SearchBarProps & {
     /**
      * Additional actions for MoreVert IconButton in TopSlot
@@ -159,9 +171,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         setRightSlotOpen,
         leftSlotOpen = true,
         setLeftSlotOpen,
-        leftSlotWidth = props.leftSlotWidth
-            ? parseInt(localStorage.getItem(LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY) || '220')
-            : 220,
+        leftSlotWidth = 220,
         mainSlotMinWidth = 500,
         onScreenSizeChange,
         className,
@@ -173,16 +183,17 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         showLeftSlotToggleButton = true,
     } = props;
 
-    const leftSlotDynamicWidth = {
-        enabled: props.leftSlotDynamicWidth?.enabled || false,
-        minWidth: props.leftSlotDynamicWidth?.minWidth || 220,
-        maxWidth: props.leftSlotDynamicWidth?.maxWidth || 444,
-        onChange: props.leftSlotDynamicWidth?.onChange,
-    };
+    const leftSlotDynamicWidthEnabled = props.leftSlotDynamicWidth?.enabled || false;
+    const leftSlotDynamicWidthMinWidth = props.leftSlotDynamicWidth?.minWidth || 220;
+    const leftSlotDynamicWidthMaxWidth = props.leftSlotDynamicWidth?.maxWidth || 444;
+    const leftSlotDynamicWidthOnChange = props.leftSlotDynamicWidth?.onChange;
 
-    const [leftSlotResizedWidth, setLeftSlotResizedWidth] = useState(
-        Math.min(leftSlotDynamicWidth.maxWidth, Math.max(leftSlotDynamicWidth.minWidth, leftSlotWidth)),
-    );
+    const [leftSlotResizedWidth, setLeftSlotResizedWidth] = useState(() => {
+        const storedLeftSlotWidth = leftSlotDynamicWidthEnabled ? readStoredLeftSlotWidth() : NaN;
+        const initialLeftSlotWidth = Number.isNaN(storedLeftSlotWidth) ? leftSlotWidth : storedLeftSlotWidth;
+
+        return clampSlotWidth(initialLeftSlotWidth, leftSlotDynamicWidthMinWidth, leftSlotDynamicWidthMaxWidth);
+    });
     const leftSlotRef = useRef<HTMLDivElement>(null);
     const mainSlotContainerRef = useRef<HTMLDivElement>(null);
     const moreActionsButtonRef = useRef<HTMLButtonElement>(null);
@@ -199,49 +210,68 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
     const handleLeftSlotDynamicWidthChange = useCallback(
         (width: number): void => {
             setLeftSlotResizedWidth(width);
-            localStorage.setItem(LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY, width.toString());
 
-            if (leftSlotDynamicWidth.onChange) {
-                leftSlotDynamicWidth.onChange(width);
+            if (leftSlotDynamicWidthEnabled) {
+                try {
+                    localStorage.setItem(LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY, width.toString());
+                } catch {
+                    // Ignore unavailable storage; resizing should still work.
+                }
+            }
+
+            if (leftSlotDynamicWidthOnChange) {
+                leftSlotDynamicWidthOnChange(width);
             }
         },
-        [leftSlotDynamicWidth.onChange],
+        [leftSlotDynamicWidthEnabled, leftSlotDynamicWidthOnChange],
     );
 
-    const handleLeftSlotResize = useCallback(
-        (e: React.MouseEvent<HTMLDivElement>): void => {
-            document.body.style.userSelect = 'none'; // prevent text selection while resizing
+    useEffect(() => {
+        const storedLeftSlotWidth = leftSlotDynamicWidthEnabled ? readStoredLeftSlotWidth() : NaN;
+        const nextLeftSlotWidth = Number.isNaN(storedLeftSlotWidth) ? leftSlotWidth : storedLeftSlotWidth;
 
-            const onMouseMove = (e: MouseEvent): void => {
-                if (leftSlotRef.current && mainSlotContainerRef.current) {
-                    const newWidth = e.clientX - leftSlotRef.current.getBoundingClientRect().left;
+        setLeftSlotResizedWidth(
+            clampSlotWidth(nextLeftSlotWidth, leftSlotDynamicWidthMinWidth, leftSlotDynamicWidthMaxWidth),
+        );
+    }, [leftSlotWidth, leftSlotDynamicWidthEnabled, leftSlotDynamicWidthMinWidth, leftSlotDynamicWidthMaxWidth]);
 
-                    const widthDiff = newWidth - leftSlotResizedWidth;
-                    const newGridWidth = mainSlotContainerRef.current.getBoundingClientRect().width - widthDiff;
+    const handleLeftSlotResize = useCallback((): void => {
+        document.body.style.userSelect = 'none'; // prevent text selection while resizing
 
-                    if (
-                        newWidth >= leftSlotDynamicWidth.minWidth &&
-                        newWidth <= leftSlotDynamicWidth.maxWidth &&
-                        newGridWidth >= mainSlotMinWidth
-                    ) {
-                        handleLeftSlotDynamicWidthChange(newWidth);
-                    }
+        const onMouseMove = (e: MouseEvent): void => {
+            if (leftSlotRef.current && mainSlotContainerRef.current) {
+                const newWidth = e.clientX - leftSlotRef.current.getBoundingClientRect().left;
+
+                const widthDiff = newWidth - leftSlotResizedWidth;
+                const newGridWidth = mainSlotContainerRef.current.getBoundingClientRect().width - widthDiff;
+
+                if (
+                    newWidth >= leftSlotDynamicWidthMinWidth &&
+                    newWidth <= leftSlotDynamicWidthMaxWidth &&
+                    newGridWidth >= mainSlotMinWidth
+                ) {
+                    handleLeftSlotDynamicWidthChange(newWidth);
                 }
+            }
 
-                e.preventDefault();
-            };
+            e.preventDefault();
+        };
 
-            const onMouseUp = (): void => {
-                document.body.style.userSelect = '';
-                window.removeEventListener('mousemove', onMouseMove);
-                window.removeEventListener('mouseup', onMouseUp);
-            };
+        const onMouseUp = (): void => {
+            document.body.style.userSelect = '';
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+        };
 
-            window.addEventListener('mousemove', onMouseMove);
-            window.addEventListener('mouseup', onMouseUp);
-        },
-        [handleLeftSlotDynamicWidthChange],
-    );
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+    }, [
+        handleLeftSlotDynamicWidthChange,
+        leftSlotDynamicWidthMaxWidth,
+        leftSlotDynamicWidthMinWidth,
+        leftSlotResizedWidth,
+        mainSlotMinWidth,
+    ]);
 
     const { dataViewState, setDataViewState } = useDataViewContext();
     const theme = useTheme();
@@ -287,7 +317,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                     : (n: boolean): void => setDataViewState((prev) => ({ ...prev, isLeftSlotOpen: n })),
             showLeftSlotToggleButton,
         }));
-    }, [slots.left, leftSlotOpen, showLeftSlotToggleButton]);
+    }, [slots.left, leftSlotOpen, setDataViewState, setLeftSlotOpen, showLeftSlotToggleButton]);
 
     useEffect(() => {
         setDataViewState((prevState) => ({ ...prevState, isMobile }));
@@ -307,7 +337,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                 // If the grid width is less than the minimum, adjust the left slot width
                 if (diffToMinimumGridWidth > 0) {
                     const newLeftSlotWidth = Math.max(
-                        leftSlotDynamicWidth.minWidth,
+                        leftSlotDynamicWidthMinWidth,
                         leftSlotWidth - diffToMinimumGridWidth,
                     );
                     handleLeftSlotDynamicWidthChange(newLeftSlotWidth);
@@ -320,7 +350,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [handleLeftSlotDynamicWidthChange, mainSlotMinWidth, leftSlotDynamicWidth.minWidth]);
+    }, [handleLeftSlotDynamicWidthChange, mainSlotMinWidth, leftSlotDynamicWidthMinWidth]);
 
     const openRightSlotAction: Action = {
         label: slotProps?.top?.openSlotsOnMobileLabels?.rightSlot || '',
@@ -402,7 +432,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                             >
                                 <Box width={leftSlotResizedWidth} ref={leftSlotRef} sx={{ position: 'relative' }}>
                                     {slots.left}
-                                    {leftSlotDynamicWidth.enabled && (
+                                    {leftSlotDynamicWidthEnabled && (
                                         <Box
                                             id={'resize'}
                                             onMouseDown={handleLeftSlotResize}

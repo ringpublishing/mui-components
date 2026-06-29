@@ -3,6 +3,7 @@ import { action } from 'storybook/actions';
 
 import {
     DataView,
+    DataViewProps,
     MultimediaGrid,
     RingDataGridProps,
     TopSlotProps,
@@ -23,6 +24,7 @@ export interface DataViewWrapperProps {
     enabledMultimediaGrid?: boolean;
     enableDynamicMultimediaGrid?: boolean;
     filterDynamicWidth?: boolean;
+    leftSlotWidth?: DataViewProps['leftSlotWidth'];
     // MultimediaGrid props
     columns?: object;
     cellRatio?: object | string;
@@ -45,6 +47,7 @@ export const DataViewWrapper = ({
     disableDetail = false,
     enabledMultimediaGrid = false,
     filterDynamicWidth = false,
+    leftSlotWidth,
     enableDynamicMultimediaGrid = false,
     columns = DEFAULT_COLUMNS,
     cellRatio = DEFAULT_CELL_RATIO,
@@ -279,6 +282,7 @@ export const DataViewWrapper = ({
                 action('DataView: Left slot open state changed')(open);
                 setFilterOpen(open);
             }}
+            leftSlotWidth={leftSlotWidth}
             leftSlotDynamicWidth={{ enabled: filterDynamicWidth }}
         />
     );

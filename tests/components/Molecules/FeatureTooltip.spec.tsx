@@ -6,7 +6,7 @@ import { render } from '../../test-utils/customRenderer.js';
 const localStorageMock = (function (): object {
     return {
         getItem: function (): string {
-            return JSON.stringify([{ endDate: '2026-06-24T10:49:20.823Z', id: 'test2', shown: 1 }]);
+            return JSON.stringify([{ endDate: '2999-06-24T10:49:20.823Z', id: 'test2', shown: 1 }]);
         },
         setItem: vi.fn(),
         removeItem: vi.fn(),
@@ -30,7 +30,7 @@ describe('FeatureTooltip', () => {
                     onClick: vi.fn(),
                 },
             ],
-            endDate: '2026-06-24T10:49:20.823Z',
+            endDate: '2999-06-24T10:49:20.823Z',
             children: <div>test1</div>,
         };
 
@@ -55,7 +55,7 @@ describe('FeatureTooltip', () => {
                     onClick: vi.fn(),
                 },
             ],
-            endDate: '2026-06-24T10:49:20.823Z',
+            endDate: '2999-06-24T10:49:20.823Z',
         };
 
         const { queryByRole } = render(<FeatureTooltip {...mockProps} />);

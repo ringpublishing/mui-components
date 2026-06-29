@@ -109,7 +109,7 @@ const meta = {
         },
 
         leftSlotWidth: {
-            control: { type: 'range', min: 150, max: 500, step: 10 },
+            control: { type: 'range', min: 150, max: 440, step: 10 },
             description:
                 'Width of the left slot component. If left slot dynamic width is enabled, it will be read from localStorage.',
             table: {

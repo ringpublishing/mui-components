@@ -50,6 +50,43 @@ describe('Component: DataView', () => {
         expect(container).toMatchSnapshot();
     });
 
+    it('should update left slot width when leftSlotWidth prop changes', async () => {
+        const theme = getCreatedTheme('light');
+        const mockProps = {
+            slots: {
+                main: <div>Grid</div>,
+                left: <div data-testid="left-slot-content">Left Slot</div>,
+            },
+            leftSlotDynamicWidth: {
+                enabled: false,
+                minWidth: 150,
+                maxWidth: 500,
+            },
+        };
+
+        const { getByTestId, rerender } = render(
+            <ThemeProvider theme={theme}>
+                <DataView {...mockProps} leftSlotWidth={220} />
+            </ThemeProvider>,
+        );
+
+        const getLeftSlotContainer = (): HTMLElement => getByTestId('left-slot-content').parentElement as HTMLElement;
+
+        await waitFor(() => {
+            expect(getComputedStyle(getLeftSlotContainer()).width).toBe('220px');
+        });
+
+        rerender(
+            <ThemeProvider theme={theme}>
+                <DataView {...mockProps} leftSlotWidth={230} />
+            </ThemeProvider>,
+        );
+
+        await waitFor(() => {
+            expect(getComputedStyle(getLeftSlotContainer()).width).toBe('230px');
+        });
+    });
+
     it('should not render SearchBar when searchBarProps is not passed', () => {
         const mockProps = {
             slots: {
