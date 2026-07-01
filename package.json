@@ -42,7 +42,7 @@
         "@emotion/react": "^11.0.0",
         "@emotion/styled": "^11.0.0",
         "@floating-ui/dom": "^1.6.0",
-        "@ringpublishing/mui-theme": "^4.6.0",
+        "@ringpublishing/mui-theme": "^4.7.0",
         "@tanstack/react-virtual": "^3.13.0",
         "@tiptap/core": "^3.0.0",
         "@tiptap/extension-bold": "^3.0.0",

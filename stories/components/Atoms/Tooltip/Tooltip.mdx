@@ -1,0 +1,50 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Tooltip.stories.js';
+
+<Meta isTemplate />
+
+# Tooltip
+
+An enhanced tooltip component built on MUI Tooltip that supports structured content with a title, optional subtitle, and optional hint.
+
+**Key Features:**
+
+- Structured content with title, subtitle, and hint sections
+- Full MUI Tooltip API compatibility (placement, arrow, delay, etc.)
+- Keyboard hint display for discoverability
+
+## Quick Navigation
+
+- [Default](#default)
+- [With Subtitle](#with-subtitle)
+- [With Hint](#with-hint)
+- [With Custom Title](#with-custom-title)
+- [Component API](#component-api)
+
+## Default
+
+Basic tooltip with a title displayed on hover.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## With Subtitle
+
+Use the `subTitle` prop to provide additional descriptive text below the title.
+
+<Canvas of={Stories.WithSubtitle} />
+
+## With Hint
+
+Use the `hint` prop to display a keyboard hint next to tooltip title.
+
+<Canvas of={Stories.WithHint} />
+
+## With Custom Title
+
+Pass a `ReactNode` as `title` to render fully custom content in place of the default string title.
+
+<Canvas of={Stories.WithCustomTitle} />

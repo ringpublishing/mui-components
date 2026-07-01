@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip > should render correctly 1`] = `
+<div>
+  <button
+    aria-labelledby="_r_0_"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary ring-tooltip css-1uent87-MuiButtonBase-root-MuiButton-root"
+    data-mui-internal-clone-element="true"
+    data-testid="ring-tooltip"
+    tabindex="0"
+    type="button"
+  >
+    Hover me
+  </button>
+</div>
+`;

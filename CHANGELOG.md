@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.0] - 2026-06-30
+
+### Added
+- [@psulich]: `Tooltip` component.
+
+### Changed
+- [@psulich]: Updated sync to public repository workflow to use `ring-action-sync-to-public`.
+
 ## [1.10.0] - 2026-06-29
 
 ### Added

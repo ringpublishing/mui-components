@@ -1,5 +1,6 @@
 export * from './Atoms/TextField/TextField.js';
 export * from './Atoms/EditableText/EditableText.js';
+export * from './Atoms/Tooltip/Tooltip.js';
 export * from './Molecules/Accordion/Accordion.js';
 export * from './Molecules/ActionBox/ActionBox.js';
 export * from './Molecules/Autocomplete/Autocomplete.js';
