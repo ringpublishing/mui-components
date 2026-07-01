@@ -1,5 +1,7 @@
+import { createRef } from 'react';
 import { vi, describe, it, expect } from 'vitest';
-import { render, RenderOptions, RenderResult } from '@testing-library/react';
+import { render, RenderOptions, RenderResult, waitFor } from '@testing-library/react';
+import { Editor } from '@tiptap/react';
 import { getCreatedTheme, TextEditor, TextEditorProps } from '../../../src/index.js';
 import { ThemeProvider } from '@mui/material';
 
@@ -206,5 +208,40 @@ describe('TextEditor', () => {
             onImageClick: vi.fn(),
         });
         expect(getByTestId('ImageIcon')).toBeTruthy();
+    });
+
+    // Triggers a ProseMirror input rule the same way real typing does (via the
+    // inputRules plugin's `handleTextInput` prop), since dispatching a plain
+    // transaction would bypass input rules entirely.
+    function typeAtCursor(editor: Editor, text: string): void {
+        const { view } = editor;
+        const { from } = view.state.selection;
+        view.someProp('handleTextInput', (handler) => handler(view, from, from, text, () => view.state.tr));
+    }
+
+    async function renderAndGetEditor(props: Partial<TextEditorProps>): Promise<Editor> {
+        const ref = createRef<Editor>();
+        renderTextEditor({ content: '<p>-</p>', onUpdate: vi.fn(), ref, ...props });
+        await waitFor(() => expect(ref.current).toBeTruthy());
+
+        return ref.current as Editor;
+    }
+
+    it('converts a markdown list marker into a list by default', async () => {
+        const editor = await renderAndGetEditor({});
+        editor.commands.focus('end');
+        typeAtCursor(editor, ' ');
+
+        expect(JSON.stringify(editor.getJSON())).toContain('"bulletList"');
+    });
+
+    it('does not convert a markdown list marker when disableListInputRules is true', async () => {
+        const editor = await renderAndGetEditor({ disableListInputRules: true });
+        editor.commands.focus('end');
+        typeAtCursor(editor, ' ');
+
+        const json = JSON.stringify(editor.getJSON());
+        expect(json).not.toContain('"bulletList"');
+        expect(editor.getText()).toContain('-');
     });
 });

@@ -96,6 +96,14 @@ export interface TextEditorProps extends CommonComponentProps {
      * @default true
      */
     allowExceedLimit?: boolean;
+
+    /**
+     * If true, disables the list input rules that auto-convert markdown-style list
+     * markers (e.g. `- `, `* `, `+ ` or `1. `) at the beginning of a paragraph into
+     * bullet/ordered lists. Lists can still be created manually via the menu controls.
+     * @default false
+     */
+    disableListInputRules?: boolean;
 }
 
 export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((props, ref): React.JSX.Element => {
@@ -112,6 +120,7 @@ export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((prop
         sx,
         limit,
         allowExceedLimit = true,
+        disableListInputRules = false,
         dataTestIdSuffix,
     } = props;
     const [editorForRef, setEditorForRef] = React.useState<Editor | null>(null);
@@ -128,6 +137,30 @@ export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((prop
             }),
         );
     }
+
+    const bulletListExtension = React.useMemo(
+        () =>
+            disableListInputRules
+                ? BulletList.extend({
+                      addInputRules() {
+                          return [];
+                      },
+                  })
+                : BulletList,
+        [disableListInputRules],
+    );
+
+    const orderedListExtension = React.useMemo(
+        () =>
+            disableListInputRules
+                ? OrderedList.extend({
+                      addInputRules() {
+                          return [];
+                      },
+                  })
+                : OrderedList,
+        [disableListInputRules],
+    );
 
     return (
         <Box
@@ -155,8 +188,8 @@ export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((prop
                     UndoRedo,
                     Paragraph,
                     ListItem,
-                    BulletList,
-                    OrderedList,
+                    bulletListExtension,
+                    orderedListExtension,
                     Image,
                     Bold,
                     Italic,
