@@ -58,6 +58,7 @@ export default function WithBottomBarSelectionExample(): React.JSX.Element {
     useActiveCardChange(externalApiRef, ({ activeCardId }) => {
         if (activeCardId === null) {
             setDetailProps(null);
+
             return;
         }
 
@@ -101,7 +102,7 @@ export default function WithBottomBarSelectionExample(): React.JSX.Element {
             slots={{
                 main: (
                     <MultimediaGrid
-                        onSelectionModelChange={(newSelection) => setRowSelectionModel(newSelection)}
+                        onSelectionModelChange={(newSelection): void => setRowSelectionModel(newSelection)}
                         selectionModel={rowSelectionModel}
                         apiRef={externalApiRef}
                         items={items}
@@ -157,6 +158,22 @@ export default function WithBottomBarSelectionExample(): React.JSX.Element {
                     fieldMap: {
                         name: 'title',
                         image: 'image',
+                    },
+                    // custom multiline tooltip per selected item; falls back to the label when omitted
+                    getTooltip: (row: Record<string, unknown>): React.ReactNode => {
+                        const fields = (row.fields as { value: string }[] | undefined) ?? [];
+
+                        return (
+                            <>
+                                <strong>{row.title as string}</strong>
+                                {fields[0] && (
+                                    <>
+                                        <br />
+                                        {fields[0].value}
+                                    </>
+                                )}
+                            </>
+                        );
                     },
                 },
             }}

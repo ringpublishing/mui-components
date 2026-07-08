@@ -2,6 +2,22 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.12.0] - 2026-07-03
+
+### Added
+- [@omaziarz]: `Detail` — added `mediaProps.enableDownloadIcon` (default `true`) to hide the media download icon, and `mediaProps.handleImageDownload` to override the default download behavior. Both props mirror the LightBox API.
+- [@omaziarz]: `MultimediaGrid` — added `filterChips` prop to render the filter chip group above the grid (same API as `RingDataGrid`).
+- [@omaziarz]: `Typography` / `MediaCard` — added `alwaysShowTooltip` to show the tooltip on hover regardless of overflow, and `tooltipTitle` to customize the tooltip content; MediaCard field rows accept both.
+- [@omaziarz]: Exposed `alwaysShowTooltip` / `tooltipTitle` on the label of `Detail` fields, `SimpleTree` / `DataTree` / `TreeView` nodes, and the `MediaCard` title (via `alwaysShowTitleTooltip` / `titleTooltip`), so the tooltip is customizable across components using the Typography atom. When no custom `tooltipTitle` is given, the tooltip defaults to the configured label text (including tree nodes).
+- [@omaziarz]: BottomBar selection items (`RingDataGrid` / `MultimediaGrid`) — added `getTooltip(row)` to the bottom-bar `slotProps` for custom, multiline tooltip content per selected item; falls back to the item label when omitted.
+
+### Changed
+- [@omaziarz]: Filter chips (`RingDataGrid` / `MultimediaGrid`) — a chip without a `value` now renders just the key without the `:` separator, and the clear-all button is shown only when more than one chip is present.
+
+### Fixed
+- [@omaziarz]: Filter chips (`RingDataGrid` / `MultimediaGrid`) — clearing all chips no longer leaves residual height; the group now fully collapses.
+- [@omaziarz]: `LightBox` — the dark surround theme no longer drops the parent theme's custom palette extensions, fixing a crash (`reading 'tooltip'`) when a `Detail` field's tooltip renders.
+
 ## [1.11.0] - 2026-06-30
 
 ### Added

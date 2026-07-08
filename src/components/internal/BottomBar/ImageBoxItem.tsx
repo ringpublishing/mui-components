@@ -18,25 +18,33 @@ interface ImageBoxItemProps {
         image: string;
     };
     onRemove: (id: GridRowId) => void;
+    getTooltip?: (row: Record<string, unknown>) => React.ReactNode;
     onClick?: (item: RowData) => void;
 }
 
 const IMAGE_HEIGHT = 60;
 const PLACEHOLDER_WIDTH = 80;
 
-export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({ selectedRow, fieldMap, onRemove, onClick }) => {
+export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({
+    selectedRow,
+    fieldMap,
+    onRemove,
+    getTooltip,
+    onClick,
+}) => {
     const labelCandidate = get(selectedRow, fieldMap.name);
     const label =
         typeof labelCandidate === 'string' && labelCandidate.trim().length > 0
             ? labelCandidate
             : String(selectedRow.id);
+    const tooltip = getTooltip ? getTooltip(selectedRow) : label;
 
     const imageCandidate = get(selectedRow, fieldMap.image);
     const imageSrc =
         typeof imageCandidate === 'string' && imageCandidate.trim().length > 0 ? imageCandidate : undefined;
 
     return (
-        <Tooltip key={`tooltip-${selectedRow.id}`} title={label} placement="top" enterDelay={500}>
+        <Tooltip key={`tooltip-${selectedRow.id}`} title={tooltip} placement="top" enterDelay={500}>
             <Box
                 onClick={onClick ? () => onClick(selectedRow) : undefined}
                 sx={{

@@ -8,6 +8,7 @@ import { determineTextColorBasedOnBackground } from '../../../helpers/colors.js'
 import EditableText from '../../Atoms/EditableText/EditableText.js';
 import { CommonComponentProps, WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
 import { ChipsGroup, LightBox, Media, MediaProps, Placeholder, PlaceholderVariant } from '../../index.js';
+import { Image } from '../../../types.js';
 import { downloadImage } from '../../../helpers/downloadImage.js';
 import { useDataViewContext } from '../../Templates/DataView/DataViewContext.js';
 import { AspectRatioOwnerStateProps } from '../../internal/AspectRatio.js';
@@ -49,6 +50,16 @@ interface DetailMediaProps extends AspectRatioOwnerStateProps, MediaProps, WithD
     imageFullScreenPreview?: boolean;
     fullScreenImageUrl?: string;
     bottomIcons?: MediaBottomIconProps[];
+    /**
+     * Whether to show the download icon in the media toolbar.
+     * @default true
+     */
+    enableDownloadIcon?: boolean;
+    /**
+     * Callback function called when the user clicks the download button.
+     * When provided, it overrides the default download behavior.
+     */
+    handleImageDownload?: (image: Image | string) => void;
 }
 
 export interface DetailMain extends WithDataTestIdSuffix {
@@ -80,7 +91,19 @@ export enum DetailDescriptionItemFieldLayout {
     VERTICAL = 'vertical',
 }
 
-export interface DetailDescriptionItemFieldDefault {
+export interface DetailDescriptionItemFieldTooltip {
+    /**
+     * Always show the field label tooltip on hover, regardless of whether the label overflows.
+     * @default false
+     */
+    alwaysShowTooltip?: boolean;
+    /**
+     * Custom tooltip content for the field label. When omitted, the label text is shown (on overflow).
+     */
+    tooltipTitle?: React.ReactNode;
+}
+
+export interface DetailDescriptionItemFieldDefault extends DetailDescriptionItemFieldTooltip {
     name: string;
     value: string | string[];
     formatDate?: boolean;
@@ -91,7 +114,7 @@ export interface DetailDescriptionItemFieldDefault {
     url?: string;
 }
 
-export interface DetailDescriptionItemFieldDescription {
+export interface DetailDescriptionItemFieldDescription extends DetailDescriptionItemFieldTooltip {
     name: string;
     value: string;
     type: DetailDescriptionItemFieldType.DESCRIPTION;
@@ -101,7 +124,7 @@ export interface DetailDescriptionItemFieldDescription {
     showLessLabel?: string;
 }
 
-export interface DetailDescriptionItemFieldChips {
+export interface DetailDescriptionItemFieldChips extends DetailDescriptionItemFieldTooltip {
     name: string;
     type: DetailDescriptionItemFieldType.CHIPS;
     value: string | string[] | DetailDescriptionChipsItem[];
@@ -114,7 +137,7 @@ export enum EditableFieldType {
     SELECT = 'select',
 }
 
-export interface DetailDescriptionItemFieldEditable extends WithDataTestIdSuffix {
+export interface DetailDescriptionItemFieldEditable extends WithDataTestIdSuffix, DetailDescriptionItemFieldTooltip {
     name: string;
     value: string;
     type: DetailDescriptionItemFieldType.EDITABLE;
@@ -264,6 +287,8 @@ export function Detail(props: DetailProps): React.JSX.Element {
             >
                 <Typography
                     enableOverflow={true}
+                    alwaysShowTooltip={sectionField.alwaysShowTooltip}
+                    tooltipTitle={sectionField.tooltipTitle}
                     variant={'label'}
                     sx={{
                         color: (theme) => theme.palette.text.secondary,
@@ -428,7 +453,7 @@ export function Detail(props: DetailProps): React.JSX.Element {
 Detail.displayName = 'Detail';
 
 export function DescriptionField(props: DetailDescriptionItemFieldDescription): React.JSX.Element {
-    const { name, value, maxLength, showMoreLabel, showLessLabel, layout } = props;
+    const { name, value, maxLength, showMoreLabel, showLessLabel, layout, alwaysShowTooltip, tooltipTitle } = props;
     const showFullText = maxLength === undefined;
     const textShorterThanMaxLength = !showFullText && value.length <= maxLength;
     const [showMore, setShowMore] = useState(textShorterThanMaxLength);
@@ -445,6 +470,8 @@ export function DescriptionField(props: DetailDescriptionItemFieldDescription): 
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <Typography
                 enableOverflow={true}
+                alwaysShowTooltip={alwaysShowTooltip}
+                tooltipTitle={tooltipTitle}
                 variant={'label'}
                 sx={{
                     color: (theme) => theme.palette.text.secondary,
@@ -494,7 +521,17 @@ export function DescriptionField(props: DetailDescriptionItemFieldDescription): 
 }
 
 export function EditableField(props: DetailDescriptionItemFieldEditable): React.JSX.Element {
-    const { name, value, layout, onSubmit, fieldType = EditableFieldType.TEXT, options = [], dataTestIdSuffix } = props;
+    const {
+        name,
+        value,
+        layout,
+        onSubmit,
+        fieldType = EditableFieldType.TEXT,
+        options = [],
+        dataTestIdSuffix,
+        alwaysShowTooltip,
+        tooltipTitle,
+    } = props;
     const verticalLayout = layout === DetailDescriptionItemFieldLayout.VERTICAL;
 
     return (
@@ -507,6 +544,8 @@ export function EditableField(props: DetailDescriptionItemFieldEditable): React.
         >
             <Typography
                 enableOverflow={true}
+                alwaysShowTooltip={alwaysShowTooltip}
+                tooltipTitle={tooltipTitle}
                 variant={'label'}
                 sx={{
                     color: (theme): string => theme.palette.text.secondary,
@@ -562,7 +601,7 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                 <Media {...mediaProps} disableFullScreenPreview={true} />
             )}
             {mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media ? (
-                <DetailMainBottomIons {...mediaProps} />
+                <DetailMainBottomIcons {...mediaProps} />
             ) : null}
             {shouldShowCloseIcon ? (
                 <Box
@@ -598,7 +637,18 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                         text={String(title.value)}
                         onSubmit={title.onSubmit}
                         label={title.label || ''}
-                        sx={(theme) => ({
+                        sx={(
+                            theme,
+                        ): {
+                            px: number;
+                            pb: number;
+                            pt: number;
+                            justifyContent: string;
+                            minHeight: string;
+                            '& p': { fontSize: string; lineHeight: string };
+                            '& .MuiTextField-root': { width: string };
+                            '& .MuiInputBase-input': { fontSize: string; lineHeight: string };
+                        } => ({
                             px: 2,
                             pb: 0,
                             pt:
@@ -630,8 +680,17 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
     );
 }
 
-function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
-    const { bottomIcons, image, imageFullScreenPreview, fullScreenImageUrl, slots, dataTestIdSuffix } = props;
+function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
+    const {
+        bottomIcons,
+        image,
+        imageFullScreenPreview,
+        fullScreenImageUrl,
+        slots,
+        dataTestIdSuffix,
+        enableDownloadIcon = true,
+        handleImageDownload,
+    } = props;
     const [lightBoxOpen, setLightBoxOpen] = useState(false);
 
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
@@ -709,15 +768,25 @@ function DetailMainBottomIons(props: DetailMediaProps): React.JSX.Element {
             )}
             {image && imageFullScreenPreview && !slots?.media && (
                 <Stack direction="row" spacing={0}>
-                    <IconButton
-                        data-testid={`${dataTestId}-download-image`}
-                        color="default"
-                        size="medium"
-                        onClick={(): Promise<void> => downloadImage(fullScreenImageUrl || image || '')}
-                        aria-label="Download image"
-                    >
-                        <DownloadOutlined />
-                    </IconButton>
+                    {enableDownloadIcon && (
+                        <IconButton
+                            data-testid={`${dataTestId}-download-image`}
+                            color="default"
+                            size="medium"
+                            onClick={(): void => {
+                                const downloadTarget = fullScreenImageUrl || image || '';
+
+                                if (handleImageDownload) {
+                                    handleImageDownload(downloadTarget);
+                                } else {
+                                    downloadImage(downloadTarget);
+                                }
+                            }}
+                            aria-label="Download image"
+                        >
+                            <DownloadOutlined />
+                        </IconButton>
+                    )}
                     <IconButton
                         data-testid={`${dataTestId}-zoom-in-image`}
                         color="default"

@@ -26,6 +26,15 @@ export interface SimpleTreeItem {
     expanded?: boolean;
     element?: React.JSX.Element;
     loadItems?: (item: SimpleTreeItem) => Promise<SimpleTreeItem[]> | SimpleTreeItem[];
+    /**
+     * Always show the label tooltip on hover, regardless of whether the label overflows.
+     * @default false
+     */
+    alwaysShowTooltip?: boolean;
+    /**
+     * Custom tooltip content for the label. When omitted, the label text is shown (on overflow).
+     */
+    tooltipTitle?: React.ReactNode;
 }
 
 export interface SimpleTreeProps extends CommonComponentProps {

@@ -7,6 +7,7 @@ import { WithCustomSlots } from './stories/WithCustomSlots.js';
 import { WithBottomIconButtons } from './stories/WithBottomIconButtons.js';
 import { WithBottomChips } from './stories/WithBottomChips.js';
 import { WithCustomMediaSlot } from './stories/WithCustomMediaSlot.js';
+import { WithDownloadHandler } from './stories/WithDownloadHandler.js';
 import DetailMdx from './Detail.mdx';
 
 const meta = {
@@ -155,4 +156,12 @@ const meta = {
 
 export default meta;
 
-export { Default, EmptyState, WithCustomSlots, WithBottomIconButtons, WithBottomChips, WithCustomMediaSlot };
+export {
+    Default,
+    EmptyState,
+    WithCustomSlots,
+    WithBottomIconButtons,
+    WithBottomChips,
+    WithCustomMediaSlot,
+    WithDownloadHandler,
+};

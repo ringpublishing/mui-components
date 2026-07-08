@@ -38,7 +38,7 @@ const SELECTED_BORDER_RADIUS = '8px';
 export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): React.JSX.Element {
     const { item, order, instanceId, expandedItems, currentSelectedItem, searchQuery, dataTestIdSuffix } = props;
 
-    const { itemId, label, items: staticItems, element } = item;
+    const { itemId, label, items: staticItems, element, alwaysShowTooltip, tooltipTitle } = item;
 
     const theme = useTheme();
     const dataTestId = useRingDataTestId(
@@ -166,6 +166,8 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
                     >
                         <Typography
                             enableOverflow={true}
+                            alwaysShowTooltip={alwaysShowTooltip}
+                            tooltipTitle={tooltipTitle ?? label}
                             letterSpacing="0px"
                             variant="body2"
                             dangerouslySetInnerHTML={{ __html: sanitizedLabel }}

@@ -17,7 +17,6 @@ import {
     Stack,
     SxProps,
     Theme,
-    TypographyProps,
 } from '@mui/material';
 import { BrokenImageOutlined, MoreVert, PhotoOutlined } from '@mui/icons-material';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
@@ -25,11 +24,11 @@ import { Action } from '../../../types.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { AspectRatio, AspectRatioOwnerStateProps } from '../../internal/AspectRatio.js';
 import { IMAGE_STATUS, useImageLoader } from '../../../helpers/hooks/useImageLoader.js';
-import { Typography } from '../../Atoms/Typography/Typography.js';
+import { Typography, OverflowTypographyProps } from '../../Atoms/Typography/Typography.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { tv } from '../../../helpers/typographyMode.js';
 
-interface MediaCardFieldsItem extends TypographyProps {
+interface MediaCardFieldsItem extends OverflowTypographyProps {
     value: string;
 }
 
@@ -38,6 +37,15 @@ export interface MediaCardProps extends CommonComponentProps, AspectRatioOwnerSt
      * Title for the resource card.
      */
     title?: string;
+    /**
+     * Always show the title tooltip on hover, regardless of whether the title overflows.
+     * @default false
+     */
+    alwaysShowTitleTooltip?: boolean;
+    /**
+     * Custom tooltip content for the title. When omitted, the title text is shown (on overflow).
+     */
+    titleTooltip?: React.ReactNode;
     /**
      * The variant to use.
      * @default 'outlined'
@@ -134,6 +142,8 @@ export interface MediaCardProps extends CommonComponentProps, AspectRatioOwnerSt
 export function MediaCard(props: MediaCardProps): React.JSX.Element {
     const {
         title,
+        alwaysShowTitleTooltip,
+        titleTooltip,
         variant = 'outlined',
         square = false,
         className,
@@ -262,6 +272,8 @@ export function MediaCard(props: MediaCardProps): React.JSX.Element {
                             {title && (
                                 <Typography
                                     enableOverflow={true}
+                                    alwaysShowTooltip={alwaysShowTitleTooltip}
+                                    tooltipTitle={titleTooltip}
                                     color="text.primary"
                                     gutterBottom={true}
                                     variant="body2"

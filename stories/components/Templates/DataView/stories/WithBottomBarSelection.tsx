@@ -410,6 +410,27 @@ export const WithBottomBarSelection: StoryObj<DataViewMeta> = {
                     name: 'title',
                     image: 'image',
                 },
+                getTooltip: (row: Record<string, unknown>): React.ReactNode => {
+                    const fields = (row.fields as { value: string }[] | undefined) ?? [];
+
+                    return (
+                        <>
+                            <strong>{row.title as string}</strong>
+                            {fields[0] && (
+                                <>
+                                    <br />
+                                    {fields[0].value}
+                                </>
+                            )}
+                            {fields[2] && (
+                                <>
+                                    <br />
+                                    {fields[2].value}
+                                </>
+                            )}
+                        </>
+                    );
+                },
                 onClick: (item: Record<string, unknown>, apiRef: BottomBarContextState['apiRef']): void => {
                     if (apiRef && 'current' in apiRef && apiRef.current && 'setActiveCardId' in apiRef.current) {
                         apiRef.current.setActiveCardId(item.id as GridRowId);

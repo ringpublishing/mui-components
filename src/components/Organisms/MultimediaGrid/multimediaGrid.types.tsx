@@ -1,6 +1,7 @@
 import React from 'react';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { DataToolbarBaseProps } from '../../internal/DataToolbar.js';
+import { FilterChip } from '../../internal/FilterChipGroup.js';
 import { MediaCardProps } from '../MediaCard/MediaCard.js';
 import { InfiniteScrollOptions } from './useInfiniteScroll.js';
 import { GridRowId, GridCallbackDetails } from '@mui/x-data-grid';
@@ -188,6 +189,14 @@ export interface MultimediaGridProps<TSlots extends MultimediaGridSlots = Multim
      */
     additionalComponent?: React.ReactNode;
     apiRef?: MediaGridApi;
+
+    /**
+     * Filter chips to be displayed in the FilterChipGroup above the grid.
+     */
+    filterChips?: {
+        chips: FilterChip[];
+        onDeleteAll?: () => void | Promise<void>;
+    };
 
     /**
      * Labels for the placeholders rendered when the grid is in an error or empty state.

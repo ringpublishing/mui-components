@@ -7,11 +7,27 @@ export interface OverflowTypographyProps extends TypographyProps {
      * @default false
      */
     enableOverflow?: boolean;
+    /**
+     * Always render the tooltip on hover, regardless of whether the text overflows.
+     * @default false
+     */
+    alwaysShowTooltip?: boolean;
+    /**
+     * Custom tooltip content. When omitted, the tooltip shows the Typography children.
+     */
+    tooltipTitle?: React.ReactNode;
     tooltipProps?: Omit<TooltipProps, 'title' | 'children'>;
 }
 
 export function OverflowTypography(props: OverflowTypographyProps): React.JSX.Element {
-    const { enableOverflow = false, tooltipProps, children, ...typographyProps } = props;
+    const {
+        enableOverflow = false,
+        alwaysShowTooltip = false,
+        tooltipTitle,
+        tooltipProps,
+        children,
+        ...typographyProps
+    } = props;
 
     const textRef = useRef<HTMLSpanElement>(null);
     const [isOverflowed, setIsOverflowed] = useState(false);
@@ -24,7 +40,7 @@ export function OverflowTypography(props: OverflowTypographyProps): React.JSX.El
         }
     }, [children]);
 
-    const typography = (
+    const overflowTypography = (
         <MuiTypography
             {...typographyProps}
             sx={{
@@ -43,17 +59,23 @@ export function OverflowTypography(props: OverflowTypographyProps): React.JSX.El
         </MuiTypography>
     );
 
-    if (!enableOverflow) {
-        return <MuiTypography {...typographyProps}>{children}</MuiTypography>;
-    } else {
-        return isOverflowed ? (
-            <Tooltip title={children} {...tooltipProps}>
-                {typography}
+    const content = enableOverflow ? (
+        overflowTypography
+    ) : (
+        <MuiTypography {...typographyProps}>{children}</MuiTypography>
+    );
+
+    const showTooltip = alwaysShowTooltip || (enableOverflow && isOverflowed);
+
+    if (showTooltip) {
+        return (
+            <Tooltip title={tooltipTitle ?? children} {...tooltipProps}>
+                {content}
             </Tooltip>
-        ) : (
-            typography
         );
     }
+
+    return content;
 }
 
 export { OverflowTypography as Typography };

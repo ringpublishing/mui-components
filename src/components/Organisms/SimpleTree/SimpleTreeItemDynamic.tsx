@@ -40,7 +40,7 @@ const SPINNER_THICKNESS = 5;
 export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicComponentProps): React.JSX.Element {
     const { item, order, instanceId, expandedItems, currentSelectedItem, searchQuery, dataTestIdSuffix } = props;
 
-    const { itemId, label, items: staticItems, element, loadItems } = item;
+    const { itemId, label, items: staticItems, element, loadItems, alwaysShowTooltip, tooltipTitle } = item;
 
     const theme = useTheme();
     const dataTestId = useRingDataTestId(
@@ -68,6 +68,7 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
     } = ReactQuery.useQuery<SimpleTreeItem[]>({
         queryKey: ['simpleTreeItem', instanceId, itemId],
         queryFn: () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- query is enabled only when loadItems exists
             const result = loadItems!(item);
 
             return Promise.resolve(result);
@@ -241,6 +242,8 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                     >
                         <Typography
                             enableOverflow={true}
+                            alwaysShowTooltip={alwaysShowTooltip}
+                            tooltipTitle={tooltipTitle ?? label}
                             letterSpacing="0px"
                             variant="body2"
                             dangerouslySetInnerHTML={{ __html: sanitizedLabel }}

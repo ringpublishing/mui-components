@@ -64,6 +64,8 @@ export function DataTreeItemComponent(props: DataTreeItemComponentProps): React.
         instanceId,
         label,
         itemId,
+        alwaysShowTooltip,
+        tooltipTitle,
         items,
         onDragAndDropEnd,
         onCheckboxChange,
@@ -272,6 +274,8 @@ export function DataTreeItemComponent(props: DataTreeItemComponentProps): React.
                                 >
                                     <Typography
                                         enableOverflow={true}
+                                        alwaysShowTooltip={alwaysShowTooltip}
+                                        tooltipTitle={tooltipTitle ?? label}
                                         letterSpacing="0px"
                                         variant={'body2'}
                                         dangerouslySetInnerHTML={{ __html: sanitizedLabel }}

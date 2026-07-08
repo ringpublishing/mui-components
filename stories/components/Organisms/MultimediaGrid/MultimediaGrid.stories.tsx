@@ -11,6 +11,7 @@ import { EmptyStateCustomLabels } from './stories/EmptyStateCustomLabels.js';
 import { ErrorState } from './stories/ErrorState.js';
 import { ErrorStateCustomLabels } from './stories/ErrorStateCustomLabels.js';
 import { DynamicLayout } from './stories/DynamicLayout.js';
+import { WithFilterChips } from './stories/WithFilterChips.js';
 import defaultArgs from './common/defaultArgs.js';
 import MultimediaGridMDX from './MultimediaGrid.mdx';
 
@@ -313,4 +314,5 @@ export {
     ErrorState,
     ErrorStateCustomLabels,
     DynamicLayout,
+    WithFilterChips,
 };

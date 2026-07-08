@@ -3,6 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SEPARATOR_ROW_HEIGHT } from '../DataGrid/spacer.js';
 import { DataToolbar } from '../../internal/DataToolbar.js';
+import { FilterChipGroup } from '../../internal/FilterChipGroup.js';
 import { GridSpacer } from '../../internal/GridSpacer.js';
 import { MediaCard, MediaCardProps } from '../MediaCard/MediaCard.js';
 import {
@@ -68,6 +69,7 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         dynamicCardHeight = 300,
         dataTestIdSuffix,
         placeholderLabels,
+        filterChips,
     } = props;
     const internalApiRef = useGridApiRef();
     const apiRef = externalApiRef || internalApiRef;
@@ -183,6 +185,7 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
 
     return (
         <Stack sx={{ width: '100%', height: '100%', ...sx }}>
+            <FilterChipGroup chips={filterChips?.chips} onDeleteAll={filterChips?.onDeleteAll} />
             {showRingToolbar ? (
                 <DataToolbar
                     labels={labels}

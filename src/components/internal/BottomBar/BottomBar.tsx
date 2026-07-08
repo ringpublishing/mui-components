@@ -156,6 +156,7 @@ function BottomBar({ slotProps }: { slotProps?: BottomBarSlotProps }): React.JSX
                         selectedRow={selectedRow}
                         fieldMap={fieldMap}
                         onRemove={removeElement}
+                        getTooltip={slotProps?.getTooltip}
                         onClick={isOnClickProvided ? handleItemClick : undefined}
                     />
                 ))}
@@ -172,6 +173,7 @@ function BottomBar({ slotProps }: { slotProps?: BottomBarSlotProps }): React.JSX
                     fieldMap={fieldMap}
                     onRemove={removeElement}
                     slotProps={slotProps}
+                    getTooltip={slotProps?.getTooltip}
                     onClick={isOnClickProvided ? handleItemClick : undefined}
                 />
             ))}

@@ -20,6 +20,11 @@ export interface BottomBarSlotProps {
     };
     showVisibilityToggle?: boolean;
     onClick?: (item: Record<string, unknown>, apiRef: BottomBarContextState['apiRef']) => void;
+    /**
+     * Returns custom tooltip content shown on hover for a bottom-bar item. May return any
+     * ReactNode (e.g. multiline JSX). When omitted, the item's name/label is used.
+     */
+    getTooltip?: (row: Record<string, unknown>) => React.ReactNode;
     [key: string]: any;
 }
 

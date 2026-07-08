@@ -105,6 +105,15 @@ export interface TreeViewItem {
      * The function receives the current TreeViewItem as a parameter.
      */
     loadItems?: (item: TreeViewItem) => Promise<TreeViewItem[]> | TreeViewItem[];
+    /**
+     * Always show the label tooltip on hover, regardless of whether the label overflows.
+     * @default false
+     */
+    alwaysShowTooltip?: boolean;
+    /**
+     * Custom tooltip content for the label. When omitted, the label text is shown (on overflow).
+     */
+    tooltipTitle?: React.ReactNode;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [columnName: string]: any;

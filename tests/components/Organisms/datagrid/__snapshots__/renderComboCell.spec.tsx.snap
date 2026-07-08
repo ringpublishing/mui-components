@@ -3,7 +3,7 @@
 exports[`DataGrid - renderComboCell > should render correctly 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-1wtxydy-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-id7fi0-MuiDataGrid-root"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 700px; --DataGrid-columnsTotalWidth: 700px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -24,7 +24,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
           role="presentation"
         />
         <div
-          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1vigakz-MuiDataGrid-virtualScroller"
+          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1gj5o6u-MuiDataGrid-virtualScroller"
           role="presentation"
           style="overflow-x: hidden;"
         >
@@ -587,7 +587,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-1j20uzp"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-14mn80j"
           tabindex="-1"
         >
           <div
@@ -597,7 +597,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-1ablnqd"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-487mga"
           tabindex="-1"
         >
           <div
@@ -607,7 +607,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
         </div>
         <div
           aria-hidden="true"
-          class="css-980l56"
+          class="css-dg75k8"
         />
       </div>
       <div
@@ -727,7 +727,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
 exports[`DataGrid - renderComboCell > should render correctly for density=compact 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityCompact MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-1wtxydy-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityCompact MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-id7fi0-MuiDataGrid-root"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 700px; --DataGrid-columnsTotalWidth: 700px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 39px; --DataGrid-headersTotalHeight: 39px; --DataGrid-topContainerHeight: 39px; --DataGrid-bottomContainerHeight: 0px; --height: 36px;"
   >
     <div
@@ -748,7 +748,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
           role="presentation"
         />
         <div
-          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1vigakz-MuiDataGrid-virtualScroller"
+          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1gj5o6u-MuiDataGrid-virtualScroller"
           role="presentation"
           style="overflow-x: hidden;"
         >
@@ -1228,7 +1228,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-1j20uzp"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-14mn80j"
           tabindex="-1"
         >
           <div
@@ -1238,7 +1238,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-1ablnqd"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-487mga"
           tabindex="-1"
         >
           <div
@@ -1248,7 +1248,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
         </div>
         <div
           aria-hidden="true"
-          class="css-980l56"
+          class="css-dg75k8"
         />
       </div>
       <div
@@ -1368,7 +1368,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
 exports[`DataGrid - renderComboCell > should render correctly for height between 52 and 105 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-1wtxydy-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-id7fi0-MuiDataGrid-root"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 700px; --DataGrid-columnsTotalWidth: 700px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 80px;"
   >
     <div
@@ -1389,7 +1389,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
           role="presentation"
         />
         <div
-          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1vigakz-MuiDataGrid-virtualScroller"
+          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1gj5o6u-MuiDataGrid-virtualScroller"
           role="presentation"
           style="overflow-x: hidden;"
         >
@@ -1899,7 +1899,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-1j20uzp"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-14mn80j"
           tabindex="-1"
         >
           <div
@@ -1909,7 +1909,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-1ablnqd"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-487mga"
           tabindex="-1"
         >
           <div
@@ -1919,7 +1919,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
         </div>
         <div
           aria-hidden="true"
-          class="css-980l56"
+          class="css-dg75k8"
         />
       </div>
       <div
@@ -2039,7 +2039,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
 exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is undefined and showPlaceholder is true 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-1wtxydy-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-3851315942 css-id7fi0-MuiDataGrid-root"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 700px; --DataGrid-columnsTotalWidth: 700px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -2060,7 +2060,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
           role="presentation"
         />
         <div
-          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1vigakz-MuiDataGrid-virtualScroller"
+          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-1gj5o6u-MuiDataGrid-virtualScroller"
           role="presentation"
           style="overflow-x: hidden;"
         >
@@ -2420,7 +2420,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-1j20uzp"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-14mn80j"
           tabindex="-1"
         >
           <div
@@ -2430,7 +2430,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
         </div>
         <div
           aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-1ablnqd"
+          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-487mga"
           tabindex="-1"
         >
           <div
@@ -2440,7 +2440,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
         </div>
         <div
           aria-hidden="true"
-          class="css-980l56"
+          class="css-dg75k8"
         />
       </div>
       <div

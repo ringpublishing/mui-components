@@ -62,6 +62,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
         order,
         label,
         itemId,
+        alwaysShowTooltip,
+        tooltipTitle,
         items,
         onDragAndDropEnd,
         onCheckboxChange,
@@ -411,6 +413,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                 >
                                     <Typography
                                         enableOverflow={true}
+                                        alwaysShowTooltip={alwaysShowTooltip}
+                                        tooltipTitle={tooltipTitle ?? label}
                                         letterSpacing="0px"
                                         variant={'body2'}
                                         dangerouslySetInnerHTML={{

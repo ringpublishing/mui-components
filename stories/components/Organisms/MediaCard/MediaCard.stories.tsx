@@ -10,6 +10,7 @@ import { Checkbox } from './stories/Checkbox.js';
 import { Slots } from './stories/Slots.js';
 import { CardEvents } from './stories/CardEvents.js';
 import { AdvancedExample } from './stories/AdvancedExample.js';
+import { CustomTooltips } from './stories/CustomTooltips.js';
 import defaultArgs from './common/defaultArgs.js';
 import MediaCardMdx from './MediaCard.mdx';
 
@@ -244,4 +245,5 @@ export {
     Slots,
     CardEvents,
     AdvancedExample,
+    CustomTooltips,
 };

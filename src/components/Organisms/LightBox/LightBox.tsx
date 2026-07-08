@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { DialogProps, Box, useTheme, Skeleton, Dialog, IconButton, ThemeProvider, createTheme } from '@mui/material';
+import { DialogProps, Box, Skeleton, Dialog, IconButton, ThemeProvider } from '@mui/material';
+import { getCreatedTheme } from '../../../theme/theme.js';
 import CloseIcon from '@mui/icons-material/Close';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
@@ -134,7 +135,6 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
               )
             : 0;
 
-    const theme = useTheme();
     const [currentImageIndex, setCurrentImageIndex] = useState(initialIndex);
     const [displayedImageIndex, setDisplayedImageIndex] = useState(initialIndex);
     const [zoom, setZoom] = useState(100);
@@ -163,16 +163,9 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
 
     const dataTestId = useRingDataTestId(LightBox.name, dataTestIdSuffix);
 
-    const darkTheme = useMemo(
-        () =>
-            createTheme({
-                ...theme,
-                palette: {
-                    mode: 'dark',
-                },
-            }),
-        [theme],
-    );
+    // Build a real dark Ring theme so custom palette extensions (e.g. palette.components.*)
+    // get their correct dark values instead of the ambient light theme's — see PR #369 review.
+    const darkTheme = useMemo(() => getCreatedTheme('dark'), []);
 
     const [topBarHeight, setTopBarHeight] = useState(getTopBarHeight());
     const [carouselHeight, setCarouselHeight] = useState(getCarouselHeight());
@@ -736,7 +729,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
 
             onClose(event, reason);
         },
-        [onClose, fullScreenHandle],
+        [onClose, fullScreenHandle, onImageChange],
     );
 
     const showTopBarOnHover = React.useCallback(() => {
@@ -899,7 +892,18 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                     </IconButton>
                                     <Box
                                         onClick={handleResetZoom}
-                                        sx={(theme) => ({
+                                        sx={(
+                                            theme,
+                                        ): {
+                                            color: string;
+                                            fontSize: string;
+                                            fontWeight: number;
+                                            minWidth: string;
+                                            textAlign: string;
+                                            userSelect: string;
+                                            cursor: string;
+                                            '&:hover': { color: string };
+                                        } => ({
                                             color: 'white',
                                             fontSize: tv('0.875rem')(theme),
                                             fontWeight: 500,

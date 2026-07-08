@@ -18,15 +18,24 @@ interface ChipItemProps {
     };
     onRemove: (id: GridRowId) => void;
     slotProps?: BottomBarSlotProps;
+    getTooltip?: (row: Record<string, unknown>) => React.ReactNode;
     onClick?: (item: RowData) => void;
 }
 
-export const ChipItem: React.FC<ChipItemProps> = ({ selectedRow, fieldMap, onRemove, slotProps, onClick }) => {
+export const ChipItem: React.FC<ChipItemProps> = ({
+    selectedRow,
+    fieldMap,
+    onRemove,
+    slotProps,
+    getTooltip,
+    onClick,
+}) => {
     const label = get(selectedRow, fieldMap.name) || String(selectedRow.id);
     const imageSrc = get(selectedRow, fieldMap.image);
+    const tooltip = getTooltip ? getTooltip(selectedRow) : label;
 
     return (
-        <Tooltip key={`tooltip-${selectedRow.id}`} title={label} placement="top" enterDelay={500}>
+        <Tooltip key={`tooltip-${selectedRow.id}`} title={tooltip} placement="top" enterDelay={500}>
             <Chip
                 key={selectedRow.id}
                 avatar={
