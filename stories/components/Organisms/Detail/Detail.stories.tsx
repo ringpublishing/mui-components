@@ -7,7 +7,7 @@ import { WithCustomSlots } from './stories/WithCustomSlots.js';
 import { WithBottomIconButtons } from './stories/WithBottomIconButtons.js';
 import { WithBottomChips } from './stories/WithBottomChips.js';
 import { WithCustomMediaSlot } from './stories/WithCustomMediaSlot.js';
-import { WithDownloadHandler } from './stories/WithDownloadHandler.js';
+import { WithMediaToolbarHandlers } from './stories/WithMediaToolbarHandlers.js';
 import DetailMdx from './Detail.mdx';
 
 const meta = {
@@ -163,5 +163,5 @@ export {
     WithBottomIconButtons,
     WithBottomChips,
     WithCustomMediaSlot,
-    WithDownloadHandler,
+    WithMediaToolbarHandlers,
 };

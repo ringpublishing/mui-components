@@ -17,7 +17,7 @@ import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { downloadImage } from '../../../helpers/downloadImage.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { LightBoxImage } from './LightBoxImage.js';
-import { Detail, DETAIL_WIDTH, DetailProps } from '../Detail/Detail.js';
+import { Detail, DETAIL_WIDTH, LightBoxDetailProps } from '../Detail/Detail.js';
 import {
     getTopBarHeight,
     getCarouselHeight,
@@ -96,7 +96,7 @@ export interface LightBoxProps extends CommonComponentProps, Omit<DialogProps, '
     /**
      * Detail props to show the detail panel alongside the image.
      */
-    detail?: DetailProps;
+    detail?: LightBoxDetailProps;
 }
 
 const MOBILE_SCREEN_WIDTH_THRESHOLD = 768;
@@ -126,6 +126,17 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
         detail,
         ...otherProps
     } = props;
+
+    // Inside the LightBox the media-toolbar download/zoom buttons are redundant (the LightBox
+    // provides its own), so force them off on the embedded Detail.
+    const embeddedDetailMain = detail?.main && {
+        ...detail.main,
+        mediaProps: detail.main.mediaProps && {
+            ...detail.main.mediaProps,
+            enableDownloadIcon: false,
+            enableFullScreenIcon: false,
+        },
+    };
 
     const initialIndex =
         initialImageId !== undefined
@@ -1231,6 +1242,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                             >
                                 <Detail
                                     {...detail}
+                                    main={embeddedDetailMain}
                                     sx={{
                                         ...detail?.sx,
                                         backgroundColor: 'rgba(0, 0, 0, 0.7)',

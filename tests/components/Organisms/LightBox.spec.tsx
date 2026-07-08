@@ -451,4 +451,23 @@ describe('Components: LightBox', () => {
         expect(onImageChange).toHaveBeenCalledTimes(2);
         expect(onImageChange).toHaveBeenLastCalledWith(secondImage);
     });
+
+    it('hides the embedded Detail download/zoom buttons (LightBox provides its own)', () => {
+        const { queryByTestId } = renderLightBox({
+            open: true,
+            onClose: vi.fn(),
+            images: [
+                { src: 'https://via.placeholder.com/150', thumbnailSrc: 'https://via.placeholder.com/150', title: 't' },
+            ],
+            detail: {
+                main: {
+                    title: { value: 'Detail title' },
+                    mediaProps: { image: 'https://via.placeholder.com/150', imageFullScreenPreview: true },
+                },
+            },
+        });
+
+        expect(queryByTestId('ring-detail-download-image')).toBeNull();
+        expect(queryByTestId('ring-detail-zoom-in-image')).toBeNull();
+    });
 });

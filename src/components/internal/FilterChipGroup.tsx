@@ -1,4 +1,5 @@
 import { ChipProps, Divider, Stack, Typography } from '@mui/material';
+import { basicGrey100 } from '@ringpublishing/mui-theme';
 import React, { useMemo, useState } from 'react';
 import { ChipsGroup } from '../Molecules/ChipsGroup/ChipsGroup.js';
 
@@ -74,15 +75,16 @@ export const FilterChipGroup = (props: FilterChipGroupProps): React.JSX.Element 
     };
 
     return (
-        <Stack gap={1}>
+        <Stack gap={1} sx={{ pt: 1 }}>
             <ChipsGroup
                 collapsable={true}
                 expandable={true}
                 chips={chipsGroupChips}
                 onDeleteAll={onDeleteAll && chipsGroupChips.length > 1 ? handleDeleteAll : undefined}
                 customLabels={props.customLabels}
+                sx={{ px: 1 }}
             />
-            <Divider />
+            <Divider sx={{ borderColor: basicGrey100 }} />
         </Stack>
     );
 };

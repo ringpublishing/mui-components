@@ -208,6 +208,83 @@ describe('Detail', () => {
         expect(queryByTestId('ring-detail-download-image')).toBeNull();
     });
 
+    it('calls handleFullScreenPreview and does not open the built-in LightBox when provided', () => {
+        const handleFullScreenPreview = vi.fn();
+        const image = 'https://example.com/picture.jpg';
+        const { getByTestId, queryByRole } = renderDetail({
+            main: {
+                title: { value: 'Test Title' },
+                mediaProps: {
+                    image,
+                    imageFullScreenPreview: true,
+                    handleFullScreenPreview,
+                },
+            },
+        });
+
+        fireEvent.click(getByTestId('ring-detail-zoom-in-image'));
+
+        // Custom handler receives the resolved image and the built-in LightBox never opens.
+        expect(handleFullScreenPreview).toHaveBeenCalledWith(image);
+        expect(queryByRole('dialog')).toBeNull();
+    });
+
+    it('forwards mediaProps.slotProps.lightBox to the built-in LightBox', () => {
+        global.ResizeObserver = class ResizeObserver {
+            public observe = vi.fn();
+
+            public unobserve = vi.fn();
+
+            public disconnect = vi.fn();
+        };
+
+        const { getByTestId } = renderDetail({
+            main: {
+                title: { value: 'Test Title' },
+                mediaProps: {
+                    image: 'https://example.com/picture.jpg',
+                    imageFullScreenPreview: true,
+                    slotProps: { lightBox: { dataTestIdSuffix: 'from-detail' } },
+                },
+            },
+        });
+
+        fireEvent.click(getByTestId('ring-detail-zoom-in-image'));
+
+        // The forwarded dataTestIdSuffix reaches the built-in LightBox.
+        expect(getByTestId('ring-lightbox-from-detail-close')).toBeDefined();
+    });
+
+    it('hides the full-screen (zoom) button when enableFullScreenIcon is false', () => {
+        const { queryByTestId } = renderDetail({
+            main: {
+                title: { value: 'Test Title' },
+                mediaProps: {
+                    image: 'url',
+                    imageFullScreenPreview: true,
+                    enableFullScreenIcon: false,
+                },
+            },
+        });
+
+        expect(queryByTestId('ring-detail-zoom-in-image')).toBeNull();
+    });
+
+    it('hides the download button when enableDownloadIcon is false', () => {
+        const { queryByTestId } = renderDetail({
+            main: {
+                title: { value: 'Test Title' },
+                mediaProps: {
+                    image: 'url',
+                    imageFullScreenPreview: true,
+                    enableDownloadIcon: false,
+                },
+            },
+        });
+
+        expect(queryByTestId('ring-detail-download-image')).toBeNull();
+    });
+
     describe('EditableField', () => {
         it('should render correctly', () => {
             const mockProps: DetailDescriptionItemFieldEditable = {

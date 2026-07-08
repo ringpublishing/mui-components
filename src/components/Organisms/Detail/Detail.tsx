@@ -7,7 +7,15 @@ import { formatDate } from '../../../helpers/formatDate.js';
 import { determineTextColorBasedOnBackground } from '../../../helpers/colors.js';
 import EditableText from '../../Atoms/EditableText/EditableText.js';
 import { CommonComponentProps, WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import { ChipsGroup, LightBox, Media, MediaProps, Placeholder, PlaceholderVariant } from '../../index.js';
+import {
+    ChipsGroup,
+    LightBox,
+    LightBoxProps,
+    Media,
+    MediaProps,
+    Placeholder,
+    PlaceholderVariant,
+} from '../../index.js';
 import { Image } from '../../../types.js';
 import { downloadImage } from '../../../helpers/downloadImage.js';
 import { useDataViewContext } from '../../Templates/DataView/DataViewContext.js';
@@ -46,7 +54,7 @@ interface MediaBottomIconPropsChip extends MediaBottomIconPropsBase {
 
 type MediaBottomIconProps = MediaBottomIconPropsIcon | MediaBottomIconPropsChip;
 
-interface DetailMediaProps extends AspectRatioOwnerStateProps, MediaProps, WithDataTestIdSuffix {
+interface DetailMediaBaseProps extends AspectRatioOwnerStateProps, MediaProps, WithDataTestIdSuffix {
     imageFullScreenPreview?: boolean;
     fullScreenImageUrl?: string;
     bottomIcons?: MediaBottomIconProps[];
@@ -56,11 +64,45 @@ interface DetailMediaProps extends AspectRatioOwnerStateProps, MediaProps, WithD
      */
     enableDownloadIcon?: boolean;
     /**
+     * Whether to show the full-screen preview (zoom) icon in the media toolbar.
+     * @default true
+     */
+    enableFullScreenIcon?: boolean;
+    /**
      * Callback function called when the user clicks the download button.
      * When provided, it overrides the default download behavior.
      */
     handleImageDownload?: (image: Image | string) => void;
 }
+
+export type DetailMediaSlotProps = NonNullable<MediaProps['slotProps']> & {
+    /**
+     * Props forwarded to the built-in `LightBox` opened by the zoom button.
+     * `images`, `open` and `onClose` are managed by `Detail` and cannot be overridden.
+     */
+    lightBox?: Omit<LightBoxProps, 'images' | 'open' | 'onClose'>;
+};
+
+/**
+ * `handleFullScreenPreview` and `slotProps.lightBox` are mutually exclusive — provide a custom
+ * handler (the built-in LightBox is then not rendered), or props forwarded to the built-in LightBox
+ * via the `lightBox` slot, not both.
+ */
+type DetailMediaProps = DetailMediaBaseProps &
+    (
+        | {
+              /**
+               * Callback called when the user clicks the full-screen preview (zoom) button. When provided,
+               * the built-in LightBox is not rendered — the consumer is expected to open its own viewer.
+               */
+              handleFullScreenPreview?: (image: Image | string) => void;
+              slotProps?: NonNullable<MediaProps['slotProps']> & { lightBox?: never };
+          }
+        | {
+              handleFullScreenPreview?: never;
+              slotProps?: DetailMediaSlotProps;
+          }
+    );
 
 export interface DetailMain extends WithDataTestIdSuffix {
     mediaProps?: DetailMediaProps;
@@ -193,6 +235,18 @@ export interface DetailProps extends CommonComponentProps {
         afterBottomActions?: React.JSX.Element;
     };
 }
+
+/**
+ * `DetailProps` as accepted by `LightBox`'s `detail` slot. Inside the LightBox the media-toolbar
+ * buttons (download, full-screen preview) are hidden, so their controls — `enableDownloadIcon`,
+ * `enableFullScreenIcon`, `handleImageDownload`, `handleFullScreenPreview`, `lightBoxProps` — are
+ * omitted since they would have no effect.
+ */
+export type LightBoxDetailProps = Omit<DetailProps, 'main'> & {
+    main?: Omit<DetailMain, 'mediaProps'> & {
+        mediaProps?: Omit<DetailMediaBaseProps, 'enableDownloadIcon' | 'enableFullScreenIcon' | 'handleImageDownload'>;
+    };
+};
 
 export function Detail(props: DetailProps): React.JSX.Element {
     const { main, descriptionItems, bottomActions, empty = false, slots, className, sx, dataTestIdSuffix } = props;
@@ -689,7 +743,10 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
         slots,
         dataTestIdSuffix,
         enableDownloadIcon = true,
+        enableFullScreenIcon = true,
         handleImageDownload,
+        handleFullScreenPreview,
+        slotProps,
     } = props;
     const [lightBoxOpen, setLightBoxOpen] = useState(false);
 
@@ -787,20 +844,31 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
                             <DownloadOutlined />
                         </IconButton>
                     )}
-                    <IconButton
-                        data-testid={`${dataTestId}-zoom-in-image`}
-                        color="default"
-                        size="medium"
-                        onClick={(): void => setLightBoxOpen(true)}
-                        aria-label="Zoom in"
-                    >
-                        <ZoomInOutlined />
-                    </IconButton>
-                    <LightBox
-                        onClose={(): void => setLightBoxOpen(false)}
-                        images={[isImage(image) ? image : { src: image, thumbnailSrc: image }]}
-                        open={lightBoxOpen}
-                    />
+                    {enableFullScreenIcon && (
+                        <IconButton
+                            data-testid={`${dataTestId}-zoom-in-image`}
+                            color="default"
+                            size="medium"
+                            onClick={(): void => {
+                                if (handleFullScreenPreview) {
+                                    handleFullScreenPreview(fullScreenImageUrl || image || '');
+                                } else {
+                                    setLightBoxOpen(true);
+                                }
+                            }}
+                            aria-label="Zoom in"
+                        >
+                            <ZoomInOutlined />
+                        </IconButton>
+                    )}
+                    {enableFullScreenIcon && !handleFullScreenPreview && (
+                        <LightBox
+                            {...slotProps?.lightBox}
+                            onClose={(): void => setLightBoxOpen(false)}
+                            images={[isImage(image) ? image : { src: image, thumbnailSrc: image }]}
+                            open={lightBoxOpen}
+                        />
+                    )}
                 </Stack>
             )}
         </Stack>
