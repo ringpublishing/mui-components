@@ -1,3 +1,4 @@
+import React from 'react';
 import { Chip, Avatar, Tooltip } from '@mui/material';
 import { GridRowId } from '@mui/x-data-grid';
 import { get } from 'lodash';
@@ -6,6 +7,7 @@ import { BottomBarSlotProps } from './BottomBarContainer.js';
 
 interface RowData {
     id: GridRowId;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
 
@@ -22,14 +24,8 @@ interface ChipItemProps {
     onClick?: (item: RowData) => void;
 }
 
-export const ChipItem: React.FC<ChipItemProps> = ({
-    selectedRow,
-    fieldMap,
-    onRemove,
-    slotProps,
-    getTooltip,
-    onClick,
-}) => {
+export function ChipItem(props: ChipItemProps): React.JSX.Element {
+    const { selectedRow, fieldMap, onRemove, slotProps, getTooltip, onClick } = props;
     const label = get(selectedRow, fieldMap.name) || String(selectedRow.id);
     const imageSrc = get(selectedRow, fieldMap.image);
     const tooltip = getTooltip ? getTooltip(selectedRow) : label;
@@ -48,8 +44,8 @@ export const ChipItem: React.FC<ChipItemProps> = ({
                     ) : undefined
                 }
                 label={label}
-                onClick={onClick ? () => onClick(selectedRow) : undefined}
-                onDelete={() => onRemove(selectedRow.id)}
+                onClick={onClick ? (): void => onClick(selectedRow) : undefined}
+                onDelete={(): void => onRemove(selectedRow.id)}
                 size="medium"
                 variant="filled"
                 deleteIcon={<Close />}
@@ -62,4 +58,4 @@ export const ChipItem: React.FC<ChipItemProps> = ({
             />
         </Tooltip>
     );
-};
+}

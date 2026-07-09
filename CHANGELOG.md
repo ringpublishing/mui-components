@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.13.1] - 2026-07-08
+
+### Changed
+- [@psulich]: Updated copilot-instructions.
+
 ## [1.13.0] - 2026-07-08
 
 ### Added

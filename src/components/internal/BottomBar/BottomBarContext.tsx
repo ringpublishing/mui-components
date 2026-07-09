@@ -1,11 +1,12 @@
 import { GridApi, GridRowSelectionModel } from '@mui/x-data-grid-pro';
-import { createContext, SetStateAction, useContext, Dispatch, useState, RefObject } from 'react';
+import React, { createContext, SetStateAction, useContext, Dispatch, useState, RefObject } from 'react';
 import { MediaGridApi } from '../../Organisms/MultimediaGrid/gridApi.js';
 
 export type BottomBarContextState = {
     isSelectionModeEnabled?: boolean;
     rowSelectionModel?: GridRowSelectionModel;
     allSelected?: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     items?: any[];
     apiRef?: RefObject<GridApi | null> | MediaGridApi;
 };
@@ -27,7 +28,8 @@ const BottomBarContext = createContext<BottomBarContext>({
     setBottomBarState: (n) => n,
 });
 
-export const BottomBarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function BottomBarProvider(props: { children: React.ReactNode }): React.JSX.Element {
+    const { children } = props;
     const [bottomBarState, setState] = useState<BottomBarContextState>(initialState);
 
     const setBottomBarState = (newState: SetStateAction<BottomBarContextState>): void => {
@@ -40,7 +42,7 @@ export const BottomBarProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return (
         <BottomBarContext.Provider value={{ bottomBarState, setBottomBarState }}>{children}</BottomBarContext.Provider>
     );
-};
+}
 
 export const useBottomBarContext = (): BottomBarContext => {
     const context = useContext(BottomBarContext);

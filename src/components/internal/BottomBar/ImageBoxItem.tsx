@@ -25,13 +25,8 @@ interface ImageBoxItemProps {
 const IMAGE_HEIGHT = 60;
 const PLACEHOLDER_WIDTH = 80;
 
-export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({
-    selectedRow,
-    fieldMap,
-    onRemove,
-    getTooltip,
-    onClick,
-}) => {
+export function ImageBoxItem(props: ImageBoxItemProps): React.JSX.Element {
+    const { selectedRow, fieldMap, onRemove, getTooltip, onClick } = props;
     const labelCandidate = get(selectedRow, fieldMap.name);
     const label =
         typeof labelCandidate === 'string' && labelCandidate.trim().length > 0
@@ -46,7 +41,7 @@ export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({
     return (
         <Tooltip key={`tooltip-${selectedRow.id}`} title={tooltip} placement="top" enterDelay={500}>
             <Box
-                onClick={onClick ? () => onClick(selectedRow) : undefined}
+                onClick={onClick ? (): void => onClick(selectedRow) : undefined}
                 sx={{
                     position: 'relative',
                     height: IMAGE_HEIGHT,
@@ -124,7 +119,7 @@ export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({
                     }}
                 >
                     <Close
-                        sx={(theme) => ({
+                        sx={(theme): object => ({
                             fontSize: tv('1rem')(theme),
                             fontWeight: 'bold',
                             color: theme.colors.red[600],
@@ -134,4 +129,4 @@ export const ImageBoxItem: React.FC<ImageBoxItemProps> = ({
             </Box>
         </Tooltip>
     );
-};
+}

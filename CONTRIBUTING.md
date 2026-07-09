@@ -20,7 +20,6 @@ You can use any branch name, but it is RECOMMENDED to include JIRA task ID in at
 - branch name
 - commit message
 
-
 ## Code
 
 1. Every exported component MUST have its own directory in `src/components/*/`.
@@ -46,11 +45,11 @@ Every component MUST have complete Storybook documentation. Follow the structure
 
 1. Stories MUST be placed in `stories/components/{Category}/{ComponentName}/` directory.
 2. The directory MUST contain:
-   - `{ComponentName}.stories.tsx` - Main stories configuration
-   - `{ComponentName}.mdx` - Documentation file
-   - `common/defaultArgs.ts` - Default props/args
-   - `stories/` - Individual story files
-   - `stories/code/` - Code examples for live coding examples in docs
+    - `{ComponentName}.stories.tsx` - Main stories configuration
+    - `{ComponentName}.mdx` - Documentation file
+    - `common/defaultArgs.ts` - Default props/args
+    - `stories/` - Individual story files
+    - `stories/code/` - Code examples for live coding examples in docs
 
 ### Documentation (MDX)
 
@@ -59,9 +58,9 @@ Every component MUST have complete Storybook documentation. Follow the structure
 5. Stories MUST be displayed using `<Canvas of={Stories.StoryName} />`.
 6. Component API table MUST be shown using `<ArgTypes />` below the first story.
 7. Documentation SHOULD include:
-   - Component description and features
-   - Quick navigation links
-   - Multiple story examples with explanations
+    - Component description and features
+    - Quick navigation links
+    - Multiple story examples with explanations
 
 ### Story Files
 
@@ -175,4 +174,4 @@ The Pull Request MUST contain:
 - Meaningful title
 - Description of changes or a JIRA task ID
 
-To make the review easier please assign yourself to the pull request in GitHub. 
+To make the review easier please assign yourself to the pull request in GitHub.
