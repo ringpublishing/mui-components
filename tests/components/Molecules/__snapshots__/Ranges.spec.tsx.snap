@@ -13,7 +13,7 @@ exports[`Ranges > should render correctly 1`] = `
         class="MuiBox-root css-0"
       >
         <div
-          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
           data-testid="ring-autocomplete-range1"
           title="Range"
         >
@@ -49,7 +49,27 @@ exports[`Ranges > should render correctly 1`] = `
               <div
                 class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
                 style="align-items: center;"
-              />
+              >
+                <button
+                  aria-label="Open"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+                  tabindex="-1"
+                  title="Open"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                    data-testid="KeyboardArrowDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                    />
+                  </svg>
+                </button>
+              </div>
               <fieldset
                 aria-hidden="true"
                 class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
@@ -74,8 +94,8 @@ exports[`Ranges > should render correctly 1`] = `
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
-              for="_r_2_"
-              id="_r_2_-label"
+              for="_r_3_"
+              id="_r_3_-label"
             >
               From
             </label>
@@ -86,7 +106,7 @@ exports[`Ranges > should render correctly 1`] = `
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="ring-ranges-item-range1-from"
-                id="_r_2_"
+                id="_r_3_"
                 type="number"
                 value=""
               />
@@ -115,8 +135,8 @@ exports[`Ranges > should render correctly 1`] = `
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
-              for="_r_3_"
-              id="_r_3_-label"
+              for="_r_4_"
+              id="_r_4_-label"
             >
               To
             </label>
@@ -127,7 +147,7 @@ exports[`Ranges > should render correctly 1`] = `
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="ring-ranges-item-range1-to"
-                id="_r_3_"
+                id="_r_4_"
                 type="number"
                 value=""
               />
@@ -179,7 +199,7 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
         class="MuiBox-root css-0"
       >
         <div
-          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
           data-testid="ring-autocomplete-range1"
           title="Range"
         >
@@ -190,8 +210,8 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for="_r_1s_"
-              id="_r_1s_-label"
+              for="_r_27_"
+              id="_r_27_-label"
             >
               Range
             </label>
@@ -205,7 +225,7 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                id="_r_1s_"
+                id="_r_27_"
                 placeholder="Select Range"
                 role="combobox"
                 spellcheck="false"
@@ -215,7 +235,27 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
               <div
                 class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
                 style="align-items: center;"
-              />
+              >
+                <button
+                  aria-label="Open"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+                  tabindex="-1"
+                  title="Open"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                    data-testid="KeyboardArrowDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                    />
+                  </svg>
+                </button>
+              </div>
               <fieldset
                 aria-hidden="true"
                 class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
@@ -240,8 +280,8 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for="_r_1u_"
-              id="_r_1u_-label"
+              for="_r_2a_"
+              id="_r_2a_-label"
             >
               From
             </label>
@@ -252,7 +292,7 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="ring-ranges-item-range1-from"
-                id="_r_1u_"
+                id="_r_2a_"
                 type="number"
                 value="50"
               />
@@ -281,8 +321,8 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for="_r_1v_"
-              id="_r_1v_-label"
+              for="_r_2b_"
+              id="_r_2b_-label"
             >
               To
             </label>
@@ -293,7 +333,7 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
                 aria-invalid="true"
                 class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                 data-testid="ring-ranges-item-range1-to"
-                id="_r_1v_"
+                id="_r_2b_"
                 type="number"
                 value="40"
               />

@@ -1,32 +1,29 @@
-import React, { cloneElement, useEffect, useRef } from 'react';
-import classNames from 'classnames';
-import { isEqual, isNil, omit } from 'lodash';
-
-import { MoreVert } from '@mui/icons-material';
+import { KeyboardArrowDown as KeyboardArrowDownIcon, MoreVert } from '@mui/icons-material';
 import {
     Autocomplete as MuiAutocomplete,
+    AutocompleteChangeDetails,
+    AutocompleteChangeReason,
     AutocompleteRenderInputParams,
     Box,
+    Chip,
     CircularProgress,
     IconButton,
     Theme,
     Tooltip,
-    Chip,
 } from '@mui/material';
+import classNames from 'classnames';
+import { isEqual, isNil, omit } from 'lodash';
+import React, { useRef } from 'react';
 
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { Action } from '../../../types.js';
 
+import { TextField, TextFieldProps } from '../../Atoms/TextField/TextField.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import { ActionBox } from '../ActionBox/ActionBox.js';
-import { TextField, TextFieldProps } from '../../index.js';
 
-export interface AutocompleteChangeDetails<Value = string> {
-    option: Value;
-}
-
-export type AutocompleteChangeReason = 'createOption' | 'selectOption' | 'removeOption' | 'clear' | 'blur';
+export type { AutocompleteChangeDetails, AutocompleteChangeReason } from '@mui/material';
 
 export interface AutocompleteLabels {
     /**
@@ -50,6 +47,13 @@ export interface AutocompleteLabels {
 }
 
 type MuiAutocompleteProps = React.ComponentProps<typeof MuiAutocomplete>;
+type AutocompleteOptionWithMeta = Record<string, unknown> & {
+    caption?: string;
+    groupBy?: string;
+    id?: React.Key;
+    label?: string;
+    sortBy?: number;
+};
 
 export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocompleteProps, 'renderInput'> {
     /**
@@ -98,7 +102,230 @@ export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocom
     } & MuiAutocompleteProps['slotProps'];
 }
 
-export type MuiOption = MuiAutocompleteProps['options'][0] & { groupBy: string; sortBy: number; caption?: string };
+export type MuiOption = AutocompleteOptionWithMeta;
+
+const isAutocompleteOptionObject = (option: unknown): option is AutocompleteOptionWithMeta => {
+    return option !== null && typeof option === 'object' && !Array.isArray(option);
+};
+
+const stripRecentlyUsedMeta = (option: object): MuiOption => {
+    return omit(option, 'groupBy', 'sortBy') as MuiOption;
+};
+
+const getStoredRecentlyUsedItems = (showRecentlyUsed: boolean, recentlyLocalStorageKey?: string): MuiOption[] => {
+    if (!showRecentlyUsed || !recentlyLocalStorageKey) {
+        return [];
+    }
+
+    try {
+        const parsed: unknown = JSON.parse(localStorage.getItem(recentlyLocalStorageKey) || '[]');
+        const stored: unknown[] = Array.isArray(parsed) ? parsed : [];
+        const recentlyUsedItems: MuiOption[] = [];
+
+        for (const item of stored) {
+            const flattenedItems = Array.isArray(item) ? item : [item];
+
+            for (const flattenedItem of flattenedItems) {
+                if (isAutocompleteOptionObject(flattenedItem)) {
+                    recentlyUsedItems.push(stripRecentlyUsedMeta(flattenedItem));
+                }
+            }
+        }
+
+        return recentlyUsedItems;
+    } catch {
+        return [];
+    }
+};
+
+const getOptionLabelFallback = (option: unknown): string => {
+    if (typeof option === 'string') {
+        return option;
+    }
+
+    const { label } = option as { label: string };
+
+    return label;
+};
+
+const renderOptionWithCustomLabelAndCaption = (
+    props: React.HTMLAttributes<HTMLLIElement> & { key?: React.Key },
+    option: unknown,
+    customGetOptionLabel: (option: unknown) => string,
+): React.ReactNode => {
+    const { key, ...optionProps } = props;
+    const caption = isAutocompleteOptionObject(option) ? option.caption : undefined;
+    const id = isAutocompleteOptionObject(option) ? option.id : undefined;
+
+    return (
+        <li {...optionProps} key={id || key}>
+            <Box
+                sx={(t: Theme): React.CSSProperties & Record<string, unknown> => ({
+                    flexGrow: 1,
+                    '& span': {
+                        color: '#8b949e',
+                        ...t.applyStyles('light', {
+                            color: '#586069',
+                        }),
+                    },
+                    overflow: 'hidden',
+                })}
+            >
+                <Typography enableOverflow={true}>{customGetOptionLabel(option)}</Typography>
+                {caption && (
+                    <>
+                        <Typography variant="caption" component="span">
+                            {caption}
+                        </Typography>
+                    </>
+                )}
+            </Box>
+        </li>
+    );
+};
+
+const createRenderSelectedValue = (
+    customGetOptionLabel: (option: unknown) => string,
+    chipSlotProps: Partial<React.ComponentProps<typeof Chip>> | undefined,
+): NonNullable<MuiAutocompleteProps['renderValue']> => {
+    return (value, getItemProps): React.ReactNode => {
+        if (!Array.isArray(value)) {
+            return null;
+        }
+
+        return value.map((option, index) => {
+            const { key, ...chipPropsFromItem } = getItemProps({ index }) as ReturnType<typeof getItemProps> & {
+                key?: React.Key;
+            };
+
+            return (
+                <Tooltip key={key || index} title={customGetOptionLabel(option)}>
+                    <Chip label={customGetOptionLabel(option)} {...chipPropsFromItem} {...chipSlotProps} />
+                </Tooltip>
+            );
+        });
+    };
+};
+
+interface AutocompleteInputProps {
+    actions?: Action[];
+    dataTestId: string;
+    dataTestIdSuffix?: string;
+    inputParams: AutocompleteRenderInputParams;
+    labels: AutocompleteLabels;
+    loading?: boolean;
+    refAnchor: React.RefObject<HTMLButtonElement | null>;
+    textFieldSlotProps?: TextFieldProps;
+}
+
+function AutocompleteInput({
+    actions,
+    dataTestId,
+    dataTestIdSuffix,
+    inputParams,
+    labels,
+    loading,
+    refAnchor,
+    textFieldSlotProps,
+}: AutocompleteInputProps): React.JSX.Element {
+    const actionButton =
+        actions && actions.length === 1 ? (
+            <Tooltip title={actions[0].disabledReason || actions[0].label}>
+                <IconButton
+                    sx={{ p: '2px' }}
+                    onClick={(event: React.MouseEvent<HTMLElement>): void => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        actions[0].onClick?.(event);
+                    }}
+                    disabled={actions[0].disabled}
+                    data-testid={`${dataTestId}-action`}
+                >
+                    {actions[0].icon}
+                </IconButton>
+            </Tooltip>
+        ) : null;
+
+    const moreVertButton =
+        actions && actions.length > 1 ? (
+            <IconButton
+                ref={refAnchor}
+                sx={{ p: '2px' }}
+                data-testid={`${dataTestId}-actions`}
+                onClick={(event): void => event.stopPropagation()}
+            >
+                <MoreVert />
+                {/* zIndex of Autocomplete Popper is 1300 */}
+                <ActionBox actions={actions} anchorEl={refAnchor} zIndex={1400} dataTestIdSuffix={dataTestIdSuffix} />
+            </IconButton>
+        ) : null;
+
+    const circularProgress = loading ? (
+        <IconButton disableFocusRipple={true} disableRipple={true}>
+            <CircularProgress
+                size={'1.125rem'}
+                sx={{ cursor: 'default' }}
+                data-testid={`${dataTestId}-circular-progress`}
+            />
+        </IconButton>
+    ) : null;
+
+    const endAdornment = inputParams.InputProps.endAdornment;
+    let customEndAdornment = endAdornment;
+    const hasCustomEndAdornment = Boolean(circularProgress || actionButton || moreVertButton);
+
+    if (React.isValidElement(endAdornment)) {
+        const typedEndAdornment = endAdornment as React.ReactElement<{
+            children?: React.ReactNode;
+            style?: React.CSSProperties;
+        }>;
+        const adornmentProps = typedEndAdornment.props;
+
+        customEndAdornment = React.cloneElement(
+            typedEndAdornment,
+            {
+                ...adornmentProps,
+                style: {
+                    alignItems: 'center',
+                    ...adornmentProps.style,
+                },
+            },
+            circularProgress,
+            ...React.Children.toArray(adornmentProps.children),
+            actionButton,
+            moreVertButton,
+        );
+    } else if (hasCustomEndAdornment) {
+        customEndAdornment = (
+            <div className="MuiAutocomplete-endAdornment" style={{ alignItems: 'center' }}>
+                {circularProgress}
+                {actionButton}
+                {moreVertButton}
+            </div>
+        );
+    }
+
+    return (
+        <TextField
+            {...textFieldSlotProps}
+            {...inputParams}
+            data-testid={dataTestId}
+            slotProps={{
+                input: {
+                    ...inputParams.InputProps,
+                    endAdornment: customEndAdornment,
+                },
+                /*
+                 * DESCOMP253-9 FIXME:
+                 *    There is a problem with adding data-testids to the TextField component directly, so we add it to the inputProps instead
+                 */
+                // htmlInput: { 'data-testid': `${dataTestId}-input` }
+            }}
+            label={labels.title}
+            placeholder={isNil(inputParams.InputProps.startAdornment) ? labels.inputPlaceholder : undefined}
+        />
+    );
+}
 
 function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRef<unknown>): React.JSX.Element {
     const {
@@ -114,7 +341,10 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         showRecentlyUsed = false,
         recentlyUsedLimit = 3,
         loadingText = '',
+        forcePopupIcon,
+        popupIcon,
         renderOption,
+        renderValue,
         dataTestIdSuffix,
         ...otherProps
     } = props;
@@ -123,34 +353,28 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
 
     const refAnchor = useRef<HTMLButtonElement>(null);
 
-    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() => {
-        try {
-            const parsed: unknown = JSON.parse(localStorage.getItem(recentlyLocalStorageKey as string) || '[]');
-            const stored: unknown[] = Array.isArray(parsed) ? parsed : [];
+    const { textField: textFieldSlotProps, ...autocompleteSlotProps } = slotProps || {};
 
-            return stored
-                .flat()
-                .filter((item): item is MuiOption => item !== null && typeof item === 'object' && !Array.isArray(item))
-                .map((item) => omit(item, 'groupBy', 'sortBy') as MuiOption);
-        } catch {
-            return [];
-        }
-    });
+    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() =>
+        getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey),
+    );
 
-    let parsedOptions = options as Array<MuiOption>;
+    let parsedOptions: MuiAutocompleteProps['options'] = options;
 
     if (showRecentlyUsed) {
         if (!recentlyLocalStorageKey) {
             throw new Error('recentlyLocalStorageKey is required when showRecentlyUsed is true');
         }
 
-        otherProps.groupBy = (o: unknown): string => (o as MuiOption).groupBy;
+        otherProps.groupBy = (option: unknown): string => {
+            return isAutocompleteOptionObject(option) ? option.groupBy || '' : '';
+        };
 
         const originalIsOptionEqualToValue = otherProps.isOptionEqualToValue;
 
         otherProps.isOptionEqualToValue = (option: unknown, value: unknown): boolean => {
-            const cleanOption = omit(option as object, 'groupBy', 'sortBy');
-            const cleanValue = omit(value as object, 'groupBy', 'sortBy');
+            const cleanOption = stripRecentlyUsedMeta(option as object);
+            const cleanValue = stripRecentlyUsedMeta(value as object);
 
             if (originalIsOptionEqualToValue) {
                 return originalIsOptionEqualToValue(cleanOption, cleanValue);
@@ -159,24 +383,30 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             return isEqual(cleanOption, cleanValue);
         };
 
-        parsedOptions = (
-            options.map((p) => {
-                // Find the item in recently used items (remove groupBy and sortBy)
+        parsedOptions = options
+            .map((option) => {
+                if (!isAutocompleteOptionObject(option)) {
+                    return option;
+                }
+
                 const foundItemIndex = recentlyUsedItems.findIndex((r: MuiOption) =>
-                    isEqual(omit(r, 'groupBy', 'sortBy'), p),
+                    isEqual(stripRecentlyUsedMeta(r), option),
                 );
 
                 if (foundItemIndex >= 0) {
                     const sortBy = recentlyUsedItems.length - foundItemIndex;
 
-                    // @ts-expect-error For spread operator
-                    return { ...p, groupBy: labels.recentlyUsed, sortBy };
+                    return { ...option, groupBy: labels.recentlyUsed, sortBy };
                 }
 
-                // @ts-expect-error We don't know what type is in options
-                return { ...p, groupBy: labels.recentlyUsedResults, sortBy: 0 };
-            }) || []
-        ).sort((a, b) => b.sortBy - a.sortBy);
+                return { ...option, groupBy: labels.recentlyUsedResults, sortBy: 0 };
+            })
+            .sort((a, b) => {
+                const sortByA = isAutocompleteOptionObject(a) ? a.sortBy || 0 : 0;
+                const sortByB = isAutocompleteOptionObject(b) ? b.sortBy || 0 : 0;
+
+                return sortByB - sortByA;
+            });
     }
 
     const handleOnChange = (
@@ -185,19 +415,22 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<unknown> | undefined,
     ): void => {
-        if (showRecentlyUsed && reason === 'selectOption') {
-            const rawOption = (otherProps.multiple ? details?.option : value) as MuiOption | undefined;
+        if (showRecentlyUsed && recentlyLocalStorageKey && reason === 'selectOption') {
+            const rawOption = otherProps.multiple ? details?.option : value;
 
-            if (rawOption && typeof rawOption === 'object') {
-                const selectedOption = omit(rawOption, 'groupBy', 'sortBy') as MuiOption;
+            if (isAutocompleteOptionObject(rawOption)) {
+                const selectedOption = stripRecentlyUsedMeta(rawOption);
 
                 const newRecentlyUsedItems = [...recentlyUsedItems]
                     .filter((r: unknown) => {
-                        return !isEqual(omit(r as object, 'groupBy', 'sortBy'), selectedOption);
+                        return !isEqual(stripRecentlyUsedMeta(r as object), selectedOption);
                     })
                     .slice(0, recentlyUsedLimit - 1);
 
-                setRecentlyUsedItems([selectedOption, ...newRecentlyUsedItems]);
+                const nextRecentlyUsedItems = [selectedOption, ...newRecentlyUsedItems];
+
+                setRecentlyUsedItems(nextRecentlyUsedItems);
+                localStorage.setItem(recentlyLocalStorageKey, JSON.stringify(nextRecentlyUsedItems));
             }
         }
 
@@ -209,51 +442,38 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             return getOptionLabel(option);
         }
 
-        if (typeof option === 'string') {
-            return option;
-        }
-
-        const { label } = option as { label: string };
-
-        return label;
+        return getOptionLabelFallback(option);
     };
 
-    useEffect(() => {
-        localStorage.setItem(recentlyLocalStorageKey as string, JSON.stringify(recentlyUsedItems));
-    }, [recentlyLocalStorageKey, recentlyUsedItems]);
-
-    const renderOptionWithCustomLabelAndCaption = (
-        props: React.HTMLAttributes<HTMLLIElement>,
-        option: unknown,
+    const defaultRenderOption: NonNullable<MuiAutocompleteProps['renderOption']> = (
+        optionProps,
+        option,
     ): React.ReactNode => {
-        const { caption, id } = option as { caption: string; id: string };
+        return renderOptionWithCustomLabelAndCaption(optionProps, option, customGetOptionLabel);
+    };
 
+    const chipSlotProps =
+        typeof autocompleteSlotProps.chip === 'function'
+            ? undefined
+            : (autocompleteSlotProps.chip as Partial<React.ComponentProps<typeof Chip>> | undefined);
+    const renderSelectedValue = createRenderSelectedValue(customGetOptionLabel, chipSlotProps);
+
+    const renderAutocompleteInput = (inputParams: AutocompleteRenderInputParams): React.ReactNode => {
         return (
-            <li {...props} key={id}>
-                <Box
-                    sx={(t: Theme) => ({
-                        flexGrow: 1,
-                        '& span': {
-                            color: '#8b949e',
-                            ...t.applyStyles('light', {
-                                color: '#586069',
-                            }),
-                        },
-                        overflow: 'hidden',
-                    })}
-                >
-                    <Typography enableOverflow={true}>{customGetOptionLabel(option)}</Typography>
-                    {caption && (
-                        <>
-                            <Typography variant="caption" component="span">
-                                {caption}
-                            </Typography>
-                        </>
-                    )}
-                </Box>
-            </li>
+            <AutocompleteInput
+                actions={actions}
+                dataTestId={dataTestId}
+                dataTestIdSuffix={dataTestIdSuffix}
+                inputParams={inputParams}
+                labels={labels}
+                loading={loading}
+                refAnchor={refAnchor}
+                textFieldSlotProps={textFieldSlotProps}
+            />
         );
     };
+
+    const hasActions = Boolean(actions?.length);
 
     return (
         <MuiAutocomplete
@@ -263,133 +483,20 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             options={parsedOptions}
             onChange={handleOnChange}
             loading={loading}
+            forcePopupIcon={hasActions ? false : forcePopupIcon}
+            popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
             getOptionLabel={customGetOptionLabel}
             ref={ref}
             loadingText={loadingText}
-            renderOption={renderOption || renderOptionWithCustomLabelAndCaption}
+            renderOption={renderOption || defaultRenderOption}
+            renderValue={
+                renderValue || (otherProps.multiple && !otherProps.renderTags ? renderSelectedValue : undefined)
+            }
             sx={{
                 ...otherProps.sx,
-                '&.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon': {
-                    '.MuiAutocomplete-inputRoot': {
-                        paddingRight: actions || loading ? '56px' : '28px',
-                    },
-                },
             }}
-            componentsProps={{
-                clearIndicator: {
-                    sx: {
-                        margin: 0,
-                    },
-                },
-            }}
-            renderTags={(value, getTagProps) => {
-                return value.map((option, index) => {
-                    const tagProps = getTagProps({ index });
-                    const { key, ...chipPropsFromTag } = tagProps;
-                    const chipProps: any = {
-                        ...chipPropsFromTag,
-                        ...slotProps?.chip,
-                    };
-
-                    return (
-                        <Tooltip key={key} title={customGetOptionLabel(option)}>
-                            <Chip label={customGetOptionLabel(option)} {...chipProps} />
-                        </Tooltip>
-                    );
-                });
-            }}
-            slotProps={slotProps}
-            renderInput={(inputParams: AutocompleteRenderInputParams): React.ReactNode => {
-                const actionButton =
-                    actions && actions?.length === 1 ? (
-                        <Tooltip title={actions[0].disabledReason || actions[0].label}>
-                            <IconButton
-                                sx={{ p: '2px' }}
-                                onClick={(event: React.MouseEvent<HTMLElement>): void => {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                    actions[0].onClick?.(event);
-                                }}
-                                disabled={actions[0].disabled}
-                                data-testid={`${dataTestId}-action`}
-                            >
-                                {actions[0].icon}
-                            </IconButton>
-                        </Tooltip>
-                    ) : null;
-                const moreVertButton =
-                    actions && actions?.length > 1 ? (
-                        <IconButton
-                            ref={refAnchor}
-                            sx={{ p: '2px' }}
-                            data-testid={`${dataTestId}-actions`}
-                            onClick={(e): void => e.stopPropagation()}
-                        >
-                            <MoreVert />
-                            {/* zIndex of Autocomplete Popper is 1300 */}
-                            <ActionBox
-                                actions={actions}
-                                anchorEl={refAnchor}
-                                zIndex={1400}
-                                dataTestIdSuffix={dataTestIdSuffix}
-                            />
-                        </IconButton>
-                    ) : null;
-                const circularProgress = loading ? (
-                    <IconButton disableFocusRipple={true} disableRipple={true}>
-                        <CircularProgress
-                            size={'1.5rem'}
-                            sx={{ cursor: 'default' }}
-                            data-testid={`${dataTestId}-circular-progress`}
-                        />
-                    </IconButton>
-                ) : null;
-
-                const endAdornment = inputParams.InputProps.endAdornment;
-
-                if (React.isValidElement(endAdornment)) {
-                    const typedEndAdornment = endAdornment as React.ReactElement<{
-                        style?: React.CSSProperties;
-                        children?: React.ReactNode[];
-                    }>;
-                    const adornmentProps = typedEndAdornment.props;
-                    inputParams.InputProps.endAdornment = cloneElement(
-                        typedEndAdornment,
-                        {
-                            ...adornmentProps,
-                            style: {
-                                alignItems: 'center',
-                                ...adornmentProps.style,
-                            },
-                        },
-                        circularProgress,
-                        adornmentProps.children?.[0],
-                        actionButton,
-                        moreVertButton,
-                    );
-                }
-
-                return (
-                    <TextField
-                        {...slotProps?.textField}
-                        {...inputParams}
-                        data-testid={dataTestId}
-                        slotProps={{
-                            input: {
-                                ...inputParams.InputProps,
-                                endAdornment: inputParams.InputProps.endAdornment,
-                            },
-                            /*
-                             * DESCOMP253-9 FIXME:
-                             *    There is a problem with adding data-testids to the TextField component directly, so we add it to the inputProps instead
-                             */
-                            // htmlInput: { 'data-testid': `${dataTestId}-input` }
-                        }}
-                        label={labels.title}
-                        placeholder={isNil(inputParams.InputProps.startAdornment) ? labels.inputPlaceholder : undefined}
-                    />
-                );
-            }}
+            slotProps={autocompleteSlotProps}
+            renderInput={renderAutocompleteInput}
         />
     );
 }

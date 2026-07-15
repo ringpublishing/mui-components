@@ -4,8 +4,8 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
 <div
   aria-label="Onet"
   class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-filledPrimary MuiAutocomplete-tag MuiAutocomplete-tagSizeMedium css-1vfgu64-MuiButtonBase-root-MuiChip-root"
+  data-item-index="0"
   data-mui-internal-clone-element="true"
-  data-tag-index="0"
   role="button"
   tabindex="-1"
 >
@@ -31,7 +31,7 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
 exports[`Autocomplete > should render correctly 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
@@ -66,7 +66,27 @@ exports[`Autocomplete > should render correctly 1`] = `
         <div
           class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
           style="align-items: center;"
-        />
+        >
+          <button
+            aria-label="Open"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+            tabindex="-1"
+            title="Open"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="KeyboardArrowDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+              />
+            </svg>
+          </button>
+        </div>
         <fieldset
           aria-hidden="true"
           class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
@@ -88,7 +108,7 @@ exports[`Autocomplete > should render correctly 1`] = `
 exports[`Autocomplete > should render correctly with dropdown action 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-fr21uf-MuiAutocomplete-root"
+    class="MuiAutocomplete-root ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
@@ -98,8 +118,8 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_2_"
-        id="_r_2_-label"
+        for="_r_3_"
+        id="_r_3_-label"
       >
         Title
       </label>
@@ -113,14 +133,14 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_2_"
+          id="_r_3_"
           role="combobox"
           spellcheck="false"
           type="text"
           value=""
         />
         <div
-          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          class="MuiAutocomplete-endAdornment"
           style="align-items: center;"
         >
           <button
@@ -165,7 +185,7 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
 exports[`Autocomplete > should render correctly with multiple actions 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-fr21uf-MuiAutocomplete-root"
+    class="MuiAutocomplete-root ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
@@ -175,8 +195,8 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_6_"
-        id="_r_6_-label"
+        for="_r_7_"
+        id="_r_7_-label"
       >
         Title
       </label>
@@ -190,14 +210,14 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_6_"
+          id="_r_7_"
           role="combobox"
           spellcheck="false"
           type="text"
           value=""
         />
         <div
-          class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+          class="MuiAutocomplete-endAdornment"
           style="align-items: center;"
         >
           <button
@@ -240,7 +260,7 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
 exports[`Autocomplete > should render correctly with option caption 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
@@ -250,8 +270,8 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_j_"
-        id="_r_j_-label"
+        for="_r_p_"
+        id="_r_p_-label"
       >
         search by
       </label>
@@ -265,7 +285,7 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_j_"
+          id="_r_p_"
           role="combobox"
           spellcheck="false"
           type="text"
@@ -274,7 +294,27 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
         <div
           class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
           style="align-items: center;"
-        />
+        >
+          <button
+            aria-label="Open"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+            tabindex="-1"
+            title="Open"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="KeyboardArrowDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+              />
+            </svg>
+          </button>
+        </div>
         <fieldset
           aria-hidden="true"
           class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
@@ -296,7 +336,7 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
 exports[`Autocomplete > should render correctly with recently used 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1nv3g0g-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
@@ -306,8 +346,8 @@ exports[`Autocomplete > should render correctly with recently used 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_9_"
-        id="_r_9_-label"
+        for="_r_a_"
+        id="_r_a_-label"
       >
         search by
       </label>
@@ -321,7 +361,7 @@ exports[`Autocomplete > should render correctly with recently used 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_9_"
+          id="_r_a_"
           role="combobox"
           spellcheck="false"
           type="text"
@@ -330,7 +370,27 @@ exports[`Autocomplete > should render correctly with recently used 1`] = `
         <div
           class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
           style="align-items: center;"
-        />
+        >
+          <button
+            aria-label="Open"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+            tabindex="-1"
+            title="Open"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="KeyboardArrowDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+              />
+            </svg>
+          </button>
+        </div>
         <fieldset
           aria-hidden="true"
           class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"

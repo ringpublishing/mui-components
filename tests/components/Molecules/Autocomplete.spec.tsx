@@ -123,6 +123,27 @@ describe('Autocomplete', () => {
         expect(getByTestId('ring-autocomplete-circular-progress')).toBeDefined();
     });
 
+    it('should not touch localStorage when recently used is disabled', () => {
+        const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+        const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+
+        render(
+            <Autocomplete
+                options={options}
+                labels={{
+                    title: 'Title',
+                }}
+                recentlyLocalStorageKey="recentlyUsedDisabled"
+            />,
+        );
+
+        expect(getItemSpy).not.toHaveBeenCalledWith('recentlyUsedDisabled');
+        expect(setItemSpy).not.toHaveBeenCalledWith('recentlyUsedDisabled', expect.any(String));
+
+        getItemSpy.mockRestore();
+        setItemSpy.mockRestore();
+    });
+
     it('should render correctly with option caption', () => {
         const options = [
             { label: 'Onet', id: 1, caption: 'Onet portal' },
