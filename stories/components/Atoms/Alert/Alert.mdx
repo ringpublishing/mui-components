@@ -1,0 +1,59 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './Alert.stories.js';
+
+<Meta isTemplate />
+
+# Alert
+
+Alert is a structured wrapper over MUI Alert. It uses explicit `title` and `description`, a controlled action button config, and supports both `outline` and `inline` frame variants.
+
+## Key Features
+
+- `title` and `description` are first-class content props
+- action is a controlled button config, not an arbitrary node
+- the close X is rendered from `onClose`
+- supports `actionsPlacement="right" | "bottom"`
+- supports `layoutVariant="outline" | "inline"`
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Content Variants](#content-variants)
+- [Severities](#severities)
+- [With Action](#with-action)
+- [With Close](#with-close)
+- [With Action And Close](#with-action-and-close)
+- [Layout Variants](#layout-variants)
+
+## Default
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Content Variants
+
+<Canvas of={Stories.ContentVariants} />
+
+## Severities
+
+<Canvas of={Stories.Severities} />
+
+## With Action
+
+<Canvas of={Stories.WithAction} />
+
+## With Close
+
+<Canvas of={Stories.WithClose} />
+
+## With Action And Close
+
+<Canvas of={Stories.WithActionAndClose} />
+
+## Layout Variants
+
+<Canvas of={Stories.LayoutVariants} />

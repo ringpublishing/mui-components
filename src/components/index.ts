@@ -1,3 +1,4 @@
+export * from './Atoms/Alert/Alert.js';
 export * from './Atoms/TextField/TextField.js';
 export * from './Atoms/EditableText/EditableText.js';
 export * from './Atoms/Tooltip/Tooltip.js';

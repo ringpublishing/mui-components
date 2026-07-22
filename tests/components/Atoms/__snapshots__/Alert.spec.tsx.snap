@@ -1,0 +1,218 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Alert Component > should render correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-wi4ae2-MuiPaper-root-MuiAlert-root"
+    data-testid="ring-alert"
+    role="alert"
+    style="--Paper-shadow: none;"
+  >
+    <div
+      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        data-testid="InfoOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiAlert-message css-zioonp-MuiAlert-message"
+    >
+      <div
+        class="MuiBox-root css-gfcxh4"
+      >
+        <div
+          class="MuiBox-root css-13h2h4x"
+        >
+          <div
+            class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+          >
+            Alert title
+          </div>
+          <div
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
+            Alert description
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Alert Component > should render the bottom action layout 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-wi4ae2-MuiPaper-root-MuiAlert-root"
+    data-testid="ring-alert"
+    role="alert"
+    style="--Paper-shadow: none;"
+  >
+    <div
+      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        data-testid="InfoOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiAlert-message css-zioonp-MuiAlert-message"
+    >
+      <div
+        class="MuiStack-root css-1nf2sby-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-gfcxh4"
+        >
+          <div
+            class="MuiBox-root css-13h2h4x"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+            >
+              Alert title
+            </div>
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+            >
+              Alert description
+            </div>
+          </div>
+          <button
+            aria-label="Close"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1pg4pt2-MuiButtonBase-root-MuiIconButton-root"
+            data-testid="ring-alert-close"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="MuiBox-root css-7uh7jy"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-td15i9-MuiButtonBase-root-MuiButton-root"
+            data-testid="ring-alert-action"
+            tabindex="0"
+            type="button"
+          >
+            Action
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Alert Component > should render the inline layout 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-1tfix4p-MuiPaper-root-MuiAlert-root"
+    data-testid="ring-alert"
+    role="alert"
+    style="--Paper-shadow: none;"
+  >
+    <div
+      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        data-testid="InfoOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiAlert-message css-zioonp-MuiAlert-message"
+    >
+      <div
+        class="MuiStack-root css-1nf2sby-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-gfcxh4"
+        >
+          <div
+            class="MuiBox-root css-r2uhun"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+            >
+              Alert title
+            </div>
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-1j7faym-MuiTypography-root"
+            >
+              Alert description
+            </div>
+          </div>
+          <button
+            aria-label="Close"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1pg4pt2-MuiButtonBase-root-MuiIconButton-root"
+            data-testid="ring-alert-close"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="MuiBox-root css-7uh7jy"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-td15i9-MuiButtonBase-root-MuiButton-root"
+            data-testid="ring-alert-action"
+            tabindex="0"
+            type="button"
+          >
+            Action
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
