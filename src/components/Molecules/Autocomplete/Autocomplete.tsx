@@ -4,10 +4,13 @@ import {
     AutocompleteChangeDetails,
     AutocompleteChangeReason,
     AutocompleteRenderInputParams,
+    Avatar,
+    AvatarProps,
     Box,
     Chip,
     CircularProgress,
     IconButton,
+    ListItemAvatar,
     Theme,
     Tooltip,
 } from '@mui/material';
@@ -48,6 +51,17 @@ export interface AutocompleteLabels {
 
 type MuiAutocompleteProps = React.ComponentProps<typeof MuiAutocomplete>;
 type AutocompleteOptionWithMeta = Record<string, unknown> & {
+    /**
+     * Leading avatar shown before the option label in the default renderer.
+     * A string is treated as an image URL and rendered inside a circular `Avatar`;
+     * a `ReactNode` (e.g. a custom `Avatar`, icon or `img`) is rendered as-is.
+     *
+     * Note: with `showRecentlyUsed`, only string (URL) avatars are persisted to
+     * local storage. A `ReactNode` avatar is dropped from the stored entry (it is
+     * re-applied from the live option on render), so use a URL if the avatar must
+     * survive a reload as part of the recently-used identity.
+     */
+    avatar?: string | React.ReactNode;
     caption?: string;
     groupBy?: string;
     id?: React.Key;
@@ -99,6 +113,12 @@ export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocom
          * Props applied to the TextField element.
          */
         textField?: TextFieldProps;
+        /**
+         * Props applied to the option's `Avatar` when the option `avatar` is a string (URL).
+         * Use this for a custom border, size, variant, etc. `sx` is merged on top of the
+         * default sizing. Ignored when `avatar` is a `ReactNode` (style that node directly).
+         */
+        avatar?: Partial<AvatarProps>;
     } & MuiAutocompleteProps['slotProps'];
 }
 
@@ -109,7 +129,13 @@ const isAutocompleteOptionObject = (option: unknown): option is AutocompleteOpti
 };
 
 const stripRecentlyUsedMeta = (option: object): MuiOption => {
-    return omit(option, 'groupBy', 'sortBy') as MuiOption;
+    // A non-string `avatar` (React node) does not survive JSON serialization for
+    // recently-used persistence and would break equality matching on reload, so it
+    // is excluded from the persisted/compared shape. String (URL) avatars are kept.
+    const { avatar } = option as AutocompleteOptionWithMeta;
+    const keysToOmit = typeof avatar === 'string' ? ['groupBy', 'sortBy'] : ['groupBy', 'sortBy', 'avatar'];
+
+    return omit(option, keysToOmit) as MuiOption;
 };
 
 const getStoredRecentlyUsedItems = (showRecentlyUsed: boolean, recentlyLocalStorageKey?: string): MuiOption[] => {
@@ -152,13 +178,36 @@ const renderOptionWithCustomLabelAndCaption = (
     props: React.HTMLAttributes<HTMLLIElement> & { key?: React.Key },
     option: unknown,
     customGetOptionLabel: (option: unknown) => string,
+    avatarSlotProps?: Partial<AvatarProps>,
 ): React.ReactNode => {
     const { key, ...optionProps } = props;
     const caption = isAutocompleteOptionObject(option) ? option.caption : undefined;
     const id = isAutocompleteOptionObject(option) ? option.id : undefined;
+    const avatar = isAutocompleteOptionObject(option) ? option.avatar : undefined;
+
+    const { sx: avatarSx, ...avatarRest } = avatarSlotProps ?? {};
+
+    const avatarNode =
+        typeof avatar === 'string' ? (
+            <Avatar
+                {...avatarRest}
+                src={avatar}
+                sx={[
+                    (t: Theme): React.CSSProperties => ({ width: t.spacing(3), height: t.spacing(3) }),
+                    ...(Array.isArray(avatarSx) ? avatarSx : avatarSx ? [avatarSx] : []),
+                ]}
+            />
+        ) : (
+            avatar
+        );
 
     return (
-        <li {...optionProps} key={id || key}>
+        <li {...optionProps} key={id ?? key}>
+            {avatarNode && (
+                <ListItemAvatar sx={{ minWidth: 'auto', mr: 1.5, display: 'flex', alignItems: 'center' }}>
+                    {avatarNode}
+                </ListItemAvatar>
+            )}
             <Box
                 sx={(t: Theme): React.CSSProperties & Record<string, unknown> => ({
                     flexGrow: 1,
@@ -353,7 +402,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
 
     const refAnchor = useRef<HTMLButtonElement>(null);
 
-    const { textField: textFieldSlotProps, ...autocompleteSlotProps } = slotProps || {};
+    const { textField: textFieldSlotProps, avatar: avatarSlotProps, ...autocompleteSlotProps } = slotProps || {};
 
     const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() =>
         getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey),
@@ -390,7 +439,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
                 }
 
                 const foundItemIndex = recentlyUsedItems.findIndex((r: MuiOption) =>
-                    isEqual(stripRecentlyUsedMeta(r), option),
+                    isEqual(stripRecentlyUsedMeta(r), stripRecentlyUsedMeta(option)),
                 );
 
                 if (foundItemIndex >= 0) {
@@ -449,7 +498,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         optionProps,
         option,
     ): React.ReactNode => {
-        return renderOptionWithCustomLabelAndCaption(optionProps, option, customGetOptionLabel);
+        return renderOptionWithCustomLabelAndCaption(optionProps, option, customGetOptionLabel, avatarSlotProps);
     };
 
     const chipSlotProps =

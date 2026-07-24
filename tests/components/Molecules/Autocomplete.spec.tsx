@@ -159,6 +159,53 @@ describe('Autocomplete', () => {
         expect(render(<Autocomplete {...mockProps} />).container).toMatchSnapshot();
     });
 
+    it('should render an option avatar image when the dropdown is open', () => {
+        const options = [
+            { label: 'Onet', id: 1, avatar: 'https://picsum.photos/seed/onet/48' },
+            { label: 'Fakt', id: 2, avatar: 'https://picsum.photos/seed/fakt/48' },
+        ];
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+            },
+            open: true,
+            slotProps: { popper: { disablePortal: true } },
+        };
+
+        const { getByRole } = render(<Autocomplete {...mockProps} />);
+
+        const listbox = getByRole('listbox');
+        const avatarImg = listbox.querySelector('img');
+
+        expect(avatarImg).toBeTruthy();
+        expect(avatarImg?.getAttribute('src')).toBe('https://picsum.photos/seed/onet/48');
+        expect(listbox).toMatchSnapshot();
+    });
+
+    it('should apply slotProps.avatar to the option avatar', () => {
+        const options = [{ label: 'Onet', id: 1, avatar: 'https://picsum.photos/seed/onet/48' }];
+        const mockProps = {
+            options,
+            labels: {
+                title: 'search by',
+            },
+            open: true,
+            slotProps: {
+                popper: { disablePortal: true },
+                avatar: { className: 'custom-avatar', variant: 'square' as const },
+            },
+        };
+
+        const { getByRole } = render(<Autocomplete {...mockProps} />);
+
+        const avatar = getByRole('listbox').querySelector('.custom-avatar');
+
+        expect(avatar).toBeTruthy();
+        // variant prop flows through to the underlying MUI Avatar
+        expect(avatar?.classList.contains('MuiAvatar-square')).toBe(true);
+    });
+
     it('should pass slotProps to native Autocomplete component', () => {
         const mockProps = {
             options,
@@ -228,6 +275,81 @@ describe('Autocomplete', () => {
         // Should not contain internal groupBy/sortBy properties
         expect(stored[0]).not.toHaveProperty('groupBy');
         expect(stored[0]).not.toHaveProperty('sortBy');
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should not persist a non-string (React node) avatar in recently used', () => {
+        const localStorageKey = 'recentlyUsedAvatar';
+        localStorage.setItem(localStorageKey, '[]');
+
+        const avatarOptions = [
+            { label: 'Onet', id: 1, avatar: <InfoOutlined /> },
+            { label: 'Fakt', id: 2, avatar: 'https://picsum.photos/seed/fakt/48' },
+        ];
+
+        const mockProps = {
+            options: avatarOptions,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+        };
+
+        const { getByRole, getByText } = render(<Autocomplete {...mockProps} />);
+
+        const input = getByRole('combobox');
+        fireEvent.click(input);
+        fireEvent.change(input, { target: { value: 'Onet' } });
+
+        vi.advanceTimersByTime(100);
+
+        fireEvent.click(getByText('Onet'));
+
+        const stored = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
+        expect(stored[0]).toHaveProperty('label', 'Onet');
+        // React node avatar must be dropped so it survives the JSON roundtrip
+        expect(stored[0]).not.toHaveProperty('avatar');
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should persist a string (URL) avatar in recently used', () => {
+        const localStorageKey = 'recentlyUsedStringAvatar';
+        localStorage.setItem(localStorageKey, '[]');
+
+        const avatarOptions = [
+            { label: 'Fakt', id: 2, avatar: 'https://picsum.photos/seed/fakt/48' },
+            { label: 'Onet', id: 1, avatar: 'https://picsum.photos/seed/onet/48' },
+        ];
+
+        const mockProps = {
+            options: avatarOptions,
+            labels: {
+                title: 'search by',
+                recentlyUsed: 'Recently used',
+                recentlyUsedResults: 'Results',
+            },
+            showRecentlyUsed: true,
+            recentlyLocalStorageKey: localStorageKey,
+        };
+
+        const { getByRole, getByText } = render(<Autocomplete {...mockProps} />);
+
+        const input = getByRole('combobox');
+        fireEvent.click(input);
+        fireEvent.change(input, { target: { value: 'Fakt' } });
+
+        vi.advanceTimersByTime(100);
+
+        fireEvent.click(getByText('Fakt'));
+
+        const stored = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
+        expect(stored[0]).toHaveProperty('label', 'Fakt');
+        expect(stored[0]).toHaveProperty('avatar', 'https://picsum.photos/seed/fakt/48');
 
         localStorage.removeItem(localStorageKey);
     });

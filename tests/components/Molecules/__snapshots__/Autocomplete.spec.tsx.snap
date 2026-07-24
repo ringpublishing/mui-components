@@ -28,6 +28,78 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
 </div>
 `;
 
+exports[`Autocomplete > should render an option avatar image when the dropdown is open 1`] = `
+<ul
+  aria-labelledby="_r_s_-label"
+  class="MuiAutocomplete-listbox css-19166iz-MuiAutocomplete-listbox"
+  id="_r_s_-listbox"
+  role="listbox"
+>
+  <li
+    aria-disabled="false"
+    aria-selected="false"
+    class="MuiAutocomplete-option"
+    data-option-index="0"
+    id="_r_s_-option-0"
+    role="option"
+    tabindex="-1"
+  >
+    <div
+      class="MuiListItemAvatar-root css-1cidnb4-MuiListItemAvatar-root"
+    >
+      <div
+        class="MuiAvatar-root MuiAvatar-circular css-1llr7y-MuiAvatar-root"
+      >
+        <img
+          class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+          src="https://picsum.photos/seed/onet/48"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-1kphdw3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-b0znet-MuiTypography-root"
+      >
+        Onet
+      </p>
+    </div>
+  </li>
+  <li
+    aria-disabled="false"
+    aria-selected="false"
+    class="MuiAutocomplete-option"
+    data-option-index="1"
+    id="_r_s_-option-1"
+    role="option"
+    tabindex="-1"
+  >
+    <div
+      class="MuiListItemAvatar-root css-1cidnb4-MuiListItemAvatar-root"
+    >
+      <div
+        class="MuiAvatar-root MuiAvatar-circular css-1llr7y-MuiAvatar-root"
+      >
+        <img
+          class="MuiAvatar-img css-1su80sj-MuiAvatar-img"
+          src="https://picsum.photos/seed/fakt/48"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiBox-root css-1kphdw3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-b0znet-MuiTypography-root"
+      >
+        Fakt
+      </p>
+    </div>
+  </li>
+</ul>
+`;
+
 exports[`Autocomplete > should render correctly 1`] = `
 <div>
   <div

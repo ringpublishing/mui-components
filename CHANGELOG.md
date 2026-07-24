@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.15.0] - 2026-07-22
+
+### Added
+- [@omaziarz]: `Autocomplete` — options accept an `avatar` field (image URL or `ReactNode`) to show a leading avatar/image before the label in the default renderer, without overriding `renderOption`.
+
 ## [1.14.0] - 2026-07-16
 
 ### Added

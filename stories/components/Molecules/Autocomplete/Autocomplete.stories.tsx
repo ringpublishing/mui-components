@@ -9,6 +9,8 @@ import { WithMultipleSelection } from './stories/WithMultipleSelection.js';
 import { WithMultipleDropdownActions } from './stories/WithMultipleDropdownActions.js';
 import { WithRecentlyUsed } from './stories/WithRecentlyUsed.js';
 import { WithCaption } from './stories/WithCaption.js';
+import { WithAvatar } from './stories/WithAvatar.js';
+import { WithCustomisedAvatar } from './stories/WithCustomisedAvatar.js';
 import { WithAsynchronousRequests } from './stories/WithAsynchronousRequests.js';
 import { WithCustomisedChips } from './stories/WithCustomisedChips.js';
 import { WithCustomisedRenderOption } from './stories/WithCustomisedRenderOption.js';
@@ -120,6 +122,8 @@ export {
     WithMultipleDropdownActions,
     WithRecentlyUsed,
     WithCaption,
+    WithAvatar,
+    WithCustomisedAvatar,
     WithAsynchronousRequests,
     WithCustomisedChips,
     WithCustomisedRenderOption,

@@ -28,6 +28,19 @@ export const optionsWithCaption: OptionWithCaption[] = [
     { label: 'Business insider', id: 6, caption: 'O pieniądzach' },
 ];
 
+export interface OptionWithAvatar extends Option {
+    avatar: string;
+}
+
+export const optionsWithAvatar: OptionWithAvatar[] = [
+    { label: 'Onet', id: 1, avatar: 'https://picsum.photos/seed/onet/48' },
+    { label: 'Fakt', id: 2, avatar: 'https://picsum.photos/seed/fakt/48' },
+    { label: 'Komputer świat', id: 3, avatar: 'https://picsum.photos/seed/komputer/48' },
+    { label: 'Newsweek', id: 4, avatar: 'https://picsum.photos/seed/newsweek/48' },
+    { label: 'Forbes', id: 5, avatar: 'https://picsum.photos/seed/forbes/48' },
+    { label: 'Business insider', id: 6, avatar: 'https://picsum.photos/seed/business/48' },
+];
+
 export const defaultSx = { width: 300 };
 
 const defaultArgs: Partial<AutocompleteProps> = {

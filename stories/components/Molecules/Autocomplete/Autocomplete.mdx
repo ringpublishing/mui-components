@@ -13,7 +13,7 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - Free text input with suggestions (freeSolo mode)
 - Asynchronous data loading
 - Recently used items tracking
-- Custom option rendering with captions
+- Custom option rendering with captions and avatars
 
 ## Quick Navigation
 
@@ -24,6 +24,8 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - [With Multiple Dropdown Actions](#with-multiple-dropdown-actions)
 - [With Recently Used](#with-recently-used)
 - [With Caption](#with-caption)
+- [With Avatar](#with-avatar)
+- [With Customised Avatar](#with-customised-avatar)
 - [With Asynchronous Requests](#with-asynchronous-requests)
 - [With Customised Chips](#with-customised-chips)
 - [With Customised Render Option](#with-customised-render-option)
@@ -142,6 +144,32 @@ Display additional caption text below each option label. Useful for providing ex
 - Caption is part of the option object
 
 <Canvas of={Stories.WithCaption} />
+
+## With Avatar
+
+Show a leading avatar or image before each option label in the default renderer, without having to override `renderOption`.
+
+### Key Features:
+
+- Avatar is part of the option object (the `avatar` field)
+- A string is treated as an image URL and rendered inside a circular `Avatar`
+- A `ReactNode` (custom `Avatar`, icon or `img`) is rendered as-is
+- Customize the string avatar (border, size, variant, …) via `slotProps.avatar`
+- Works alongside `caption`
+
+<Canvas of={Stories.WithAvatar} />
+
+## With Customised Avatar
+
+Customize the string (URL) option avatar — border, size, variant, etc. — via `slotProps.avatar`, without overriding `renderOption`.
+
+### Key Features:
+
+- `slotProps.avatar` accepts standard MUI `Avatar` props
+- `sx` is merged on top of the default sizing, so it can override size or add a border
+- Applies to string avatars only; a `ReactNode` avatar is styled directly on the node
+
+<Canvas of={Stories.WithCustomisedAvatar} />
 
 ## With Asynchronous Requests
 
