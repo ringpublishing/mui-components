@@ -14,6 +14,7 @@ import {
     Media,
     MediaProps,
     Placeholder,
+    PlaceholderLabels,
     PlaceholderVariant,
 } from '../../index.js';
 import { Image } from '../../../types.js';
@@ -207,6 +208,11 @@ export interface DetailBottomAction {
     icon?: React.JSX.Element;
 }
 
+export interface DetailPlaceholderLabels {
+    /** Labels for the empty state placeholder. */
+    empty?: PlaceholderLabels;
+}
+
 export interface DetailProps extends CommonComponentProps {
     /**
      * Main section of the detail - contains `title`, `Media` props and bottom icons.
@@ -225,6 +231,13 @@ export interface DetailProps extends CommonComponentProps {
      * If `true`, it shows placeholder for empty state.
      */
     empty?: boolean;
+
+    /**
+     * Labels for the placeholder rendered when the detail is in an empty state.
+     * Only `placeholderLabels.empty` is supported. When omitted, the Placeholder component
+     * falls back to its default localized labels.
+     */
+    placeholderLabels?: DetailPlaceholderLabels;
 
     /**
      * Overridable components: afterMain, afterDescriptionItems, afterBottomActions.
@@ -249,7 +262,17 @@ export type LightBoxDetailProps = Omit<DetailProps, 'main'> & {
 };
 
 export function Detail(props: DetailProps): React.JSX.Element {
-    const { main, descriptionItems, bottomActions, empty = false, slots, className, sx, dataTestIdSuffix } = props;
+    const {
+        main,
+        descriptionItems,
+        bottomActions,
+        empty = false,
+        placeholderLabels,
+        slots,
+        className,
+        sx,
+        dataTestIdSuffix,
+    } = props;
 
     const childrenDataTestIdSuffix = dataTestIdSuffix ?? 'detail';
     const dataTestId = useRingDataTestId(Detail.name, dataTestIdSuffix);
@@ -265,7 +288,11 @@ export function Detail(props: DetailProps): React.JSX.Element {
                     justifyContent: 'center',
                 }}
             >
-                <Placeholder variant={PlaceholderVariant.EMPTY} dataTestIdSuffix={childrenDataTestIdSuffix} />
+                <Placeholder
+                    variant={PlaceholderVariant.EMPTY}
+                    labels={placeholderLabels?.empty}
+                    dataTestIdSuffix={childrenDataTestIdSuffix}
+                />
             </Box>
         );
     }

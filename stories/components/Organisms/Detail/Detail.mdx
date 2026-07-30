@@ -21,6 +21,7 @@ For migration from the old component version please refer to Detail Migration gu
 - [Default](#default)
 - [Component API](#component-api)
 - [Empty State](#empty-state)
+- [Empty State Custom Labels](#empty-state-custom-labels)
 - [With Custom Slots](#with-custom-slots)
 - [With Bottom Icon Buttons](#with-bottom-icon-buttons)
 - [With Bottom Chips](#with-bottom-chips)
@@ -43,6 +44,12 @@ The default story demonstrates all major features of the Detail component includ
 When no data is available, the Detail component can display an empty state placeholder by setting the `empty` prop to `true`.
 
 <Canvas of={Stories.EmptyState} />
+
+## Empty State Custom Labels
+
+The empty state placeholder labels can be overridden with `placeholderLabels.empty`. Other placeholder label keys are not used by `Detail`.
+
+<Canvas of={Stories.EmptyStateCustomLabels} />
 
 ## With Custom Slots
 

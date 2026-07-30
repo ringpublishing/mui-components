@@ -113,6 +113,23 @@ describe('Detail', () => {
         expect(getByText('Select an item to view its details')).toBeDefined();
     });
 
+    it('should show custom placeholder labels when empty is true', () => {
+        const { getByRole, getByText } = renderDetail({
+            empty: true,
+            placeholderLabels: {
+                empty: {
+                    header: 'No item selected',
+                    description: 'Choose one of the entries from the list to inspect its details.',
+                    footer: 'Need help? Contact your administrator.',
+                },
+            },
+        });
+
+        expect(getByRole('heading', { level: 6, name: 'No item selected' })).toBeDefined();
+        expect(getByText('Choose one of the entries from the list to inspect its details.')).toBeDefined();
+        expect(getByText('Need help? Contact your administrator.')).toBeDefined();
+    });
+
     it('should call onCloseClick when close button is clicked', () => {
         const onCloseClick = vi.fn();
         const mockProps: DetailProps = {

@@ -3,6 +3,7 @@ import { Detail } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
 import { Default } from './stories/Default.js';
 import { EmptyState } from './stories/EmptyState.js';
+import { EmptyStateCustomLabels } from './stories/EmptyStateCustomLabels.js';
 import { WithCustomSlots } from './stories/WithCustomSlots.js';
 import { WithBottomIconButtons } from './stories/WithBottomIconButtons.js';
 import { WithBottomChips } from './stories/WithBottomChips.js';
@@ -75,6 +76,17 @@ const meta = {
                 category: 'behavior',
                 type: { summary: 'boolean' },
                 defaultValue: { summary: 'false' },
+            },
+        },
+        placeholderLabels: {
+            control: 'object',
+            description:
+                'Custom labels for the empty state placeholder. Only `placeholderLabels.empty` is supported. When omitted, default localized labels are used.',
+            table: {
+                category: 'behavior',
+                type: {
+                    summary: '{ empty?: { header?: string; description?: string; footer?: string } }',
+                },
             },
         },
         slots: {
@@ -159,6 +171,7 @@ export default meta;
 export {
     Default,
     EmptyState,
+    EmptyStateCustomLabels,
     WithCustomSlots,
     WithBottomIconButtons,
     WithBottomChips,

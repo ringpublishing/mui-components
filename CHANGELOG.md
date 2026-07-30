@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.15.1] - 2026-07-27
+
+### Fixed
+- [@rsarata]: `Detail` — added `placeholderLabels.empty` support for custom empty-state placeholder labels.
+
 ## [1.15.0] - 2026-07-22
 
 ### Added
