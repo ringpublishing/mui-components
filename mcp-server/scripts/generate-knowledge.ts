@@ -4,11 +4,15 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import type { ArgType, Component, Knowledge } from '../src/types.js';
 
+if (process.env.GITHUB_JOB === 'deploy') {
+    process.exit(0);
+}
+
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const MCP_ROOT = join(currentDir, '../..');
 const ROOT_DIR = join(MCP_ROOT, '..');
 const STORIES_DIR = join(ROOT_DIR, 'stories', 'components');
-const OUTPUT_PATH = join(MCP_ROOT, 'data', 'knowledge.json');
+const OUTPUT_PATH = join(MCP_ROOT, 'dist', 'data', 'knowledge.json');
 const IMPORT_PATH = '@ringpublishing/mui-components';
 
 interface CodeExample {

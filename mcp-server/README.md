@@ -32,7 +32,7 @@ Knowledge is generated from Storybook source files (MDX + stories) by `scripts/g
 ```
 stories/**/*.mdx + stories/**/*.stories.tsx
         ↓  generate-knowledge.ts (tsc → dist-scripts/generate-knowledge.js)
-    data/knowledge.json
+    dist/data/knowledge.json
         ↓  index.ts (MCP server)
     list_components / get_component_details / get_component_docs
 ```

@@ -112,6 +112,7 @@ const preview: Preview = {
                         'Colors',
                         'Atomic Design',
                         'Writing Stories',
+                        'MCP Server',
                         '*',
                     ],
                     'Components',

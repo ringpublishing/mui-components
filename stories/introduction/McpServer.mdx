@@ -1,0 +1,61 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+
+<Meta title="MCP Server" />
+
+# MCP Server
+
+`@ringpublishing/mui-components-mcp` exposes this Storybook's component documentation to AI clients through the Model Context Protocol (MCP). It helps clients discover components, inspect their props, and read usage guidance without scraping the website.
+
+## Install and configure
+
+The package can run through `npx`, so a global installation is not required. Add the following server definition to your MCP client configuration. Claude Desktop, Cursor, VS Code, and GitHub Copilot support this format.
+
+<Source
+    language="json"
+    code={`{
+  "mcpServers": {
+    "ring-mui": {
+      "command": "npx",
+      "args": ["-y", "@ringpublishing/mui-components-mcp"]
+    }
+  }
+}`}
+/>
+
+To install the server locally instead, run:
+
+<Source code="npm install @ringpublishing/mui-components-mcp" />
+
+Then configure your client with `node` as the command and the installed `dist/index.js` path as its argument.
+
+## Available tools
+
+### `list_components`
+
+Lists every documented component with its name, description, Storybook story names, and the number of documented props. Use it to discover the available API.
+
+### `get_component_details`
+
+Returns structured information for one component. Pass a component name such as `Accordion` or an ID such as `molecules-accordion`.
+
+The response contains the description, documented props, their types, defaults, options, and available story names.
+
+### `get_component_docs`
+
+Returns the full documentation for one component. Pass the same name or ID accepted by `get_component_details`.
+
+Use it for usage guidance, behavioral details, and code examples associated with the component's Storybook page.
+
+## Use with AI clients
+
+Ask the connected client for help with Ring MUI Components, for example:
+
+- "Which component should I use to choose a date?"
+- "What props does `DataGrid` support?"
+- "Show the usage guidance for `Autocomplete`."
+
+The client can call the MCP tools to retrieve the current component documentation before answering.
+
+## Support
+
+For issues with the MCP server or the component documentation, contact the [Components Team](mailto:ringcomponentsteam@groups.ringieraxelspringer.pl).

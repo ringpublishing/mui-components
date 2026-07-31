@@ -16,7 +16,7 @@ import type {
 } from './types.js';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const KNOWLEDGE_PATH = join(currentDir, '../data/knowledge.json');
+const KNOWLEDGE_PATH = join(currentDir, 'data/knowledge.json');
 const PACKAGE_JSON_PATH = join(currentDir, '../package.json');
 
 const packageJson = JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8')) as { version?: string };

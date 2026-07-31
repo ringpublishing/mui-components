@@ -2,31 +2,31 @@
     "name": "@ringpublishing/mui-components-mcp",
     "description": "MCP server for Ring Publishing MUI Components documentation",
     "type": "module",
+    "license": "LGPL-3.0-or-later",
+    "repository": "ringpublishing/mui-components",
+    "homepage": "https://design.ringpublishing.com/?path=/docs/introduction-mcp-server--docs",
     "bin": {
         "mui-components-mcp": "./dist/index.js"
     },
-    "files": [
-        "dist/**",
-        "data/knowledge.json",
-        "README.md"
-    ],
     "scripts": {
+        "dev": "tsc -p tsconfig.json --watch",
+        "build": "tsc -p tsconfig.json",
         "build:scripts": "tsc -p tsconfig.scripts.json",
         "generate-knowledge": "npm run build:scripts && node dist-scripts/scripts/generate-knowledge.js",
         "prebuild": "npm run generate-knowledge",
-        "build": "tsc -p tsconfig.json",
-        "dev": "tsc -p tsconfig.json --watch",
+        "prepare": "npm run build",
         "start": "node dist/index.js"
     },
     "dependencies": {
         "@modelcontextprotocol/sdk": "^1.0.0",
-        "zod": "^4.4.3"
+        "zod": "^4.0.0"
     },
     "devDependencies": {
-        "@types/node": "^22.0.0",
+        "@ringieraxelspringer/tsconfig": "^7.0.0",
+        "@types/node": "^24.0.0",
         "typescript": "~5.1.0"
     },
     "engines": {
-        "node": ">=18"
+        "node": "^18||^20||^22||^24"
     }
 }

@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.15.2] - 2026-07-31
+
+### Changed
+- [@rmusial2]: `@ringpublishing/mui-components-mcp` — documented MCP server setup and available tools in Storybook, and aligned its build and package-publishing configuration.
+
 ## [1.15.1] - 2026-07-27
 
 ### Fixed
