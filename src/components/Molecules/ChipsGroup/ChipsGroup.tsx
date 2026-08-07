@@ -71,7 +71,7 @@ export function ChipsGroup(props: ChipsGroupProps): React.JSX.Element {
     const [chipsNotVisible, setChipsNotVisible] = useState<ChipProps[]>([]);
     const [lastChildWidth, setLastChildWidth] = useState<number>(DEFAULT_LAST_CHILD_WIDTH);
 
-    const dataTestId = useRingDataTestId(ChipsGroup.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('ChipsGroup', dataTestIdSuffix);
 
     const handleExpand = (): void => {
         setExpanded((n) => !n);

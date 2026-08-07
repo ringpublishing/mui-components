@@ -24,7 +24,7 @@ export interface TooltipProps extends MuiTooltipProps, Omit<CommonComponentProps
 export function Tooltip(props: TooltipProps): React.JSX.Element {
     const { title, subTitle, hint, className, dataTestIdSuffix, ...otherProps } = props;
 
-    const dataTestId = useRingDataTestId(Tooltip.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Tooltip', dataTestIdSuffix);
 
     return (
         <MuiTooltip

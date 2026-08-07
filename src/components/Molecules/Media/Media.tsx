@@ -180,7 +180,7 @@ export function Media(props: MediaProps): React.JSX.Element {
         dataTestIdSuffix,
     } = props;
 
-    const dataTestId = useRingDataTestId(Media.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Media', dataTestIdSuffix);
 
     const isAudio = slotProps?.media?.component === 'audio';
     const [imageFullScreenPreview, setImageFullScreenPreview] = useState(false);

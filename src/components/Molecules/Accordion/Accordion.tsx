@@ -34,7 +34,7 @@ export function Accordion(props: AccordionProps): React.JSX.Element {
     const { label = 'Test', children, className, buttonLabel, buttonOnClick, dataTestIdSuffix, ...otherProps } = props;
 
     // There is no ideal place to put the test id, as we do not have access to the inner button of MuiAccordion.
-    const dataTestId = useRingDataTestId(Accordion.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Accordion', dataTestIdSuffix);
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         event.stopPropagation();

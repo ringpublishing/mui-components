@@ -275,7 +275,7 @@ export function Detail(props: DetailProps): React.JSX.Element {
     } = props;
 
     const childrenDataTestIdSuffix = dataTestIdSuffix ?? 'detail';
-    const dataTestId = useRingDataTestId(Detail.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
 
     if (empty) {
         return (

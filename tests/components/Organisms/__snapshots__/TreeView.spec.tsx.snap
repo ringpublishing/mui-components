@@ -168,7 +168,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
           >
             <div
               class="MuiBox-root css-2p8kgx"
-              data-testid="ring-treeview-undefined-item-0-collapse"
+              data-testid="ring-treeview-item-0-collapse"
             >
               <svg
                 aria-hidden="true"
@@ -236,7 +236,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
-                  data-testid="ring-treeview-undefined-item-0-actions"
+                  data-testid="ring-treeview-item-0-actions"
                   tabindex="0"
                   type="button"
                 >
@@ -372,7 +372,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                     >
                       <button
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
-                        data-testid="ring-treeview-undefined-item-0.1-expand"
+                        data-testid="ring-treeview-item-0.1-expand"
                         tabindex="0"
                         type="button"
                       >
@@ -584,7 +584,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
-              data-testid="ring-treeview-undefined-item-1-expand"
+              data-testid="ring-treeview-item-1-expand"
               tabindex="0"
               type="button"
             >
@@ -653,7 +653,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
-                  data-testid="ring-treeview-undefined-item-1-actions"
+                  data-testid="ring-treeview-item-1-actions"
                   tabindex="0"
                   type="button"
                 >
@@ -701,7 +701,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
           >
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
-              data-testid="ring-treeview-undefined-item-2-expand"
+              data-testid="ring-treeview-item-2-expand"
               tabindex="0"
               type="button"
             >
@@ -849,7 +849,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
-                  data-testid="ring-treeview-undefined-item-3-actions"
+                  data-testid="ring-treeview-item-3-actions"
                   tabindex="0"
                   type="button"
                 >

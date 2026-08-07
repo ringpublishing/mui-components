@@ -18,7 +18,7 @@ export function EditableSelect(props: EditableSelectProps): React.JSX.Element {
     const [loading, setLoading] = useState(false);
     const selectRef = React.useRef<HTMLDivElement>(null);
 
-    const dataTestId = useRingDataTestId(EditableSelect.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('EditableSelect', dataTestIdSuffix);
 
     const handleEdit = (): void => {
         setEditMode(true);

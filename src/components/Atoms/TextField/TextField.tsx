@@ -27,7 +27,7 @@ export function TextField(props: TextFieldProps): React.JSX.Element {
     const { actions = [], className, dataTestIdSuffix, InputProps, InputLabelProps, ...otherProps } = props;
     const ref = useRef<HTMLButtonElement>(null);
 
-    const dataTestId = useRingDataTestId(TextField.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('TextField', dataTestIdSuffix);
 
     // Ensure InputLabel variant matches TextField variant (only if variant is explicitly set)
     const labelProps = props.variant

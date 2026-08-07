@@ -102,7 +102,7 @@ export function Ranges(props: RangesProps): React.JSX.Element {
         dataTestIdSuffix,
     } = props;
 
-    const dataTestId = useRingDataTestId(Ranges.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Ranges', dataTestIdSuffix);
 
     const [appliedRanges, setAppliedRanges] = useState<Ranges>(initialState || {});
     const [showEmptyRange, setShowEmptyRange] = useState(!initialState);

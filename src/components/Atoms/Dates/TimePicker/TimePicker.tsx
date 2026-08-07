@@ -20,7 +20,7 @@ export interface TimePickerProps extends MuiTimePickerProps, CommonComponentProp
 export function TimePicker(props: TimePickerProps): React.JSX.Element {
     const { className, dataTestIdSuffix, ...otherProps } = props;
 
-    const dataTestId = useRingDataTestId(TimePicker.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('TimePicker', dataTestIdSuffix);
 
     const resolvedVariant =
         ((otherProps.slotProps?.textField as Record<string, unknown>)?.variant as string) ?? 'standard';

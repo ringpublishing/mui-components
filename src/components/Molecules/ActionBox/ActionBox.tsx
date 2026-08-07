@@ -64,7 +64,7 @@ export interface ActionBoxProps extends CommonComponentProps, Omit<PopperProps, 
 
 export function ActionBox(props: ActionBoxProps): React.JSX.Element {
     const { dataTestIdSuffix } = props;
-    const dataTestId = useRingDataTestId(ActionBox.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('ActionBox', dataTestIdSuffix);
 
     const theme = useTheme();
 

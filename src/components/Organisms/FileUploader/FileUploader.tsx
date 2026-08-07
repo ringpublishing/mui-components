@@ -241,7 +241,7 @@ export function FileUploader(props: FileUploaderProps): React.JSX.Element {
     const [urlValue, setUrlValue] = useState('');
     const [isCollapsed, setIsCollapsed] = useState(initiallyCollapsed);
 
-    const dataTestId = useRingDataTestId(FileUploader.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('FileUploader', dataTestIdSuffix);
 
     const files = controlledFiles || [];
 

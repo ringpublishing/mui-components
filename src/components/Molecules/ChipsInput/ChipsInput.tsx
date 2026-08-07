@@ -90,7 +90,7 @@ export function ChipsInput(props: ChipsInputProps): React.JSX.Element {
         ...otherProps
     } = props;
 
-    const dataTestId = useRingDataTestId(ChipsInput.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('ChipsInput', dataTestIdSuffix);
 
     const [chips, setChips] = useState<AutocompleteChip[]>([]);
 

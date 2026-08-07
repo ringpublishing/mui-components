@@ -116,6 +116,12 @@ Below is a list of Ring UI Components that include `data-testid` attributes, alo
 
 ### Atoms
 
+#### `Alert`
+
+- `ring-alert[-<suffix>]` - The root element of the `Alert` component.
+- `ring-alert[-<suffix>]-close` - The close button.
+- `ring-alert[-<suffix>]-action` - The action button.
+
 #### `DatePicker`, `DateTimePicker`, `TimePicker`
 
 You can use the `data-testid` attribute to locate the component and focus it in order to enter the date/time.
@@ -135,12 +141,22 @@ test('Should find and fill DatePicker component', async ({ page }) => {
 });
 ```
 
+#### `EditableText`
+
+- `ring-editabletext[-<suffix>]-text` - The displayed text element.
+- `ring-editabletext[-<suffix>]-edit` - The edit button.
+- `ring-editabletext[-<suffix>]-input` - The input element (rendered in edit mode).
+
 #### `TextField`
 
 - `ring-textfield[-<suffix>]` - The root element of the `TextField` component.
 - `ring-textfield[-<suffix>]-input` - The input element within the `TextField` component.
 - `ring-textfield[-<suffix>]-action` - The single action button.
 - `ring-textfield[-<suffix>]-actions` - The actions button.
+
+#### `Tooltip`
+
+- `ring-tooltip[-<suffix>]` - The element the tooltip is attached to (MUI `Tooltip` forwards the attribute to its child).
 
 ### Molecules
 
@@ -157,7 +173,12 @@ test('Should find and fill DatePicker component', async ({ page }) => {
 
 #### `Autocomplete`
 
-`data-testid`s attributes are not available for this component at the moment. We're working to add them in future release.
+- `ring-autocomplete[-<suffix>]` - The root element of the `Autocomplete` component. Note that the same `data-testid` is also present on the inner text field, so prefer scoping with `.first()` (or an element selector) when a single match is required.
+- `ring-autocomplete[-<suffix>]-action` - The action button (when a single action is provided).
+- `ring-autocomplete[-<suffix>]-actions` - The button that opens the `ActionBox` (when multiple actions are provided).
+- `ring-autocomplete[-<suffix>]-circular-progress` - The loading indicator (when `loading` is set).
+
+The input element does not have its own `data-testid` at the moment.
 
 #### `ChipsGroup`
 

@@ -67,7 +67,7 @@ export function ContentList({
     containerSx = {},
 }: ContentListProps): React.JSX.Element {
     const contentRefs = useRef<(HTMLElement | null)[]>([]);
-    const dataTestId = useRingDataTestId(ContentList.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('ContentList', dataTestIdSuffix);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const containerListRef = useRef<HTMLDivElement | null>(null);
     const listHeaderRef = useRef<HTMLDivElement | null>(null);

@@ -106,7 +106,7 @@ export function FeatureTooltip(props: FeatureTooltipProps): React.JSX.Element {
         dataTestIdSuffix,
         ...otherProps
     } = props;
-    const dataTestId = useRingDataTestId(FeatureTooltip.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('FeatureTooltip', dataTestIdSuffix);
 
     const [isOpen, setIsOpen] = useState(false);
     const [currentFeatureTooltip, setCurrentFeatureTooltip] = useState<LocalStorageTooltip>({ endDate, id, shown: 0 });

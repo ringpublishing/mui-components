@@ -172,7 +172,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
     const hideTopBarTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
     const fullScreenHandle = useFullScreenHandle();
 
-    const dataTestId = useRingDataTestId(LightBox.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('LightBox', dataTestIdSuffix);
 
     // Build a real dark Ring theme so custom palette extensions (e.g. palette.components.*)
     // get their correct dark values instead of the ambient light theme's — see PR #369 review.

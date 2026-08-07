@@ -88,7 +88,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
 
     const theme = useTheme();
 
-    const dataTestId = useRingDataTestId('treeview', `${dataTestIdSuffix}-item-${itemId}`);
+    const dataTestId = useRingDataTestId('treeview', [dataTestIdSuffix, `item-${itemId}`].filter(Boolean).join('-'));
 
     const isSearchActive = searchQuery.length > 0;
 

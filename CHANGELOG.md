@@ -2,6 +2,13 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.15.3] - 2026-08-06
+
+### Fixed
+- [@wniemiec]: `useRingDataTestId` call sites — replaced runtime `Component.name` with hardcoded string literals (24 call sites). `Function.name` is mangled by consumers' production minifiers (e.g. Vite's default esbuild), which turned stable `data-testid` values like `ring-searchbox-input` into non-deterministic ones like `ring-kh-input`. No change to rendered `data-testid` values.
+- [@wniemiec]: `TreeView`, `MultimediaGrid` — `data-testid` no longer contains a literal `undefined` segment (e.g. `ring-treeview-undefined-item-0-expand`) when `dataTestIdSuffix` is not provided.
+- [@wniemiec]: Storybook "Writing E2E tests" docs — `Autocomplete` section wrongly claimed the component has no `data-testid` attributes (it exposes the root, `-action`, `-actions`, and `-circular-progress`); documented the previously missing `Alert`, `EditableText`, and `Tooltip` attributes.
+
 ## [1.15.2] - 2026-07-31
 
 ### Changed

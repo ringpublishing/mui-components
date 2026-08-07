@@ -90,7 +90,7 @@ export function Placeholder(props: PlaceholderProps): React.JSX.Element {
         buttons = [],
         dataTestIdSuffix,
     } = props;
-    const dataTestId = useRingDataTestId(`${Placeholder.name}-${variant}`, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId(`Placeholder-${variant}`, dataTestIdSuffix);
 
     const getSVGIcon = (variant: PlaceholderVariant): React.JSX.Element => {
         if (props?.img) {

@@ -71,7 +71,7 @@ export function SearchBox(props: SearchBoxProps): React.JSX.Element {
         sx,
         dataTestIdSuffix,
     } = props;
-    const dataTestId = useRingDataTestId(SearchBox.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('SearchBox', dataTestIdSuffix);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const controlled = value !== undefined;

@@ -33,7 +33,7 @@ export interface DatePickerProps extends MuiDatePickerProps, CommonComponentProp
 export function DatePicker(props: DatePickerProps): React.JSX.Element {
     const { className, currentDateLabel, actions, dataTestIdSuffix, ...otherProps } = props;
 
-    const dataTestId = useRingDataTestId(DatePicker.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('DatePicker', dataTestIdSuffix);
 
     const anchorRef = useRef<HTMLButtonElement>(null);
 

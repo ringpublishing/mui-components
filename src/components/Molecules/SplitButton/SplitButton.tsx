@@ -25,7 +25,7 @@ export interface SplitButtonProps extends CommonComponentProps, ButtonGroupOwnPr
 
 export function SplitButton(props: SplitButtonProps): React.JSX.Element {
     const { actions, className, sx, size = 'medium', ...buttonGroupProps } = props;
-    const dataTestId = useRingDataTestId(SplitButton.name, props.dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('SplitButton', props.dataTestIdSuffix);
 
     const mainAction = actions[0];
     const extraActions = actions.slice(1);

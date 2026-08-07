@@ -22,7 +22,7 @@ export function SearchBar(props: UncontrolledSearchBoxProps & SearchBarChildrenP
 
 export function SearchBar(props: SearchBarProps): React.JSX.Element {
     const { sx, className, dataTestIdSuffix, children, ...otherProps } = props;
-    const dataTestId = useRingDataTestId(SearchBar.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('SearchBar', dataTestIdSuffix);
 
     return (
         <Stack

@@ -276,7 +276,12 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
                                                 <DefaultMediaCardSlot
                                                     apiRef={apiRef}
                                                     item={item}
-                                                    dataTestIdSuffix={`${dataTestIdSuffix}-item-${virtualItem.index}-${indexInRow}`}
+                                                    dataTestIdSuffix={[
+                                                        dataTestIdSuffix,
+                                                        `item-${virtualItem.index}-${indexInRow}`,
+                                                    ]
+                                                        .filter(Boolean)
+                                                        .join('-')}
                                                     {...slotProps?.mediaCard}
                                                 />
                                             </GridItemContainer>

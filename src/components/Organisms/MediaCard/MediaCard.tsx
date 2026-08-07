@@ -160,7 +160,7 @@ export function MediaCard(props: MediaCardProps): React.JSX.Element {
         dataTestIdSuffix,
     } = props;
 
-    const dataTestId = useRingDataTestId(MediaCard.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('MediaCard', dataTestIdSuffix);
 
     const { sx: cardSlotSx, className: cardSlotClassName, ...cardSlotRest } = slotProps?.card ?? {};
 
@@ -326,7 +326,7 @@ export function MediaCard(props: MediaCardProps): React.JSX.Element {
 function Actions(props: { actions: Action[]; dataTestIdSuffix?: string }): React.JSX.Element {
     const { actions, dataTestIdSuffix } = props;
     const ref = useRef<HTMLButtonElement>(null);
-    const dataTestId = useRingDataTestId(MediaCard.name, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('MediaCard', dataTestIdSuffix);
 
     return (
         <>
