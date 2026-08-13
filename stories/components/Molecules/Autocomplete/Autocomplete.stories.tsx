@@ -16,6 +16,8 @@ import { WithCustomisedChips } from './stories/WithCustomisedChips.js';
 import { WithCustomisedRenderOption } from './stories/WithCustomisedRenderOption.js';
 import { WithFreeSolo } from './stories/WithFreeSolo.js';
 import { WithOutlinedTextField } from './stories/WithOutlinedTextField.js';
+import { WithChipActions } from './stories/WithChipActions.js';
+import { WithChipDetails } from './stories/WithChipDetails.js';
 
 const meta = {
     component: Autocomplete,
@@ -102,6 +104,17 @@ const meta = {
                 },
             },
         },
+        renderChip: {
+            control: false,
+            description:
+                'Custom renderer called once for each selected value in multiple mode. The callback receives the original option, its resolved label, index, and MUI Chip props including onDelete.',
+            table: {
+                category: 'customization',
+                type: {
+                    summary: '(context: AutocompleteChipRenderContext<Value>) => ReactNode',
+                },
+            },
+        },
         dataTestIdSuffix: {
             control: 'text',
             description: 'Suffix for data-testid attribute. Results in data-testid="ring-Autocomplete-{suffix}".',
@@ -129,4 +142,6 @@ export {
     WithCustomisedRenderOption,
     WithFreeSolo,
     WithOutlinedTextField,
+    WithChipActions,
+    WithChipDetails,
 };

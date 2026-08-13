@@ -1,6 +1,7 @@
 import { vi, describe, it, expect } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 import { InfoOutlined, ManageSearch } from '@mui/icons-material';
+import { Chip } from '@mui/material';
 import { Autocomplete } from '../../../src/components/Molecules/Autocomplete/Autocomplete.js';
 
 vi.useFakeTimers();
@@ -224,6 +225,134 @@ describe('Autocomplete', () => {
 
         const { getByText } = render(<Autocomplete {...mockProps} />);
         expect(getByText(options[0].label).parentElement).toMatchSnapshot();
+    });
+
+    it('should render selected values with renderChip', () => {
+        const renderChip = vi.fn(({ option, label, chipProps }): React.ReactNode => (
+            <Chip {...chipProps} label={`${label}-${(option as { id: number }).id}`} />
+        ));
+
+        const { getByText } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                defaultValue={[options[0], options[1]]}
+                renderChip={renderChip}
+            />,
+        );
+
+        expect(getByText('Onet-1')).toBeDefined();
+        expect(getByText('Fakt-2')).toBeDefined();
+        expect(renderChip).toHaveBeenCalledWith(
+            expect.objectContaining({
+                option: options[0],
+                label: 'Onet',
+                index: 0,
+                chipProps: expect.objectContaining({ onDelete: expect.any(Function) }),
+            }),
+        );
+    });
+
+    it('should warn when renderChip is ignored without multiple', () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                renderChip={(): React.ReactNode => <Chip label="custom" />}
+            />,
+        );
+
+        expect(warnSpy).toHaveBeenCalledWith('Autocomplete: renderChip is ignored because multiple is not enabled.');
+        warnSpy.mockRestore();
+    });
+
+    it('should warn when renderChip is overridden by renderValue or renderTags', () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+        const renderChip = (): React.ReactNode => <Chip label="custom" />;
+
+        render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                renderChip={renderChip}
+                renderValue={(): React.ReactNode => null}
+            />,
+        );
+        render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                renderChip={renderChip}
+                renderTags={(): React.ReactNode => null}
+            />,
+        );
+
+        expect(warnSpy).toHaveBeenNthCalledWith(
+            1,
+            'Autocomplete: renderChip is ignored because renderValue takes precedence.',
+        );
+        expect(warnSpy).toHaveBeenNthCalledWith(
+            2,
+            'Autocomplete: renderChip is ignored because renderTags takes precedence.',
+        );
+        warnSpy.mockRestore();
+    });
+
+    it('should keep the custom chip label consistent with the render context', () => {
+        const renderChip = vi.fn(({ label, chipProps }): React.ReactNode => (
+            <Chip {...chipProps} data-testid={`chip-${label}`} />
+        ));
+
+        const { getByTestId } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                defaultValue={[options[0]]}
+                renderChip={renderChip}
+                slotProps={{ chip: { label: 'Overridden label' } }}
+            />,
+        );
+
+        expect(getByTestId('chip-Onet')).toBeDefined();
+        expect(renderChip).toHaveBeenCalledWith(
+            expect.objectContaining({
+                label: 'Onet',
+                chipProps: expect.objectContaining({ label: 'Onet' }),
+            }),
+        );
+    });
+
+    it('should preserve chip deletion with renderChip', () => {
+        const handleChange = vi.fn();
+        let deleteChip: ((event: React.SyntheticEvent) => void) | undefined;
+
+        const { getAllByRole } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                defaultValue={[options[0], options[1]]}
+                onChange={handleChange}
+                renderChip={({ chipProps, label }): React.ReactElement => {
+                    deleteChip = chipProps.onDelete;
+
+                    return <Chip {...chipProps} label={label} />;
+                }}
+            />,
+        );
+
+        expect(getAllByRole('button').length).toBeGreaterThan(0);
+        expect(deleteChip).toBeDefined();
+        deleteChip?.({ stopPropagation: vi.fn() } as unknown as React.SyntheticEvent);
+        expect(handleChange).toHaveBeenCalledWith(expect.anything(), [options[0]], 'removeOption', {
+            option: options[1],
+        });
     });
 
     it('should handle using freeSolo options', () => {

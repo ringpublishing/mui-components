@@ -28,6 +28,8 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - [With Customised Avatar](#with-customised-avatar)
 - [With Asynchronous Requests](#with-asynchronous-requests)
 - [With Customised Chips](#with-customised-chips)
+- [With Chip Actions](#with-chip-actions)
+- [With Chip Details](#with-chip-details)
 - [With Customised Render Option](#with-customised-render-option)
 - [With Free Solo](#with-free-solo)
 - [With Outlined TextField](#with-outlined-textfield)
@@ -205,6 +207,47 @@ slotProps={{
 ```
 
 <Canvas of={Stories.WithCustomisedChips} />
+
+## With Chip Actions
+
+Use `renderChip` when selected values need their own interactive UI. The callback
+is called separately for each selected option, so every chip can receive different
+actions based on its own data. The returned node can contain the chip and an
+`ActionBox` or any other supporting component.
+
+`chipProps` contains the props provided by MUI Autocomplete, including the default
+delete handler. Pass these props to the custom `Chip` to preserve chip removal.
+
+`renderValue` takes precedence over `renderTags`, which takes precedence over
+`renderChip`. Therefore, `renderChip` is used only with `multiple={true}` when
+neither of the other callbacks is provided. The component warns in development
+when `renderChip` is ignored for one of these reasons.
+
+Custom rendering returns exactly the node from the callback: the default label
+tooltip is not added automatically. Add it explicitly when needed:
+
+```tsx
+renderChip={({ label, chipProps }) => (
+    <Tooltip title={label}>
+        <Chip {...chipProps} />
+    </Tooltip>
+)}
+```
+
+`chipProps` is already merged as `{ ...muiChipProps, ...slotProps.chip, label }`.
+The computed `label` is applied last and stays consistent with the `label`
+provided in the callback context. `slotProps.chip` may still override properties
+such as `onDelete` or `disabled`.
+
+<Canvas of={Stories.WithChipActions} />
+
+## With Chip Details
+
+`renderChip` is not limited to `ActionBox`. A custom renderer can attach a Popper,
+dialog, tooltip, or any other UI containing additional information about the
+selected option.
+
+<Canvas of={Stories.WithChipDetails} />
 
 ## With Customised Render Option
 

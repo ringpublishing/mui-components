@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.0] - 2026-08-10
+
+### Added
+- [@rmusial2]: `Autocomplete` — added the `renderChip` prop for custom rendering of selected values in multiple mode, including access to the original option, resolved label, index, and MUI chip props such as `onDelete`.
+- [@rmusial2]: `Autocomplete` — added Storybook examples for chip actions and additional selected-option details.
+
 ## [1.15.3] - 2026-08-06
 
 ### Fixed

@@ -3,7 +3,9 @@ import {
     Autocomplete as MuiAutocomplete,
     AutocompleteChangeDetails,
     AutocompleteChangeReason,
+    AutocompleteProps as MuiAutocompleteProps,
     AutocompleteRenderInputParams,
+    AutocompleteValue,
     Avatar,
     AvatarProps,
     Box,
@@ -49,7 +51,6 @@ export interface AutocompleteLabels {
     recentlyUsedResults?: string;
 }
 
-type MuiAutocompleteProps = React.ComponentProps<typeof MuiAutocomplete>;
 type AutocompleteOptionWithMeta = Record<string, unknown> & {
     /**
      * Leading avatar shown before the option label in the default renderer.
@@ -69,7 +70,47 @@ type AutocompleteOptionWithMeta = Record<string, unknown> & {
     sortBy?: number;
 };
 
-export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocompleteProps, 'renderInput'> {
+type AutocompleteMuiProps<Value> = MuiAutocompleteProps<Value, boolean, boolean, boolean>;
+
+type AutocompleteValueFor<Value> = AutocompleteValue<Value, boolean, boolean, boolean>;
+
+const TypedMuiAutocomplete = MuiAutocomplete as unknown as <Value>(
+    props: AutocompleteMuiProps<Value>,
+) => React.JSX.Element;
+
+export interface AutocompleteChipRenderContext<Value> {
+    /** The original selected option. */
+    option: Value;
+    /** The label resolved by `getOptionLabel`. */
+    label: string;
+    /** The index of the selected option. */
+    index: number;
+    /** Props required by MUI Autocomplete, including the delete handler. */
+    chipProps: React.ComponentProps<typeof Chip>;
+}
+
+export interface AutocompleteProps<Value = unknown>
+    extends
+        CommonComponentProps,
+        Omit<
+            AutocompleteMuiProps<Value>,
+            'renderInput' | 'options' | 'value' | 'defaultValue' | 'onChange' | 'getOptionLabel'
+        > {
+    /** Options available for selection. */
+    options: ReadonlyArray<Value>;
+    /** Selected value. Strings are also accepted when `freeSolo` is enabled. */
+    value?: AutocompleteValueFor<Value>;
+    /** Initially selected value. Strings are also accepted when `freeSolo` is enabled. */
+    defaultValue?: AutocompleteValueFor<Value>;
+    /** Called when the selected value changes. */
+    onChange?: (
+        event: React.SyntheticEvent,
+        value: AutocompleteValueFor<Value>,
+        reason: AutocompleteChangeReason,
+        details?: AutocompleteChangeDetails<Value>,
+    ) => void;
+    /** Resolves the text displayed for an option. */
+    getOptionLabel?: (option: Value | string) => string;
     /**
      * Array of actions.
      * `[{
@@ -81,6 +122,22 @@ export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocom
      * }]`
      */
     actions?: Action[];
+
+    /**
+     * Renders each selected value in multiple mode. The callback receives the
+     * original option, the label resolved by `getOptionLabel`, its index, and
+     * the merged MUI chip props, including the default delete handler.
+     *
+     * `renderValue` takes precedence over `renderTags`, which takes precedence
+     * over `renderChip`; therefore this callback is used only when `multiple`
+     * is true and neither of the other render callbacks is provided. Custom
+     * rendering also takes responsibility for adding a tooltip and preserving
+     * chip actions. `chipProps` is merged as `{ ...muiChipProps,
+     * ...slotProps.chip, label }`. The computed `label` is applied last so it
+     * stays consistent with `context.label`; other props such as `onDelete`
+     * and `disabled` can still be overridden by `slotProps.chip`.
+     */
+    renderChip?: (context: AutocompleteChipRenderContext<Value>) => React.ReactNode;
 
     /**
      * The labels of the autocomplete
@@ -119,7 +176,7 @@ export interface AutocompleteProps extends CommonComponentProps, Omit<MuiAutocom
          * default sizing. Ignored when `avatar` is a `ReactNode` (style that node directly).
          */
         avatar?: Partial<AvatarProps>;
-    } & MuiAutocompleteProps['slotProps'];
+    } & AutocompleteMuiProps<Value>['slotProps'];
 }
 
 export type MuiOption = AutocompleteOptionWithMeta;
@@ -233,10 +290,11 @@ const renderOptionWithCustomLabelAndCaption = (
     );
 };
 
-const createRenderSelectedValue = (
+const createRenderSelectedValue = <Value,>(
     customGetOptionLabel: (option: unknown) => string,
     chipSlotProps: Partial<React.ComponentProps<typeof Chip>> | undefined,
-): NonNullable<MuiAutocompleteProps['renderValue']> => {
+    renderChip?: (context: AutocompleteChipRenderContext<Value>) => React.ReactNode,
+): NonNullable<AutocompleteMuiProps<Value>['renderValue']> => {
     return (value, getItemProps): React.ReactNode => {
         if (!Array.isArray(value)) {
             return null;
@@ -246,10 +304,24 @@ const createRenderSelectedValue = (
             const { key, ...chipPropsFromItem } = getItemProps({ index }) as ReturnType<typeof getItemProps> & {
                 key?: React.Key;
             };
+            const label = customGetOptionLabel(option);
+            const chipProps = {
+                ...chipPropsFromItem,
+                ...chipSlotProps,
+                label,
+            } as React.ComponentProps<typeof Chip>;
+
+            if (renderChip) {
+                return (
+                    <React.Fragment key={key ?? index}>
+                        {renderChip({ option: option as Value, label, index, chipProps })}
+                    </React.Fragment>
+                );
+            }
 
             return (
-                <Tooltip key={key || index} title={customGetOptionLabel(option)}>
-                    <Chip label={customGetOptionLabel(option)} {...chipPropsFromItem} {...chipSlotProps} />
+                <Tooltip key={key ?? index} title={label}>
+                    <Chip {...chipProps} />
                 </Tooltip>
             );
         });
@@ -376,7 +448,10 @@ function AutocompleteInput({
     );
 }
 
-function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRef<unknown>): React.JSX.Element {
+function AutocompleteWithoutRef<Value>(
+    props: AutocompleteProps<Value>,
+    ref: React.ForwardedRef<unknown>,
+): React.JSX.Element {
     const {
         actions,
         className,
@@ -394,9 +469,10 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         popupIcon,
         renderOption,
         renderValue,
+        renderChip,
         dataTestIdSuffix,
         ...otherProps
-    } = props;
+    } = props as AutocompleteProps<Value>;
 
     const dataTestId = useRingDataTestId('Autocomplete', dataTestIdSuffix);
 
@@ -408,7 +484,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey),
     );
 
-    let parsedOptions: MuiAutocompleteProps['options'] = options;
+    let parsedOptions: AutocompleteMuiProps<Value>['options'] = options;
 
     if (showRecentlyUsed) {
         if (!recentlyLocalStorageKey) {
@@ -426,7 +502,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             const cleanValue = stripRecentlyUsedMeta(value as object);
 
             if (originalIsOptionEqualToValue) {
-                return originalIsOptionEqualToValue(cleanOption, cleanValue);
+                return originalIsOptionEqualToValue(cleanOption as Value, cleanValue as Value);
             }
 
             return isEqual(cleanOption, cleanValue);
@@ -483,18 +559,23 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             }
         }
 
-        onChange?.(event, value, reason, details);
+        onChange?.(
+            event,
+            value as AutocompleteValueFor<Value>,
+            reason,
+            details as AutocompleteChangeDetails<Value> | undefined,
+        );
     };
 
     const customGetOptionLabel = (option: unknown): string => {
         if (getOptionLabel) {
-            return getOptionLabel(option);
+            return getOptionLabel(option as Value | string);
         }
 
         return getOptionLabelFallback(option);
     };
 
-    const defaultRenderOption: NonNullable<MuiAutocompleteProps['renderOption']> = (
+    const defaultRenderOption: NonNullable<AutocompleteMuiProps<Value>['renderOption']> = (
         optionProps,
         option,
     ): React.ReactNode => {
@@ -505,7 +586,22 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
         typeof autocompleteSlotProps.chip === 'function'
             ? undefined
             : (autocompleteSlotProps.chip as Partial<React.ComponentProps<typeof Chip>> | undefined);
-    const renderSelectedValue = createRenderSelectedValue(customGetOptionLabel, chipSlotProps);
+    const renderSelectedValue = createRenderSelectedValue<Value>(customGetOptionLabel, chipSlotProps, renderChip);
+    const hasCustomRenderTags = Boolean((otherProps as AutocompleteMuiProps<Value>).renderTags);
+
+    React.useEffect(() => {
+        if (!renderChip) {
+            return;
+        }
+
+        if (!otherProps.multiple) {
+            console.warn('Autocomplete: renderChip is ignored because multiple is not enabled.');
+        } else if (renderValue) {
+            console.warn('Autocomplete: renderChip is ignored because renderValue takes precedence.');
+        } else if (hasCustomRenderTags) {
+            console.warn('Autocomplete: renderChip is ignored because renderTags takes precedence.');
+        }
+    }, [hasCustomRenderTags, otherProps.multiple, renderChip, renderValue]);
 
     const renderAutocompleteInput = (inputParams: AutocompleteRenderInputParams): React.ReactNode => {
         return (
@@ -525,7 +621,7 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
     const hasActions = Boolean(actions?.length);
 
     return (
-        <MuiAutocomplete
+        <TypedMuiAutocomplete
             className={classNames('ring-autocomplete', className)}
             data-testid={dataTestId}
             {...otherProps}
@@ -537,9 +633,12 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
             getOptionLabel={customGetOptionLabel}
             ref={ref}
             loadingText={loadingText}
-            renderOption={renderOption || defaultRenderOption}
+            renderOption={renderOption || (defaultRenderOption as AutocompleteMuiProps<Value>['renderOption'])}
             renderValue={
-                renderValue || (otherProps.multiple && !otherProps.renderTags ? renderSelectedValue : undefined)
+                renderValue ||
+                (otherProps.multiple && !hasCustomRenderTags
+                    ? (renderSelectedValue as AutocompleteMuiProps<Value>['renderValue'])
+                    : undefined)
             }
             sx={{
                 ...otherProps.sx,
@@ -550,4 +649,8 @@ function AutocompleteWithoutRef(props: AutocompleteProps, ref: React.ForwardedRe
     );
 }
 
-export const Autocomplete = React.forwardRef(AutocompleteWithoutRef);
+export const Autocomplete = React.forwardRef(AutocompleteWithoutRef) as <Value = unknown>(
+    props: AutocompleteProps<Value> & {
+        ref?: React.ForwardedRef<unknown>;
+    },
+) => React.JSX.Element;
