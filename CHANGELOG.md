@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.2] - 2026-08-17
+
+### Changed
+- [@wniemiec]: CI — storybook builds from `release/*` branches deploy to the BETA documentation variant; the production documentation deploys from `master` only. No change to the published package.
+
 ## [1.16.1] - 2026-08-17
 
 ### Fixed
