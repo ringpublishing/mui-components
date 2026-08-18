@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.1] - 2026-08-17
+
+### Fixed
+- [@wniemiec]: `FeatureTooltip` — Storybook examples derive `endDate` from the current date instead of a fixed one, so they no longer stop displaying once that date passes.
+
 ## [1.16.0] - 2026-08-10
 
 ### Added

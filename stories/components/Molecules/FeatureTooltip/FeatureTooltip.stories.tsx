@@ -87,7 +87,9 @@ const meta: Meta<typeof FeatureTooltip> = {
             control: 'text',
             description:
                 'ISO date string after which the tooltip will no longer be shown. ' +
-                'Example: `"2026-12-31T00:00:00.000Z"`.',
+                'Example: `"2026-12-31T00:00:00.000Z"`. ' +
+                'Once the date has passed the tooltip renders nothing at all — no error and no console warning — ' +
+                'so a stale value looks exactly like a broken component.',
             table: {
                 category: 'behavior',
                 type: { summary: 'string' },

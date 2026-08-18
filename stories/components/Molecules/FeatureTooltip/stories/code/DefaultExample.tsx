@@ -1,6 +1,9 @@
 import { Box, Button } from '@mui/material';
 import { FeatureTooltip, FeatureTooltipProps } from '@ringpublishing/mui-components';
+import dayjs from 'dayjs';
 import React from 'react';
+
+const endDate = dayjs().add(1, 'year').toISOString();
 
 const actions: FeatureTooltipProps['actions'] = [
     { label: 'Default action', href: 'https://ringpublishing.com/' },
@@ -25,7 +28,7 @@ export default function DefaultExample(): React.JSX.Element {
                     title="Standard tooltip"
                     message="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form"
                     actions={actions}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={endDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip shown only once, after closing not visible</div>
                 </FeatureTooltip>
@@ -37,7 +40,7 @@ export default function DefaultExample(): React.JSX.Element {
                     message=""
                     videoEmbed="https://www.youtube.com/embed/KRphOlc8tKg?si=xUR6gOpAPDcR74Dk"
                     actions={actions}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={endDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip with capping (should be visible 3 times)</div>
                 </FeatureTooltip>

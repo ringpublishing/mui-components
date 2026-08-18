@@ -1,6 +1,9 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { FeatureTooltip } from '@ringpublishing/mui-components';
+import dayjs from 'dayjs';
+
+const endDate = dayjs().add(1, 'year').toISOString();
 
 export default function WithOneActionExample(): React.JSX.Element {
     const clearTooltipData = (): void => {
@@ -20,7 +23,7 @@ export default function WithOneActionExample(): React.JSX.Element {
                 message="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form"
                 actions={[{ label: 'Default action', href: 'https://ringpublishing.com/' }]}
                 videoEmbed="https://www.youtube.com/embed/KRphOlc8tKg?si=xUR6gOpAPDcR74Dk"
-                endDate="2026-06-24T10:49:20.823Z"
+                endDate={endDate}
             >
                 <div style={{ width: '200px' }}>Tooltip with one action and video embed</div>
             </FeatureTooltip>

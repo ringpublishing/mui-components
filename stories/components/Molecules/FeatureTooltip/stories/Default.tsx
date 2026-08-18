@@ -5,7 +5,7 @@ import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
 import { FeatureTooltip, FeatureTooltipProps } from '../../../../../src/index.js';
-import defaultArgs from '../common/defaultArgs.js';
+import defaultArgs, { storyEndDate } from '../common/defaultArgs.js';
 
 type Story = StoryObj<typeof FeatureTooltip>;
 
@@ -38,7 +38,7 @@ const Example = (args: React.ComponentProps<typeof FeatureTooltip>): React.JSX.E
                     message=""
                     videoEmbed="https://www.youtube.com/embed/KRphOlc8tKg?si=xUR6gOpAPDcR74Dk"
                     actions={storyActions}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={storyEndDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip with capping (should be visible 3 times)</div>
                 </FeatureTooltip>

@@ -1,8 +1,11 @@
 import { Box, Button } from '@mui/material';
 import { FeatureTooltip, FeatureTooltipProps } from '@ringpublishing/mui-components';
+import dayjs from 'dayjs';
 import React from 'react';
 
 const IMAGE_URL = 'https://design.ringpublishing.com/images/sea_large.jpg';
+
+const endDate = dayjs().add(1, 'year').toISOString();
 
 const actions: FeatureTooltipProps['actions'] = [
     { label: 'Default action', href: 'https://ringpublishing.com/' },
@@ -28,7 +31,7 @@ export default function WithImageExample(): React.JSX.Element {
                     message=""
                     image={IMAGE_URL}
                     actions={actions}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={endDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip with image and two actions</div>
                 </FeatureTooltip>
@@ -38,7 +41,7 @@ export default function WithImageExample(): React.JSX.Element {
                     title="Tooltip with image, no actions"
                     message=""
                     image={IMAGE_URL}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={endDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip with image and no actions</div>
                 </FeatureTooltip>

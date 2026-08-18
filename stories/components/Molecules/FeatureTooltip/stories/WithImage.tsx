@@ -6,7 +6,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import WithImageExampleCode from './code/WithImageExample.tsx?raw';
 import { FeatureTooltip, FeatureTooltipProps } from '../../../../../src/index.js';
 import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
-import defaultArgs from '../common/defaultArgs.js';
+import defaultArgs, { storyEndDate } from '../common/defaultArgs.js';
 
 type Story = StoryObj<typeof FeatureTooltip>;
 
@@ -37,7 +37,7 @@ const Example = (args: React.ComponentProps<typeof FeatureTooltip>): React.JSX.E
                     title="Tooltip with image, no actions"
                     message=""
                     image={args.image}
-                    endDate="2026-06-24T10:49:20.823Z"
+                    endDate={storyEndDate}
                 >
                     <div style={{ width: '200px' }}>Tooltip with image and no actions</div>
                 </FeatureTooltip>

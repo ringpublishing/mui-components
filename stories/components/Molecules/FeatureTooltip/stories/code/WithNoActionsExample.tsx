@@ -1,6 +1,9 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { FeatureTooltip } from '@ringpublishing/mui-components';
+import dayjs from 'dayjs';
+
+const endDate = dayjs().add(1, 'year').toISOString();
 
 export default function WithNoActionsExample(): React.JSX.Element {
     const clearTooltipData = (): void => {
@@ -18,7 +21,7 @@ export default function WithNoActionsExample(): React.JSX.Element {
                 id="ring-feature-tooltip-3"
                 title="Tooltip with no actions"
                 message="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form"
-                endDate="2026-06-24T10:49:20.823Z"
+                endDate={endDate}
             >
                 <div style={{ width: '200px' }}>Tooltip without action buttons</div>
             </FeatureTooltip>

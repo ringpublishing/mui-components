@@ -1,4 +1,3 @@
-import { waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { FeatureTooltip, FeatureTooltipProps } from '../../../src/index.js';
 import { render } from '../../test-utils/customRenderer.js';
@@ -58,7 +57,21 @@ describe('FeatureTooltip', () => {
             endDate: '2999-06-24T10:49:20.823Z',
         };
 
-        const { queryByRole } = render(<FeatureTooltip {...mockProps} />);
-        await waitFor(() => expect(queryByRole('tooltip')).toBeNull());
+        const { findByRole } = render(<FeatureTooltip {...mockProps} />);
+
+        await expect(findByRole('tooltip')).rejects.toThrow();
+    });
+    it('should not render tooltip because endDate has passed', async () => {
+        const mockProps: FeatureTooltipProps = {
+            children: <div>test3</div>,
+            title: 'Standard tooltip',
+            id: 'test3',
+            message: 'Test3',
+            endDate: '2000-01-01T00:00:00.000Z',
+        };
+
+        const { findByRole } = render(<FeatureTooltip {...mockProps} />);
+
+        await expect(findByRole('tooltip')).rejects.toThrow();
     });
 });
