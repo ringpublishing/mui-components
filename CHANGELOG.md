@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.3] - 2026-08-18
+
+### Changed
+- [@wniemiec]: CI — a pull request targeting a `release/*` branch deploys its build to its own preview variant, marked as non-production. No change to the published package.
+
 ## [1.16.2] - 2026-08-17
 
 ### Changed
