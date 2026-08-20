@@ -111,7 +111,6 @@
     },
     "peerDependencies": {
         "@mui/icons-material": "^7.0.0",
-        "@mui/lab": "^7.0.0-beta.17",
         "@mui/material": "^7.0.0",
         "@mui/utils": "^7.0.0",
         "@mui/x-data-grid": "^8.17.0",

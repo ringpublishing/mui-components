@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.5] - 2026-08-20
+
+### Removed
+- [@wniemiec]: `@mui/lab` is no longer a peer dependency — consumers do not need to install it.
+
 ## [1.16.4] - 2026-08-18
 
 ### Changed
