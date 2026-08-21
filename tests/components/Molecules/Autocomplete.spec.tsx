@@ -483,6 +483,52 @@ describe('Autocomplete', () => {
         localStorage.removeItem(localStorageKey);
     });
 
+    it('should defer recently used ordering until the popup closes', () => {
+        const localStorageKey = 'recentlyUsedDeferredOrdering';
+        const recentlyUsedOptions = [
+            { label: 'Onet', id: 1 },
+            { label: 'Fakt', id: 2 },
+            { label: 'TVN', id: 3 },
+        ];
+        const allOptions = [...recentlyUsedOptions, { label: 'Interia', id: 4 }];
+        localStorage.setItem(localStorageKey, JSON.stringify(recentlyUsedOptions));
+
+        const { getByRole, getAllByRole } = render(
+            <Autocomplete
+                options={allOptions}
+                labels={{
+                    title: 'Search by',
+                    recentlyUsed: 'Recently used',
+                    recentlyUsedResults: 'Results',
+                }}
+                showRecentlyUsed={true}
+                recentlyLocalStorageKey={localStorageKey}
+                recentlyUsedLimit={3}
+                multiple={true}
+                slotProps={{ popper: { disablePortal: true } }}
+            />,
+        );
+
+        const input = getByRole('combobox');
+        fireEvent.mouseDown(input);
+
+        const optionLabelsBeforeSelection = getAllByRole('option').map((option) => option.textContent);
+        expect(optionLabelsBeforeSelection).toEqual(['Onet', 'Fakt', 'TVN', 'Interia']);
+
+        fireEvent.click(getByRole('option', { name: 'Interia' }));
+
+        fireEvent.mouseDown(input);
+
+        expect(getAllByRole('option').map((option) => option.textContent)).toEqual(['Interia', 'Onet', 'Fakt', 'TVN']);
+        expect(JSON.parse(localStorage.getItem(localStorageKey) || '[]')).toEqual([
+            { label: 'Interia', id: 4 },
+            { label: 'Onet', id: 1 },
+            { label: 'Fakt', id: 2 },
+        ]);
+
+        localStorage.removeItem(localStorageKey);
+    });
+
     it('should not update recently used on removeOption in multiple mode', () => {
         const localStorageKey = 'recentlyUsedRemove';
         localStorage.setItem(localStorageKey, JSON.stringify([{ label: 'Onet', id: 1 }]));

@@ -15,7 +15,7 @@ const initialItems: Item[] = [
 ];
 
 function CustomListItem(props: { item: Item }): React.JSX.Element {
-    const ref = useNonDraggableRef();
+    const iconBtnRef = useNonDraggableRef();
     const theme = useTheme();
 
     return (
@@ -29,22 +29,17 @@ function CustomListItem(props: { item: Item }): React.JSX.Element {
                             </span>
                         </Grid>
                         <Grid item={true} xs={1}>
-                            <IconButton
-                                ref={ref.setRef}
-                                onClick={(event): void => {
-                                    event.stopPropagation();
-                                }}
-                            >
+                            <IconButton ref={iconBtnRef.setRef}>
                                 <MoreVert />
                             </IconButton>
                             <ActionBox
                                 actions={[
                                     {
                                         label: 'Option 1',
-                                        onClick: () => console.log('Option 1 clicked'),
+                                        onClick: (): void => undefined,
                                     },
                                 ]}
-                                anchorEl={ref}
+                                anchorEl={iconBtnRef}
                             />
                         </Grid>
                     </Grid>

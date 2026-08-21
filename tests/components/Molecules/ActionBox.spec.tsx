@@ -61,6 +61,52 @@ describe('Components: ActionBox', () => {
         expect(action2).toHaveBeenCalledTimes(0);
     });
 
+    it('should call onOpen when opening', () => {
+        const onOpen = vi.fn();
+        const anchorRef = React.createRef<HTMLButtonElement>();
+        const { getByRole } = render(
+            <>
+                <button ref={anchorRef}>Open ActionBox</button>
+                <ActionBox actions={actions} anchorEl={anchorRef} onOpen={onOpen} />
+            </>,
+        );
+
+        fireEvent.click(getByRole('button', { name: 'Open ActionBox' }));
+        expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call onClose when an action is selected', () => {
+        const onClose = vi.fn();
+        const anchorRef = React.createRef<HTMLButtonElement>();
+        const { getByRole } = render(
+            <>
+                <button ref={anchorRef}>Open ActionBox</button>
+                <ActionBox actions={actions} anchorEl={anchorRef} onClose={onClose} />
+            </>,
+        );
+
+        fireEvent.click(getByRole('button', { name: 'Open ActionBox' }));
+        fireEvent.click(getByRole('menuitem', { name: 'Action 1' }));
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('should render with onClose callback', () => {
+        const onClose = vi.fn();
+        const anchorRef = React.createRef<HTMLButtonElement>();
+        render(
+            <>
+                <button ref={anchorRef}>Open ActionBox</button>
+                <ActionBox actions={actions} anchorEl={anchorRef} onClose={onClose} />
+            </>,
+        );
+
+        expect(onClose).not.toHaveBeenCalled();
+    });
+
+    // FIXME: ClickAwayListener does not reliably dispatch in jsdom.
+    it.skip('should call onClose on click away', () => undefined);
+
     // FIXME: There is a problem with this test after migrating from jest to vitest. To be investigated...
     it.skip('should close dropdown on click outside', async () => {
         const { queryByText, getByText } = render(<TestComponent actions={actions} />);

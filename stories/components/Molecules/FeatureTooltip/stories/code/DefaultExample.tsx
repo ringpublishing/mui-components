@@ -7,7 +7,7 @@ const endDate = dayjs().add(1, 'year').toISOString();
 
 const actions: FeatureTooltipProps['actions'] = [
     { label: 'Default action', href: 'https://ringpublishing.com/' },
-    { label: 'Secondary action', onClick: (): void => console.log('Secondary action clicked') },
+    { label: 'Secondary action', onClick: (): void => undefined },
 ];
 
 export default function DefaultExample(): React.JSX.Element {

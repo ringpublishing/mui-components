@@ -57,7 +57,7 @@ function CustomListItem(props: { item: Item }): React.JSX.Element {
                                 actions={[
                                     {
                                         label: 'Option 1',
-                                        onClick: (event: React.MouseEvent<Element, MouseEvent>) => {
+                                        onClick: (event: React.MouseEvent<Element, MouseEvent>): void => {
                                             action('ActionBox -> Option 1')(event);
                                         },
                                     },

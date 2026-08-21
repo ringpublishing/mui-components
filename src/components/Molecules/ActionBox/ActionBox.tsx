@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useEffect, useState } from 'react';
+import React, { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -60,6 +60,10 @@ export interface ActionBoxProps extends CommonComponentProps, Omit<PopperProps, 
      * Z-index of the Action Box
      */
     zIndex?: number;
+    /** Called when the Action Box is opened. */
+    onOpen?: () => void;
+    /** Called when the Action Box is closed. */
+    onClose?: () => void;
 }
 
 export function ActionBox(props: ActionBoxProps): React.JSX.Element {
@@ -76,6 +80,8 @@ export function ActionBox(props: ActionBoxProps): React.JSX.Element {
         hasScroll = true,
         visibleActionsCount = actions.length,
         zIndex = theme.zIndex.modal,
+        onOpen,
+        onClose,
         sx,
         className,
         ...otherProps
@@ -84,7 +90,38 @@ export function ActionBox(props: ActionBoxProps): React.JSX.Element {
     const [open, setOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {
-        setOpen((n) => !n);
+        setOpen((currentOpen) => !currentOpen);
+    }, []);
+
+    const closeActionBox = useCallback(() => {
+        setOpen(false);
+    }, []);
+
+    const callbacksRef = useRef({ onOpen, onClose });
+    callbacksRef.current = { onOpen, onClose };
+
+    const previousOpen = useRef(open);
+
+    useEffect(() => {
+        if (open === previousOpen.current) {
+            return;
+        }
+
+        previousOpen.current = open;
+
+        if (open) {
+            callbacksRef.current.onOpen?.();
+        } else {
+            callbacksRef.current.onClose?.();
+        }
+    }, [open]);
+
+    useEffect(() => {
+        return () => {
+            if (previousOpen.current) {
+                callbacksRef.current.onClose?.();
+            }
+        };
     }, []);
 
     useEffect(() => {
@@ -136,7 +173,7 @@ export function ActionBox(props: ActionBoxProps): React.JSX.Element {
                         }}
                         sx={sx}
                     >
-                        <ClickAwayListener onClickAway={(): void => setOpen(false)}>
+                        <ClickAwayListener onClickAway={closeActionBox}>
                             <MenuList id="split-button-menu" autoFocusItem={true} sx={{ padding: 0 }}>
                                 {actions.map((action) => (
                                     <React.Fragment key={action.label}>
@@ -159,7 +196,7 @@ export function ActionBox(props: ActionBoxProps): React.JSX.Element {
                                                             action.onClick(e);
                                                         }
 
-                                                        setOpen(false);
+                                                        closeActionBox();
                                                     }}
                                                     disabled={action.disabled || false}
                                                     data-testid={`${dataTestId}-item-${action.label.toLowerCase()}`}

@@ -1,5 +1,34 @@
 import React, { useContext } from 'react';
 import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+
+declare module '@dnd-kit/core' {
+    interface PointerSensorOptions {
+        boundaryRef?: React.RefObject<HTMLElement | null>;
+    }
+}
+
+class SortablePointerSensor extends PointerSensor {
+    public static readonly activators = [
+        {
+            eventName: 'onPointerDown' as const,
+            handler: (
+                { nativeEvent }: React.PointerEvent,
+                options: { boundaryRef?: React.RefObject<HTMLElement | null> },
+            ): boolean => {
+                const target = nativeEvent.target;
+
+                if (!(target instanceof Element)) {
+                    return true;
+                }
+
+                const boundary = options?.boundaryRef?.current;
+
+                return !boundary || boundary.contains(target);
+            },
+        },
+    ];
+}
+
 import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, IconButton } from '@mui/material';
 import { DragHandle as DragHandleIcon } from '@mui/icons-material';
@@ -79,29 +108,33 @@ export function useNonDraggableRef<T extends HTMLElement = HTMLElement>(): React
     setRef: React.RefCallback<T>;
 } {
     const ref = React.useRef<T | null>(null);
-    const setRef = React.useCallback((node: T | null) => {
-        if (ref.current) {
-            // Cleanup event listeners from the previous element
-            ref.current.removeEventListener('pointerdown', handler);
-            ref.current.removeEventListener('keydown', handler);
-        }
-
-        if (node) {
-            // Attach event listeners to the new element
-            node.addEventListener('pointerdown', handler);
-            node.addEventListener('keydown', handler);
-        }
-
-        ref.current = node;
-    }, []);
 
     const handler = React.useCallback((event: HTMLElementEventMap['pointerdown'] | HTMLElementEventMap['keydown']) => {
         event.stopPropagation();
     }, []);
 
+    const setRef = React.useCallback(
+        (node: T | null) => {
+            if (ref.current) {
+                // Cleanup event listeners from the previous element
+                ref.current.removeEventListener('pointerdown', handler);
+                ref.current.removeEventListener('keydown', handler);
+            }
+
+            if (node) {
+                // Attach event listeners to the new element
+                node.addEventListener('pointerdown', handler);
+                node.addEventListener('keydown', handler);
+            }
+
+            ref.current = node;
+        },
+        [handler],
+    );
+
     return React.useMemo(
         () => ({
-            get current() {
+            get current(): T | null {
                 return ref.current;
             },
             setRef,
@@ -112,13 +145,14 @@ export function useNonDraggableRef<T extends HTMLElement = HTMLElement>(): React
 
 export function SortableList<T extends SortableItemData>(props: SortableListProps<T>): React.JSX.Element {
     const { items, renderItem, onChange, grabByDragHandle, sx, className } = props;
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     const sensors = useSensors(
-        useSensor(PointerSensor, {
+        useSensor(SortablePointerSensor, {
             activationConstraint: {
-                delay: 125,
-                tolerance: 10,
+                distance: 5,
             },
+            boundaryRef: containerRef,
         }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
@@ -126,7 +160,7 @@ export function SortableList<T extends SortableItemData>(props: SortableListProp
     );
 
     return (
-        <Box sx={sx} className={className}>
+        <Box sx={sx} className={className} ref={containerRef}>
             <DndContext
                 sensors={sensors}
                 onDragEnd={(event: DragEndEvent): void => {

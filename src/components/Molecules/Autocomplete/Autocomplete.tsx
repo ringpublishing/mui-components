@@ -459,6 +459,8 @@ function AutocompleteWithoutRef<Value>(
         options,
         recentlyLocalStorageKey,
         onChange,
+        onOpen,
+        onClose,
         slotProps,
         getOptionLabel,
         loading,
@@ -479,10 +481,58 @@ function AutocompleteWithoutRef<Value>(
     const refAnchor = useRef<HTMLButtonElement>(null);
 
     const { textField: textFieldSlotProps, avatar: avatarSlotProps, ...autocompleteSlotProps } = slotProps || {};
+    const listboxRef = React.useRef<HTMLElement | null>(null);
 
     const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() =>
-        getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey),
+        getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey).slice(0, recentlyUsedLimit),
     );
+    const recentlyUsedItemsRef = React.useRef(recentlyUsedItems);
+    const pendingRecentlyUsedItemsRef = React.useRef<MuiOption[] | null>(null);
+
+    const handleOnOpen = (event: React.SyntheticEvent): void => {
+        onOpen?.(event);
+
+        if (showRecentlyUsed && recentlyUsedItems.length > 0) {
+            requestAnimationFrame(() => listboxRef.current?.scrollTo({ top: 0 }));
+        }
+    };
+
+    const handleOnClose = (
+        event: React.SyntheticEvent,
+        reason: Parameters<NonNullable<AutocompleteMuiProps<Value>['onClose']>>[1],
+    ): void => {
+        if (pendingRecentlyUsedItemsRef.current) {
+            setRecentlyUsedItems(pendingRecentlyUsedItemsRef.current);
+            pendingRecentlyUsedItemsRef.current = null;
+        }
+
+        onClose?.(event, reason);
+    };
+
+    const mergeListboxRef = (externalRef?: React.Ref<HTMLElement>): React.RefCallback<HTMLElement> => {
+        return (node): void => {
+            listboxRef.current = node;
+
+            if (typeof externalRef === 'function') {
+                externalRef(node);
+            } else if (externalRef) {
+                (externalRef as React.RefObject<HTMLElement | null>).current = node;
+            }
+        };
+    };
+
+    const listboxSlotProps = autocompleteSlotProps.listbox;
+    const listboxProps =
+        typeof listboxSlotProps === 'function'
+            ? (ownerState: Parameters<typeof listboxSlotProps>[0]): ReturnType<typeof listboxSlotProps> => {
+                  const props = listboxSlotProps(ownerState);
+
+                  return { ...props, ref: mergeListboxRef(props.ref as React.Ref<HTMLElement>) };
+              }
+            : {
+                  ...listboxSlotProps,
+                  ref: mergeListboxRef(listboxSlotProps?.ref as React.Ref<HTMLElement>),
+              };
 
     let parsedOptions: AutocompleteMuiProps<Value>['options'] = options;
 
@@ -546,7 +596,7 @@ function AutocompleteWithoutRef<Value>(
             if (isAutocompleteOptionObject(rawOption)) {
                 const selectedOption = stripRecentlyUsedMeta(rawOption);
 
-                const newRecentlyUsedItems = [...recentlyUsedItems]
+                const newRecentlyUsedItems = recentlyUsedItemsRef.current
                     .filter((r: unknown) => {
                         return !isEqual(stripRecentlyUsedMeta(r as object), selectedOption);
                     })
@@ -554,7 +604,8 @@ function AutocompleteWithoutRef<Value>(
 
                 const nextRecentlyUsedItems = [selectedOption, ...newRecentlyUsedItems];
 
-                setRecentlyUsedItems(nextRecentlyUsedItems);
+                recentlyUsedItemsRef.current = nextRecentlyUsedItems;
+                pendingRecentlyUsedItemsRef.current = nextRecentlyUsedItems;
                 localStorage.setItem(recentlyLocalStorageKey, JSON.stringify(nextRecentlyUsedItems));
             }
         }
@@ -627,23 +678,20 @@ function AutocompleteWithoutRef<Value>(
             {...otherProps}
             options={parsedOptions}
             onChange={handleOnChange}
+            onOpen={handleOnOpen}
+            onClose={handleOnClose}
             loading={loading}
             forcePopupIcon={hasActions ? false : forcePopupIcon}
             popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
             getOptionLabel={customGetOptionLabel}
             ref={ref}
             loadingText={loadingText}
-            renderOption={renderOption || (defaultRenderOption as AutocompleteMuiProps<Value>['renderOption'])}
-            renderValue={
-                renderValue ||
-                (otherProps.multiple && !hasCustomRenderTags
-                    ? (renderSelectedValue as AutocompleteMuiProps<Value>['renderValue'])
-                    : undefined)
-            }
+            renderOption={renderOption || defaultRenderOption}
+            renderValue={renderValue || (otherProps.multiple && !hasCustomRenderTags ? renderSelectedValue : undefined)}
             sx={{
                 ...otherProps.sx,
             }}
-            slotProps={autocompleteSlotProps}
+            slotProps={{ ...autocompleteSlotProps, listbox: listboxProps }}
             renderInput={renderAutocompleteInput}
         />
     );

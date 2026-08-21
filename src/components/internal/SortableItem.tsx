@@ -55,7 +55,7 @@ export function SortableItem(props: PropsWithChildren<SortableItemProps>): React
         transform: CSS.Translate.toString(disableTransformOfUndraggedItems ? transformRecalculated : transform),
         transition,
         WebkitUserSelect: 'none', // Do not show the "magnifying glass" on mobile Safari
-        cursor: disableDrag ? 'default' : isDragging ? 'grabbing' : 'grab',
+        cursor: disableDrag ? 'default' : isDragging ? 'grabbing' : grabByDragHandle ? 'default' : 'grab',
     };
 
     if (grabByDragHandle) {

@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.16.6] - 2026-08-20
+
+### Fixed
+- [@rmusial2]: `Autocomplete` — fixed recently-used option ordering and prevented focus when recently-used options are available.
+- [@rmusial2]: `ActionBox` and `SortableList` — added open/close callbacks and prevented dragging a list item while its action menu is open.
+
+### Added
+
 ## [1.16.5] - 2026-08-20
 
 ### Removed
