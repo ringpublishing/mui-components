@@ -1,3 +1,4 @@
+import { Tune } from '@mui/icons-material';
 import React from 'react';
 
 import { Autocomplete, AutocompleteProps } from '../../../src/index.js';
@@ -61,7 +62,26 @@ const explicitAutocompleteProps = {
     },
 } satisfies AutocompleteProps<Option>;
 
+const autocompleteMenuListActions = {
+    actions: [
+        {
+            label: 'Configure filters',
+            icon: <Tune />,
+            anchorRef: React.createRef<HTMLButtonElement>(),
+        },
+    ],
+} satisfies NonNullable<AutocompleteProps['menuListActions']>;
+
+const autocompleteMenuListActionsWithoutIcon: NonNullable<AutocompleteProps['menuListActions']> = {
+    actions: [
+        // @ts-expect-error icon is required for every menu list action.
+        { label: 'Configure filters' },
+    ],
+};
+
 void inferredAutocomplete;
 void explicitAutocomplete;
 void defaultAutocompleteProps;
 void explicitAutocompleteProps;
+void autocompleteMenuListActions;
+void autocompleteMenuListActionsWithoutIcon;

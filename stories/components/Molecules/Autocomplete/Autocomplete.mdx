@@ -20,6 +20,7 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - [Default](#default)
 - [Component API](#component-api)
 - [With Dropdown Actions](#with-dropdown-actions)
+- [With Menu List Action](#with-menu-list-action)
 - [With Multiple Selection](#with-multiple-selection)
 - [With Multiple Dropdown Actions](#with-multiple-dropdown-actions)
 - [With Recently Used](#with-recently-used)
@@ -55,6 +56,38 @@ Add action buttons to the Autocomplete input. Actions appear as icon buttons ins
 - Can be disabled with optional disabled reason
 
 <Canvas of={Stories.WithDropdownActions} />
+
+## With Menu List Action
+
+An autocomplete menu list can render multiple icon buttons after its heading. The `anchorRef` from an action can be passed to `ActionBox` to render a custom action menu below that icon button.
+
+Use the `menuListActions` story control to edit the heading and action labels. The story adds refs and callbacks at render time:
+
+```tsx
+<Autocomplete
+    options={options}
+    labels={{ title: 'Search by' }}
+    menuListActions={{
+        label: 'Results',
+        actions: [
+            { label: 'Configure results', icon: <Tune />, anchorRef: configureRef },
+            { label: 'More actions', icon: <MoreVert />, onClick: handleMoreActions },
+            {
+                label: 'Save results',
+                icon: <Save />,
+                disabled: true,
+                disabledReason: 'Select a result before saving',
+            },
+        ],
+    }}
+/>
+```
+
+<Canvas of={Stories.WithMenuListAction} />
+
+## With Menu List Actions With groupBy and ActionBox
+
+When `groupBy` is provided, a single menu list action is rendered next to the first group heading. Its `anchorRef` can be used to open an external `ActionBox` while keeping the Autocomplete options available.
 
 ## With Multiple Selection
 

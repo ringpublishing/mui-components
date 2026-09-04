@@ -5,6 +5,7 @@ import AutocompleteMDX from './Autocomplete.mdx';
 
 import { Default } from './stories/Default.js';
 import { WithDropdownActions } from './stories/WithDropdownActions.js';
+import { WithMenuListAction } from './stories/WithMenuListAction.js';
 import { WithMultipleSelection } from './stories/WithMultipleSelection.js';
 import { WithMultipleDropdownActions } from './stories/WithMultipleDropdownActions.js';
 import { WithRecentlyUsed } from './stories/WithRecentlyUsed.js';
@@ -66,6 +67,18 @@ const meta = {
             table: {
                 category: 'content',
                 type: { summary: 'Action[]' },
+            },
+        },
+        menuListActions: {
+            control: 'object',
+            description:
+                'Menu list heading and action labels for stories. The story adds refs and callbacks at render time. Ignored when renderGroup is provided.',
+            table: {
+                category: 'content',
+                type: {
+                    summary:
+                        '{ label?: string; actions: Array<{ label: string; icon?: ReactNode; ariaLabel?: string; disabled?: boolean; disabledReason?: string }> }',
+                },
             },
         },
         showRecentlyUsed: {
@@ -131,6 +144,7 @@ export default meta;
 export {
     Default,
     WithDropdownActions,
+    WithMenuListAction,
     WithMultipleSelection,
     WithMultipleDropdownActions,
     WithRecentlyUsed,

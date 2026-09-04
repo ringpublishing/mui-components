@@ -1,6 +1,7 @@
+import React from 'react';
 import { vi, describe, it, expect } from 'vitest';
-import { fireEvent, render } from '@testing-library/react';
-import { InfoOutlined, ManageSearch } from '@mui/icons-material';
+import { act, fireEvent, render } from '@testing-library/react';
+import { InfoOutlined, ManageSearch, Tune } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { Autocomplete } from '../../../src/components/Molecules/Autocomplete/Autocomplete.js';
 
@@ -645,5 +646,158 @@ describe('Autocomplete', () => {
         expect(onetOptions.length).toBe(0);
 
         localStorage.removeItem(localStorageKey);
+    });
+
+    it('should render multiple menu list actions and forward their refs to the triggers', () => {
+        const firstActionRef = React.createRef<HTMLButtonElement>();
+        const secondActionRef = React.createRef<HTMLButtonElement>();
+        const firstOnClick = vi.fn();
+        const secondOnClick = vi.fn();
+        const { getByRole, getByText } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{
+                    label: 'Results',
+                    actions: [
+                        { anchorRef: firstActionRef, icon: <Tune />, label: 'Filters', onClick: firstOnClick },
+                        { anchorRef: secondActionRef, icon: <Tune />, label: 'More', onClick: secondOnClick },
+                    ],
+                }}
+                open={true}
+            />,
+        );
+
+        expect(getByText('Results')).toBeDefined();
+        const firstTrigger = getByRole('button', { name: 'Filters' });
+        const secondTrigger = getByRole('button', { name: 'More' });
+
+        expect(firstActionRef.current).toBe(firstTrigger);
+        expect(secondActionRef.current).toBe(secondTrigger);
+        fireEvent.click(firstTrigger);
+        fireEvent.click(secondTrigger);
+        expect(firstOnClick).toHaveBeenCalledTimes(1);
+        expect(secondOnClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show the disabled reason for a disabled menu list action', () => {
+        const { getByRole } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{
+                    actions: [
+                        {
+                            disabled: true,
+                            disabledReason: 'Select a result before saving',
+                            icon: <Tune />,
+                            label: 'Save results',
+                        },
+                    ],
+                }}
+                open={true}
+            />,
+        );
+        const trigger = getByRole('button', { name: 'Save results' });
+
+        fireEvent.mouseOver(trigger.parentElement as HTMLElement);
+        act(() => {
+            vi.advanceTimersByTime(100);
+        });
+
+        expect(getByRole('tooltip').textContent).toBe('Select a result before saving');
+    });
+
+    it('should keep the options focused when the menu list action trigger is pressed', () => {
+        const { getByRole } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{ label: 'Results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                open={true}
+            />,
+        );
+        const input = getByRole('combobox');
+        const trigger = getByRole('button', { name: 'Filters' });
+
+        input.focus();
+        fireEvent.mouseDown(trigger);
+
+        expect(document.activeElement).toBe(input);
+    });
+
+    it('should render menu list actions without a heading when label is omitted', () => {
+        const { getByRole } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{ actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                open={true}
+                slotProps={{ popper: { disablePortal: true } }}
+            />,
+        );
+
+        expect(document.body.querySelector('.MuiAutocomplete-groupLabel')?.textContent).toBe('');
+        expect(getByRole('button', { name: 'Filters' })).toBeDefined();
+    });
+
+    it('should preserve ungrouped option styles when a menu list action is provided', () => {
+        const { getByRole } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{ label: 'Filter results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                defaultValue={options[0]}
+                open={true}
+                slotProps={{ popper: { disablePortal: true } }}
+            />,
+        );
+
+        const option = getByRole('option', { name: 'Onet' });
+
+        expect(option.parentElement?.getAttribute('class')).not.toContain('MuiAutocomplete-groupUl');
+        expect(option.getAttribute('aria-selected')).toBe('true');
+    });
+
+    it('should render a menu list action next to the first group heading', () => {
+        const groupedOptions = [
+            { label: 'Onet', id: 1, category: 'Publications' },
+            { label: 'Fakt', id: 2, category: 'People' },
+        ];
+        const { getAllByText, getByRole, queryByText } = render(
+            <Autocomplete
+                options={groupedOptions}
+                labels={{ title: 'Title' }}
+                menuListActions={{ label: 'Filter results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                groupBy={(option): string => option.category}
+                open={true}
+                slotProps={{ popper: { disablePortal: true } }}
+            />,
+        );
+
+        expect(getAllByText('Publications').length).toBe(1);
+        expect(getAllByText('People').length).toBe(1);
+        expect(queryByText('Results')).toBeNull();
+        expect(getByRole('button', { name: 'Filters' })).toBeDefined();
+    });
+
+    it('should prefer a custom renderGroup over menuListActions', () => {
+        const renderGroup = vi.fn(({ key, children }): React.ReactNode => <li key={key}>Custom group {children}</li>);
+
+        const { getByText, queryByTestId } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                menuListActions={{ label: 'Results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                renderGroup={renderGroup}
+                groupBy={(): string => 'Results'}
+                open={true}
+                slotProps={{ popper: { disablePortal: true } }}
+            />,
+        );
+
+        expect(getByText('Custom group')).toBeDefined();
+        expect(renderGroup).toHaveBeenCalledTimes(1);
+        expect(queryByTestId('ring-autocomplete-menu-list-action-0')).toBeNull();
     });
 });

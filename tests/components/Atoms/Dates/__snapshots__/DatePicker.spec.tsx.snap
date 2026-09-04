@@ -44,7 +44,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -64,7 +64,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -95,7 +95,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -126,7 +126,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -197,7 +197,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -217,7 +217,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -248,7 +248,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -279,7 +279,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -350,7 +350,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -370,7 +370,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -401,7 +401,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -432,7 +432,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -539,7 +539,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -559,7 +559,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -590,7 +590,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -621,7 +621,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -737,7 +737,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -757,7 +757,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -788,7 +788,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -819,7 +819,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -911,7 +911,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuetext="January"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -943,7 +943,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuetext="1st"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -974,7 +974,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuenow="2022"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1067,7 +1067,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-ka3j6r-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1nxrfbi-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
@@ -1087,7 +1087,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1118,7 +1118,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1149,7 +1149,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-w074wb-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-1nmfb0i-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"

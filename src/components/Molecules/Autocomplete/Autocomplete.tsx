@@ -89,6 +89,30 @@ export interface AutocompleteChipRenderContext<Value> {
     chipProps: React.ComponentProps<typeof Chip>;
 }
 
+export interface AutocompleteMenuListAction {
+    /** Accessible label of the action button. */
+    label: string;
+    /** Accessible label of the action button when it differs from `label`. */
+    ariaLabel?: string;
+    /** Icon displayed in the action button. */
+    icon: React.ReactNode;
+    /** Ref forwarded to the action button, for example to use it as an external menu anchor. */
+    anchorRef?: React.Ref<HTMLButtonElement>;
+    /** Called when the action button is clicked. */
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    /** Disables the action button. @default false */
+    disabled?: boolean;
+    /** Tooltip text displayed when the action button is disabled. */
+    disabledReason?: string;
+}
+
+export interface AutocompleteMenuListActions {
+    /** Optional heading displayed at the start of the menu list header. Defaults to an empty string. */
+    label?: string;
+    /** Action buttons displayed after the heading. */
+    actions: ReadonlyArray<AutocompleteMenuListAction>;
+}
+
 export interface AutocompleteProps<Value = unknown>
     extends
         CommonComponentProps,
@@ -122,6 +146,15 @@ export interface AutocompleteProps<Value = unknown>
      * }]`
      */
     actions?: Action[];
+
+    /**
+     * Icon actions displayed in the autocomplete menu list. When `groupBy` is
+     * not provided, `label` is used as the heading. When options are grouped,
+     * the actions are displayed next to the first group heading. Ignored when
+     * `renderGroup` is provided. Pass an action's `anchorRef` to use its button
+     * as an anchor for a separately rendered menu or popper.
+     */
+    menuListActions?: AutocompleteMenuListActions;
 
     /**
      * Renders each selected value in multiple mode. The callback receives the
@@ -180,6 +213,47 @@ export interface AutocompleteProps<Value = unknown>
 }
 
 export type MuiOption = AutocompleteOptionWithMeta;
+
+interface AutocompleteMenuListActionButtonProps {
+    action: AutocompleteMenuListAction;
+    dataTestId: string;
+}
+
+function AutocompleteMenuListActionButton({
+    action,
+    dataTestId,
+}: AutocompleteMenuListActionButtonProps): React.JSX.Element {
+    return (
+        <Tooltip title={action.disabledReason || action.label}>
+            <Box sx={{ display: 'flex' }}>
+                <IconButton
+                    ref={action.anchorRef}
+                    aria-label={action.ariaLabel || action.label}
+                    data-testid={dataTestId}
+                    disabled={action.disabled}
+                    onMouseDown={(event): void => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }}
+                    onClick={(event): void => {
+                        event.stopPropagation();
+                        action.onClick?.(event);
+                    }}
+                    size="small"
+                >
+                    <Box
+                        sx={(theme): Record<string, unknown> => ({
+                            display: 'flex',
+                            '& > svg': { fontSize: theme.typography.pxToRem(20) },
+                        })}
+                    >
+                        {action.icon}
+                    </Box>
+                </IconButton>
+            </Box>
+        </Tooltip>
+    );
+}
 
 const isAutocompleteOptionObject = (option: unknown): option is AutocompleteOptionWithMeta => {
     return option !== null && typeof option === 'object' && !Array.isArray(option);
@@ -456,6 +530,7 @@ function AutocompleteWithoutRef<Value>(
         actions,
         className,
         labels,
+        menuListActions,
         options,
         recentlyLocalStorageKey,
         onChange,
@@ -463,6 +538,8 @@ function AutocompleteWithoutRef<Value>(
         onClose,
         slotProps,
         getOptionLabel,
+        groupBy,
+        renderGroup,
         loading,
         showRecentlyUsed = false,
         recentlyUsedLimit = 3,
@@ -535,13 +612,15 @@ function AutocompleteWithoutRef<Value>(
               };
 
     let parsedOptions: AutocompleteMuiProps<Value>['options'] = options;
+    let resolvedGroupBy = groupBy;
+    const shouldRenderMenuListAction = Boolean(menuListActions && !renderGroup);
 
     if (showRecentlyUsed) {
         if (!recentlyLocalStorageKey) {
             throw new Error('recentlyLocalStorageKey is required when showRecentlyUsed is true');
         }
 
-        otherProps.groupBy = (option: unknown): string => {
+        resolvedGroupBy = (option: unknown): string => {
             return isAutocompleteOptionObject(option) ? option.groupBy || '' : '';
         };
 
@@ -582,7 +661,12 @@ function AutocompleteWithoutRef<Value>(
 
                 return sortByB - sortByA;
             });
+    } else if (menuListActions && shouldRenderMenuListAction && !groupBy) {
+        // Create a technical group so the Listbox keeps MUI's native option state styles.
+        resolvedGroupBy = (): string => menuListActions.label ?? '';
     }
+
+    const isImplicitResultsGroup = Boolean(shouldRenderMenuListAction && !groupBy && !showRecentlyUsed);
 
     const handleOnChange = (
         event: React.SyntheticEvent,
@@ -671,6 +755,52 @@ function AutocompleteWithoutRef<Value>(
 
     const hasActions = Boolean(actions?.length);
 
+    const renderAutocompleteGroup: NonNullable<AutocompleteMuiProps<Value>['renderGroup']> = ({
+        key,
+        group,
+        children,
+    }): React.ReactNode => {
+        const isFirstGroup = key === 0;
+
+        return (
+            <li key={key}>
+                <Box
+                    sx={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        pl: 1.5,
+                        pr: 1,
+                    }}
+                >
+                    <Typography className="MuiAutocomplete-groupLabel" color="text.secondary" component="div">
+                        {group}
+                    </Typography>
+                    {isFirstGroup && (
+                        <Box sx={{ display: 'flex', gap: 0.5 }}>
+                            {menuListActions?.actions.map((action, index) => (
+                                <AutocompleteMenuListActionButton
+                                    action={action}
+                                    dataTestId={`${dataTestId}-menu-list-action-${index}`}
+                                    key={`${action.label}-${index}`}
+                                />
+                            ))}
+                        </Box>
+                    )}
+                </Box>
+                <Box
+                    component="ul"
+                    sx={{
+                        padding: 0,
+                        '& .MuiAutocomplete-option': { paddingLeft: isImplicitResultsGroup ? 2 : 3 },
+                    }}
+                >
+                    {children}
+                </Box>
+            </li>
+        );
+    };
+
     return (
         <TypedMuiAutocomplete
             className={classNames('ring-autocomplete', className)}
@@ -681,11 +811,18 @@ function AutocompleteWithoutRef<Value>(
             onOpen={handleOnOpen}
             onClose={handleOnClose}
             loading={loading}
+            groupBy={resolvedGroupBy}
             forcePopupIcon={hasActions ? false : forcePopupIcon}
             popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
             getOptionLabel={customGetOptionLabel}
             ref={ref}
             loadingText={loadingText}
+            renderGroup={
+                renderGroup ||
+                (menuListActions && shouldRenderMenuListAction
+                    ? renderAutocompleteGroup
+                    : (renderGroup as AutocompleteMuiProps<Value>['renderGroup']))
+            }
             renderOption={renderOption || defaultRenderOption}
             renderValue={renderValue || (otherProps.multiple && !hasCustomRenderTags ? renderSelectedValue : undefined)}
             sx={{

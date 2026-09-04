@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.17.0] - 2026-08-31
+
+### Added
+- [@rsarata]: `Autocomplete` — added the `menuListActions` prop for rendering icon actions in options popup.
+
 ## [1.16.6] - 2026-08-20
 
 ### Fixed
