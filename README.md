@@ -30,12 +30,14 @@ Install only the packages required by the components you use:
 You can set up theme in your app by adding following code to your App.jsx file
 
 ```javascript
-import { ThemeConfig } from '@ringpublishing/mui-components';
+import { CommonLanguages, ThemeConfig } from '@ringpublishing/mui-components';
 
-<ThemeConfig mode={'dark'}>
+<ThemeConfig mode={'dark'} language={CommonLanguages.plPL}>
     <App />
 </ThemeConfig>
 ```
+
+The `language` prop is optional. When omitted, it defaults to `CommonLanguages.enUS`.
 
 ### Use component in your app
 

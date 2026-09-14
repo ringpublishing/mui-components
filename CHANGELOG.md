@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.18.0] - 2026-09-09
+
+### Added
+- [@rmusial2]: `CommonLanguages` — re-exported from `@ringpublishing/mui-components`, so the locale passed to `ThemeConfig` can be imported without depending on `@ringpublishing/mui-theme` directly.
+
+### Changed
+- [@rmusial2]: `ThemeConfig` — documented the optional `language` prop and its default English locale.
+
 ## [1.17.0] - 2026-08-31
 
 ### Added
