@@ -83,7 +83,7 @@ export function ChipsGroup(props: ChipsGroupProps): React.JSX.Element {
 
     useEffect(() => {
         setChipsNotVisible(chips.filter((chips, index) => !visibleChipsIndexes.includes(index)));
-    }, [visibleChipsIndexes, props.chips]);
+    }, [visibleChipsIndexes, chips]);
 
     const renderExpandableChips = (): React.JSX.Element => {
         if (expanded) {
@@ -191,8 +191,8 @@ export function ChipsGroup(props: ChipsGroupProps): React.JSX.Element {
                     data-testid={`${dataTestId}-chip-${index}-${position}`}
                     sx={{ ...chipProps.sx, visibility, position }}
                     size={'small'}
-                    onDelete={expandable ? chipProps.onDelete : undefined}
-                    deleteIcon={expandable ? <Close /> : undefined}
+                    onDelete={chipProps.onDelete}
+                    deleteIcon={chipProps.onDelete ? <Close /> : undefined}
                 />
             );
         });
@@ -242,6 +242,7 @@ export function ChipsGroup(props: ChipsGroupProps): React.JSX.Element {
         window.addEventListener('resize', handleResize);
 
         return () => window.removeEventListener('resize', handleResize);
+        // eslint-disable-next-line
     }, [chips]);
 
     return (

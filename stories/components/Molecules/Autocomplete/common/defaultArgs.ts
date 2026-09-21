@@ -1,4 +1,4 @@
-import type { AutocompleteProps } from '../../../../../src/index.js';
+import type { DefaultAutocompleteProps } from '../../../../../src/index.js';
 
 interface Option {
     label: string;
@@ -43,7 +43,7 @@ export const optionsWithAvatar: OptionWithAvatar[] = [
 
 export const defaultSx = { width: 300 };
 
-const defaultArgs: Partial<AutocompleteProps> = {
+const defaultArgs: Partial<DefaultAutocompleteProps> = {
     options,
     labels: { title: 'search by' },
     sx: defaultSx,

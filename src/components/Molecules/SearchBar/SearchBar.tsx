@@ -14,8 +14,7 @@ type SearchBarChildrenProps = {
 };
 
 export type SearchBarProps =
-    | (ControlledSearchBoxProps & SearchBarChildrenProps)
-    | (UncontrolledSearchBoxProps & SearchBarChildrenProps);
+    (ControlledSearchBoxProps & SearchBarChildrenProps) | (UncontrolledSearchBoxProps & SearchBarChildrenProps);
 
 export function SearchBar(props: ControlledSearchBoxProps & SearchBarChildrenProps): React.JSX.Element;
 export function SearchBar(props: UncontrolledSearchBoxProps & SearchBarChildrenProps): React.JSX.Element;

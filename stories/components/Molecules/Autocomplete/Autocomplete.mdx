@@ -34,6 +34,7 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - [With Customised Render Option](#with-customised-render-option)
 - [With Free Solo](#with-free-solo)
 - [With Outlined TextField](#with-outlined-textfield)
+- [Filter Variant](#filter-variant)
 
 ## Default
 
@@ -331,3 +332,23 @@ Use the outlined variant of the text field instead of the default filled variant
 ```
 
 <Canvas of={Stories.WithOutlinedTextField} />
+
+## Filter Variant
+
+Use `variant="filter"` for a compact filter trigger. Selected values are summarized as a count, while an outlined search field is displayed at the top of the options panel. The filter variant supports loading, custom option rendering, and recently used items. It does not render selected values, tags, chips, or trigger actions.
+
+The popup search field receives focus when opened. Arrow keys, Enter, Escape, Page Up, and Page Down are forwarded to the underlying autocomplete list. Home and End retain their native text-caret behavior.
+
+<Canvas of={Stories.FilterDefault} />
+
+### Multiple Selection
+
+Multiple selection keeps the panel open and updates the count in the trigger.
+
+<Canvas of={Stories.FilterMultiple} />
+
+### Controlled
+
+Control `open` and `inputValue` to show the panel with a prefilled search query. Update `inputValue` in `onInputChange` to keep the popup search field interactive.
+
+<Canvas of={Stories.FilterControlled} />

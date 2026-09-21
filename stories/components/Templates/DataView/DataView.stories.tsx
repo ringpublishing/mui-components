@@ -9,6 +9,7 @@ import { WithSelectionMode } from './stories/WithSelectionMode.js';
 import { WithDynamicWidthFilter } from './stories/WithDynamicWidthFilter.js';
 import { WithoutDetailAndFilter } from './stories/WithoutDetailAndFilter.js';
 import { WithMultimediaGrid } from './stories/WithMultimediaGrid.js';
+import { WithAutocompleteFilters } from './stories/WithAutocompleteFilters.js';
 
 const meta = {
     component: DataView,
@@ -206,6 +207,7 @@ export {
     WithDynamicWidthFilter,
     WithoutDetailAndFilter,
     WithMultimediaGrid,
+    WithAutocompleteFilters,
     WithSelectionMode,
     WithBottomBarSelection,
 };

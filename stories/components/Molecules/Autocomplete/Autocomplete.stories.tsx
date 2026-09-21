@@ -1,5 +1,5 @@
 import type { Meta } from '@storybook/react-vite';
-import { Autocomplete } from '../../../../src/index.js';
+import { Autocomplete, AutocompleteProps } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
 import AutocompleteMDX from './Autocomplete.mdx';
 
@@ -19,6 +19,9 @@ import { WithFreeSolo } from './stories/WithFreeSolo.js';
 import { WithOutlinedTextField } from './stories/WithOutlinedTextField.js';
 import { WithChipActions } from './stories/WithChipActions.js';
 import { WithChipDetails } from './stories/WithChipDetails.js';
+import { FilterDefault } from './stories/FilterDefault.js';
+import { FilterMultiple } from './stories/FilterMultiple.js';
+import { FilterControlled } from './stories/FilterControlled.js';
 
 const meta = {
     component: Autocomplete,
@@ -59,6 +62,17 @@ const meta = {
                         '{ title: string; inputPlaceholder?: string; recentlyUsed?: string; recentlyUsedResults?: string; }',
                 },
             },
+        },
+        variant: {
+            control: 'radio',
+            options: ['default', 'filter'],
+            description: 'Input presentation. Filter mode uses a compact trigger and a popup search field.',
+            table: { category: 'appearance', defaultValue: { summary: 'default' } },
+        },
+        searchTextFieldProps: {
+            control: 'object',
+            description: 'Props for the popup search field. Available only when variant is filter.',
+            table: { category: 'customization' },
         },
         actions: {
             control: false,
@@ -137,7 +151,7 @@ const meta = {
             },
         },
     },
-} satisfies Meta<typeof Autocomplete>;
+} satisfies Meta<AutocompleteProps>;
 
 export default meta;
 
@@ -158,4 +172,7 @@ export {
     WithOutlinedTextField,
     WithChipActions,
     WithChipDetails,
+    FilterDefault,
+    FilterMultiple,
+    FilterControlled,
 };

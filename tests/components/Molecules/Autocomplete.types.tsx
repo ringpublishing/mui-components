@@ -1,5 +1,5 @@
-import { Tune } from '@mui/icons-material';
 import React from 'react';
+import { Tune } from '@mui/icons-material';
 
 import { Autocomplete, AutocompleteProps } from '../../../src/index.js';
 
@@ -79,9 +79,32 @@ const autocompleteMenuListActionsWithoutIcon: NonNullable<AutocompleteProps['men
     ],
 };
 
+const filterAutocomplete = (
+    <Autocomplete
+        variant="filter"
+        options={options}
+        labels={{ title: 'Filter options', searchPlaceholder: 'Search options' }}
+        getOptionLabel={(option): string => (typeof option === 'string' ? option : option.label)}
+        onChange={(event, value): void => {
+            const possibleValue: Option | string | Array<Option | string> | null = value;
+
+            void event;
+            void possibleValue;
+        }}
+    />
+);
+
+const filterAutocompleteProps = {
+    variant: 'filter',
+    options,
+    labels: { title: 'Filter options', searchPlaceholder: 'Search options' },
+} satisfies AutocompleteProps<Option>;
+
 void inferredAutocomplete;
 void explicitAutocomplete;
 void defaultAutocompleteProps;
 void explicitAutocompleteProps;
 void autocompleteMenuListActions;
 void autocompleteMenuListActionsWithoutIcon;
+void filterAutocomplete;
+void filterAutocompleteProps;

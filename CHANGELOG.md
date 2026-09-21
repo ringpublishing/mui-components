@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.19.0] - 2026-09-14
+
+### Added
+- [@psulich]: `Autocomplete` — added `filter` variant.
+- [@psulich]: `DataView` - added story with filter autocompletes.
+
 ## [1.18.0] - 2026-09-09
 
 ### Added

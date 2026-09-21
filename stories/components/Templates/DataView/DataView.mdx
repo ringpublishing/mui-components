@@ -27,6 +27,7 @@ Key features:
 - [With Dynamic Width Filter](#with-dynamic-width-filter)
 - [Without Detail And Filter](#without-detail-and-filter)
 - [With Multimedia Grid](#with-multimedia-grid)
+- [With Autocomplete Filters](#with-autocomplete-filters)
 - [With Selection Mode](#with-selection-mode)
 - [With BottomBar Selection](#with-bottombar-selection)
 
@@ -127,6 +128,41 @@ are displayed.
 `DataView` with an embedded `MultimediaGrid` in the main slot.
 
 <Canvas of={Stories.WithMultimediaGrid} />
+
+## With Autocomplete Filters
+
+An alternate `DataView` presentation that replaces the default search bar with a custom top slot. The top slot groups
+the page heading, search input, and filter-variant `Autocomplete` controls in one area, with active filter chips below.
+The search input filters grid titles; each chip can be removed individually, while **Delete all** clears every active
+filter.
+
+Use a custom `top` slot when the standard `DataView` search bar needs to be combined with page-specific controls:
+
+```tsx
+function TopSlot(props: TopSlotProps): React.JSX.Element {
+    return (
+        <Box>
+            <Typography variant="headline1">Content library</Typography>
+            <Box>
+                <SearchBox {...(props as ControlledSearchBoxProps)} />
+                <Autocomplete variant="filter" labels={contentTypeLabels} multiple={true} options={contentTypes} />
+                <Autocomplete variant="filter" labels={authorLabels} multiple={true} options={authors} />
+            </Box>
+            <ChipsGroup chips={activeFilterChips} onDeleteAll={handleClearAll} />
+        </Box>
+    );
+}
+
+<DataView
+    slots={{
+        top: TopSlot,
+        main: <RingDataGrid rows={filteredRows} columns={columns} totalRowCount={filteredRows.length} />,
+    }}
+    slotProps={{ top: { value: searchQuery, onChange: setSearchQuery } }}
+/>;
+```
+
+<Canvas of={Stories.WithAutocompleteFilters} />
 
 ## With Selection Mode
 

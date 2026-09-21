@@ -1,4 +1,4 @@
-import { KeyboardArrowDown as KeyboardArrowDownIcon, MoreVert } from '@mui/icons-material';
+import { KeyboardArrowDown as KeyboardArrowDownIcon, MoreVert, Search as SearchIcon } from '@mui/icons-material';
 import {
     Autocomplete as MuiAutocomplete,
     AutocompleteChangeDetails,
@@ -12,13 +12,18 @@ import {
     Chip,
     CircularProgress,
     IconButton,
+    InputBase,
+    InputAdornment,
     ListItemAvatar,
+    Paper,
+    PaperProps,
     Theme,
     Tooltip,
 } from '@mui/material';
+import useForkRef from '@mui/utils/useForkRef';
 import classNames from 'classnames';
 import { isEqual, isNil, omit } from 'lodash';
-import React, { useRef } from 'react';
+import React, { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
@@ -49,6 +54,11 @@ export interface AutocompleteLabels {
      * The label of the results when, `showRecentlyUsed` is `true`
      */
     recentlyUsedResults?: string;
+}
+
+export interface FilterAutocompleteLabels extends AutocompleteLabels {
+    /** Placeholder displayed in the search field within the options panel. */
+    searchPlaceholder?: string;
 }
 
 type AutocompleteOptionWithMeta = Record<string, unknown> & {
@@ -113,7 +123,7 @@ export interface AutocompleteMenuListActions {
     actions: ReadonlyArray<AutocompleteMenuListAction>;
 }
 
-export interface AutocompleteProps<Value = unknown>
+interface AutocompleteBaseProps<Value = unknown>
     extends
         CommonComponentProps,
         Omit<
@@ -212,6 +222,29 @@ export interface AutocompleteProps<Value = unknown>
     } & AutocompleteMuiProps<Value>['slotProps'];
 }
 
+export interface DefaultAutocompleteProps<Value = unknown> extends AutocompleteBaseProps<Value> {
+    /** Input presentation used by default. */
+    variant?: 'default';
+}
+
+export interface FilterAutocompleteProps<Value = unknown> extends Omit<
+    AutocompleteBaseProps<Value>,
+    'labels' | 'renderChip' | 'renderTags' | 'renderValue' | 'slotProps' | 'actions'
+> {
+    /** Uses a compact trigger with a selected-value count and a popup search field. */
+    variant: 'filter';
+    /** Labels for the filter trigger and popup search field. */
+    labels: FilterAutocompleteLabels;
+    /** Props applied to the search text field shown above the options. */
+    searchTextFieldProps?: TextFieldProps;
+    /** Not available in filter mode. */
+    actions?: never;
+    /** Props for MUI slots. Chip props are unavailable because filter mode does not render chips. */
+    slotProps?: Omit<NonNullable<AutocompleteBaseProps<Value>['slotProps']>, 'chip' | 'textField'>;
+}
+
+export type AutocompleteProps<Value = unknown> = DefaultAutocompleteProps<Value> | FilterAutocompleteProps<Value>;
+
 export type MuiOption = AutocompleteOptionWithMeta;
 
 interface AutocompleteMenuListActionButtonProps {
@@ -300,9 +333,11 @@ const getOptionLabelFallback = (option: unknown): string => {
         return option;
     }
 
-    const { label } = option as { label: string };
+    if (isAutocompleteOptionObject(option) && typeof option.label === 'string') {
+        return option.label;
+    }
 
-    return label;
+    return String(option);
 };
 
 const renderOptionWithCustomLabelAndCaption = (
@@ -413,6 +448,103 @@ interface AutocompleteInputProps {
     textFieldSlotProps?: TextFieldProps;
 }
 
+interface FilterAutocompletePaperContextValue {
+    autocompleteInputRef: React.RefObject<HTMLInputElement | null>;
+    dataTestId: string;
+    paperRef: React.RefObject<HTMLDivElement | null>;
+    searchInputRef: React.RefObject<HTMLInputElement | null>;
+    searchPlaceholder: string;
+    searchTextFieldProps?: TextFieldProps;
+    searchValue: string;
+    PaperComponent: React.ElementType<PaperProps>;
+    onInputChange(event: React.ChangeEvent<HTMLInputElement>): void;
+}
+
+interface FilterAutocompleteInputProps extends Omit<
+    AutocompleteInputProps,
+    'actions' | 'labels' | 'refAnchor' | 'textFieldSlotProps'
+> {
+    autocompleteInputRef: React.RefObject<HTMLInputElement | null>;
+    disabled: boolean;
+    label: string;
+    onTriggerClick(event: React.MouseEvent<HTMLElement>): void;
+    selectedCount: number;
+    triggerRef: React.RefObject<HTMLDivElement | null>;
+}
+
+type AutocompleteInternalProps<Value> = AutocompleteBaseProps<Value> & {
+    variant?: 'default' | 'filter';
+    searchTextFieldProps?: TextFieldProps;
+};
+
+const FilterAutocompletePaperContext = createContext<FilterAutocompletePaperContextValue | null>(null);
+
+const FilterAutocompletePaper = React.forwardRef<HTMLDivElement, PaperProps>(
+    (props, forwardedRef): React.JSX.Element => {
+        const context = useContext(FilterAutocompletePaperContext);
+        const paperRef = useForkRef(context?.paperRef, forwardedRef);
+
+        if (!context) {
+            return <Paper {...props} ref={paperRef} />;
+        }
+
+        const { children, ...paperProps } = props;
+        const { actions, dataTestIdSuffix, ...searchTextFieldProps } = context.searchTextFieldProps || {};
+        void actions;
+        void dataTestIdSuffix;
+        const PaperComponent = context.PaperComponent;
+
+        const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+            if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'PageDown', 'PageUp'].includes(event.key)) {
+                return;
+            }
+
+            event.preventDefault();
+            context.autocompleteInputRef.current?.dispatchEvent(
+                new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: event.key }),
+            );
+        };
+
+        return (
+            <PaperComponent elevation={1} {...paperProps} ref={paperRef}>
+                <Box sx={{ px: 1, pt: 1 }}>
+                    <TextField
+                        {...searchTextFieldProps}
+                        autoFocus={true}
+                        fullWidth={true}
+                        variant="outlined"
+                        size="small"
+                        value={context.searchValue}
+                        placeholder={context.searchPlaceholder}
+                        onChange={context.onInputChange}
+                        onKeyDown={handleSearchKeyDown}
+                        inputRef={context.searchInputRef}
+                        slotProps={{
+                            ...searchTextFieldProps.slotProps,
+                            htmlInput: {
+                                ...searchTextFieldProps.slotProps?.htmlInput,
+                                'data-testid': `${context.dataTestId}-search-input`,
+                            },
+                            input: {
+                                ...searchTextFieldProps.slotProps?.input,
+                                sx: { '& input': { paddingLeft: 0 } },
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon aria-hidden="true" fontSize="small" />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
+                    />
+                </Box>
+                {children}
+            </PaperComponent>
+        );
+    },
+);
+
+FilterAutocompletePaper.displayName = 'FilterAutocompletePaper';
+
 function AutocompleteInput({
     actions,
     dataTestId,
@@ -522,10 +654,156 @@ function AutocompleteInput({
     );
 }
 
+function FilterAutocompleteInput(props: FilterAutocompleteInputProps): React.JSX.Element {
+    const {
+        autocompleteInputRef,
+        dataTestId,
+        disabled,
+        inputParams,
+        label,
+        loading,
+        onTriggerClick,
+        selectedCount,
+        triggerRef,
+    } = props;
+    const [isHovered, setIsHovered] = useState(false);
+    const { ref: inputRootRef } = inputParams.InputProps;
+    const { ref: muiAutocompleteInputRef, ...autocompleteInputProps } = inputParams.inputProps;
+
+    const setAutocompleteInputRef = (element: HTMLInputElement | null): void => {
+        autocompleteInputRef.current = element;
+
+        if (typeof muiAutocompleteInputRef === 'function') {
+            muiAutocompleteInputRef(element);
+        } else if (muiAutocompleteInputRef) {
+            muiAutocompleteInputRef.current = element;
+        }
+    };
+
+    const handleTriggerClick = (event: React.MouseEvent<HTMLElement>): void => {
+        if (
+            disabled ||
+            event.target === autocompleteInputRef.current ||
+            (event.target as HTMLElement).closest('button')
+        ) {
+            return;
+        }
+
+        onTriggerClick(event);
+    };
+
+    const loadingIndicator = loading ? (
+        <CircularProgress size="1.125rem" sx={{ cursor: 'default' }} data-testid={`${dataTestId}-circular-progress`} />
+    ) : null;
+
+    return (
+        <InputBase
+            className={classNames('ring-autocomplete-filter-trigger', {
+                'ring-autocomplete-filter-trigger-hovered': isHovered,
+            })}
+            ref={(element): void => {
+                triggerRef.current = element as HTMLDivElement | null;
+
+                if (typeof inputRootRef === 'function') {
+                    inputRootRef(element);
+                } else if (inputRootRef) {
+                    inputRootRef.current = element;
+                }
+            }}
+            onClick={handleTriggerClick}
+            onMouseEnter={(): void => setIsHovered(true)}
+            onMouseLeave={(): void => setIsHovered(false)}
+            inputProps={{
+                ...autocompleteInputProps,
+                'aria-label': label,
+                className: 'ring-autocomplete-filter-input',
+                'data-testid': `${dataTestId}-input`,
+            }}
+            inputRef={setAutocompleteInputRef}
+            startAdornment={
+                <>
+                    <Typography variant="body2">{label}</Typography>
+                    {selectedCount > 0 ? (
+                        <Chip
+                            color="primary"
+                            label={selectedCount}
+                            size="small"
+                            sx={(theme): object => ({
+                                flexShrink: 0,
+                                marginLeft: 0,
+                                visibility: isHovered ? 'hidden' : 'visible',
+                                width: theme.getSpacing(3),
+                            })}
+                        />
+                    ) : (
+                        <Box
+                            aria-hidden="true"
+                            sx={(theme): object => ({ flexShrink: 0, marginLeft: 0, width: theme.getSpacing(3) })}
+                        />
+                    )}
+                </>
+            }
+            endAdornment={
+                <>
+                    {loadingIndicator}
+                    {inputParams.InputProps.endAdornment}
+                </>
+            }
+            sx={(theme): object => ({
+                alignItems: 'center',
+                border: 1,
+                borderColor: theme.palette.divider,
+                borderRadius: 1,
+                cursor: disabled ? 'default' : 'pointer',
+                display: 'flex',
+                minHeight: theme.getSpacing(5),
+                padding: theme.getSpacing(0.5, 1),
+                width: '100%',
+                '&.ring-autocomplete-filter-trigger-hovered .MuiAutocomplete-clearIndicator': {
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                    visibility: 'visible',
+                },
+                '& .MuiAutocomplete-clearIndicator': {
+                    marginRight: 0,
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    visibility: 'hidden',
+                },
+                '& .MuiAutocomplete-endAdornment': {
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    display: 'flex',
+                    flexGrow: 1,
+                    marginLeft: `-${theme.getSpacing(3)}`,
+                    position: 'static',
+                    top: 'auto',
+                    transform: 'none',
+                },
+                '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': { alignSelf: 'center' },
+                '& .MuiAutocomplete-popupIndicator': { marginLeft: 'auto' },
+                '& .MuiTypography-root': { marginRight: 1 },
+                '& .ring-autocomplete-filter-input': {
+                    border: 0,
+                    height: theme.getSpacing(0.5),
+                    margin: 0,
+                    minWidth: 0,
+                    opacity: 0,
+                    overflow: 'hidden',
+                    padding: 0,
+                    position: 'absolute',
+                    width: theme.getSpacing(0.5),
+                },
+            })}
+        />
+    );
+}
+
 function AutocompleteWithoutRef<Value>(
     props: AutocompleteProps<Value>,
     ref: React.ForwardedRef<unknown>,
 ): React.JSX.Element {
+    const internalProps = props as AutocompleteInternalProps<Value>;
     const {
         actions,
         className,
@@ -550,14 +828,33 @@ function AutocompleteWithoutRef<Value>(
         renderValue,
         renderChip,
         dataTestIdSuffix,
+        defaultValue,
+        variant = 'default',
+        searchTextFieldProps,
         ...otherProps
-    } = props as AutocompleteProps<Value>;
+    } = internalProps;
 
     const dataTestId = useRingDataTestId('Autocomplete', dataTestIdSuffix);
 
     const refAnchor = useRef<HTMLButtonElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const autocompleteInputRef = useRef<HTMLInputElement>(null);
+    const triggerRef = useRef<HTMLDivElement>(null);
+    const paperRef = useRef<HTMLDivElement>(null);
+    const [uncontrolledSearchValue, setUncontrolledSearchValue] = useState('');
+    const [uncontrolledFilterValue, setUncontrolledFilterValue] = useState<unknown>(
+        defaultValue ?? (otherProps.multiple ? [] : null),
+    );
+    const [uncontrolledFilterOpen, setUncontrolledFilterOpen] = useState(false);
+    const isFilterVariant = variant === 'filter';
+    const filterLabels = labels as FilterAutocompleteLabels;
+    const filterSearchTextFieldProps = isFilterVariant ? searchTextFieldProps : undefined;
 
-    const { textField: textFieldSlotProps, avatar: avatarSlotProps, ...autocompleteSlotProps } = slotProps || {};
+    const {
+        textField: textFieldSlotProps,
+        avatar: avatarSlotProps,
+        ...autocompleteSlotProps
+    } = (slotProps || {}) as NonNullable<AutocompleteBaseProps<Value>['slotProps']>;
     const listboxRef = React.useRef<HTMLElement | null>(null);
 
     const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() =>
@@ -567,6 +864,10 @@ function AutocompleteWithoutRef<Value>(
     const pendingRecentlyUsedItemsRef = React.useRef<MuiOption[] | null>(null);
 
     const handleOnOpen = (event: React.SyntheticEvent): void => {
+        if (isFilterVariant && otherProps.open === undefined) {
+            setUncontrolledFilterOpen(true);
+        }
+
         onOpen?.(event);
 
         if (showRecentlyUsed && recentlyUsedItems.length > 0) {
@@ -578,6 +879,14 @@ function AutocompleteWithoutRef<Value>(
         event: React.SyntheticEvent,
         reason: Parameters<NonNullable<AutocompleteMuiProps<Value>['onClose']>>[1],
     ): void => {
+        if (isFilterVariant && reason === 'blur') {
+            return;
+        }
+
+        if (isFilterVariant && otherProps.open === undefined) {
+            setUncontrolledFilterOpen(false);
+        }
+
         if (pendingRecentlyUsedItemsRef.current) {
             setRecentlyUsedItems(pendingRecentlyUsedItemsRef.current);
             pendingRecentlyUsedItemsRef.current = null;
@@ -585,6 +894,41 @@ function AutocompleteWithoutRef<Value>(
 
         onClose?.(event, reason);
     };
+
+    const controlledInputValue = otherProps.inputValue;
+    const searchValue = controlledInputValue === undefined ? uncontrolledSearchValue : controlledInputValue;
+    const filterOpen = otherProps.open === undefined ? uncontrolledFilterOpen : otherProps.open;
+    const filterValue = otherProps.value === undefined ? uncontrolledFilterValue : otherProps.value;
+
+    useLayoutEffect(() => {
+        if (isFilterVariant && filterOpen) {
+            requestAnimationFrame(() => searchInputRef.current?.focus());
+        }
+    }, [filterOpen, isFilterVariant]);
+
+    useEffect(() => {
+        if (!isFilterVariant || !filterOpen) {
+            return;
+        }
+
+        const handleClickAway = (event: MouseEvent): void => {
+            const target = event.target as Node;
+
+            if (triggerRef.current?.contains(target) || paperRef.current?.contains(target)) {
+                return;
+            }
+
+            if (otherProps.open === undefined) {
+                setUncontrolledFilterOpen(false);
+            }
+
+            onClose?.(event as unknown as React.SyntheticEvent, 'blur');
+        };
+
+        document.addEventListener('mousedown', handleClickAway);
+
+        return (): void => document.removeEventListener('mousedown', handleClickAway);
+    }, [filterOpen, isFilterVariant, onClose, otherProps.open]);
 
     const mergeListboxRef = (externalRef?: React.Ref<HTMLElement>): React.RefCallback<HTMLElement> => {
         return (node): void => {
@@ -674,6 +1018,10 @@ function AutocompleteWithoutRef<Value>(
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<unknown> | undefined,
     ): void => {
+        if (isFilterVariant && otherProps.value === undefined) {
+            setUncontrolledFilterValue(value);
+        }
+
         if (showRecentlyUsed && recentlyLocalStorageKey && reason === 'selectOption') {
             const rawOption = otherProps.multiple ? details?.option : value;
 
@@ -739,6 +1087,30 @@ function AutocompleteWithoutRef<Value>(
     }, [hasCustomRenderTags, otherProps.multiple, renderChip, renderValue]);
 
     const renderAutocompleteInput = (inputParams: AutocompleteRenderInputParams): React.ReactNode => {
+        if (isFilterVariant) {
+            const selectedCount = Array.isArray(filterValue) ? filterValue.length : filterValue === null ? 0 : 1;
+
+            return (
+                <FilterAutocompleteInput
+                    autocompleteInputRef={autocompleteInputRef}
+                    dataTestId={dataTestId}
+                    disabled={otherProps.disabled ?? false}
+                    inputParams={inputParams}
+                    label={filterLabels.title}
+                    loading={loading}
+                    onTriggerClick={(event): void => {
+                        if (filterOpen) {
+                            handleOnClose(event, 'toggleInput');
+                        } else {
+                            handleOnOpen(event);
+                        }
+                    }}
+                    selectedCount={selectedCount}
+                    triggerRef={triggerRef}
+                />
+            );
+        }
+
         return (
             <AutocompleteInput
                 actions={actions}
@@ -754,6 +1126,22 @@ function AutocompleteWithoutRef<Value>(
     };
 
     const hasActions = Boolean(actions?.length);
+    const filterPaperContext: FilterAutocompletePaperContextValue | null = isFilterVariant
+        ? {
+              autocompleteInputRef,
+              dataTestId,
+              paperRef,
+              searchInputRef,
+              searchPlaceholder: filterLabels.searchPlaceholder || '',
+              searchTextFieldProps: filterSearchTextFieldProps,
+              searchValue,
+              PaperComponent: otherProps.slots?.paper || Paper,
+              onInputChange: (event): void => {
+                  setUncontrolledSearchValue(event.target.value);
+                  otherProps.onInputChange?.(event, event.target.value, 'input');
+              },
+          }
+        : null;
 
     const renderAutocompleteGroup: NonNullable<AutocompleteMuiProps<Value>['renderGroup']> = ({
         key,
@@ -802,40 +1190,97 @@ function AutocompleteWithoutRef<Value>(
     };
 
     return (
-        <TypedMuiAutocomplete
-            className={classNames('ring-autocomplete', className)}
-            data-testid={dataTestId}
-            {...otherProps}
-            options={parsedOptions}
-            onChange={handleOnChange}
-            onOpen={handleOnOpen}
-            onClose={handleOnClose}
-            loading={loading}
-            groupBy={resolvedGroupBy}
-            forcePopupIcon={hasActions ? false : forcePopupIcon}
-            popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
-            getOptionLabel={customGetOptionLabel}
-            ref={ref}
-            loadingText={loadingText}
-            renderGroup={
-                renderGroup ||
-                (menuListActions && shouldRenderMenuListAction
-                    ? renderAutocompleteGroup
-                    : (renderGroup as AutocompleteMuiProps<Value>['renderGroup']))
-            }
-            renderOption={renderOption || defaultRenderOption}
-            renderValue={renderValue || (otherProps.multiple && !hasCustomRenderTags ? renderSelectedValue : undefined)}
-            sx={{
-                ...otherProps.sx,
-            }}
-            slotProps={{ ...autocompleteSlotProps, listbox: listboxProps }}
-            renderInput={renderAutocompleteInput}
-        />
+        <FilterAutocompletePaperContext.Provider value={filterPaperContext}>
+            <TypedMuiAutocomplete<Value>
+                className={classNames('ring-autocomplete', className)}
+                data-testid={dataTestId}
+                {...otherProps}
+                options={parsedOptions}
+                defaultValue={isFilterVariant ? undefined : defaultValue}
+                open={isFilterVariant ? filterOpen : otherProps.open}
+                value={isFilterVariant ? (filterValue as AutocompleteValueFor<Value>) : otherProps.value}
+                disableCloseOnSelect={
+                    isFilterVariant && otherProps.multiple
+                        ? (otherProps.disableCloseOnSelect ?? true)
+                        : otherProps.disableCloseOnSelect
+                }
+                onChange={handleOnChange}
+                onOpen={handleOnOpen}
+                onClose={handleOnClose}
+                onInputChange={
+                    isFilterVariant
+                        ? (event, nextInputValue, reason): void => {
+                              if (reason !== 'reset' && otherProps.inputValue === undefined) {
+                                  setUncontrolledSearchValue(nextInputValue);
+                              }
+
+                              if (reason !== 'reset') {
+                                  otherProps.onInputChange?.(event, nextInputValue, reason);
+                              }
+                          }
+                        : otherProps.onInputChange
+                }
+                loading={loading}
+                groupBy={resolvedGroupBy}
+                forcePopupIcon={hasActions && !isFilterVariant ? false : forcePopupIcon}
+                popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
+                getOptionLabel={customGetOptionLabel}
+                ref={ref}
+                loadingText={loadingText}
+                renderGroup={
+                    renderGroup ||
+                    (menuListActions && shouldRenderMenuListAction
+                        ? renderAutocompleteGroup
+                        : (renderGroup as AutocompleteMuiProps<Value>['renderGroup']))
+                }
+                renderOption={renderOption || defaultRenderOption}
+                renderValue={
+                    isFilterVariant
+                        ? (): null => null
+                        : renderValue || (otherProps.multiple && !hasCustomRenderTags ? renderSelectedValue : undefined)
+                }
+                sx={{
+                    ...otherProps.sx,
+                }}
+                slotProps={
+                    {
+                        ...autocompleteSlotProps,
+                        listbox: listboxProps,
+                        clearIndicator: isFilterVariant
+                            ? { ...autocompleteSlotProps.clearIndicator, 'data-testid': `${dataTestId}-clear` }
+                            : autocompleteSlotProps.clearIndicator,
+                        popupIndicator: isFilterVariant
+                            ? { ...autocompleteSlotProps.popupIndicator, 'data-testid': `${dataTestId}-popup` }
+                            : autocompleteSlotProps.popupIndicator,
+                    } as AutocompleteMuiProps<Value>['slotProps']
+                }
+                renderInput={renderAutocompleteInput}
+                filterOptions={
+                    isFilterVariant
+                        ? (optionsToFilter, state): Value[] => {
+                              const filterState = { ...state, inputValue: searchValue };
+                              const customFilterOptions = otherProps.filterOptions;
+
+                              if (customFilterOptions) {
+                                  return customFilterOptions(optionsToFilter, filterState);
+                              }
+
+                              return optionsToFilter.filter((option) =>
+                                  customGetOptionLabel(option)
+                                      .toLocaleLowerCase()
+                                      .includes(searchValue.toLocaleLowerCase()),
+                              );
+                          }
+                        : otherProps.filterOptions
+                }
+                slots={isFilterVariant ? { ...otherProps.slots, paper: FilterAutocompletePaper } : otherProps.slots}
+            />
+        </FilterAutocompletePaperContext.Provider>
     );
 }
 
-export const Autocomplete = React.forwardRef(AutocompleteWithoutRef) as <Value = unknown>(
-    props: AutocompleteProps<Value> & {
-        ref?: React.ForwardedRef<unknown>;
-    },
+type AutocompleteComponent = <Value = unknown>(
+    props: AutocompleteProps<Value> & { ref?: React.ForwardedRef<unknown> },
 ) => React.JSX.Element;
+
+export const Autocomplete = React.forwardRef(AutocompleteWithoutRef) as AutocompleteComponent;

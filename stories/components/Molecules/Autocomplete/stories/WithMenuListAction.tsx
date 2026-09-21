@@ -4,7 +4,7 @@ import { action } from 'storybook/actions';
 import React, { useCallback, useRef, useState } from 'react';
 import { createCodeStory } from '../../../../helpers.js';
 import WithMenuListActionExampleCode from './code/WithMenuListActionExample.tsx?raw';
-import { ActionBox, ActionBoxItem, Autocomplete, AutocompleteProps } from '../../../../../src/index.js';
+import { ActionBox, ActionBoxItem, Autocomplete, DefaultAutocompleteProps } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
 
 interface MenuListActionsControl {
@@ -17,7 +17,7 @@ interface MenuListActionsControl {
         disabledReason?: string;
     }>;
 }
-type StoryArgs = Omit<AutocompleteProps, 'menuListActions'> & { menuListActions: MenuListActionsControl };
+type StoryArgs = Omit<DefaultAutocompleteProps, 'menuListActions'> & { menuListActions: MenuListActionsControl };
 type Story = StoryObj<StoryArgs>;
 
 const tuneIcon = <Tune />;

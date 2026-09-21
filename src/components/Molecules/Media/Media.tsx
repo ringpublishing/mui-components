@@ -409,26 +409,24 @@ export function Media(props: MediaProps): React.JSX.Element {
                             <StatusLabelsStack statusLabels={statusLabels} />
                         )}
                         {actions?.length && <MediaActions actions={actions} dataTestIdSuffix={dataTestIdSuffix} />}
-                        {slots?.media ? (
-                            renderMediaSlot(!height)
-                        ) : height ? (
-                            renderCardMedia({
-                                useAspectRatioWrapper: false,
-                                mediaBackgroundColor: isAudio
-                                    ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
-                                    : undefined,
-                            })
-                        ) : (
-                            renderCardMedia({
-                                useAspectRatioWrapper: true,
-                                wrapperSx: isAudio
-                                    ? { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }
-                                    : undefined,
-                                mediaBackgroundColor: isAudio
-                                    ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
-                                    : 'components.appBar.defaultFill',
-                            })
-                        )}
+                        {slots?.media
+                            ? renderMediaSlot(!height)
+                            : height
+                              ? renderCardMedia({
+                                    useAspectRatioWrapper: false,
+                                    mediaBackgroundColor: isAudio
+                                        ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
+                                        : undefined,
+                                })
+                              : renderCardMedia({
+                                    useAspectRatioWrapper: true,
+                                    wrapperSx: isAudio
+                                        ? { backgroundColor: slotProps?.media?.sx?.backgroundColor ?? 'transparent' }
+                                        : undefined,
+                                    mediaBackgroundColor: isAudio
+                                        ? (slotProps?.media?.sx?.backgroundColor ?? 'transparent')
+                                        : 'components.appBar.defaultFill',
+                                })}
                         {bottomTooltips !== undefined && Boolean(bottomTooltips.length) && (
                             <BottomTooltipsStack bottomTooltips={bottomTooltips} />
                         )}
@@ -566,11 +564,9 @@ function StatusLabelsStack(params: { statusLabels: StatusLabelProps[] }): React.
                 zIndex: 1,
             }}
         >
-            {statusLabels.map(
-                (statusLabelParams): React.JSX.Element => (
-                    <StatusLabel key={statusLabelParams.label as string} {...statusLabelParams} />
-                ),
-            )}
+            {statusLabels.map((statusLabelParams): React.JSX.Element => (
+                <StatusLabel key={statusLabelParams.label as string} {...statusLabelParams} />
+            ))}
         </Stack>
     );
 }
@@ -608,11 +604,9 @@ function BottomTooltipsStack(params: { bottomTooltips: BottomTooltipProps[] }): 
                 zIndex: 1,
             }}
         >
-            {bottomTooltips.map(
-                (tooltipParams): React.JSX.Element => (
-                    <BottomTooltip key={tooltipParams.title} {...tooltipParams} />
-                ),
-            )}
+            {bottomTooltips.map((tooltipParams): React.JSX.Element => (
+                <BottomTooltip key={tooltipParams.title} {...tooltipParams} />
+            ))}
         </Stack>
     );
 }

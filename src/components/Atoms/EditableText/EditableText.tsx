@@ -50,7 +50,16 @@ export interface EditableTextProps extends CommonComponentProps {
 }
 
 function EditableText(props: EditableTextProps): React.JSX.Element {
-    const { text, onSubmit, label, placeholder, sx, className, dataTestIdSuffix, slotProps: componentSlotProps } = props;
+    const {
+        text,
+        onSubmit,
+        label,
+        placeholder,
+        sx,
+        className,
+        dataTestIdSuffix,
+        slotProps: componentSlotProps,
+    } = props;
 
     const dataTestId = useRingDataTestId('EditableText', dataTestIdSuffix);
 
