@@ -1,7 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { SortableList } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithDragHandle } from './stories/WithDragHandle.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { Horizontal as HorizontalStory } from './stories/Horizontal.js';
+import { Wrap as WrapStory } from './stories/Wrap.js';
+import { WithDragHandle as WithDragHandleStory } from './stories/WithDragHandle.js';
 import defaultArgs from './common/defaultArgs.js';
 import SortableListMDX from './SortableList.mdx';
 
@@ -20,7 +22,7 @@ const meta: Meta<typeof SortableList> = {
             control: 'object',
             description: 'List of items to be sorted. Each item must have a unique `id` field.',
             table: {
-                category: 'data',
+                category: 'content',
                 type: { summary: 'T[]' },
             },
         },
@@ -28,8 +30,8 @@ const meta: Meta<typeof SortableList> = {
             control: false,
             description: 'Function that renders an element of the list.',
             table: {
-                category: 'rendering',
-                type: { summary: '(item: T) => React.ReactNode' },
+                category: 'content',
+                type: { summary: '(item: T, index?: number, isDragActive?: boolean) => React.ReactNode' },
             },
         },
         onChange: {
@@ -38,6 +40,19 @@ const meta: Meta<typeof SortableList> = {
             table: {
                 category: 'callbacks',
                 type: { summary: '(items: T[]) => void' },
+            },
+        },
+        orientation: {
+            control: 'radio',
+            options: ['vertical', 'horizontal', 'wrap'],
+            description:
+                'Layout and drag axis of the list. `vertical` stacks items in a column, `horizontal` lays them out in a single row, ' +
+                '`wrap` lays items out as a wrapping row and lets the user drag them ' +
+                'freely in two dimensions within the rectangle. The `wrap` mode is pointer-only and ignores `grabByDragHandle`.',
+            table: {
+                category: 'behavior',
+                type: { summary: "'vertical' | 'horizontal' | 'wrap'" },
+                defaultValue: { summary: "'vertical'" },
             },
         },
         grabByDragHandle: {
@@ -52,6 +67,29 @@ const meta: Meta<typeof SortableList> = {
                 defaultValue: { summary: 'false' },
             },
         },
+        labels: {
+            control: false,
+            description:
+                'User-facing strings the list renders itself. `dragHandle` is the accessible name of ' +
+                '`SortableList.DragHandle` — it is an icon-only button, so a screen reader announces nothing but ' +
+                '"button" without it. Every member is optional and falls back to the English default.',
+            table: {
+                category: 'content',
+                type: { summary: '{ dragHandle?: string }' },
+                defaultValue: { summary: "{ dragHandle: 'Drag to reorder' }" },
+            },
+        },
+        getItemDataTestId: {
+            control: false,
+            description:
+                'Overrides the generated `data-testid` per item. Return `undefined` to keep the default ' +
+                '`ring-sortablelist[-<suffix>]-item-<id>`. Items may also carry `dataTestId` (verbatim) or ' +
+                '`itemDataTestIdSuffix` fields instead.',
+            table: {
+                category: 'customization',
+                type: { summary: '(item: T, index: number) => string | undefined' },
+            },
+        },
         children: {
             control: false,
             description:
@@ -63,7 +101,7 @@ const meta: Meta<typeof SortableList> = {
         },
         sx: {
             control: 'object',
-            description: 'MUI System properties to customize the main element style.',
+            description: 'Styles for the flex container that lays out the items (e.g. `gap`).',
             table: {
                 category: 'customization',
                 type: { summary: 'SxProps<Theme>' },
@@ -71,7 +109,7 @@ const meta: Meta<typeof SortableList> = {
         },
         className: {
             control: 'text',
-            description: 'CSS class name applied to the main element.',
+            description: 'CSS class on the root element.',
             table: {
                 category: 'customization',
                 type: { summary: 'string' },
@@ -79,9 +117,9 @@ const meta: Meta<typeof SortableList> = {
         },
         dataTestIdSuffix: {
             control: false,
-            description: 'Inherited from CommonComponentProps. Not yet implemented in SortableList.',
+            description: 'Suffix for `data-testid`: root `ring-sortablelist[-<suffix>]`, items `…-item-<id>`.',
             table: {
-                category: 'customization',
+                category: 'testing',
                 type: { summary: 'string' },
             },
         },
@@ -90,4 +128,7 @@ const meta: Meta<typeof SortableList> = {
 
 export default meta;
 
-export { Default, WithDragHandle };
+export const Default = DefaultStory;
+export const Horizontal = { ...HorizontalStory, tags: ['new@2.0'] };
+export const Wrap = { ...WrapStory, tags: ['new@2.0'] };
+export const WithDragHandle = { ...WithDragHandleStory, name: 'DragHandle' };

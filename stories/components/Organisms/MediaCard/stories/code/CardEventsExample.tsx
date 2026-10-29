@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MediaCard } from '@ringpublishing/mui-components';
-import { OndemandVideoOutlined } from '@mui/icons-material';
+import { MonitorPlay } from 'lucide-react';
 
 const VIDEO_SRC = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4';
 
@@ -38,7 +38,7 @@ export default function CardEventsExample(): React.JSX.Element {
                     </video>
                 ),
             }}
-            iconPlaceholder={<OndemandVideoOutlined />}
+            iconPlaceholder={<MonitorPlay />}
             ratio="16/9"
             hoverable={true}
             slotProps={{

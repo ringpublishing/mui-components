@@ -3,15 +3,24 @@
 import { Box, PaletteMode } from '@mui/material';
 import { Preview, ReactRenderer } from '@storybook/react-vite';
 import type { ThemeVersion } from '@ringpublishing/mui-theme';
-import { ThemeConfig } from '../src/index.js';
+import { ThemeConfig } from '../src/theme/internalTheme.js';
+import { enableTreeDynamicLoading } from '../src/treeDynamicLoading.js';
 import { ArgTypes, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs/blocks';
 import { setupMonaco } from 'storybook-addon-code-editor';
 import type * as Monaco from 'monaco-editor';
 import { LicenseInfo } from '@mui/x-license';
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
 
 import './styles.css';
 import { CommonLanguages } from '../src/helpers/commonTypes.js';
 import { getStorySourceCode } from '../stories/storySourceRegistry.js';
+
+enableTreeDynamicLoading();
+import { AnchoredDocsContainer } from './docs/AnchoredDocsContainer.js';
 
 setupMonaco({
     onMonacoLoad: (monaco: typeof Monaco) => {
@@ -29,7 +38,11 @@ const preview: Preview = {
     initialGlobals: {
         theme: 'light',
         locale: CommonLanguages.enUS,
-        themeVersion: 'reference',
+        // Matches the runtime default (`DEFAULT_THEME_VERSION`). Deliberately not a toolbar
+        // switch: the two variants stopped being interchangeable at 2.0.0, so flipping one
+        // story between them compares the current design against a look that no longer
+        // receives updates. Still overridable per URL (`?globals=themeVersion:reference`).
+        themeVersion: 'next',
     },
 
     decorators: [
@@ -38,7 +51,7 @@ const preview: Preview = {
 
             const mode = (context.globals.theme ?? 'light') as PaletteMode;
             const language = (context.globals.locale ?? CommonLanguages.enUS) as CommonLanguages;
-            const version = (context.globals.themeVersion ?? 'reference') as ThemeVersion;
+            const version = (context.globals.themeVersion ?? 'next') as ThemeVersion;
 
             const isCentered = context.viewMode !== 'docs' && context.parameters?.layout === 'centered';
 
@@ -82,6 +95,7 @@ const preview: Preview = {
         backgrounds: { disable: true },
         layout: 'fullscreen',
         docs: {
+            container: AnchoredDocsContainer,
             source: {
                 transform: (src: string, storyContext: { id: string }): string =>
                     getStorySourceCode(storyContext.id) ?? src,
@@ -107,15 +121,16 @@ const preview: Preview = {
                         'Setup',
                         'Contribution',
                         'Overview',
-                        'Typography',
-                        'Iconography',
-                        'Colors',
                         'Atomic Design',
                         'Writing Stories',
                         'MCP Server',
                         '*',
                     ],
+                    'Design',
+                    ['Colors', 'Typography', 'Icons', 'AI color', 'Atomic Design', '*'],
                     'Components',
+                    'Migration FAQ',
+                    ['Breaking Version Upgrades', ['Docs', '2.0.0', '1.x', '0.x'], '*'],
                     '*',
                 ],
             },

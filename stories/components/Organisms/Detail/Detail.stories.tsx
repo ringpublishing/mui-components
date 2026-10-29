@@ -1,14 +1,16 @@
 import type { LooseArgTypesMeta } from '../../../helpers.js';
 import { Detail } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
-import { Default } from './stories/Default.js';
-import { EmptyState } from './stories/EmptyState.js';
-import { EmptyStateCustomLabels } from './stories/EmptyStateCustomLabels.js';
-import { WithCustomSlots } from './stories/WithCustomSlots.js';
-import { WithBottomIconButtons } from './stories/WithBottomIconButtons.js';
-import { WithBottomChips } from './stories/WithBottomChips.js';
-import { WithCustomMediaSlot } from './stories/WithCustomMediaSlot.js';
-import { WithMediaToolbarHandlers } from './stories/WithMediaToolbarHandlers.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithBottomIconButtons as WithBottomIconButtonsStory } from './stories/WithBottomIconButtons.js';
+import { WithBottomChips as WithBottomChipsStory } from './stories/WithBottomChips.js';
+import { WithFullScreenImage as WithFullScreenImageStory } from './stories/WithFullScreenImage.js';
+import { WithMediaToolbarHandlers as WithMediaToolbarHandlersStory } from './stories/WithMediaToolbarHandlers.js';
+import { WithCustomSlots as WithCustomSlotsStory } from './stories/WithCustomSlots.js';
+import { WithCustomMediaSlot as WithCustomMediaSlotStory } from './stories/WithCustomMediaSlot.js';
+import { WithLongUrl as WithLongUrlStory } from './stories/WithLongUrl.js';
+import { EmptyState as EmptyStateStory } from './stories/EmptyState.js';
+import { EmptyStateCustomLabels as EmptyStateCustomLabelsStory } from './stories/EmptyStateCustomLabels.js';
 import DetailMdx from './Detail.mdx';
 
 const meta = {
@@ -168,13 +170,13 @@ const meta = {
 
 export default meta;
 
-export {
-    Default,
-    EmptyState,
-    EmptyStateCustomLabels,
-    WithCustomSlots,
-    WithBottomIconButtons,
-    WithBottomChips,
-    WithCustomMediaSlot,
-    WithMediaToolbarHandlers,
-};
+export const Default = DefaultStory;
+export const WithBottomIconButtons = { ...WithBottomIconButtonsStory, name: 'Bottom icon buttons' };
+export const WithBottomChips = { ...WithBottomChipsStory, name: 'Bottom chips' };
+export const WithFullScreenImage = { ...WithFullScreenImageStory, name: 'Full screen image' };
+export const WithMediaToolbarHandlers = { ...WithMediaToolbarHandlersStory, name: 'Media toolbar handlers' };
+export const WithCustomSlots = { ...WithCustomSlotsStory, name: 'Custom slots' };
+export const WithCustomMediaSlot = { ...WithCustomMediaSlotStory, name: 'Custom slots — media' };
+export const WithLongUrl = { ...WithLongUrlStory, name: 'Long URL' };
+export const EmptyState = { ...EmptyStateStory, name: 'Empty state' };
+export const EmptyStateCustomLabels = { ...EmptyStateCustomLabelsStory, name: 'Empty state — custom labels' };

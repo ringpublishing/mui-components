@@ -4,7 +4,20 @@ import { Box, Tooltip as MuiTooltip, TooltipProps as MuiTooltipProps } from '@mu
 
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { getCreatedTheme } from '../../../theme/index.js';
 import { Typography } from '../Typography/Typography.js';
+
+// The tooltip surface is dark in both colour modes, so its muted text is read from the dark
+// palette instead of the active one, which lands grey-on-grey once the app switches to dark.
+// Resolved on first use and kept: building a theme to read one token costs ~0.5ms, and this
+// module is imported whether or not the app ever renders a tooltip.
+let mutedOnTooltip: string | undefined;
+
+const getMutedOnTooltip = (): string => {
+    mutedOnTooltip ??= getCreatedTheme('dark').palette.text.secondary;
+
+    return mutedOnTooltip;
+};
 
 export interface TooltipProps extends MuiTooltipProps, Omit<CommonComponentProps, 'children'> {
     /**
@@ -37,13 +50,13 @@ export function Tooltip(props: TooltipProps): React.JSX.Element {
                         <Box display="flex" flexDirection="row" justifyContent={'space-between'} alignItems={'center'}>
                             {typeof title === 'string' ? <Typography variant={'caption'}>{title}</Typography> : title}
                             {hint && (
-                                <Typography variant={'caption'} color={'textDisabled'} ml={0.5}>
+                                <Typography variant={'caption'} color={getMutedOnTooltip()} ml={0.5}>
                                     {hint}
                                 </Typography>
                             )}
                         </Box>
                         {subTitle && (
-                            <Typography variant={'caption'} color={'textDisabled'}>
+                            <Typography variant={'caption'} color={getMutedOnTooltip()}>
                                 {subTitle}
                             </Typography>
                         )}

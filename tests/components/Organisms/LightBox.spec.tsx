@@ -470,4 +470,29 @@ describe('Components: LightBox', () => {
         expect(queryByTestId('ring-detail-download-image')).toBeNull();
         expect(queryByTestId('ring-detail-zoom-in-image')).toBeNull();
     });
+
+    describe('palette colours of plain lucide icons', () => {
+        const images = [{ src: 'a.jpg', thumbnailSrc: 'a.jpg', title: 'a.jpg' }];
+
+        function injectedCss(): string {
+            return Array.from(document.head.querySelectorAll('style'))
+                .map((style) => style.textContent ?? '')
+                .join('\n');
+        }
+
+        it('resolves `color="error"` against the dark theme inside the dialog', () => {
+            renderLightBox({ open: true, onClose: vi.fn(), images });
+
+            expect(document.querySelector('.ring-lightbox')).not.toBeNull();
+            expect(injectedCss()).toContain(
+                `.ring-lightbox :where(svg.lucide[stroke="error"]){stroke:${getCreatedTheme('dark').palette.error.main};}`,
+            );
+        });
+
+        it('does not inject the scoped rules while closed', () => {
+            renderLightBox({ open: false, onClose: vi.fn(), images });
+
+            expect(injectedCss()).not.toContain('.ring-lightbox :where(svg.lucide');
+        });
+    });
 });

@@ -1,14 +1,14 @@
 import type { Meta } from '@storybook/react-vite';
 
 import { Alert } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { ContentVariants } from './stories/ContentVariants.js';
-import { Severities } from './stories/Severities.js';
-import { LayoutVariants } from './stories/LayoutVariants.js';
-import { WithAction } from './stories/WithAction.js';
-import { WithLinkAction } from './stories/WithLinkAction.js';
-import { WithClose } from './stories/WithClose.js';
-import { WithActionAndClose } from './stories/WithActionAndClose.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { Severities as SeveritiesStory } from './stories/Severities.js';
+import { ContentVariants as ContentVariantsStory } from './stories/ContentVariants.js';
+import { LayoutVariants as LayoutVariantsStory } from './stories/LayoutVariants.js';
+import { WithAction as WithActionStory } from './stories/WithAction.js';
+import { WithLinkAction as WithLinkActionStory } from './stories/WithLinkAction.js';
+import { WithClose as WithCloseStory } from './stories/WithClose.js';
+import { WithActionAndClose as WithActionAndCloseStory } from './stories/WithActionAndClose.js';
 import defaultArgs from './common/defaultArgs.js';
 import AlertMdx from './Alert.mdx';
 
@@ -143,13 +143,11 @@ const meta: Meta<typeof Alert> = {
 
 export default meta;
 
-export {
-    Default,
-    ContentVariants,
-    Severities,
-    LayoutVariants,
-    WithAction,
-    WithLinkAction,
-    WithClose,
-    WithActionAndClose,
-};
+export const Default = DefaultStory;
+export const Severities = SeveritiesStory;
+export const ContentVariants = { ...ContentVariantsStory, name: 'Content' };
+export const LayoutVariants = { ...LayoutVariantsStory, name: 'Layout' };
+export const WithAction = { ...WithActionStory, name: 'Action' };
+export const WithLinkAction = { ...WithLinkActionStory, name: 'Action — link' };
+export const WithClose = { ...WithCloseStory, name: 'Close button' };
+export const WithActionAndClose = { ...WithActionAndCloseStory, name: 'Action and close button' };

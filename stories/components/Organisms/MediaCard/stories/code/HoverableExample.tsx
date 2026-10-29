@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MediaCard } from '@ringpublishing/mui-components';
-import { Download, Link } from '@mui/icons-material';
+import { Download, Link2 } from 'lucide-react';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 export default function HoverableExample(): React.JSX.Element {
@@ -13,7 +13,7 @@ export default function HoverableExample(): React.JSX.Element {
         },
         {
             label: 'Action 2',
-            icon: <Link />,
+            icon: <Link2 />,
         },
     ];
     const fields = [

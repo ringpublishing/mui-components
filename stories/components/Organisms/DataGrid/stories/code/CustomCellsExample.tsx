@@ -1,6 +1,6 @@
 import React from 'react';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { Remove, Edit, MoreVert } from '@mui/icons-material';
+import { Minus, Pencil, EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import {
     renderActionCell,
@@ -9,6 +9,7 @@ import {
     createSpacerItem,
     RingDataGrid,
     Action,
+    RingLucideIcon,
 } from '@ringpublishing/mui-components';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
@@ -17,14 +18,14 @@ export default function CustomCellsExample(): React.JSX.Element {
         {
             label: 'Change name',
             onClick: (): void => undefined,
-            icon: <Edit />,
+            icon: <Pencil />,
         },
         {
             label: 'Remove',
             onClick: (): void => undefined,
             disabled: true,
             disabledReason: 'You cannot use this action',
-            icon: <Remove />,
+            icon: <Minus />,
         },
     ];
 
@@ -34,7 +35,7 @@ export default function CustomCellsExample(): React.JSX.Element {
                 title: 'In progress',
                 color: 'primary',
                 id: 0,
-                icon: <Edit fontSize="small" color="primary" />,
+                icon: <RingLucideIcon icon={Pencil} fontSize="small" color="primary" />,
             }),
         },
         {
@@ -79,7 +80,7 @@ export default function CustomCellsExample(): React.JSX.Element {
                 title: 'With placeholders',
                 color: 'primary',
                 id: 0,
-                icon: <Edit fontSize="small" color="primary" />,
+                icon: <RingLucideIcon icon={Pencil} fontSize="small" color="primary" />,
             }),
         },
         {
@@ -130,7 +131,7 @@ export default function CustomCellsExample(): React.JSX.Element {
                 refreshItems={(): void => undefined}
                 additionalComponent={
                     <IconButton onClick={(): void => undefined}>
-                        <MoreVert />
+                        <EllipsisVertical />
                     </IconButton>
                 }
                 rowHeight={35}

@@ -1,8 +1,19 @@
 import { describe, expect, it } from 'vitest';
+import React, { useEffect } from 'react';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { Delete, Edit, FilterList } from '@mui/icons-material';
+import { Trash2, Pencil, ListFilter } from 'lucide-react';
 import { render } from '../../../test-utils/customRenderer.js';
-import { RingDataGrid } from '../../../../src/index.js';
+import { DEFAULT_LUCIDE_ICON_SIZE, RingDataGrid } from '../../../../src/index.js';
+
+let cellMounts = 0;
+
+function MountCountingCell(): React.JSX.Element {
+    useEffect(() => {
+        cellMounts += 1;
+    }, []);
+
+    return <span>cell</span>;
+}
 
 describe('RingDataGrid', () => {
     const rows: GridRowsProp = [
@@ -49,7 +60,7 @@ describe('RingDataGrid', () => {
                     refreshCallback={(): null => null}
                     refreshItems={(): null => null}
                     totalRowCount={6400}
-                    additionalComponent={<FilterList onClick={(): null => null} />}
+                    additionalComponent={<ListFilter size={DEFAULT_LUCIDE_ICON_SIZE} onClick={(): null => null} />}
                 />,
             ).container,
         ).toMatchSnapshot();
@@ -71,7 +82,7 @@ describe('RingDataGrid', () => {
                     refreshCallback={(): null => null}
                     refreshItems={(): null => null}
                     totalRowCount={6400}
-                    additionalComponent={<FilterList onClick={(): null => null} />}
+                    additionalComponent={<ListFilter size={DEFAULT_LUCIDE_ICON_SIZE} onClick={(): null => null} />}
                 />,
             ).container,
         ).toMatchSnapshot();
@@ -94,18 +105,18 @@ describe('RingDataGrid', () => {
                         {
                             tooltip: 'Delete',
                             onClick: (): null => null,
-                            icon: <Delete />,
+                            icon: <Trash2 size={DEFAULT_LUCIDE_ICON_SIZE} />,
                         },
                         {
                             tooltip: 'Edit',
                             onClick: (): null => null,
-                            icon: <Edit />,
+                            icon: <Pencil size={DEFAULT_LUCIDE_ICON_SIZE} />,
                         },
                     ]}
                     totalRowCount={6400}
                     maxSelectedRowsCount={5000}
                     onBulkActionsClose={(): null => null}
-                    additionalComponent={<FilterList onClick={(): null => null} />}
+                    additionalComponent={<ListFilter size={DEFAULT_LUCIDE_ICON_SIZE} onClick={(): null => null} />}
                 />,
             ).container,
         ).toMatchSnapshot();
@@ -209,6 +220,54 @@ describe('RingDataGrid', () => {
 
             expect(await findByText('Nothing matches that filter')).toBeTruthy();
             expect(await findByText('Try a broader query.')).toBeTruthy();
+        });
+    });
+
+    describe('getRowDataTestId', () => {
+        const countedRows: GridRowsProp = [
+            { id: 1, title: 'One' },
+            { id: 2, title: 'Two' },
+            { id: 3, title: 'Three' },
+        ];
+        const countedColumns: GridColDef[] = [
+            { field: 'title', renderCell: (): React.JSX.Element => <MountCountingCell /> },
+        ];
+
+        function renderGrid(prefix: string): React.JSX.Element {
+            return (
+                <RingDataGrid
+                    rows={countedRows}
+                    columns={countedColumns}
+                    totalRowCount={countedRows.length}
+                    getRowDataTestId={(row): string => `${prefix}-${row.id as number}`}
+                />
+            );
+        }
+
+        it('keeps rows and cells mounted when an inline callback is recreated on every render', () => {
+            cellMounts = 0;
+            const { rerender } = render(renderGrid('row'));
+
+            rerender(renderGrid('row'));
+            rerender(renderGrid('row'));
+            rerender(renderGrid('row'));
+
+            expect(cellMounts).toBe(countedRows.length);
+        });
+
+        it('applies the latest callback to the rows after a re-render', () => {
+            cellMounts = 0;
+            const { rerender, getByTestId, queryByTestId } = render(renderGrid('row'));
+
+            expect(getByTestId('row-1')).toBeTruthy();
+
+            rerender(renderGrid('renamed'));
+
+            expect(getByTestId('renamed-1')).toBeTruthy();
+            expect(getByTestId('renamed-2')).toBeTruthy();
+            expect(getByTestId('renamed-3')).toBeTruthy();
+            expect(queryByTestId('row-1')).toBeNull();
+            expect(cellMounts).toBe(countedRows.length);
         });
     });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { act, render, fireEvent, within } from '@testing-library/react';
+import { Trash2 } from 'lucide-react';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { MultimediaGrid } from '../../../../src/index.js';
 import { GridRowSelectionModel } from '@mui/x-data-grid-pro';
 
@@ -430,5 +431,157 @@ describe('MultimediaGrid selection parameters', () => {
         fireEvent.click(checkboxes[0]);
 
         expect(mockOnSelectionChange).toHaveBeenCalledWith(['1'], expect.any(Object));
+    });
+});
+
+describe('MultimediaGrid toolbar', () => {
+    const items = [
+        { id: '1', title: 'Item 1' },
+        { id: '2', title: 'Item 2' },
+    ];
+    const labels = {
+        results: 'Results',
+        refresh: 'Refresh',
+        enableAutoRefresh: 'Enable auto refresh',
+        disableAutoRefresh: 'Disable auto refresh',
+    };
+
+    beforeAll(() => {
+        global.ResizeObserver = ResizeObserverMock;
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
+    it('shows a pressed auto-refresh toggle and refreshes every refreshRate', () => {
+        vi.useFakeTimers();
+        const refreshItems = vi.fn();
+        const autoRefreshCallback = vi.fn();
+
+        const { getByTestId } = render(
+            <MultimediaGrid
+                items={items}
+                showRingToolbar={true}
+                labels={labels}
+                refreshItems={refreshItems}
+                autoRefresh={true}
+                refreshRate={1000}
+                autoRefreshCallback={autoRefreshCallback}
+            />,
+        );
+
+        const toggle = getByTestId('ring-datatoolbar-auto-refresh');
+        expect(toggle.getAttribute('aria-pressed')).toBe('true');
+
+        act(() => {
+            vi.advanceTimersByTime(1000);
+        });
+        expect(refreshItems).toHaveBeenCalledTimes(1);
+
+        fireEvent.click(toggle);
+        expect(autoRefreshCallback).toHaveBeenCalledWith(false);
+        expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('starts the auto-refresh toggle released with initialState.autoRefreshEnabled false', () => {
+        const { getByTestId } = render(
+            <MultimediaGrid
+                items={items}
+                showRingToolbar={true}
+                labels={labels}
+                refreshItems={vi.fn()}
+                autoRefresh={true}
+                initialState={{ autoRefreshEnabled: false }}
+                dataTestIdSuffix="media"
+            />,
+        );
+
+        expect(getByTestId('ring-datatoolbar-media-auto-refresh').getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('shows the sortField in the sort select instead of the first sortable field', () => {
+        const { getByTestId } = render(
+            <MultimediaGrid
+                items={items}
+                showRingToolbar={true}
+                labels={labels}
+                sortableFields={[
+                    { key: 'a', name: 'A' },
+                    { key: 'b', name: 'B' },
+                ]}
+                sortField="b"
+            />,
+        );
+
+        expect(within(getByTestId('ring-datatoolbar-sort-select')).getByRole('combobox').textContent).toBe('B');
+    });
+
+    it('calls refreshItems and refreshCallback when the refresh button is clicked', () => {
+        const refreshItems = vi.fn();
+        const refreshCallback = vi.fn();
+
+        const { getByRole } = render(
+            <MultimediaGrid
+                items={items}
+                showRingToolbar={true}
+                labels={labels}
+                refreshItems={refreshItems}
+                refreshCallback={refreshCallback}
+            />,
+        );
+
+        fireEvent.click(getByRole('button', { name: 'Refresh' }));
+
+        expect(refreshItems).toHaveBeenCalledTimes(1);
+        expect(refreshCallback).toHaveBeenCalledTimes(1);
+    });
+
+    it('disables the bulk actions while no item is selected', () => {
+        const { getByTestId } = render(
+            <MultimediaGrid
+                items={items}
+                showRingToolbar={true}
+                labels={labels}
+                enableBulkActions={true}
+                bulkActions={[{ tooltip: 'Delete', icon: <Trash2 />, onClick: vi.fn() }]}
+            />,
+        );
+
+        expect((getByTestId('ring-datatoolbar-bulk-item-0') as HTMLButtonElement).disabled).toBe(true);
+    });
+
+    it('runs a bulk action on the selected items and clears the selection on close', () => {
+        const onClick = vi.fn();
+        const onBulkActionsClose = vi.fn();
+        const onSelectionModelChange = vi.fn();
+
+        const { getByTestId, getByText } = render(
+            <MultimediaGrid
+                items={items}
+                totalRowCount={2}
+                showRingToolbar={true}
+                labels={labels}
+                enableBulkActions={true}
+                bulkActions={[{ tooltip: 'Delete', icon: <Trash2 />, onClick }]}
+                onBulkActionsClose={onBulkActionsClose}
+                selectionModel={{ type: 'include', ids: new Set(['1']) }}
+                onSelectionModelChange={onSelectionModelChange}
+            />,
+        );
+
+        const action = getByTestId('ring-datatoolbar-bulk-item-0') as HTMLButtonElement;
+        expect(action.disabled).toBe(false);
+        expect(getByText('1/2')).toBeTruthy();
+
+        fireEvent.click(action);
+        expect(onClick).toHaveBeenCalledWith(
+            expect.objectContaining({ selectedRows: ['1'], allSelected: false }),
+            expect.anything(),
+        );
+
+        fireEvent.click(getByTestId('ring-datatoolbar-bulk-close'));
+        expect(onSelectionModelChange).toHaveBeenLastCalledWith({ type: 'include', ids: new Set() }, expect.anything());
+        expect(onBulkActionsClose).toHaveBeenCalledTimes(1);
     });
 });

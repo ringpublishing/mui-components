@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
 import { EditableText } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithLabel } from './stories/WithLabel.js';
-import { WithSubmitFailure } from './stories/WithSubmitFailure.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithLabel as WithLabelStory } from './stories/WithLabel.js';
+import { WithSubmitFailure as WithSubmitFailureStory } from './stories/WithSubmitFailure.js';
 import defaultArgs from './common/defaultArgs.js';
 import EditableTextMdx from './EditableText.mdx';
 
@@ -82,4 +82,6 @@ const meta: Meta<typeof EditableText> = {
 
 export default meta;
 
-export { Default, WithLabel, WithSubmitFailure };
+export const Default = DefaultStory;
+export const WithLabel = { ...WithLabelStory, name: 'Label' };
+export const WithSubmitFailure = { ...WithSubmitFailureStory, name: 'Submit failure' };

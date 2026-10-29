@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 import { LightBox } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { SingleImage } from './stories/SingleImage.js';
-import { WithInfiniteScroll } from './stories/WithInfiniteScroll.js';
-import { WithCustomDownloadImage } from './stories/WithCustomDownloadImage.js';
-import { WithHideDownloadIcon } from './stories/WithHideDownloadIcon.js';
-import { WithDetail } from './stories/WithDetail.js';
-import { WithInitialImageId } from './stories/WithInitialImageId.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { SingleImage as SingleImageStory } from './stories/SingleImage.js';
+import { WithInitialImageId as WithInitialImageIdStory } from './stories/WithInitialImageId.js';
+import { WithInfiniteScroll as WithInfiniteScrollStory } from './stories/WithInfiniteScroll.js';
+import { WithHideDownloadIcon as WithHideDownloadIconStory } from './stories/WithHideDownloadIcon.js';
+import { WithCustomDownloadImage as WithCustomDownloadImageStory } from './stories/WithCustomDownloadImage.js';
+import { WithDetail as WithDetailStory } from './stories/WithDetail.js';
 import LightBoxMDX from './LightBox.mdx';
 
 const meta: Meta<typeof LightBox> = {
@@ -126,7 +126,7 @@ const meta: Meta<typeof LightBox> = {
         },
         dataTestIdSuffix: {
             control: 'text',
-            description: 'Optional suffix for generated test id (base: ring-light-box).',
+            description: 'Appended to `ring-lightbox`; the image is `-image`.',
             table: {
                 category: 'customization',
                 type: { summary: 'string' },
@@ -137,12 +137,10 @@ const meta: Meta<typeof LightBox> = {
 
 export default meta;
 
-export {
-    Default,
-    SingleImage,
-    WithInfiniteScroll,
-    WithCustomDownloadImage,
-    WithHideDownloadIcon,
-    WithDetail,
-    WithInitialImageId,
-};
+export const Default = DefaultStory;
+export const SingleImage = { ...SingleImageStory, name: 'Single image' };
+export const WithInitialImageId = { ...WithInitialImageIdStory, name: 'Initial image ID' };
+export const WithInfiniteScroll = { ...WithInfiniteScrollStory, name: 'Infinite scroll' };
+export const WithHideDownloadIcon = { ...WithHideDownloadIconStory, name: 'Download icon hidden' };
+export const WithCustomDownloadImage = { ...WithCustomDownloadImageStory, name: 'Download — custom handler' };
+export const WithDetail = { ...WithDetailStory, name: 'Detail panel' };

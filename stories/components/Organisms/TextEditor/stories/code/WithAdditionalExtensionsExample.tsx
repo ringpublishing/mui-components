@@ -8,10 +8,10 @@ import {
     TextField,
 } from '@ringpublishing/mui-components';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { CodeOutlined } from '@mui/icons-material';
+import { Code } from 'lucide-react';
 import { Extension } from '@tiptap/react';
 import { Heading } from '@tiptap/extension-heading';
-import { Code } from '@tiptap/extension-code';
+import { Code as CodeExtension } from '@tiptap/extension-code';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 const sampleText = `
@@ -75,12 +75,12 @@ export default function WithAdditionalExtensionsExample(): React.JSX.Element {
         <div style={{ width: '600px' }}>
             <TextEditor
                 content={sampleText}
-                extensions={[Heading as Extension, Code]}
+                extensions={[Heading as Extension, CodeExtension]}
                 menuControls={[
                     <TextEditorMenuSelectHeading levels={[1, 2, 3, 4, 5, 6]} key={'heading'} />,
                     <TextEditorMenuToggleButton
                         key={'code'}
-                        icon={<CodeOutlined />}
+                        icon={<Code />}
                         onClick={(editor): boolean => editor.chain().focus().toggleCode().run()}
                         active={(editor): boolean => editor.isActive('code')}
                         disabled={(editor): boolean => !editor.can().chain().focus().toggleCode().run()}

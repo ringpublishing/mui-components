@@ -4,45 +4,40 @@ import {
     DetailDescriptionItemFieldLayout,
     DetailDescriptionItemFieldType,
     EditableFieldType,
+    CopyIconButton,
+    type DetailBottomAction,
+    type DetailDescriptionItem,
 } from '@ringpublishing/mui-components';
-import type { DetailDescriptionItem, DetailBottomAction } from '@ringpublishing/mui-components';
-import {
-    ContentCopy,
-    Download,
-    EditOutlined,
-    InfoOutlined,
-    PrintOutlined,
-    Public,
-    UploadOutlined,
-    Web,
-} from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Download, Pencil, Info, Printer, Globe, Upload } from 'lucide-react';
+import { Box, useTheme } from '@mui/material';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 export default function DefaultExample(): React.JSX.Element {
+    const theme = useTheme();
+
     const bottomActions: DetailBottomAction[] = [
         {
-            name: 'ACTION WITH URL',
+            name: 'Action with URL',
             url: 'https://video.onet.pl/',
-            icon: <Web />,
+            icon: <Globe />,
         },
         {
-            name: 'ACTION WITH ON CLICK',
+            name: 'Action with on click',
             onClick: (): void => undefined,
             icon: <Download />,
         },
         {
-            name: 'ACTION WITHOUT ICON',
+            name: 'Action without icon',
             onClick: (): void => undefined,
         },
     ];
 
     const descriptionItems: DetailDescriptionItem[] = [
         {
-            sectionTitle: 'SECTION ONE',
+            sectionTitle: 'Section one',
             fields: [
                 {
-                    name: 'DESCRIPTION',
+                    name: 'Description',
                     type: DetailDescriptionItemFieldType.DESCRIPTION,
                     maxLength: 100,
                     layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -53,33 +48,33 @@ export default function DefaultExample(): React.JSX.Element {
                         'ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 },
                 {
-                    icon: <Public />,
-                    name: 'WITH ICON',
+                    icon: <Globe />,
+                    name: 'With icon',
                     value: 'Published',
                 },
                 {
                     formatDate: true,
-                    name: 'DATE FORMATTED',
+                    name: 'Date formatted',
                     value: '2023-07-27T09:32:09Z',
                 },
                 {
                     formatDate: false,
-                    name: 'DATE NOT FORMATTED',
+                    name: 'Date not formatted',
                     value: '2023-08-31T21:59:59Z',
                 },
                 {
-                    name: 'ICONS',
+                    name: 'Icons',
                     value: '',
-                    icon: [<Web key={'0'} />, <Public key={'1'} />],
+                    icon: [<Globe key={'0'} />, <Globe key={'1'} />],
                 },
                 {
-                    name: 'EDITABLE',
+                    name: 'Editable',
                     value: 'Editable value',
                     type: DetailDescriptionItemFieldType.EDITABLE,
                     onSubmit: (): Promise<boolean> => Promise.resolve(true),
                 },
                 {
-                    name: 'EDITABLE SELECT',
+                    name: 'Editable select',
                     value: 'option2',
                     type: DetailDescriptionItemFieldType.EDITABLE,
                     fieldType: EditableFieldType.SELECT,
@@ -95,40 +90,40 @@ export default function DefaultExample(): React.JSX.Element {
         {
             fields: [
                 {
-                    name: 'LIST OF STRINGS',
+                    name: 'List of strings',
                     value: ['string 1', 'string 2'],
                 },
                 {
-                    name: 'SINGLE STRING',
+                    name: 'Single string',
                     value: 'string value',
                 },
                 {
-                    name: 'NO VALUE',
+                    name: 'No value',
                     value: '',
                 },
                 {
-                    name: 'WITH LINK',
+                    name: 'With link',
                     value: '#Learn_more',
                     url: 'https://design.ringpublishing.com/',
                 },
                 {
-                    name: 'NUMBER',
+                    name: 'Number',
                     value: '10',
                 },
                 {
-                    name: 'SINGLE CHIP',
+                    name: 'Single chip',
                     type: DetailDescriptionItemFieldType.CHIPS,
                     value: 'chip value',
                 },
                 {
-                    name: 'LIST OF CHIPS',
+                    name: 'List of chips',
                     type: DetailDescriptionItemFieldType.CHIPS,
                     value: ['chip 1', 'chip 2', 'chip 3'],
                     collapsable: true,
                 },
                 {
                     layout: DetailDescriptionItemFieldLayout.VERTICAL,
-                    name: 'LIST OF CUSTOMISED CHIPS',
+                    name: 'List of customised chips',
                     type: DetailDescriptionItemFieldType.CHIPS,
                     value: [
                         {
@@ -136,18 +131,18 @@ export default function DefaultExample(): React.JSX.Element {
                             value: 'chip with onClick',
                         },
                         {
-                            badgeColor: '#00a7ee',
+                            badgeColor: theme.palette.primary.main,
                             value: 'chip with color',
                         },
                     ],
                 },
             ],
-            sectionTitle: 'SECTION TWO',
+            sectionTitle: 'Section two',
         },
         {
             fields: [
                 {
-                    name: 'WITH SUBVALUE',
+                    name: 'With subvalue',
                     subValue: {
                         label: '',
                         value: 'John Doe',
@@ -156,21 +151,18 @@ export default function DefaultExample(): React.JSX.Element {
                 },
                 {
                     layout: DetailDescriptionItemFieldLayout.VERTICAL,
-                    name: 'IDENTIFIER (UUID)',
+                    name: 'Identifier (UUID)',
                     value: '1234-5432-2334-1234-5432-2334',
                     icon: (
-                        <ContentCopy
-                            onClick={(): void => undefined}
-                            sx={{
-                                color: '#00A7EE',
-                                fontSize: '1.7rem',
-                                cursor: 'pointer',
-                            }}
+                        <CopyIconButton
+                            size="small"
+                            value="1234-5432-2334-1234-5432-2334"
+                            onCopied={(): void => undefined}
                         />
                     ),
                 },
             ],
-            sectionTitle: 'SECTION THREE',
+            sectionTitle: 'Section three',
         },
     ];
 
@@ -179,25 +171,25 @@ export default function DefaultExample(): React.JSX.Element {
             bottomIcons: [
                 {
                     type: 'icon' as const,
-                    icon: <InfoOutlined />,
+                    icon: <Info />,
                     onClick: (): void => undefined,
                     tooltip: 'Info',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <EditOutlined />,
+                    icon: <Pencil />,
                     onClick: (): void => undefined,
                     tooltip: 'Edit',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <PrintOutlined />,
+                    icon: <Printer />,
                     onClick: (): void => undefined,
                     tooltip: 'Print',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <UploadOutlined />,
+                    icon: <Upload />,
                     onClick: (): void => undefined,
                     tooltip: 'Upload',
                 },
@@ -205,7 +197,7 @@ export default function DefaultExample(): React.JSX.Element {
             imageFullScreenPreview: true,
             image: {
                 src: getImagePath(TestImage.CAR, ImageSize.LARGE),
-                title: TestImage.CAR,
+                title: 'The rear of an orange vintage car parked under a wooden carport',
             },
             objectFit: 'cover' as const,
             ratio: '4/3',

@@ -5,7 +5,7 @@ import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import WithMediaToolbarHandlersExampleCode from './code/WithMediaToolbarHandlersExample.tsx?raw';
 import { Detail } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof Detail>;
 
@@ -28,7 +28,7 @@ const Example = (): React.JSX.Element => {
                             imageFullScreenPreview: true,
                             image: {
                                 src: getImagePath(TestImage.CAR, ImageSize.LARGE),
-                                title: TestImage.CAR,
+                                title: 'The rear of an orange vintage car parked under a wooden carport',
                             },
                             enableDownloadIcon: showDownload,
                             handleImageDownload: action('handleImageDownload'),
@@ -42,7 +42,6 @@ const Example = (): React.JSX.Element => {
 };
 
 export const WithMediaToolbarHandlers: Story = {
-    name: 'With Media Toolbar Handlers',
     parameters: {
         docs: {
             description: {

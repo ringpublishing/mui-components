@@ -1,26 +1,20 @@
 import type { Theme } from '@mui/material';
 
 /**
- * Returns a per-property `sx` function that resolves to the correct typography value
- * based on `theme.typographyMode`.
- *
- * - `rem` mode (default): returns the provided rem value as-is.
- * - `legacy-px` mode: converts rem to px (base 16px), e.g. `'0.75rem'` → `'12px'`.
- *   Intended for apps that still set `html { font-size: 62.5% }` globally (1rem = 10px)
- *   and cannot yet migrate to the standard rem scale.
- *
- * **Important:** per-property functions are only called by MUI for top-level `sx` properties.
- * Inside nested CSS selectors always use immediate invocation: `tv('1rem')(theme)`.
+ * Returns a per-property `sx` function that yields `remValue` as-is in the `rem` typography mode
+ * and converted to px (base 16px, so `'0.75rem'` → `'12px'`) in the `deprecated-px` mode, for apps
+ * with `html { font-size: 62.5% }`. It works at any depth of an `sx` object; call it immediately
+ * (`tv('1rem')(theme)`) where a plain value is required, e.g. in `styled()` or a theme override.
  *
  * @example
- * // ✅ top-level sx property — MUI calls the function directly:
+ * // top-level sx property:
  * sx={{ fontSize: tv('0.75rem') }}
  *
- * // ✅ nested CSS selector — must use immediate invocation:
- * sx={(theme) => ({ '& p': { fontSize: tv('1.25rem')(theme) } })}
- *
- * // ❌ nested CSS selector — per-property function NOT called by MUI:
+ * // nested CSS selector:
  * sx={{ '& p': { fontSize: tv('1.25rem') } }}
+ *
+ * // plain value needed (styled, theme overrides):
+ * sx={(theme) => ({ '& p': { fontSize: tv('1.25rem')(theme) } })}
  *
  * @param remValue - Target value in rem, e.g. `'0.75rem'`
  */

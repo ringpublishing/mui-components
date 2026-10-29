@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
 import { Ranges } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithInitialState } from './stories/WithInitialState.js';
-import { WithApiRef } from './stories/WithApiRef.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithInitialState as WithInitialStateStory } from './stories/WithInitialState.js';
+import { WithApiRef as WithApiRefStory } from './stories/WithApiRef.js';
 import defaultArgs from './common/defaultArgs.js';
 import RangesMdx from './Ranges.mdx';
 
@@ -92,4 +92,6 @@ const meta: Meta<typeof Ranges> = {
 
 export default meta;
 
-export { Default, WithInitialState, WithApiRef };
+export const Default = DefaultStory;
+export const WithInitialState = { ...WithInitialStateStory, name: 'Initial state' };
+export const WithApiRef = { ...WithApiRefStory, name: 'Control via apiRef' };

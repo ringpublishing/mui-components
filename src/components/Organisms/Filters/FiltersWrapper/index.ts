@@ -1,2 +1,2 @@
-export * from './FiltersWrapper.js';
-export * from './filtersWrapperTheme.js';
+export { FiltersWrapper, type FiltersWrapperProps } from './FiltersWrapper.js';
+export { SizeEnum, VariantEnum } from './filtersWrapperTheme.js';

@@ -1,11 +1,11 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { EditOutlined, InfoOutlined, PrintOutlined, UploadOutlined } from '@mui/icons-material';
+import { Pencil, Info, Printer, Upload } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import WithBottomIconButtonsExampleCode from './code/WithBottomIconButtonsExample.tsx?raw';
 import { Detail } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof Detail>;
 
@@ -19,23 +19,23 @@ export const WithBottomIconButtons: Story = {
             mediaProps: {
                 bottomIcons: [
                     {
-                        icon: <InfoOutlined />,
+                        icon: <Info />,
                         onClick: action('Info clicked'),
                         tooltip: 'Information',
                     },
                     {
-                        icon: <EditOutlined />,
+                        icon: <Pencil />,
                         onClick: action('Edit clicked'),
                         tooltip: 'Edit',
                     },
                     {
-                        icon: <PrintOutlined />,
+                        icon: <Printer />,
                         onClick: action('Print clicked'),
                         tooltip: 'Print',
                     },
                     {
                         type: 'icon',
-                        icon: <UploadOutlined />,
+                        icon: <Upload />,
                         onClick: action('Upload clicked'),
                         tooltip: 'Upload',
                     },
@@ -50,7 +50,7 @@ export const WithBottomIconButtons: Story = {
         },
         descriptionItems: [
             {
-                sectionTitle: 'INFORMATION',
+                sectionTitle: 'Information',
                 fields: [
                     {
                         name: 'Description',

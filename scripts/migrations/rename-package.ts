@@ -9,7 +9,7 @@ async function main(): Promise<void> {
     await runMigration(
         {
             title: `${OLD_PACKAGE_NAME} → ${NEW_PACKAGE_NAME} Migration Tool`,
-            description: `This script will rewrite all import statements that reference '${OLD_PACKAGE_NAME}' to use '${NEW_PACKAGE_NAME}'. Subpath imports are preserved.`,
+            description: `This script will rewrite all import statements that reference '${OLD_PACKAGE_NAME}' to use '${NEW_PACKAGE_NAME}'. The '/icons', '/tree-dynamic-loading' and '/package.json' subpaths are preserved; any other subpath (e.g. '/dist/…') is rewritten to the package root.`,
             steps: [
                 'Find all .js, .jsx, .ts, .tsx files in the directory',
                 `Replace static imports: from '${OLD_PACKAGE_NAME}' → from '${NEW_PACKAGE_NAME}'`,

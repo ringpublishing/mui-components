@@ -3,8 +3,9 @@ import { useComments } from './CommentsContextApi.js';
 import { CommentContainer } from './CommentContainer.js';
 import { CommentActions } from './CommentActions.js';
 import { Alert, CardContent, CardHeader, CircularProgress, IconButton, TextField, Typography } from '@mui/material';
-import { DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { Trash2, Pencil } from 'lucide-react';
 import type { CommentItemProps } from './comments.types.js';
+import { DEFAULT_LUCIDE_ICON_SIZE, getLucideSizeFromFontSize } from '../../../helpers/lucideSize.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
 export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
@@ -29,8 +30,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
     const isEdit = currentEditingId === id;
     const isSubmitDisabled = textValue.length < minLength || textValue === previewTextValue.current || isPending;
 
-    const itemDataTestIdSuffix = dataTestIdSuffix ? `${dataTestIdSuffix}-${id}` : String(id);
-    const dataTestId = useRingDataTestId('comments', itemDataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Comments', dataTestIdSuffix, 'item', id);
 
     const onEditClick = useCallback((): void => {
         setEditingId(id);
@@ -97,7 +97,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
 
         return (
             <IconButton onClick={onDeleteClick} data-testid={`${dataTestId}-delete`}>
-                {isPending ? <CircularProgress size={20} /> : <DeleteOutline />}
+                {isPending ? <CircularProgress size={20} /> : <Trash2 size={DEFAULT_LUCIDE_ICON_SIZE} />}
             </IconButton>
         );
     };
@@ -113,7 +113,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                         size="small"
                         sx={{ mt: -1, color: (theme) => theme.palette.primary.main }}
                     >
-                        <EditOutlined fontSize="small" />
+                        <Pencil size={getLucideSizeFromFontSize('small')} />
                     </IconButton>
                 )}
                 {isEdit && (

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Button } from '@mui/material';
-import { DoNotDisturb, ImportExport, RocketLaunch } from '@mui/icons-material';
+import { Ban, ArrowUpDown, Rocket } from 'lucide-react';
 
 import { ActionBox, ActionBoxItem } from '@ringpublishing/mui-components';
 
@@ -11,7 +11,7 @@ export default function DefaultExample(): React.JSX.Element {
         {
             label: 'Action 1',
             onClick: () => null,
-            icon: <RocketLaunch />,
+            icon: <Rocket />,
             hasSeparatorAfter: true,
         },
         {
@@ -19,7 +19,7 @@ export default function DefaultExample(): React.JSX.Element {
             onClick: () => null,
             disabled: true,
             disabledReason: 'Disabled because of some reason',
-            icon: <DoNotDisturb />,
+            icon: <Ban />,
         },
         {
             label: 'Action 3',
@@ -28,7 +28,7 @@ export default function DefaultExample(): React.JSX.Element {
         {
             label: 'Action 4',
             onClick: () => null,
-            icon: <ImportExport />,
+            icon: <ArrowUpDown />,
             hasSeparatorBefore: true,
         },
     ];

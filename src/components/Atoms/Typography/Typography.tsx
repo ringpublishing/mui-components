@@ -43,13 +43,16 @@ export function OverflowTypography(props: OverflowTypographyProps): React.JSX.El
     const overflowTypography = (
         <MuiTypography
             {...typographyProps}
-            sx={{
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                width: '100%',
-                ...typographyProps.sx,
-            }}
+            // `sx` may be a theme callback or an array, which an object spread would silently drop.
+            sx={[
+                {
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    width: '100%',
+                },
+                ...(Array.isArray(typographyProps.sx) ? typographyProps.sx : [typographyProps.sx]),
+            ]}
             ref={textRef}
             {...(typographyProps.dangerouslySetInnerHTML
                 ? { dangerouslySetInnerHTML: typographyProps.dangerouslySetInnerHTML }

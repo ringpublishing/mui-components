@@ -9,6 +9,7 @@ SearchBox is a lightweight search component that provides a simple search input 
 
 - Debounced search input with customizable delay
 - Clearable input with optional clear button
+- Two sizes, `small` (32px) and `medium` (40px), the same as TextField, Select and Autocomplete
 - Supports both controlled and uncontrolled modes
 - Customizable labels and styling
 
@@ -16,7 +17,9 @@ SearchBox is a lightweight search component that provides a simple search input 
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Controlled Mode](#controlled-mode)
+- [Sizes](#sizes)
+- [Long value](#long-value)
+- [Controlled](#controlled)
 
 ## Default
 
@@ -28,7 +31,21 @@ The default SearchBox configuration with debounced search functionality and clea
 
 <ArgTypes />
 
-## Controlled Mode
+## Sizes
+
+A SearchBox, a TextField and an Autocomplete of the same `size` are the same height, so they stand on one line in a
+toolbar or a filter bar: 32px in `small`, 40px in `medium`. Typing a query and clearing it leave the height unchanged.
+
+<Canvas of={Stories.Sizes} />
+
+## Long value
+
+A query longer than the box. The input keeps it on one line and cuts it off before the clear button, which stays
+at the right edge at its full size.
+
+<Canvas of={Stories.WithLongValue} />
+
+## Controlled
 
 A controlled SearchBox implementation, where the input value and its changes are managed by the parent component. This pattern is recommended for scenarios requiring validation, state synchronization, or integration with complex business logic.
 

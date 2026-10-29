@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback, FunctionComponent } fr
 import classNames from 'classnames';
 
 import { AppBar, Box, Drawer, DrawerProps, IconButton, Stack, useTheme, useMediaQuery } from '@mui/material';
-import { CloseOutlined, FilterList, InfoOutlined, MoreVert } from '@mui/icons-material';
+import { X, ListFilter, Info, EllipsisVertical } from 'lucide-react';
 
 import { Action } from '../../../types.js';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
@@ -10,9 +10,12 @@ import { SearchBar, SearchBarProps } from '../../Molecules/SearchBar/SearchBar.j
 import { ControlledSearchBoxProps } from '../../Molecules/SearchBox/SearchBox.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { DETAIL_WIDTH } from '../../Organisms/Detail/Detail.js';
-import { DataViewProvider, useDataViewContext } from './DataViewContext.js';
+import { DataViewProvider, useDataViewContext } from '../../internal/DataViewContext.js';
 import { BottomBarProvider } from '../../internal/BottomBar/BottomBarContext.js';
 import BottomBarContainer, { BottomBarSlotProps } from '../../internal/BottomBar/BottomBarContainer.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { resolveMoreActionsAriaLabel } from '../../../helpers/moreActionsAriaLabel.js';
 
 const LOCAL_STORAGE_LEFT_SLOT_WIDTH_KEY = 'ring-dataview-left-slot-width';
 
@@ -30,12 +33,18 @@ function readStoredLeftSlotWidth(): number {
 
 export type TopSlotProps = SearchBarProps & {
     /**
-     * Additional actions for MoreVert IconButton in TopSlot
+     * Additional actions for EllipsisVertical IconButton in TopSlot
      */
     menuActions?: Action[];
 
     /**
-     * Labels for open slots on mobile actions in MoreVert IconButton in TopSlot
+     * Accessible name of the EllipsisVertical IconButton in TopSlot. A blank value counts as not provided.
+     * @default 'More actions'
+     */
+    menuActionsAriaLabel?: string;
+
+    /**
+     * Labels for open slots on mobile actions in EllipsisVertical IconButton in TopSlot
      */
     openSlotsOnMobileLabels?: {
         leftSlot?: string;
@@ -176,12 +185,15 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         onScreenSizeChange,
         className,
         sx,
+        dataTestIdSuffix,
         isMobileLeftSlotOpen: controlledMobileLeftSlotOpen,
         onMobileLeftSlotOpen,
         isMobileRightSlotOpen: controlledMobileRightSlotOpen,
         onMobileRightSlotOpen,
         showLeftSlotToggleButton = true,
     } = props;
+
+    const dataTestId = useRingDataTestId('DataView', dataTestIdSuffix);
 
     const leftSlotDynamicWidthEnabled = props.leftSlotDynamicWidth?.enabled || false;
     const leftSlotDynamicWidthMinWidth = props.leftSlotDynamicWidth?.minWidth || 220;
@@ -354,13 +366,13 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
 
     const openRightSlotAction: Action = {
         label: slotProps?.top?.openSlotsOnMobileLabels?.rightSlot || '',
-        icon: <InfoOutlined />,
+        icon: <RingLucideIcon icon={Info} fontSize="small" />,
         onClick: () => setMobileRightSlotOpen(!isMobileRightSlotOpen),
     };
 
     const openLeftSlotAction: Action = {
         label: slotProps?.top?.openSlotsOnMobileLabels?.leftSlot || '',
-        icon: <FilterList />,
+        icon: <RingLucideIcon icon={ListFilter} fontSize="small" />,
         onClick: () => setMobileLeftSlotOpen(!isMobileLeftSlotOpen),
     };
 
@@ -378,9 +390,18 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         ...React.Children.toArray(slotProps?.top?.children),
         ...(menuActions.length > 0
             ? [
-                  <IconButton key={'menu-actions'} ref={moreActionsButtonRef} aria-label="More actions">
-                      <MoreVert />
-                      <ActionBox actions={menuActions} anchorEl={moreActionsButtonRef} />
+                  <IconButton
+                      key={'menu-actions'}
+                      ref={moreActionsButtonRef}
+                      aria-label={resolveMoreActionsAriaLabel(slotProps?.top?.menuActionsAriaLabel)}
+                      data-testid={`${dataTestId}-actions`}
+                  >
+                      <RingLucideIcon icon={EllipsisVertical} fontSize="small" />
+                      <ActionBox
+                          actions={menuActions}
+                          anchorEl={moreActionsButtonRef}
+                          dataTestId={`${dataTestId}-actions-menu`}
+                      />
                   </IconButton>,
               ]
             : []),
@@ -388,11 +409,12 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
             ? [
                   <IconButton
                       key={'right-slot-open'}
+                      data-testid={`${dataTestId}-toggle-right-slot`}
                       onClick={(): void => handleSetRightSlotOpen(!rightSlotOpen)}
                       aria-label={rightSlotOpen ? 'Close details' : 'Open details'}
                       aria-pressed={rightSlotOpen}
                   >
-                      <InfoOutlined />
+                      <RingLucideIcon icon={Info} fontSize="small" />
                   </IconButton>,
               ]
             : []),
@@ -401,6 +423,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
     return (
         <Stack
             direction="row"
+            data-testid={dataTestId}
             sx={{ width: '100%', height: '100%', ...sx }}
             className={classNames('ring-dataview', className)}
         >
@@ -409,6 +432,9 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                 sx={{
                     width: !isMobile && slots.right && rightSlotOpen ? `calc(100% - ${DETAIL_WIDTH}px)` : '100%',
                     height: '100%',
+                    // Without it the row cannot shrink below the grid's content, and the right slot's 1px
+                    // border pushes the view past its container.
+                    minWidth: 0,
                 }}
             >
                 {slots.left &&
@@ -427,7 +453,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                                 sx={{
                                     borderRightStyle: 'solid',
                                     borderWidth: '1px',
-                                    borderColor: (theme) => theme.palette.components.dataview.border,
+                                    borderColor: (theme) => theme.palette.divider,
                                 }}
                             >
                                 <Box width={leftSlotResizedWidth} ref={leftSlotRef} sx={{ position: 'relative' }}>
@@ -470,7 +496,11 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                         ))}
                     <Box sx={{ flex: '1 1 auto', overflow: 'auto' }}>{slots.main}</Box>
                     <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white' }}>
-                        <BottomBarContainer bottomBar={props.slots?.bottom} slotProps={props.slotProps?.bottom} />
+                        <BottomBarContainer
+                            bottomBar={props.slots?.bottom}
+                            slotProps={props.slotProps?.bottom}
+                            dataTestId={`${dataTestId}-bottom-bar`}
+                        />
                     </Box>
                 </Stack>
             </Stack>
@@ -492,7 +522,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                             width: rightSlotOpen ? `${DETAIL_WIDTH}px` : '0px',
                             borderLeftStyle: 'solid',
                             borderWidth: '1px',
-                            borderColor: (theme) => theme.palette.components.dataview.border,
+                            borderColor: (theme) => theme.palette.divider,
                             overflow: 'hidden',
                         }}
                     >
@@ -513,7 +543,8 @@ export function DataView(props: DataViewProps): React.JSX.Element {
     );
 }
 
-interface RingDrawerProps extends DrawerProps, CommonComponentProps {
+/** Props of `RingDrawer`, the drawer DataView opens its detail in. */
+export interface RingDrawerProps extends DrawerProps, CommonComponentProps {
     onClose: () => void;
 }
 
@@ -524,10 +555,13 @@ export function RingDrawer(props: RingDrawerProps): React.JSX.Element {
         <Drawer className="ring-drawer" transitionDuration={500} {...otherProps} onClose={onClose}>
             <AppBar sx={{ alignItems: 'flex-start', position: 'static' }}>
                 <IconButton onClick={onClose} aria-label="Close">
-                    <CloseOutlined />
+                    <RingLucideIcon icon={X} fontSize="small" />
                 </IconButton>
             </AppBar>
             {children}
         </Drawer>
     );
 }
+
+export type { BottomBarApiRef } from '../../internal/BottomBar/BottomBarContext.js';
+export type { BottomBarSlotProps } from '../../internal/BottomBar/BottomBarContainer.js';

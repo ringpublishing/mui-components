@@ -3,13 +3,13 @@ import { DataView } from '../../../../src/index.js';
 import { DefaultDataViewArgs } from './common/defaultArgs.js';
 import DataViewMDX from './DataView.mdx';
 
-import { Default } from './stories/Default.js';
-import { WithBottomBarSelection } from './stories/WithBottomBarSelection.js';
-import { WithSelectionMode } from './stories/WithSelectionMode.js';
-import { WithDynamicWidthFilter } from './stories/WithDynamicWidthFilter.js';
-import { WithoutDetailAndFilter } from './stories/WithoutDetailAndFilter.js';
-import { WithMultimediaGrid } from './stories/WithMultimediaGrid.js';
-import { WithAutocompleteFilters } from './stories/WithAutocompleteFilters.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithoutDetailAndFilter as WithoutDetailAndFilterStory } from './stories/WithoutDetailAndFilter.js';
+import { WithDynamicWidthFilter as WithDynamicWidthFilterStory } from './stories/WithDynamicWidthFilter.js';
+import { WithSelectionMode as WithSelectionModeStory } from './stories/WithSelectionMode.js';
+import { WithBottomBarSelection as WithBottomBarSelectionStory } from './stories/WithBottomBarSelection.js';
+import { WithAutocompleteFilters as WithAutocompleteFiltersStory } from './stories/WithAutocompleteFilters.js';
+import { WithMultimediaGrid as WithMultimediaGridStory } from './stories/WithMultimediaGrid.js';
 
 const meta = {
     component: DataView,
@@ -41,13 +41,14 @@ const meta = {
         slotProps: {
             control: 'object',
             description:
-                'Allows passing props to the slot components. Top slot accepts children, menuActions and openSlotsOnMobileLabels. ' +
+                'Allows passing props to the slot components. Top slot accepts children, menuActions, menuActionsAriaLabel ' +
+                '(accessible name of the menu button, default `More actions`) and openSlotsOnMobileLabels. ' +
                 'Bottom slot accepts BottomBarSlotProps.',
             table: {
                 category: 'customization',
                 type: {
                     summary:
-                        '{ top?: { children?: React.JSX.Element[]; menuActions?: Action[]; ' +
+                        '{ top?: { children?: React.JSX.Element[]; menuActions?: Action[]; menuActionsAriaLabel?: string; ' +
                         'openSlotsOnMobileLabels?: { leftSlot?: string; rightSlot?: string; }; }; bottom?: BottomBarSlotProps; }',
                 },
             },
@@ -202,12 +203,10 @@ const meta = {
 
 export default meta;
 
-export {
-    Default,
-    WithDynamicWidthFilter,
-    WithoutDetailAndFilter,
-    WithMultimediaGrid,
-    WithAutocompleteFilters,
-    WithSelectionMode,
-    WithBottomBarSelection,
-};
+export const Default = DefaultStory;
+export const WithoutDetailAndFilter = { ...WithoutDetailAndFilterStory, name: 'No filter or detail panel' };
+export const WithDynamicWidthFilter = { ...WithDynamicWidthFilterStory, name: 'Dynamic width filter' };
+export const WithSelectionMode = { ...WithSelectionModeStory, name: 'Selection mode' };
+export const WithBottomBarSelection = { ...WithBottomBarSelectionStory, name: 'Selection — MultimediaGrid' };
+export const WithAutocompleteFilters = { ...WithAutocompleteFiltersStory, name: 'Autocomplete filters' };
+export const WithMultimediaGrid = { ...WithMultimediaGridStory, name: 'MultimediaGrid in main slot' };

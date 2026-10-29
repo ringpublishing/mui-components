@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { Delete, Edit, MoreVert } from '@mui/icons-material';
+import { Trash2, Pencil, EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import { createCodeStory } from '../../../../helpers.js';
 import CustomCellsExampleCode from './code/CustomCellsExample.tsx?raw';
@@ -31,7 +31,7 @@ export const CustomCells: Story = {
         autoRefreshCallback: action('autoRefreshCallback'),
         additionalComponent: (
             <IconButton onClick={action('filter click')}>
-                <MoreVert />
+                <EllipsisVertical />
             </IconButton>
         ),
         enableBulkActions: true,
@@ -39,12 +39,12 @@ export const CustomCells: Story = {
             {
                 tooltip: 'Delete',
                 onClick: action('delete'),
-                icon: <Delete />,
+                icon: <Trash2 />,
             },
             {
                 tooltip: 'Edit',
                 onClick: action('edit'),
-                icon: <Edit />,
+                icon: <Pencil />,
             },
         ],
         getRowHeight: (): 'auto' => 'auto',
@@ -59,7 +59,7 @@ export const CustomCells: Story = {
         args.onBulkActionsClose = (): void => setEnableBulkActions(false);
         args.additionalComponent = (
             <IconButton onClick={(): void => setEnableBulkActions(!enableBulkActions)}>
-                <MoreVert />
+                <EllipsisVertical />
             </IconButton>
         );
 

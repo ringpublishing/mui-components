@@ -1,45 +1,56 @@
 import React, { useRef } from 'react';
-import { Button } from '@mui/material';
-import { DoNotDisturb, RocketLaunch } from '@mui/icons-material';
+import { Box, Button, PopperPlacementType } from '@mui/material';
+import { Copy, Pencil, Share2 } from 'lucide-react';
 
 import { ActionBox, ActionBoxItem } from '@ringpublishing/mui-components';
 
-export default function PopperPlacementExample(): React.JSX.Element {
+const actions: ActionBoxItem[] = [
+    { label: 'Edit', onClick: () => null, icon: <Pencil /> },
+    { label: 'Duplicate', onClick: () => null, icon: <Copy /> },
+    { label: 'Share', onClick: () => null, icon: <Share2 /> },
+];
+
+// The `right-*` buttons sit on the left and the `left-*` buttons on the right, so every menu opens towards the middle
+// and stays on screen.
+const placements: PopperPlacementType[] = [
+    'top-start',
+    'top-end',
+    'bottom-start',
+    'bottom-end',
+    'right-start',
+    'right-end',
+    'left-start',
+    'left-end',
+];
+
+function PlacementButton({ placement }: { placement: PopperPlacementType }): React.JSX.Element {
     const ref = useRef<HTMLButtonElement | null>(null);
 
-    const actions: ActionBoxItem[] = [
-        {
-            label: 'Action 1',
-            onClick: () => null,
-            icon: <RocketLaunch />,
-        },
-        {
-            label: 'Action 2',
-            onClick: () => null,
-            disabled: true,
-            disabledReason: 'Disabled because of some reason',
-            icon: <DoNotDisturb />,
-        },
-    ];
-
     return (
-        <div
-            style={{
-                display: 'flex',
+        <>
+            <Button ref={ref} variant="outlined" color="primary" size="small">
+                {placement}
+            </Button>
+            <ActionBox actions={actions} anchorEl={ref} placement={placement} />
+        </>
+    );
+}
+
+export default function PopperPlacementExample(): React.JSX.Element {
+    return (
+        <Box
+            sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, max-content)',
                 justifyContent: 'center',
-                alignItems: 'center',
+                gap: 2,
+                pt: 18,
+                pb: 14,
             }}
         >
-            <Button data-testid="action-box-trigger" variant="outlined" color="primary" ref={ref}>
-                Click me!
-            </Button>
-            <ActionBox
-                actions={actions}
-                anchorEl={ref}
-                placement="left-start"
-                tooltipPlacement="left"
-                disablePortal={true}
-            />
-        </div>
+            {placements.map((placement) => (
+                <PlacementButton key={placement} placement={placement} />
+            ))}
+        </Box>
     );
 }

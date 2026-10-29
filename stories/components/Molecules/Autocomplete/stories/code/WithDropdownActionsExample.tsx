@@ -1,6 +1,6 @@
 import React from 'react';
 import { Autocomplete, Action } from '@ringpublishing/mui-components';
-import { ManageSearch } from '@mui/icons-material';
+import { Search } from 'lucide-react';
 
 interface Option {
     label: string;
@@ -19,7 +19,7 @@ export default function WithDropdownActionsExample(): React.JSX.Element {
 
     const actions: Action[] = [
         {
-            icon: <ManageSearch />,
+            icon: <Search />,
             onClick: () => console.log('Settings clicked'),
             disabled: false,
             label: 'Settings',

@@ -97,7 +97,7 @@ describe('Component: DataView', () => {
 
         expect(queryByTestId('ring-search-bar')).toBeNull();
     });
-    it('should not render left and right slots when document is 500px wide', () => {
+    it('should not render left and right slots on mobile when drawers are closed', () => {
         const mockProps = {
             slots: {
                 main: <div>Grid</div>,
@@ -112,13 +112,17 @@ describe('Component: DataView', () => {
             },
         };
 
-        const customContainer = document.createElement('div');
-        customContainer.style.width = '500px';
-        const { getByText } = renderDataView(mockProps, { container: customContainer });
-        waitFor(() => {
-            expect(getByText('Left Slot')).toThrow();
-            expect(getByText('Right Slot')).toThrow();
-        });
+        const useMediaQueryMock = useMediaQuery as ReturnType<typeof vi.fn>;
+        useMediaQueryMock.mockReturnValue(true);
+
+        try {
+            const { queryByText } = renderDataView(mockProps);
+
+            expect(queryByText('Left Slot')).toBeNull();
+            expect(queryByText('Right Slot')).toBeNull();
+        } finally {
+            useMediaQueryMock.mockReturnValue(undefined);
+        }
     });
 
     it('should call setRightSlotOpen when open right slot icon is clicked', () => {
@@ -139,11 +143,36 @@ describe('Component: DataView', () => {
             setRightSlotOpen: setRightSlotOpenMock,
         };
 
-        const { getByTestId } = renderDataView(mockProps);
+        const { getByLabelText } = renderDataView(mockProps);
 
-        fireEvent.click(getByTestId('InfoOutlinedIcon'));
+        fireEvent.click(getByLabelText('Close details'));
 
         expect(setRightSlotOpenMock).toHaveBeenCalledWith(false);
+    });
+
+    it('names the top slot actions menu button "More actions" by default', () => {
+        const { getByRole } = renderDataView({
+            slots: { main: <div>Grid</div> },
+            slotProps: { top: { defaultValue: '', searchFunc: vi.fn(), menuActions: [{ label: 'Export' }] } },
+        });
+
+        expect(getByRole('button', { name: 'More actions' })).toBeTruthy();
+    });
+
+    it('takes the top slot actions menu button name from menuActionsAriaLabel', () => {
+        const { getByRole } = renderDataView({
+            slots: { main: <div>Grid</div> },
+            slotProps: {
+                top: {
+                    defaultValue: '',
+                    searchFunc: vi.fn(),
+                    menuActions: [{ label: 'Export' }],
+                    menuActionsAriaLabel: 'View options',
+                },
+            },
+        });
+
+        expect(getByRole('button', { name: 'View options' })).toBeTruthy();
     });
 
     describe('Left Slot toggle functionality', () => {
@@ -166,7 +195,7 @@ describe('Component: DataView', () => {
             expect(container).toMatchSnapshot();
 
             expect(getByText('Left Slot Component')).toBeDefined();
-            const toggleButton = getByTestId('toggle-left-slot-button');
+            const toggleButton = getByTestId('ring-datatoolbar-toggle-left-slot');
 
             fireEvent.click(toggleButton);
             expect(queryByText('Left Slot Component')).toBeNull();
@@ -182,7 +211,7 @@ describe('Component: DataView', () => {
             };
             const { queryByTestId } = renderDataView(propsWithoutToggle);
 
-            expect(queryByTestId('toggle-left-slot-button')).toBeNull();
+            expect(queryByTestId('ring-datatoolbar-toggle-left-slot')).toBeNull();
         });
     });
 
@@ -199,11 +228,11 @@ describe('Component: DataView', () => {
             onMobileRightSlotOpen: onMobileRightSlotOpenMock,
         };
 
-        const { getByTestId } = renderDataView(mockProps);
+        const { getByTestId, getByLabelText } = renderDataView(mockProps);
 
         expect(getByTestId('right-slot-content')).toBeDefined();
 
-        fireEvent.click(getByTestId('CloseOutlinedIcon'));
+        fireEvent.click(getByLabelText('Close'));
         expect(onMobileRightSlotOpenMock).toHaveBeenCalledWith(false);
     });
 
@@ -228,9 +257,9 @@ describe('Component: DataView', () => {
                 children: <div>Children</div>,
             };
 
-            const { getByTestId } = render(<RingDrawer {...mockProps} />);
+            const { getByLabelText } = render(<RingDrawer {...mockProps} />);
 
-            fireEvent.click(getByTestId('CloseOutlinedIcon'));
+            fireEvent.click(getByLabelText('Close'));
 
             expect(onCloseMock).toHaveBeenCalled();
         });

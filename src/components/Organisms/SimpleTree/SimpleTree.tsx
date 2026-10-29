@@ -1,30 +1,34 @@
 import { SimpleTreeView } from '@mui/x-tree-view';
-import React, { Suspense, lazy, useMemo, useState } from 'react';
-// `import type { … }` is required (over `type X = import(...).Y`) so esbuild's
-// TS transform reliably erases the import — otherwise Vite's optional-peer-dep
-// plugin replaces `@tanstack/react-query` with a stub at module load time and
-// the static path crashes when the package is not installed.
-import type { QueryClient } from '@tanstack/react-query';
+import React, { Suspense, useMemo, useState } from 'react';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
-import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
+import { WithItemDataTestId } from '../../../helpers/dataTestId.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { SearchBoxField } from '../../Molecules/SearchBox/SearchBox.js';
 import {
     filterTreeItems,
     readLocalStorage,
     TreePersistenceConfig,
+    TreeQueryClient,
     useTreeExpansion,
     useWriteTreeState,
-} from '../treeShared.js';
-import { TreeSkeleton } from '../TreeSkeleton.js';
+} from '../../internal/tree/treeShared.js';
+import { TreeSkeleton } from '../../internal/tree/TreeSkeleton.js';
+import { getTreeDynamicComponent } from '../../internal/tree/treeDynamicRegistry.js';
 import { SimpleTreeItemComponent } from './SimpleTreeItem.js';
 
-export type { TreePersistenceConfig };
+export type { TreePersistenceConfig, TreeQueryClient };
 
-export interface SimpleTreeItem {
+export interface SimpleTreeItem extends WithItemDataTestId {
     itemId: string;
     label: string;
     items?: SimpleTreeItem[];
     expanded?: boolean;
     element?: React.JSX.Element;
+    /**
+     * Loads this item's children the first time it is expanded and caches them; do not combine it with `items`, which
+     * take precedence while `loadItems` still runs. Requires `@tanstack/react-query` and one call to
+     * `enableTreeDynamicLoading()` from `@ringpublishing/mui-components/tree-dynamic-loading`.
+     */
     loadItems?: (item: SimpleTreeItem) => Promise<SimpleTreeItem[]> | SimpleTreeItem[];
     /**
      * Always show the label tooltip on hover, regardless of whether the label overflows.
@@ -41,6 +45,11 @@ export interface SimpleTreeProps extends CommonComponentProps {
     items: SimpleTreeItem[];
     onExpand?: (itemId: string) => void;
     onClickRow?: (itemId: string) => void;
+    /**
+     * Shows a search box that filters the rows by label and expands them so every match is visible. A row toggled
+     * during a search keeps its state until the query is cleared, which restores the rows expanded before the search.
+     * @default false
+     */
     withSearch?: boolean;
     searchDebounceTime?: number;
     searchPlaceholder?: string;
@@ -48,28 +57,17 @@ export interface SimpleTreeProps extends CommonComponentProps {
     onSelectedItemsChange?: (itemIds: string[]) => void;
     persistence?: TreePersistenceConfig;
     /**
-     * Optional external `QueryClient` for dynamic-loading (`loadItems`).
-     * Only consulted when at least one item exposes `loadItems`; passing this
-     * implicitly opts the tree into the dynamic code path.
+     * Optional external `QueryClient` for dynamic loading (`loadItems`). Only used when at least
+     * one item has `loadItems`; ignored for fully static trees.
      */
-    queryClient?: QueryClient;
+    queryClient?: TreeQueryClient;
     /**
-     * Namespaces query keys for this tree instance. Required when multiple trees of the same
-     * type share an external `queryClient` (e.g. two `SimpleTree`s on the same page) or when
-     * the tree is mounted inside a tab that can unmount/remount — otherwise two instances may
-     * collide on the same cache entry. When omitted, a stable per-mount ID is used
-     * (safe for the default internal-client case).
+     * Namespaces this tree's query keys in an external `queryClient`; ignored without one. Defaults to an id that
+     * changes on every mount, so pass a value unique among the trees sharing the client when a remounted tree (e.g.
+     * inside a tab) should reuse its cached children.
      */
     queryKeyPrefix?: string;
 }
-
-/**
- * Lazily-loaded TanStack-Query–backed implementation. The dynamic chunk owns
- * the `QueryClientProvider`, the `useQuery`-driven items, and the optional
- * cache hydration / persistence. Bundlers split it into a separate file that
- * is fetched only when a tree contains at least one item with `loadItems`.
- */
-const SimpleTreeDynamicLazy = lazy(() => import('./SimpleTreeDynamic.js'));
 
 function hasAnyDynamicItem(items: SimpleTreeItem[]): boolean {
     for (const item of items) {
@@ -109,6 +107,8 @@ function SimpleTreeStatic(props: SimpleTreeProps): React.JSX.Element {
         className,
         dataTestIdSuffix,
     } = props;
+
+    const dataTestId = useRingDataTestId('SimpleTree', dataTestIdSuffix);
 
     const cacheKey = persistence?.cacheKey;
     const restoreExpandedItems = persistence?.restoreExpandedItems;
@@ -161,6 +161,7 @@ function SimpleTreeStatic(props: SimpleTreeProps): React.JSX.Element {
 
     return (
         <SimpleTreeView
+            data-testid={dataTestId}
             expansionTrigger="iconContainer"
             expandedItems={expandedItems}
             selectedItems={effectiveSelectedItem}
@@ -174,15 +175,13 @@ function SimpleTreeStatic(props: SimpleTreeProps): React.JSX.Element {
             className={className}
         >
             {withSearch && (
-                <SearchBox
+                <SearchBoxField
                     defaultValue=""
                     searchFunc={setSearch}
                     debounceTime={searchDebounceTime}
+                    isBorderless={true}
                     sx={{
-                        height: '40px',
-                        borderRadius: '4px',
                         marginY: 1,
-                        border: 'none',
                         paddingLeft: '8px',
                     }}
                     labels={{ placeholder: searchPlaceholder }}
@@ -212,9 +211,12 @@ export const SimpleTree = (props: SimpleTreeProps): React.JSX.Element => {
         return <SimpleTreeStatic {...props} />;
     }
 
+    // TanStack-Query–backed implementation, available once `enableTreeDynamicLoading()` ran and fetched on first use.
+    const SimpleTreeDynamic = getTreeDynamicComponent('simpleTree');
+
     return (
         <Suspense fallback={<TreeSkeleton variant="simple" />}>
-            <SimpleTreeDynamicLazy {...props} />
+            <SimpleTreeDynamic {...props} />
         </Suspense>
     );
 };

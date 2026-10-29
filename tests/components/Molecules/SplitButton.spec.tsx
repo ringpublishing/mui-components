@@ -49,10 +49,10 @@ describe('Components: SplitButton', () => {
     });
 
     it('should render component with all actions visible after click on dropdown', () => {
-        const { container, getByTestId, getByText } = render(<SplitButton actions={actions} />);
+        const { container, getByLabelText, getByText } = render(<SplitButton actions={actions} />);
 
         act(() => {
-            fireEvent.click(getByTestId('ArrowDropDownIcon'));
+            fireEvent.click(getByLabelText('split button dropdown'));
         });
 
         expect(getByText('Additional Action 1')).toBeDefined();
@@ -81,10 +81,10 @@ describe('Components: SplitButton', () => {
     });
 
     it('should call additional action on click', () => {
-        const { getByText, getByTestId } = render(<SplitButton actions={actions} />);
+        const { getByText, getByLabelText } = render(<SplitButton actions={actions} />);
 
         act(() => {
-            fireEvent.click(getByTestId('ArrowDropDownIcon'));
+            fireEvent.click(getByLabelText('split button dropdown'));
         });
 
         act(() => {
@@ -96,9 +96,9 @@ describe('Components: SplitButton', () => {
 
     // FIXME: There is a problem with this test after migrating from jest to vitest. To be investigated...
     it.skip('should close dropdown on click outside', async () => {
-        const { queryByText, getByTestId } = render(<SplitButton actions={actions} />);
+        const { queryByText, getByLabelText } = render(<SplitButton actions={actions} />);
 
-        fireEvent.click(getByTestId('ArrowDropDownIcon'));
+        fireEvent.click(getByLabelText('split button dropdown'));
 
         // necessary due to the way clickAwayListener works
         act(() => {

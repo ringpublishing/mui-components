@@ -4,6 +4,7 @@ const defaultArgs: Partial<SearchBoxProps> = {
     defaultValue: '',
     debounceTime: 500,
     withClearButton: false,
+    size: 'medium',
     labels: {
         placeholder: 'Search',
         clear: 'Clear',

@@ -29,7 +29,7 @@ export const Comments: React.FC<CommentsProps> = (props) => {
         dataTestIdSuffix,
     } = props;
 
-    const dataTestId = useRingDataTestId('comments', dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Comments', dataTestIdSuffix);
 
     return (
         <CommentsProvider

@@ -4,6 +4,7 @@ exports[`EditableText > should render correctly 1`] = `
 <div>
   <div
     class="ring-editabletext MuiBox-root css-ejgtp3"
+    data-testid="ring-editabletext"
   >
     <p
       class="MuiTypography-root MuiTypography-body1 css-1pzu09r-MuiTypography-root"
@@ -13,23 +14,35 @@ exports[`EditableText > should render correctly 1`] = `
     </p>
     <button
       aria-label="Edit"
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e0mpnn-MuiButtonBase-root-MuiIconButton-root"
       data-testid="ring-editabletext-edit"
       tabindex="0"
       type="button"
     >
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-        data-testid="EditOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
+      <span
+        class="ring-lucide-icon MuiBox-root css-94kk3y"
       >
-        <path
-          d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
-        />
-      </svg>
-       
+        <svg
+          aria-hidden="true"
+          class="lucide lucide-pencil"
+          fill="none"
+          height="1em"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+          />
+          <path
+            d="m15 5 4 4"
+          />
+        </svg>
+      </span>
     </button>
   </div>
 </div>

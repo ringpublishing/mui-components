@@ -1,6 +1,6 @@
-import { MoreVert, Save, Tune } from '@mui/icons-material';
 import React, { useCallback, useRef, useState } from 'react';
 import { ActionBox, ActionBoxItem, Autocomplete } from '@ringpublishing/mui-components';
+import { MoreVertical, Save, Settings2 } from 'lucide-react';
 
 interface Option {
     label: string;
@@ -22,7 +22,7 @@ export default function WithMenuListActionExample(): React.JSX.Element {
     const menuActions: ActionBoxItem[] = [
         {
             label: 'Show active results',
-            icon: <Tune />,
+            icon: <Settings2 />,
             onClick: (): void => undefined,
         },
         {
@@ -47,13 +47,13 @@ export default function WithMenuListActionExample(): React.JSX.Element {
                     actions: [
                         {
                             label: 'Configure results',
-                            icon: <Tune />,
+                            icon: <Settings2 />,
                             anchorRef: setAnchorRef,
                             onClick: configureResultsAction,
                         },
                         {
                             label: 'More results actions',
-                            icon: <MoreVert />,
+                            icon: <MoreVertical />,
                             onClick: moreResultsActionsAction,
                         },
                         {

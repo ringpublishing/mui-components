@@ -1,14 +1,90 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-166bxkn"
+    data-testid="ring-sortablelist"
+  >
+    <div
+      aria-disabled="false"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-1"
+      style="opacity: 1; cursor: grab;"
+    >
+      <div>
+        Value 1
+      </div>
+    </div>
+    <div
+      aria-disabled="false"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-2"
+      style="opacity: 1; cursor: grab;"
+    >
+      <div>
+        Value 2
+      </div>
+    </div>
+    <div
+      aria-disabled="false"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-3"
+      style="opacity: 1; cursor: grab;"
+    >
+      <div>
+        Value 3
+      </div>
+    </div>
+    <div
+      aria-disabled="false"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-4"
+      style="opacity: 1; cursor: grab;"
+    >
+      <div>
+        Value 4
+      </div>
+    </div>
+    <div
+      aria-disabled="false"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-5"
+      style="opacity: 1; cursor: grab;"
+    >
+      <div>
+        Value 5
+      </div>
+    </div>
+    <div
+      id="DndDescribedBy-3"
+      style="display: none;"
+    >
+      Drag an item with the pointer to reorder it.
+    </div>
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      id="DndLiveRegion-3"
+      role="status"
+      style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    />
+  </div>
+</div>
+`;
+
 exports[`SortableList > Should render correctly 1`] = `
 <div>
   <div
-    class="MuiBox-root css-0"
+    class="MuiBox-root css-1yrcydf"
+    data-testid="ring-sortablelist"
   >
     <div
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-1"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -23,6 +99,8 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-2"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -37,6 +115,8 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-3"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -51,6 +131,8 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-4"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -65,6 +147,8 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-5"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -79,16 +163,105 @@ exports[`SortableList > Should render correctly 1`] = `
       id="DndDescribedBy-0"
       style="display: none;"
     >
-      
-    To pick up a draggable item, press the space bar.
-    While dragging, use the arrow keys to move the item.
-    Press space again to drop the item in its new position, or press escape to cancel.
-  
+      To pick up an item, press the space bar. While dragging, use the arrow keys to move it. Press space again to drop it in its new position, or press escape to cancel.
     </div>
     <div
       aria-atomic="true"
       aria-live="assertive"
       id="DndLiveRegion-0"
+      role="status"
+      style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SortableList > Should render correctly with orientation="horizontal" 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-nojg7y"
+    data-testid="ring-sortablelist"
+  >
+    <div
+      aria-describedby="DndDescribedBy-2"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-1"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <div>
+        Value 1
+      </div>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-2"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-2"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <div>
+        Value 2
+      </div>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-2"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-3"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <div>
+        Value 3
+      </div>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-2"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-4"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <div>
+        Value 4
+      </div>
+    </div>
+    <div
+      aria-describedby="DndDescribedBy-2"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="MuiBox-root css-0"
+      data-testid="ring-sortablelist-item-5"
+      role="button"
+      style="opacity: 1; cursor: grab;"
+      tabindex="0"
+    >
+      <div>
+        Value 5
+      </div>
+    </div>
+    <div
+      id="DndDescribedBy-2"
+      style="display: none;"
+    >
+      To pick up an item, press the space bar. While dragging, use the arrow keys to move it. Press space again to drop it in its new position, or press escape to cancel.
+    </div>
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      id="DndLiveRegion-2"
       role="status"
       style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
     />

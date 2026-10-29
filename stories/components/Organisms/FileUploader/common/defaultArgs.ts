@@ -5,7 +5,7 @@ const defaultArgs: Partial<FileUploaderProps> = {
     labels: {
         dropzone: 'Drag and drop file to add or',
         hint: 'PDF, DOC, DOCX (max. 10MB)',
-        uploadButton: 'upload from disk',
+        uploadButton: 'Upload from disk',
         description: 'You can upload PDF, DOC and DOCX file formats.',
         filesUploaded: '{uploaded} of {total} files uploaded',
     },

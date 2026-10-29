@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { SplitButton } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { CustomizationFromButtonGroupAPI } from './stories/CustomizationFromButtonGroupAPI.js';
-import { MainActionDisabled } from './stories/MainActionDisabled.js';
-import { WithOneAction } from './stories/WithOneAction.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithOneAction as WithOneActionStory } from './stories/WithOneAction.js';
+import { MainActionDisabled as MainActionDisabledStory } from './stories/MainActionDisabled.js';
+import { CustomizationFromButtonGroupAPI as CustomizationFromButtonGroupAPIStory } from './stories/CustomizationFromButtonGroupAPI.js';
 import defaultArgs from './common/defaultArgs.js';
 import SplitButtonMdx from './SplitButton.mdx';
 
@@ -97,4 +97,7 @@ const meta: Meta<typeof SplitButton> = {
 
 export default meta;
 
-export { Default, CustomizationFromButtonGroupAPI, MainActionDisabled, WithOneAction };
+export const Default = DefaultStory;
+export const WithOneAction = { ...WithOneActionStory, name: 'One action' };
+export const MainActionDisabled = { ...MainActionDisabledStory, name: 'Main action disabled' };
+export const CustomizationFromButtonGroupAPI = { ...CustomizationFromButtonGroupAPIStory, name: 'ButtonGroup props' };

@@ -1,19 +1,13 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { RingDataGrid as RingDataGridComponent, RingDataGridProps } from '../../../../../src/index.js';
+import { GRID_CONTAINER_SX } from './gridContainer.js';
 
 export function RingDataGridWrapper(props: RingDataGridProps, bulkActions = false): React.ReactElement {
     const [bulkActionsMode, setBulkActionsMode] = React.useState<boolean>(false);
 
     return (
-        <div
-            style={{
-                minWidth: '100%',
-                width: '100%',
-                padding: '20px',
-                height: '600px',
-            }}
-        >
+        <Box sx={GRID_CONTAINER_SX}>
             <RingDataGridComponent
                 rowHeight={35}
                 columnHeaderHeight={40}
@@ -32,6 +26,6 @@ export function RingDataGridWrapper(props: RingDataGridProps, bulkActions = fals
                       }
                     : {})}
             />
-        </div>
+        </Box>
     );
 }

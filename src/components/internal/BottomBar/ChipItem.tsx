@@ -2,7 +2,8 @@ import React from 'react';
 import { Chip, Avatar, Tooltip } from '@mui/material';
 import { GridRowId } from '@mui/x-data-grid';
 import { get } from 'lodash';
-import { Close, PhotoOutlined } from '@mui/icons-material';
+import { Image } from 'lucide-react';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 import { BottomBarSlotProps } from './BottomBarContainer.js';
 
 interface RowData {
@@ -39,7 +40,7 @@ export function ChipItem(props: ChipItemProps): React.JSX.Element {
                         <Avatar src={imageSrc} sx={{ borderRadius: '5px' }} />
                     ) : slotProps?.showImagePlaceholder ? (
                         <Avatar sx={{ backgroundColor: 'transparent' }}>
-                            <PhotoOutlined color="secondary" />
+                            <RingLucideIcon icon={Image} color="action" />
                         </Avatar>
                     ) : undefined
                 }
@@ -48,7 +49,6 @@ export function ChipItem(props: ChipItemProps): React.JSX.Element {
                 onDelete={(): void => onRemove(selectedRow.id)}
                 size="medium"
                 variant="filled"
-                deleteIcon={<Close />}
                 sx={{
                     marginRight: 1,
                     borderRadius: 1,

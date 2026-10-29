@@ -1,0 +1,202 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './Chip.stories.js';
+
+<Meta isTemplate />
+
+# Chip
+
+Chips are compact elements that represent an input, attribute or action. `Chip` is MUI's own
+component — the library exports no wrapper. The design system's look (surfaces, borders, the
+selected state, the `tag` variant and the delete glyph geometry) lives in the theme, so a plain
+`<Chip>` from `@mui/material` renders it under `ThemeConfig` with no code change.
+
+```tsx
+import { Chip } from '@mui/material';
+```
+
+## Key Features
+
+- `outlined` and `filled` variants on solid fills from the palette, with hover, focus and pressed
+  surfaces on clickable chips
+- a **selected** state, keyed on `Mui-selected` / `aria-pressed="true"` / `aria-selected="true"`
+- `variant="tag"` — a non-interactive label in ten tag colours, the four semantic colours and
+  `neutral`
+- semantic `filled` colours as tinted alert surfaces
+- lucide's `X` as the default delete glyph, pinned to a 16px / 20px box next to a truncated label
+- `small` by default; colours resolved from the palette, so light and dark mode both work
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [The three kinds](#the-three-kinds)
+- [Variants](#variants)
+- [Tags](#tags)
+- [Sizes](#sizes)
+- [Semantic colours](#semantic-colours)
+- [States](#states)
+- [Selected](#selected)
+- [Disabled](#disabled)
+- [Clickable](#clickable)
+- [Deletable](#deletable)
+- [Icon](#icon)
+- [Avatar](#avatar)
+- [Tooltip](#tooltip)
+- [Long labels](#long-labels)
+- [Status labels](#status-labels)
+- [Filter chips](#filter-chips)
+- [Outside the design system](#outside-the-design-system)
+
+## Default
+
+Without props a chip is `filled`, `small` and `color="default"` — MUI's defaults, with the theme's
+`small`.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## The three kinds
+
+|         | Outlined                                                   | Filled                                         | Tag                                                                                                                                                 |
+| ------- | ---------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| sizes   | medium (32px), small (24px)                                | small                                          | small only — `size="medium"` is ignored                                                                                                             |
+| colours | default                                                    | default, `error`, `warning`, `info`, `success` | `neutral` (default), `error`, `warning`, `info`, `success`, `stone`, `sky`, `azure`, `lavender`, `blush`, `coral`, `peach`, `lemon`, `sage`, `teal` |
+| corners | pill                                                       | pill                                           | 4px                                                                                                                                                 |
+| states  | enabled, hovered, focused, pressed, disabled, **selected** | the same                                       | enabled only (and disabled)                                                                                                                         |
+| slots   | avatar or icon, delete glyph                               | the same                                       | icon, delete glyph                                                                                                                                  |
+
+Every colour comes from the palette — the chip tokens, the tag palette and the alert surfaces —
+so the same code renders the dark variant under the dark theme. Combinations outside this table
+are listed under [Outside the design system](#outside-the-design-system).
+
+## Variants
+
+`outlined` and `filled` share one border colour; `filled` adds the solid fill. `tag` is a label:
+small, square corners, no interactive states.
+
+<Canvas of={Stories.Variants} />
+
+## Tags
+
+`variant="tag"` is for labelling, not for input or actions: always the small chip, 4px corners,
+a 1px border, and no hover, focus or pressed surface. Ten colours come from `palette.tag`, four
+from the alert surfaces, `ai` is the AI surface, and `neutral` (the default) is an outline with
+secondary text. A tag may
+carry an `icon` and an `onDelete`; both take the tag's text colour.
+
+<Canvas of={Stories.Tags} />
+
+## Sizes
+
+<Canvas of={Stories.Sizes} />
+
+## Semantic colours
+
+`color="error" | "warning" | "info" | "success"` on a `filled` chip is the colour's alert surface
+with a border in the `light` step, primary text and `dark` glyphs. The outlined variant of these
+colours is not defined by the design and keeps MUI's look.
+
+<Canvas of={Stories.SemanticColors} />
+
+## States
+
+Outlined in both sizes, filled, and filled in a semantic colour. The hovered and pressed columns
+are live — hover and hold them. Focus is painted for keyboard focus only (MUI sets
+`Mui-focusVisible` for the keyboard, not the mouse); the focused column forces the class.
+
+<Canvas of={Stories.States} />
+
+## Selected
+
+MUI's `Chip` has no `selected` prop. The theme styles the class MUI uses for its own lists,
+`Mui-selected`, and the two ARIA attributes that already mean "selected": `aria-pressed="true"`
+for a toggle (a filter chip) and `aria-selected="true"` for an option. Set the class **and** the
+attribute, so the state is announced as well as painted.
+
+<Canvas of={Stories.Selected} />
+
+## Disabled
+
+Disabled chips keep full opacity and take their surface, border, text and glyph colours from the
+`action.disabled*` and `text.disabled` tokens.
+
+<Canvas of={Stories.Disabled} />
+
+## Clickable
+
+A chip with `onClick` (or `clickable`) reacts to hover, keyboard focus and press with the fills from
+the design. A chip that only has `onDelete` reacts on its glyph, not on the whole surface.
+
+<Canvas of={Stories.Clickable} />
+
+## Deletable
+
+A chip with `onDelete` shows lucide's `X`: the theme makes it the default `deleteIcon`, so chips
+you render yourself show it too and MUI's own `CancelIcon` does not appear. The theme pins the glyph
+to a 16px (`small`) / 20px (`medium`) box, so it keeps its size next to a label truncated by
+`maxWidth`, and paints it in `action.active`. Any other icon passed as `deleteIcon` takes the same
+box. A chip whose label can be truncated always gets a `Tooltip` with the full text: the ellipsis hides
+exactly the part the user came for.
+
+<Canvas of={Stories.Deletable} />
+
+## Icon
+
+The `icon` slot is sized by the theme: 20px in `medium`, 16px in `small` and in a `tag`. Any
+lucide icon works, with or without `RingLucideIcon`.
+
+<Canvas of={Stories.WithIcon} />
+
+## Avatar
+
+<Canvas of={Stories.WithAvatar} />
+
+## Tooltip
+
+The Ring `Tooltip` (themed, with the arrow, an optional `subTitle` and `hint`) wraps a chip like
+any other element. Use it for context behind a short label, and always for a label that can be
+truncated: the ellipsis hides exactly the part the user came for.
+
+<Canvas of={Stories.WithTooltip} />
+
+## Long labels
+
+A label longer than the chip is truncated with an ellipsis and the delete glyph keeps its full
+size: the theme pins the `deleteIcon` slot to a 16px / 20px box, so
+`Autocomplete`, `ChipsGroup`, the DataView bottom bar and chips rendered with `renderChip` all
+behave the same. Give a truncated label its full text in a `Tooltip`.
+
+<Canvas of={Stories.LongLabels} />
+
+## Status labels
+
+`MediaCard` and `Media` draw status labels over the image as tags, `error` being the default
+colour. The semantic colours render as the colour's tag — an opaque pastel plate with a coloured
+border and dark text, legible over a photograph. `primary`, `secondary` and `default` render as
+the grey `stone` tag. `MediaCard` keeps its labels at 16px with 12px text and a 1px icon stroke;
+`Media` uses the tag's native 24px. A label is at most 40% of the card wide and a longer text is
+cut with an ellipsis; pass the full text in `tip` and it shows in a tooltip on hover.
+
+<Canvas of={Stories.StatusLabels} />
+
+## Filter chips
+
+Filter chips in `ChipsGroup` and selected values in `Autocomplete` are plain `Chip`s and take the
+surfaces, the border and the glyph box as they are.
+
+<Canvas of={Stories.FilterChips} />
+
+## Outside the design system
+
+These combinations compile and render, but with MUI's own look, so they will not match a design.
+Use the alternative instead:
+
+| instead of                                   | use                                         |
+| -------------------------------------------- | ------------------------------------------- |
+| `color="primary"` / `color="secondary"` chip | a default chip; selected state for emphasis |
+| `variant="outlined"` in a semantic colour    | the filled chip of that colour, or a tag    |
+| a tag colour on an outlined or filled chip   | `variant="tag"` with that colour            |
+| `size="medium"` on a tag                     | nothing — tags are always small             |

@@ -71,8 +71,9 @@ Brief description of the component.
 
 ## Quick Navigation
 
-- [Section 1](#section-1)
+- [Default](#default)
 - [Component API](#component-api)
+- [Dynamic width filter](#dynamic-width-filter)
 
 ## Default
 
@@ -82,11 +83,11 @@ Brief description of the component.
 
 <ArgTypes />
 
-## StoryName
+## Dynamic width filter
 
 Description and examples...
 
-<Canvas of={Stories.StoryName} />
+<Canvas of={Stories.DynamicWidthFilter} />
 ```
 
 ## Step 3: Create Individual Story Files
@@ -169,8 +170,8 @@ export default function DefaultExample(): React.JSX.Element {
 ```typescript
 import type { Meta } from '@storybook/react-vite';
 import { YourComponent, YourComponentSize } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { StoryName } from './stories/StoryName.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { DynamicWidthFilter as DynamicWidthFilterStory } from './stories/DynamicWidthFilter.js';
 import defaultArgs from './common/defaultArgs.js';
 import YourComponentMDX from './YourComponent.mdx';
 
@@ -248,8 +249,26 @@ const meta = {
 
 export default meta;
 
-export { Default, StoryName };
+export const Default = DefaultStory;
+export const DynamicWidthFilter = { ...DynamicWidthFilterStory, name: 'Dynamic width filter' };
 ```
+
+### Story names
+
+Name a story so the sidebar reads like a table of contents: "Dynamic width filter", not
+"WithDynamicWidthFilter". A story keeps its PascalCase export and file name, because the story id and `Stories.X` are built from them. Its
+display name is set here, in the list at the end of `YourComponent.stories.tsx`, and the sidebar shows the
+stories in the order of that list. The `##` heading above the story in the MDX repeats the name; a
+variant of a feature can sit under that feature's `##` as a `###` with its own name.
+
+A new story's export is named after its display name (`DynamicWidthFilter`), so its URL reads the same
+(`…--dynamic-width-filter`). An existing story keeps its export when it is renamed: a new export is a new
+story id, and links to the old one stop working. The exception is a story whose component moves to another level:
+its id changes anyway, so in the same release its export is named after its display name too.
+
+Names are in sentence case and British English, without "With" and without the component's name; `Default` comes first and
+the integration examples last. The full rules, and why a `name` written in `stories/<Story>.tsx` never
+reaches the sidebar, are in `.github/instructions/stories.instructions.md` under _Story names_.
 
 ### ArgTypes Categories
 
@@ -283,8 +302,8 @@ Common control types:
 // Component import (use relative path to src)
 import { YourComponent } from '../../../../../src/index.js';
 
-// Story imports (use relative paths with .js extension)
-import { Default } from './stories/Default.js';
+// Story imports (use relative paths with .js extension, under an alias: see Story names)
+import { Default as DefaultStory } from './stories/Default.js';
 import defaultArgs from './common/defaultArgs.js';
 
 // MDX import (no extension needed)

@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Box, Link, Typography, useTheme, SxProps } from '@mui/material';
+import React, { useRef, useState, useEffect } from 'react';
+import { alpha, Box, Link, Typography, useTheme, SxProps } from '@mui/material';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
+import { GetItemDataTestId, WithItemDataTestId, resolveItemDataTestId } from '../../../helpers/dataTestId.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
-export interface InputDataProps {
+export interface InputDataProps extends WithItemDataTestId {
     /**
      * Header label, visible on both sides
      */
@@ -21,7 +22,7 @@ export interface InputDataProps {
      */
     contentHeaderAction?: React.ReactNode | React.JSX.Element | string;
     /**
-     * Additional content rendered above the header on the left side
+     * Additional content rendered in the content panel, above the item's header.
      */
     beforeHeaderContent?: React.ReactNode | React.JSX.Element | string;
 
@@ -54,6 +55,11 @@ export interface ContentListProps extends CommonComponentProps {
      * Custom styles for the content container on the right side
      */
     containerSx?: SxProps;
+    /**
+     * Overrides the generated `data-testid` per item. Return `undefined` to keep the default
+     * `ring-contentlist[-<suffix>]-item-<index>`.
+     */
+    getItemDataTestId?: GetItemDataTestId<InputDataProps>;
 }
 
 export function ContentList({
@@ -62,28 +68,30 @@ export function ContentList({
     onHeaderClick,
     listHeader,
     dataTestIdSuffix,
+    getItemDataTestId,
     sx,
     className,
     containerSx = {},
 }: ContentListProps): React.JSX.Element {
     const contentRefs = useRef<(HTMLElement | null)[]>([]);
     const dataTestId = useRingDataTestId('ContentList', dataTestIdSuffix);
+    const itemDataTestId = (item: InputDataProps, index: number): string =>
+        resolveItemDataTestId({
+            componentName: 'ContentList',
+            listSuffix: dataTestIdSuffix,
+            index,
+            item,
+            override: getItemDataTestId?.(item, index),
+        });
     const containerRef = useRef<HTMLDivElement | null>(null);
     const containerListRef = useRef<HTMLDivElement | null>(null);
-    const listHeaderRef = useRef<HTMLDivElement | null>(null);
+    const navListRef = useRef<HTMLDivElement | null>(null);
+    const navItemRefs = useRef<(HTMLElement | null)[]>([]);
     const isInitializedRef = useRef<boolean>(false);
     const [selectedIndex, setSelectedIndex] = useState(selectedItemIndex);
-    const [listHeaderHeight, setListHeaderHeight] = useState(0);
+    const [highlight, setHighlight] = useState({ top: 0, height: 0 });
 
     const theme = useTheme();
-
-    const NAVIGATION_ITEM_HEIGHT = 48; // padding: 12px top + 12px bottom + ~24px line height
-    const CONTAINER_PADDING = parseFloat(theme.spacing(2)); // Box padding (p: 2)
-    const HEADER_MARGIN_BOTTOM = parseFloat(theme.spacing(2)); // listHeader margin bottom (mb: 2)
-
-    const headerOffset = useMemo(() => {
-        return listHeaderHeight > 0 ? listHeaderHeight + HEADER_MARGIN_BOTTOM : 0;
-    }, [listHeaderHeight, HEADER_MARGIN_BOTTOM]);
 
     useEffect(() => {
         if (contentRefs.current.length) {
@@ -91,49 +99,51 @@ export function ContentList({
         }
     }, [selectedItemIndex]);
 
+    // The highlight is measured off the selected item's own box rather than derived from a fixed
+    // row height. A label that wraps to a second line makes its row taller than the others, which
+    // a computed `index * rowHeight` cannot see: the marker would stop short of the wrapped row and
+    // every row below it would drift by the extra line.
     useEffect(() => {
-        const headerElement = listHeaderRef.current;
+        const list = navListRef.current;
         let rafId: number | null = null;
-        let resizeObserver: ResizeObserver | null = null;
 
-        if (!headerElement) {
-            setListHeaderHeight(0);
-
-            if (!isInitializedRef.current) {
-                rafId = requestAnimationFrame(() => {
-                    isInitializedRef.current = true;
-                });
-            }
-        } else {
-            setListHeaderHeight(headerElement.offsetHeight);
-
-            if (!isInitializedRef.current) {
-                rafId = requestAnimationFrame(() => {
-                    isInitializedRef.current = true;
-                });
-            }
-
-            resizeObserver = new ResizeObserver((entries) => {
-                const newHeight = entries[0]?.contentRect.height;
-
-                if (newHeight !== undefined) {
-                    setListHeaderHeight(newHeight);
-                }
-            });
-
-            resizeObserver.observe(headerElement);
+        if (!list) {
+            return undefined;
         }
+
+        const measure = (): void => {
+            const item = navItemRefs.current[selectedIndex];
+
+            if (!item) {
+                return;
+            }
+
+            // `offsetTop` is relative to the list, which is the offset parent, so it already
+            // carries the header and the container padding.
+            setHighlight({ top: item.offsetTop, height: item.offsetHeight });
+
+            if (!isInitializedRef.current) {
+                rafId = requestAnimationFrame(() => {
+                    isInitializedRef.current = true;
+                });
+            }
+        };
+
+        measure();
+
+        const resizeObserver = new ResizeObserver(measure);
+
+        resizeObserver.observe(list);
+        navItemRefs.current.forEach((item) => item && resizeObserver.observe(item));
 
         return () => {
             if (rafId !== null) {
                 cancelAnimationFrame(rafId);
             }
 
-            if (resizeObserver !== null) {
-                resizeObserver.disconnect();
-            }
+            resizeObserver.disconnect();
         };
-    }, [listHeader]);
+    }, [selectedIndex, inputData, listHeader]);
 
     const isItemListSelected = (index: number): boolean => {
         return selectedIndex === index;
@@ -141,7 +151,7 @@ export function ContentList({
 
     // check scroll position to select menu option
     useEffect(() => {
-        const handleScroll = () => {
+        const handleScroll = (): void => {
             if (contentRefs?.current.length) {
                 for (let index = 0; index < contentRefs.current.length; index++) {
                     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -159,7 +169,7 @@ export function ContentList({
             }
         };
 
-        const setContainerHeight = () => {
+        const setContainerHeight = (): void => {
             const parentHeight = containerListRef?.current?.parentElement?.offsetHeight || 0;
             const documentHeight = document.documentElement?.clientHeight || 0;
 
@@ -170,11 +180,15 @@ export function ContentList({
 
         setContainerHeight();
 
-        containerRef?.current?.addEventListener('scroll', handleScroll);
+        // Held in a local so the cleanup detaches from the node the listener was attached to,
+        // rather than whatever the ref points at by the time the effect tears down.
+        const scrollContainer = containerRef.current;
+
+        scrollContainer?.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', setContainerHeight);
 
         return () => {
-            containerRef?.current?.removeEventListener('scroll', handleScroll);
+            scrollContainer?.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', setContainerHeight);
         };
     }, []);
@@ -205,34 +219,37 @@ export function ContentList({
                     }}
                 >
                     <Box
+                        ref={navListRef}
                         sx={{
                             p: 2,
                             position: 'relative',
                             '&:before': {
                                 content: '""',
                                 width: `calc(100% - ${theme.spacing(4)})`,
-                                height: theme.spacing(6),
+                                height: `${highlight.height}px`,
                                 display: 'block',
                                 position: 'absolute',
-                                // @ts-expect-error FIXME - extended theme type should be exported from ring-mui-theme
-                                backgroundColor: theme.palette.primary.selected,
+                                backgroundColor: alpha(
+                                    theme.palette.primary.main,
+                                    theme.palette.action.selectedOpacity,
+                                ),
                                 borderRadius: 1,
-                                top: `${selectedIndex * NAVIGATION_ITEM_HEIGHT + CONTAINER_PADDING + headerOffset}px`,
+                                top: `${highlight.top}px`,
                                 transition: isInitializedRef.current ? 'all .3s' : 'none',
                             },
                         }}
                     >
-                        {listHeader && (
-                            <Box ref={listHeaderRef} sx={{ mb: 2 }}>
-                                {listHeader}
-                            </Box>
-                        )}
+                        {listHeader && <Box sx={{ mb: 2 }}>{listHeader}</Box>}
                         {inputData.map((item: InputDataProps, index: number) => (
                             <Link
                                 type="button"
                                 key={index}
+                                data-testid={`${itemDataTestId(item, index)}-nav`}
                                 component="button"
                                 variant="body1"
+                                ref={(node: HTMLElement | null): void => {
+                                    navItemRefs.current[index] = node;
+                                }}
                                 onClick={(): void => {
                                     const element = contentRefs?.current[index];
                                     const container = containerRef.current;
@@ -257,10 +274,13 @@ export function ContentList({
                                     padding: '12px 16px',
                                     display: 'block',
                                     width: '100%',
+                                    // A `<button>` centres its text by UA default, which only shows once a
+                                    // label wraps; the rest of the list is left-aligned.
+                                    textAlign: 'left',
                                     transition: 'all .2s ease-out',
                                     '&:hover': {
                                         backgroundColor:
-                                            selectedIndex === index ? 'transparent' : theme.palette.grey[50],
+                                            selectedIndex === index ? 'transparent' : theme.palette.action.hover,
                                         borderRadius: 1,
                                     },
                                 }}
@@ -285,9 +305,10 @@ export function ContentList({
 
                         return (
                             <Box
-                                ref={(ref) => {
+                                ref={(ref): void => {
                                     contentRefs.current[index] = ref as HTMLElement;
                                 }}
+                                data-testid={itemDataTestId(item, index)}
                                 sx={{
                                     maxWidth: '640px',
                                     margin: '0 auto',

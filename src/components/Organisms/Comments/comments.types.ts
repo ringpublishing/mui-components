@@ -23,7 +23,7 @@ export interface CommentsProps extends CommonComponentProps, WithDataTestIdSuffi
     onAdd?: OnAddType;
 }
 
-export interface CommentsLabels extends ActionsLabels {
+export interface CommentsLabels extends CommentsActionsLabels {
     placeholder: string;
     editing: string;
     modified: string;
@@ -100,7 +100,7 @@ export interface CommentActionsProps {
     dataTestId: string;
 }
 
-export interface ActionsLabels {
+export interface CommentsActionsLabels {
     cancel: string;
     add: string;
     update: string;

@@ -1,11 +1,12 @@
 import React from 'react';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
-import { DataToolbarBaseProps } from '../../internal/DataToolbar.js';
+import { GetItemDataTestId } from '../../../helpers/dataTestId.js';
+import { DataToolbarBaseProps } from './DataToolbar.js';
 import { FilterChip } from '../../internal/FilterChipGroup.js';
 import { MediaCardProps } from '../MediaCard/MediaCard.js';
 import { InfiniteScrollOptions } from './useInfiniteScroll.js';
 import { GridRowId, GridCallbackDetails } from '@mui/x-data-grid';
-import { MediaGridApi, MediaGridItemsProps } from './gridApi.js';
+import { MediaGridApi, MediaGridItemProps, MediaGridItemsProps } from './gridApi.js';
 import { GridRowSelectionModel } from '@mui/x-data-grid-pro';
 import { PlaceholderStateLabels } from '../../Molecules/Placeholder/Placeholder.js';
 
@@ -89,6 +90,12 @@ export type SelectionModelChangeHandler = (
 export interface MultimediaGridProps<TSlots extends MultimediaGridSlots = MultimediaGridSlots>
     extends DataToolbarBaseProps, CommonComponentProps, Pick<InfiniteScrollOptions, 'onLoadMore' | 'hasMore'> {
     items: MediaGridItemsProps;
+    /**
+     * Overrides the generated `data-testid` per item; return `undefined` to keep the default
+     * `ring-multimediagrid[-<suffix>]-item-<id>`. Use it when the items cannot carry `dataTestId`
+     * or `itemDataTestIdSuffix` themselves.
+     */
+    getItemDataTestId?: GetItemDataTestId<MediaGridItemProps>;
     rowVerticalPadding?: number;
     /** Number of columns */
     columns?: ResponsiveValue<number>;
@@ -141,14 +148,13 @@ export interface MultimediaGridProps<TSlots extends MultimediaGridSlots = Multim
      */
     disableSelection?: boolean;
     /**
-     * If `true`, the selection on click on an item is disabled.
-     * Similar to MUI DataGrid's disableRowSelectionOnClick.
-     * When enabled, only checkbox clicks will trigger selection.
+     * If `true`, clicking an item does not select it; only checkbox clicks trigger selection, like
+     * MUI DataGrid's `disableRowSelectionOnClick`.
      * @default false
      */
     disableSelectionOnClick?: boolean;
 
-    // Backward compatibility aliases - deprecated
+    // Deprecated aliases
     /** @deprecated Use selectionModel instead */
     rowSelectionModel?: GridRowId[];
     /** @deprecated Use onSelectionModelChange instead */
@@ -164,9 +170,8 @@ export interface MultimediaGridProps<TSlots extends MultimediaGridSlots = Multim
     checkboxSelection?: boolean;
 
     /**
-     * Number of extra items rendered outside of the visible viewport
-     * for performance optimization during scrolling
-     * @default 3
+     * Number of rows rendered beyond the visible area while scrolling.
+     * @default 1
      */
     overscan?: number;
 

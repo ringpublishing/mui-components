@@ -119,7 +119,7 @@ describe('Comments', () => {
         render(<Comments {...mockProps} initialComments={initialComments} onDelete={onDelete} />);
         const commentElement = screen.getByText('Comment 1', { exact: true });
         expect(commentElement).toBeTruthy();
-        const deleteButton = screen.getByTestId('ring-comments-1-delete');
+        const deleteButton = screen.getByTestId('ring-comments-item-1-delete');
         fireEvent.click(deleteButton);
         const removedComment = screen.queryByText('Comment 1', { exact: true });
         expect(removedComment).toBeNull();
@@ -165,9 +165,9 @@ describe('Comments', () => {
         render(<Comments {...mockProps} initialComments={initialComments} onUpdate={onUpdate} />);
         const commentElement = screen.getByText(/Comment 1/i);
         fireEvent.mouseOver(commentElement);
-        const editButton = screen.getByTestId('ring-comments-1-edit');
+        const editButton = screen.getByTestId('ring-comments-item-1-edit');
         fireEvent.click(editButton);
-        const input = screen.getByTestId('ring-comments-1-text');
+        const input = screen.getByTestId('ring-comments-item-1-text');
         const commentValue = 'New comment';
         fireEvent.change(input, { target: { value: commentValue } });
         const updateButton = screen.getByText(mockProps.labels.update);
@@ -195,7 +195,7 @@ describe('Comments', () => {
             },
         ];
         render(<Comments {...mockProps} initialComments={initialComments} onDelete={onDelete} />);
-        const deleteButton = screen.getByTestId('ring-comments-1-delete');
+        const deleteButton = screen.getByTestId('ring-comments-item-1-delete');
         fireEvent.click(deleteButton);
         expect(onDelete).toHaveBeenCalledWith(
             1,

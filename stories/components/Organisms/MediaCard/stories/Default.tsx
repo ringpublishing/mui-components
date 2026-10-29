@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { Download, Link } from '@mui/icons-material';
+import { Download, Link2 } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof MediaCard>;
 
@@ -54,7 +54,7 @@ export const Default: Story = {
             },
             {
                 label: 'Action 2',
-                icon: <Link />,
+                icon: <Link2 />,
             },
         ],
         fields: [

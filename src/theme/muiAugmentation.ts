@@ -1,12 +1,6 @@
-// Local mirror of Ring's per-component sub-module augmentations
-// (Typography label/headline1-3, Paper borderless, Button/IconButton contrast).
-//
-// Required because TS does not propagate `declare module` augmentations
-// across package boundaries under `moduleResolution: "node16"`.
-//
-// Canonical declarations live in `@ringpublishing/mui-theme`; see
-// `docs/cross-package-augmentation.md` in that package for rationale.
-// Mirror must stay in sync — see CONTRIBUTING.
+// Local mirror of the `declare module` augmentations of `@ringpublishing/mui-theme`, which TS does
+// not propagate across package boundaries under `moduleResolution: "node16"`. It must stay in sync
+// with the canonical declarations in that package.
 
 export {};
 
@@ -28,11 +22,27 @@ declare module '@mui/material/Paper' {
 declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         contrast: true;
+        ai: true;
     }
 }
 
 declare module '@mui/material/IconButton' {
     interface IconButtonPropsColorOverrides {
         contrast: true;
+        overlay: true;
+        ai: true;
+    }
+}
+
+declare module '@mui/material/Checkbox' {
+    interface CheckboxPropsColorOverrides {
+        overlay: true;
+        ai: true;
+    }
+}
+
+declare module '@mui/material/Chip' {
+    interface ChipPropsColorOverrides {
+        ai: true;
     }
 }

@@ -8,6 +8,7 @@ import * as Stories from './SortableList.stories.js';
 A drag-and-drop sortable list component built on top of the [@dnd-kit/core](https://docs.dndkit.com/) library. It provides a container that manages drag-and-drop functionality while leaving item rendering to the developer.
 
 - Two dragging modes: grab anywhere (default) or grab by drag handle
+- Three orientations: `vertical` (default), `horizontal`, and `wrap` (a wrapping row, dragged in two dimensions)
 - Supports clickable elements inside list items without interfering with drag behavior
 - Provides `useNonDraggableRef` hook to prevent drag on specific elements (e.g., buttons, context menus)
 - Built-in `<SortableList.DragHandle />` component for explicit drag handles
@@ -16,11 +17,26 @@ A drag-and-drop sortable list component built on top of the [@dnd-kit/core](http
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With DragHandle](#with-draghandle)
+- [Horizontal](#horizontal)
+- [Wrap](#wrap)
+- [DragHandle](#draghandle)
 
 ## Default
 
-By default, the entire list item is draggable. The drag event is triggered only after the user moves the mouse by a small number of pixels, so clickable elements like buttons still work correctly. Use the `useNonDraggableRef` hook to prevent drag behavior on specific interactive elements.
+By default, the entire list item is draggable. In the `vertical` and `horizontal` orientations the drag starts only after the user moves the mouse by a small number of pixels, so clickable elements like buttons still work correctly. Use the `useNonDraggableRef` hook to prevent drag behavior on specific interactive elements.
+
+The dragged item follows the pointer as a ghost; its slot shows a dashed placeholder. Releasing more than 32px outside the list cancels the drag.
+
+### Drag activation
+
+Activation is deliberately different per orientation, because chips and list rows are clicked differently:
+
+| Orientation              | Starts a drag when…                                | Why                                                                                           |
+| ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `vertical`, `horizontal` | the pointer moves ~5px while held down on the item | Rows are large targets; a press-and-move reads as a drag straight away                        |
+| `wrap`                   | the pointer is held for ~125ms                     | Items here are small and usually carry their own controls, so a quick tap has to stay a click |
+
+In `vertical` and `horizontal` the sensor is additionally scoped to the list's own DOM subtree: a pointer press on anything rendered in a portal — an item's action menu, a popover — never starts a drag, so an open menu can be used without the list picking the item up.
 
 <Canvas of={Stories.Default} />
 
@@ -28,7 +44,38 @@ By default, the entire list item is draggable. The drag event is triggered only 
 
 <ArgTypes />
 
-## With DragHandle
+## Horizontal
+
+With `orientation="horizontal"` the items are laid out in a single row and dragged along the horizontal axis.
+
+```typescript
+<SortableList items={items} onChange={handleChange} renderItem={renderItem} orientation="horizontal" />
+```
+
+<Canvas of={Stories.Horizontal} />
+
+## Wrap
+
+With `orientation="wrap"` the items are laid out as a wrapping row and can be dragged freely in two dimensions within the rectangle. As in every orientation, the ghost follows the pointer and the remaining items reflow live, so items of different widths keep correct spacing during the drag. Use it wherever a collection wraps onto several lines and its order matters — tags, filters, selected values. The example below uses MUI `Chip`, but nothing about the orientation is tied to it.
+
+Notes for this mode:
+
+- It is pointer-only (no keyboard sorting) so it does not interfere with the host's keyboard handling.
+- `grabByDragHandle` is ignored — the whole item is the drag handle.
+- A quick click still triggers the item's own actions (e.g. a Chip's delete icon); the drag starts only after the pointer is held for ~125ms, not after a few pixels of travel as in the other two orientations.
+
+```typescript
+<SortableList
+    items={items}
+    onChange={setItems}
+    orientation="wrap"
+    renderItem={(item) => <Chip label={item.label} onDelete={() => handleDelete(item)} />}
+/>
+```
+
+<Canvas of={Stories.Wrap} />
+
+## DragHandle
 
 When `grabByDragHandle` is set to `true`, items can only be dragged by clicking and dragging the `<SortableList.DragHandle />` component. You must incorporate the `DragHandle` component in your item's children for this mode to work.
 
@@ -37,6 +84,7 @@ When `grabByDragHandle` is set to `true`, items can only be dragged by clicking 
 - Items are only draggable via the dedicated drag handle icon
 - Other interactive elements work without interference
 - Provides a clear visual affordance for drag interaction
+- The handle is an icon-only button and carries the accessible name `Drag to reorder`; localise it with `labels={{ dragHandle: '…' }}`
 
 ### Usage:
 

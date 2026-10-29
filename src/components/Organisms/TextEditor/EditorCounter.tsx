@@ -1,7 +1,8 @@
 import React from 'react';
 import { useCurrentEditor } from '@tiptap/react';
 import { Grid } from '@mui/material';
-import { Warning } from '@mui/icons-material';
+import { TriangleAlert } from 'lucide-react';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 
 export interface EditorCounterProps {
     /**
@@ -23,7 +24,7 @@ export function EditorCounter(props: EditorCounterProps): React.JSX.Element | nu
 
     return (
         <Grid container={true} justifyContent="flex-end" spacing="2" sx={{ paddingRight: '16px' }}>
-            {limitExceeded && <Warning sx={{ color: '#f5ca1d', marginRight: '5px' }} />}
+            {limitExceeded && <RingLucideIcon icon={TriangleAlert} sx={{ color: '#f5ca1d', marginRight: '5px' }} />}
             <span style={limitExceeded ? { color: 'red' } : {}}>{characterCount}</span>&nbsp;/&nbsp;<span>{limit}</span>
         </Grid>
     );

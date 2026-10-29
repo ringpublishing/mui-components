@@ -14,7 +14,7 @@ export const CreatePanel = (): React.JSX.Element => {
     const [errorMessage, setErrorMessage] = useState('');
     const textFieldRef = useRef<HTMLInputElement>(null);
     const isSubmitDisabled = textValue.length < minLength || isPendingAdd;
-    const dataTestId = useRingDataTestId('comments', dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Comments', dataTestIdSuffix);
 
     const handleShowAddComment = useCallback((): void => {
         if (isAddModeEnabled) {

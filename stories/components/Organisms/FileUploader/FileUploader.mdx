@@ -14,31 +14,18 @@ A flexible drag-and-drop file upload component with progress tracking, error han
 
 ## Quick Navigation
 
-- [Component Sizes](#component-sizes)
-- [Default Example](#default)
+- [Default](#default)
 - [Component API](#component-api)
-- [Upload File States](#upload-file-states)
-- [URL Upload](#url-upload)
-- [Custom Action](#custom-action)
-
-## Component Sizes
-
-The FileUploader comes in three size variants to fit different use cases:
-
-```typescript
-import { FileUploader, FileUploaderSize } from '@ringpublishing/mui-components';
-
-// Small - Compact horizontal layout for inline forms
-<FileUploader size={FileUploaderSize.Small} />
-
-// Medium - Balanced vertical layout (default)
-<FileUploader size={FileUploaderSize.Medium} />
-
-// Large - Spacious layout for prominent upload areas
-<FileUploader size={FileUploaderSize.Large} />
-```
-
-**Available sizes**: `Small`, `Medium`, `Large`
+- [Upload file states](#upload-file-states)
+- [URL upload](#url-upload)
+- [Custom action](#custom-action)
+- [Rejected files](#rejected-files)
+- [Compact layout](#compact-layout)
+- [In Ring: an episode and an article's photos](#in-ring)
+- [How to wire it](#how-to-wire-it)
+- [Component Sizes](#component-sizes)
+- [Styling](#styling)
+- [Accessibility](#accessibility)
 
 ## Default
 
@@ -48,7 +35,7 @@ import { FileUploader, FileUploaderSize } from '@ringpublishing/mui-components';
 
 <ArgTypes />
 
-## Upload File States
+## Upload file states
 
 Each file in the `files` array uses the `FileUploaderFile` model. A native `File` object is **not required** — use `name` and `size` fields instead.
 
@@ -95,7 +82,7 @@ const uploadingFile: FileUploaderFile = {
 
 <Canvas of={Stories.UploadFileStates} />
 
-## URL Upload
+## URL upload
 
 Enable URL upload functionality to allow users to provide file URLs instead of uploading from their device. Perfect for importing files from external sources, cloud storage, or direct links.
 
@@ -103,20 +90,20 @@ Enable URL upload functionality to allow users to provide file URLs instead of u
 
 Configure the URL upload section via `slotProps.urlUploadSection`:
 
-| Property         | Type                      | Description                                       |
-| ---------------- | ------------------------- | ------------------------------------------------- |
-| `enabled`        | `boolean`                 | Enable/disable the URL upload section             |
-| `onSubmit`       | `(url: string) => void`   | **Required** - Callback when URL is submitted     |
-| `loading`        | `boolean`                 | Shows spinner and disables controls during upload |
-| `onClear`        | `() => void`              | Optional callback when URL input is cleared       |
-| `title`          | `string`                  | Custom section title (default: "or enter URL")    |
-| `placeholder`    | `string`                  | TextField placeholder (default: "https://...")    |
-| `submitButton`   | `string`                  | Submit button text (default: "Upload")            |
-| `textFieldProps` | `Partial<TextFieldProps>` | Additional props for the TextField component      |
+| Property         | Type                      | Description                                                              |
+| ---------------- | ------------------------- | ------------------------------------------------------------------------ |
+| `enabled`        | `boolean`                 | Enable/disable the URL upload section                                    |
+| `onSubmit`       | `(url: string) => void`   | Called with the URL on submit; without it the submit button does nothing |
+| `loading`        | `boolean`                 | Shows spinner and disables controls during upload                        |
+| `onClear`        | `() => void`              | Optional callback when URL input is cleared                              |
+| `title`          | `string`                  | Section title; it also names the URL field                               |
+| `placeholder`    | `string`                  | TextField placeholder                                                    |
+| `submitButton`   | `string`                  | Submit button text, rendered as given                                    |
+| `textFieldProps` | `Partial<TextFieldProps>` | Additional props for the TextField component                             |
 
 <Canvas of={Stories.UrlUpload} />
 
-## Custom Action
+## Custom action
 
 Add custom actions next to the upload button using the `action` slot. Perfect for integrating external file pickers, cloud storage, or any custom upload source.
 
@@ -125,3 +112,108 @@ Add custom actions next to the upload button using the `action` slot. Perfect fo
 | `action` | `React.ReactNode` | Custom component to display next to the upload button |
 
 <Canvas of={Stories.CustomAction} />
+
+## Rejected files
+
+The uploader checks every file that comes in — from the file picker, a drop or a file row's replacement — and passes
+only the accepted ones to `onFilesSelected`. The others arrive in `onFilesRejected`, each with its reason, so the app
+can say what went wrong, for example in `errorMessage`:
+
+| `FileUploaderRejectionReason` | When                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------ |
+| `FileTooLarge`                | the file is larger than `maxFileSize`                                          |
+| `FileInvalidType`             | it matches none of the extensions, MIME types or wildcards in `accept`         |
+| `TooManyFiles`                | a second file while `multiple` is off — only the first acceptable one is taken |
+
+A file that is both of the wrong type and too large is reported as `FileInvalidType`. When one selection has both kinds,
+`onFilesSelected` is called first, then `onFilesRejected`.
+
+`accept` applies to dropped files too, not only to the file picker. A MIME type in it is compared with the type the
+browser reports for the file, and browsers report different types for some formats (a `.wav` file is `audio/wav` in
+Chrome and `audio/x-wav` in Firefox and Safari; some files have no type at all), so list the extensions next to the
+MIME types: `accept="audio/mpeg,.mp3"`.
+
+## Compact layout
+
+Under 400px of its own width — a side panel counts, not only a phone — the uploader switches to a compact layout: the
+upload button and the `action` stack at full width, the URL submit moves under its field, and the file rows draw a
+small icon with the percentage next to the size.
+
+<Canvas of={Stories.CompactLayout} />
+
+## In Ring
+
+Two flows the way an editor meets them — try them: add a file, drop several photos at once, switch on the dropped connection
+and press retry. Both are working code you can copy from the code panel.
+
+### In Ring — podcast episode
+
+One MP3 that uploads the moment it is added, so the editor goes on with the episode's details. `accept` and
+`maxFileSize` keep out anything else, and the app explains a rejected file in the drop area, or under the episode once one is in; an interrupted upload offers a retry, and a
+finished one can be replaced with a new take.
+
+<Canvas of={Stories.PodcastEpisode} />
+
+### In Ring — article photos
+
+Several photos at once, next to a button that picks from the media library — picked photos are attached without an
+upload and show as idle rows. The counter tells how many are ready, files that are not photos or are too large are
+named in the drop area, and each upload can be retried or removed on its own.
+
+<Canvas of={Stories.ArticlePhotos} />
+
+## How to wire it
+
+FileUploader shows the files you pass in `files` and never uploads anything itself. Add a row when files are selected,
+update its `progress` while your request runs, and settle it as `Success` or as `Error` with an `errorMessage`;
+`onRetry` and `onRemove` give you the row's `id`.
+
+<Canvas of={Stories.HowToWireIt} />
+
+## Component Sizes
+
+The FileUploader comes in three size variants to fit different use cases:
+
+```typescript
+import { FileUploader, FileUploaderSize } from '@ringpublishing/mui-components';
+
+// Small - Compact horizontal layout for inline forms
+<FileUploader size={FileUploaderSize.Small} />
+
+// Medium - Balanced vertical layout (default)
+<FileUploader size={FileUploaderSize.Medium} />
+
+// Large - Spacious layout for prominent upload areas
+<FileUploader size={FileUploaderSize.Large} />
+```
+
+**Available sizes**: `Small`, `Medium`, `Large`
+
+The upload icon is a `FeaturedIcon` with a 40, 60 or 80px plate; it turns red on error and blue while dragging.
+
+In `Small`, `labels.uploadButton` is a link that continues the sentence of `labels.dropzone` ("Drag and drop file to
+add or upload from disk"), so write it in lower case there. The last word of `labels.dropzone` wraps together with the
+link.
+
+## Styling
+
+Every part of the uploader takes its look from the theme, slot by slot (`dropzone`, `fileItem`, `urlRow`,
+`filesCounter`, …), each styled with the part's `ownerState` (`size`, `dragOver`, `error`, `collapsed` on the files counter, and on file
+rows `status` and `hasAction`). The drop-area colours come from `palette.components.fileUploader`. To restyle a part everywhere, set it in
+your theme's `components.RingFileUploader.styleOverrides`: what you set is layered on top of the part's own style, so
+`dropzone: { borderRadius: 16 }` rounds the drop area and keeps its frame, padding and layout.
+
+## Accessibility
+
+The remove and retry buttons are named after their file and the URL clear button has its own name; translate them in
+`labels`:
+
+| Label        | Default                    |
+| ------------ | -------------------------- |
+| `removeFile` | `'Remove {name}'`          |
+| `retryFile`  | `'Retry upload of {name}'` |
+| `clearUrl`   | `'Clear URL'`              |
+
+The URL field is named by the section `title` when one is set, the submit button is `aria-busy` while `loading`, the files counter
+reports `aria-expanded`, and error messages and the files counter are read out from one polite live region. The drop
+area itself is not focusable — the upload button (or the link in `Small`) is.

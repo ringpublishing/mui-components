@@ -1,14 +1,16 @@
 import React, { ReactElement } from 'react';
 import type { StoryContext } from 'storybook/internal/types';
 import type { Meta } from '@storybook/react-vite';
-import * as MyLibrary from '../src/components/index.js';
+import * as MyLibrary from '../src/index.js';
+import * as TreeDynamicLoading from '../src/treeDynamicLoading.js';
 import * as RingDataGridHelpers from './components/Organisms/DataGrid/common/helpers.js';
 import * as RingDataGridColumnsAndRows from './components/Organisms/DataGrid/DataGrid.stories.columnsandrows.js';
 import * as mui from '@mui/material';
-import * as muiIcons from '@mui/icons-material';
+import * as lucideIcons from 'lucide-react';
 import * as muiXDatePickersPro from '@mui/x-date-pickers-pro';
 import * as muiXDatePickers from '@mui/x-date-pickers';
 import * as muiXDataGrid from '@mui/x-data-grid';
+import * as muiXDataGridPro from '@mui/x-data-grid-pro';
 import dayjs from 'dayjs';
 import CustomIcon from './components/Molecules/Placeholder/CustomIcon.svg';
 import * as AdapterDayjs from '@mui/x-date-pickers-pro/AdapterDayjs';
@@ -17,8 +19,8 @@ import * as Heading from '@tiptap/extension-heading';
 import * as Code from '@tiptap/extension-code';
 import * as dndKitSortable from '@dnd-kit/sortable';
 import * as tanstackReactQuery from '@tanstack/react-query';
-import * as RingDemoData from '../src/helpers/stories/ringDemoData.js';
-import * as RingDemoImages from '../src/helpers/stories/imagesData.js';
+import * as RingDemoData from './helpers/ringDemoData.js';
+import * as RingDemoImages from './helpers/imagesData.js';
 import { setStorySourceCode, deleteStorySourceCode } from './storySourceRegistry.js';
 
 export type CustomProps = Record<string, unknown>;
@@ -142,9 +144,11 @@ export function createCodeStory<T = Record<string, unknown>>({
                 }}
                 availableImports={{
                     '@ringpublishing/mui-components': MyLibrary,
+                    '@ringpublishing/mui-components/tree-dynamic-loading': TreeDynamicLoading,
                     '@mui/material': mui,
-                    '@mui/icons-material': muiIcons,
+                    'lucide-react': lucideIcons,
                     '@mui/x-data-grid': muiXDataGrid,
+                    '@mui/x-data-grid-pro': muiXDataGridPro,
                     // @ts-expect-error FIXME
                     dayjs,
                     '@mui/x-date-pickers': muiXDatePickers,
@@ -164,3 +168,20 @@ export function createCodeStory<T = Record<string, unknown>>({
         </div>
     );
 }
+
+/**
+ * Ready values the Default story's controls pick from. Each `label` is the value as code, so the dropdown shows
+ * exactly what reaches the prop rather than a name for it.
+ */
+export type Presets<T> = Record<string, { value: T; label: string }>;
+
+/** A select over ready values: the option list shows each value as code, the prop row keeps its real type. */
+export const preset = <T,>(values: Presets<T>, description: string): object => ({
+    control: {
+        type: 'select',
+        labels: Object.fromEntries(Object.entries(values).map(([key, { label }]) => [key, label])),
+    },
+    options: Object.keys(values),
+    mapping: Object.fromEntries(Object.entries(values).map(([key, { value }]) => [key, value])),
+    description: `${description} The list holds ready values for this story and shows each one as it is passed.`,
+});

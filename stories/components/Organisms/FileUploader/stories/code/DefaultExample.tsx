@@ -12,7 +12,7 @@ export default function DefaultExample(): React.JSX.Element {
             labels={{
                 dropzone: 'Drag and drop file to add or',
                 hint: 'PDF, DOC, DOCX (max. 10MB)',
-                uploadButton: 'upload from disk',
+                uploadButton: 'Upload from disk',
                 description: 'You can upload PDF, DOC and DOCX file formats.',
             }}
             maxFileSize={10 * 1024 * 1024}

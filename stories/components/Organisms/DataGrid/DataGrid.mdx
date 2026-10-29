@@ -18,21 +18,30 @@ An enhanced data grid component built on top of MUI X DataGrid.
 
 ## Quick Navigation
 
-- [All Custom Cells](#all-custom-cells)
+- [Default](#default)
+- [Custom cells](#custom-cells)
 - [Component API](#component-api)
-- [Custom Toolbar](#custom-toolbar)
-- [Bulk Actions](#bulk-actions)
-- [No Results](#no-results)
-- [Error State](#error-state)
-- [Auto Refresh — Active](#auto-refresh--active)
-- [Auto Refresh — Ignore User Interaction](#auto-refresh--ignore-user-interaction)
-- [Auto Refresh — Initially Disabled](#auto-refresh--initially-disabled)
-- [Auto Refresh — Disabled](#auto-refresh--disabled)
-- [Classic Selection](#classic-selection)
+- [Custom toolbar](#custom-toolbar)
+- [Bulk actions](#bulk-actions)
+- [Classic selection](#classic-selection)
+- [Auto refresh — active](#auto-refresh--active)
+- [Auto refresh — never paused](#auto-refresh--never-paused)
+- [Auto refresh — initially off](#auto-refresh--initially-off)
+- [Auto refresh — disabled](#auto-refresh--disabled)
+- [No results](#no-results)
+- [No results — custom labels](#no-results--custom-labels)
+- [Error state](#error-state)
+- [Error state — custom labels](#error-state--custom-labels)
 
-## Custom Cells
+## Default
 
-Demonstrates custom cell renderers (`renderComboCell`, `renderLinkCell`, `renderActionCell`) together with spacer rows (`createSpacerItem`), bulk actions, sorting, auto-refresh, and the custom toolbar. Also includes combo cells with `showPlaceholder` enabled to display image placeholders when the image URL is missing or broken.
+`RingDataGrid` with `columns`, `rows` and `totalRowCount`, and nothing else.
+
+<Canvas of={Stories.Default} />
+
+## Custom cells
+
+Demonstrates custom cell renderers (`renderComboCell`, `renderLinkCell`, `renderActionCell`) together with spacer rows (`createSpacerItem`), bulk actions, sorting, auto-refresh, and the custom toolbar. Also includes combo cells with `showPlaceholder`, which shows an `Image` placeholder on a `FeaturedIcon` plate when `imageUrl` is missing; a URL that fails to load shows `ImageOff` either way.
 
 <Canvas of={Stories.CustomCells} />
 
@@ -40,56 +49,68 @@ Demonstrates custom cell renderers (`renderComboCell`, `renderLinkCell`, `render
 
 <ArgTypes />
 
-## Custom Toolbar
+## Custom toolbar
 
 Shows the RingDataGrid toolbar with sorting fields, refresh controls, auto-refresh toggle, and an additional custom component slot.
 
 <Canvas of={Stories.CustomToolbar} />
 
-## Bulk Actions
+## Bulk actions
 
 Enables bulk operation mode with checkbox selection, select all/deselect all, and configurable bulk action buttons (e.g., Delete, Edit). The `maxSelectedRowsCount` limits the number of selectable rows.
 
 <Canvas of={Stories.BulkActions} />
 
-## No Results
+## Classic selection
 
-Displays the built-in "no results" placeholder when `rows` is an empty array.
+Checkbox selection with `disableSelectAllCheckbox` set to `true`, removing the header checkbox. Uses a controlled `rowSelectionModel` with `clearSelectionOnRefresh` disabled.
 
-<Canvas of={Stories.NoResults} />
+<Canvas of={Stories.ClassicSelection} />
 
-## Error State
-
-Displays the error placeholder when `error` is set to `true` and `rows` is empty.
-
-<Canvas of={Stories.Error} />
-
-## Auto Refresh — Active
+## Auto refresh — active
 
 Auto-refresh enabled with a 5-second interval. User interactions (mouse, touch, scroll) temporarily pause refresh with a configurable debounce delay.
 
 <Canvas of={Stories.AutoRefreshActive} />
 
-## Auto Refresh — Ignore User Interaction
+## Auto refresh — never paused
 
 Auto-refresh with `disableAutoRefreshOnUserInteraction` set to `false` — the grid continues refreshing regardless of user interaction.
 
 <Canvas of={Stories.AutoRefreshIgnoreInteraction} />
 
-## Auto Refresh — Initially Disabled
+## Auto refresh — initially off
 
 Auto-refresh is configured but starts disabled via `initialState.autoRefreshEnabled: false`. The user can enable it manually via the toolbar toggle.
 
 <Canvas of={Stories.AutoRefreshInitiallyDisabled} />
 
-## Auto Refresh — Disabled
+## Auto refresh — disabled
 
 No auto-refresh configuration — the grid only refreshes on manual user action.
 
 <Canvas of={Stories.AutoRefreshDisabled} />
 
-## Classic Selection
+## No results
 
-Checkbox selection with `disableSelectAllCheckbox` set to `true`, removing the header checkbox. Uses a controlled `rowSelectionModel` with `clearSelectionOnRefresh` disabled.
+Displays the built-in "no results" placeholder when `rows` is an empty array.
 
-<Canvas of={Stories.ClassicSelection} />
+<Canvas of={Stories.NoResults} />
+
+## No results — custom labels
+
+`placeholderLabels.empty` overrides the header and description of the "no results" placeholder, so the message can name what the grid lists (articles, assets) and suggest the next step. Labels not overridden keep the built-in translation.
+
+<Canvas of={Stories.NoResultsCustomLabels} />
+
+## Error state
+
+Displays the error placeholder when `error` is set to `true` and `rows` is empty.
+
+<Canvas of={Stories.Error} />
+
+## Error state — custom labels
+
+`placeholderLabels.error` overrides the header and description of the error placeholder, and `placeholderLabels.tryAgainButton` relabels the retry button that appears when `refreshCallback` is provided.
+
+<Canvas of={Stories.ErrorCustomLabels} />

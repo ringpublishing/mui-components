@@ -2,16 +2,16 @@ import type { Meta } from '@storybook/react-vite';
 import { MultimediaGrid } from '../../../../src/index.js';
 import { DEFAULT_COLUMNS } from '../../../../src/components/Organisms/MultimediaGrid/useResolvedColumns.js';
 import { DEFAULT_CELL_RATIO } from '../../../../src/components/Organisms/MultimediaGrid/useCellRatio.js';
-import { Default } from './stories/Default.js';
-import { InfiniteScroll } from './stories/InfiniteScroll.js';
-import { Slots } from './stories/Slots.js';
-import { Selection } from './stories/Selection.js';
-import { EmptyState } from './stories/EmptyState.js';
-import { EmptyStateCustomLabels } from './stories/EmptyStateCustomLabels.js';
-import { ErrorState } from './stories/ErrorState.js';
-import { ErrorStateCustomLabels } from './stories/ErrorStateCustomLabels.js';
-import { DynamicLayout } from './stories/DynamicLayout.js';
-import { WithFilterChips } from './stories/WithFilterChips.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { DynamicLayout as DynamicLayoutStory } from './stories/DynamicLayout.js';
+import { Selection as SelectionStory } from './stories/Selection.js';
+import { InfiniteScroll as InfiniteScrollStory } from './stories/InfiniteScroll.js';
+import { WithFilterChips as WithFilterChipsStory } from './stories/WithFilterChips.js';
+import { Slots as SlotsStory } from './stories/Slots.js';
+import { EmptyState as EmptyStateStory } from './stories/EmptyState.js';
+import { EmptyStateCustomLabels as EmptyStateCustomLabelsStory } from './stories/EmptyStateCustomLabels.js';
+import { ErrorState as ErrorStateStory } from './stories/ErrorState.js';
+import { ErrorStateCustomLabels as ErrorStateCustomLabelsStory } from './stories/ErrorStateCustomLabels.js';
 import defaultArgs from './common/defaultArgs.js';
 import MultimediaGridMDX from './MultimediaGrid.mdx';
 
@@ -47,7 +47,7 @@ const meta = {
             description: 'Total number of items to display in the toolbar.',
             type: 'number',
             table: {
-                defaultValue: { summary: '1' },
+                defaultValue: { summary: '0' },
                 type: { summary: 'number' },
                 category: 'data toolbar',
             },
@@ -304,15 +304,13 @@ const meta = {
 
 export default meta;
 
-export {
-    Default,
-    InfiniteScroll,
-    Slots,
-    Selection,
-    EmptyState,
-    EmptyStateCustomLabels,
-    ErrorState,
-    ErrorStateCustomLabels,
-    DynamicLayout,
-    WithFilterChips,
-};
+export const Default = DefaultStory;
+export const DynamicLayout = { ...DynamicLayoutStory, name: 'Dynamic layout' };
+export const Selection = SelectionStory;
+export const InfiniteScroll = { ...InfiniteScrollStory, name: 'Infinite scroll' };
+export const WithFilterChips = { ...WithFilterChipsStory, name: 'Filter chips' };
+export const Slots = SlotsStory;
+export const EmptyState = { ...EmptyStateStory, name: 'Empty state' };
+export const EmptyStateCustomLabels = { ...EmptyStateCustomLabelsStory, name: 'Empty state — custom labels' };
+export const ErrorState = { ...ErrorStateStory, name: 'Error state' };
+export const ErrorStateCustomLabels = { ...ErrorStateCustomLabelsStory, name: 'Error state — custom labels' };

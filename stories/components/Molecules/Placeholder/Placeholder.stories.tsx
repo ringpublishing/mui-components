@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react-vite';
 import { Placeholder, PlaceholderVariant } from '../../../../src/index.js';
 import PlaceholderMDX from './Placeholder.mdx';
-import { Default } from './stories/Default.js';
-import { Empty } from './stories/Empty.js';
-import { NotFound } from './stories/NotFound.js';
-import { WithButtonsCustomIconAndCustomLabels } from './stories/WithButtonsCustomIconAndCustomLabels.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { NotFound as NotFoundStory } from './stories/NotFound.js';
+import { Empty as EmptyStory } from './stories/Empty.js';
+import { WithButtonsCustomIconAndCustomLabels as WithButtonsCustomIconAndCustomLabelsStory } from './stories/WithButtonsCustomIconAndCustomLabels.js';
 
 const meta = {
     component: Placeholder,
@@ -63,7 +63,7 @@ const meta = {
         },
         dataTestIdSuffix: {
             control: 'text',
-            description: 'Optional suffix for generated test id (base: ring-placeholder-{variant}).',
+            description: 'Optional suffix for the generated test id: `ring-placeholder[-<suffix>]-<variant>`.',
             table: {
                 category: 'testing',
                 type: { summary: 'string' },
@@ -92,4 +92,10 @@ const meta = {
 
 export default meta;
 
-export { Default, NotFound, Empty, WithButtonsCustomIconAndCustomLabels };
+export const Default = DefaultStory;
+export const NotFound = { ...NotFoundStory, name: 'Not found' };
+export const Empty = EmptyStory;
+export const WithButtonsCustomIconAndCustomLabels = {
+    ...WithButtonsCustomIconAndCustomLabelsStory,
+    name: 'Custom icon, labels, buttons',
+};

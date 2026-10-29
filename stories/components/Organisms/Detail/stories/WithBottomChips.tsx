@@ -4,7 +4,7 @@ import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import WithBottomChipsExampleCode from './code/WithBottomChipsExample.tsx?raw';
 import { Detail } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof Detail>;
 
@@ -71,7 +71,7 @@ export const WithBottomChips: Story = {
         },
         descriptionItems: [
             {
-                sectionTitle: 'INFORMATION',
+                sectionTitle: 'Information',
                 fields: [
                     {
                         name: 'Description',

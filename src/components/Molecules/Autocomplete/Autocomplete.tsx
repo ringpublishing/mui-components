@@ -1,8 +1,9 @@
-import { KeyboardArrowDown as KeyboardArrowDownIcon, MoreVert, Search as SearchIcon } from '@mui/icons-material';
+import { EllipsisVertical, Search as SearchIcon, X } from 'lucide-react';
 import {
     Autocomplete as MuiAutocomplete,
     AutocompleteChangeDetails,
-    AutocompleteChangeReason,
+    AutocompleteChangeReason as MuiAutocompleteChangeReason,
+    AutocompleteInputChangeReason,
     AutocompleteProps as MuiAutocompleteProps,
     AutocompleteRenderInputParams,
     AutocompleteValue,
@@ -10,36 +11,51 @@ import {
     AvatarProps,
     Box,
     Chip,
+    ChipProps,
     CircularProgress,
     IconButton,
     InputBase,
     InputAdornment,
     ListItemAvatar,
+    ListSubheader,
     Paper,
     PaperProps,
+    SxProps,
     Theme,
     Tooltip,
 } from '@mui/material';
+import { UniqueIdentifier } from '@dnd-kit/core';
 import useForkRef from '@mui/utils/useForkRef';
 import classNames from 'classnames';
-import { isEqual, isNil, omit } from 'lodash';
+import { castArray, isEqual, isNil, omit } from 'lodash';
 import React, { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
+import { useNonDraggableRef } from '../../../helpers/hooks/useNonDraggableRef.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { DEFAULT_LUCIDE_ICON_SIZE } from '../../../helpers/lucideSize.js';
+import { resolveMoreActionsAriaLabel } from '../../../helpers/moreActionsAriaLabel.js';
 import { Action } from '../../../types.js';
+import { DEFAULT_PASTE_SEPARATORS, splitPastedText } from './pasteEntries.js';
 
-import { TextField, TextFieldProps } from '../../Atoms/TextField/TextField.js';
+import { TextField, TextFieldProps } from '../TextField/TextField.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import { ActionBox } from '../ActionBox/ActionBox.js';
+import { SortableChips } from '../../internal/SortableChips.js';
+import { WithOwnerDataTestId } from '../../../helpers/dataTestId.js';
 
-export type { AutocompleteChangeDetails, AutocompleteChangeReason } from '@mui/material';
+export type { AutocompleteChangeDetails } from '@mui/material';
+
+/**
+ * MUI's change reasons plus `reorder`, reported when `sortableChips` chips are drag-reordered.
+ */
+export type AutocompleteChangeReason = MuiAutocompleteChangeReason | 'reorder';
 
 export interface AutocompleteLabels {
     /**
      * The title of the autocomplete
      */
-    title: string;
+    title: React.ReactNode;
     /**
      * The placeholder of the input
      */
@@ -54,6 +70,13 @@ export interface AutocompleteLabels {
      * The label of the results when, `showRecentlyUsed` is `true`
      */
     recentlyUsedResults?: string;
+
+    /**
+     * Accessible name of the actions menu button shown when more than one
+     * action is provided.
+     * @defaultValue 'More actions'
+     */
+    moreActions?: string;
 }
 
 export interface FilterAutocompleteLabels extends AutocompleteLabels {
@@ -61,16 +84,11 @@ export interface FilterAutocompleteLabels extends AutocompleteLabels {
     searchPlaceholder?: string;
 }
 
-type AutocompleteOptionWithMeta = Record<string, unknown> & {
+export type AutocompleteOption = Record<string, unknown> & {
     /**
-     * Leading avatar shown before the option label in the default renderer.
-     * A string is treated as an image URL and rendered inside a circular `Avatar`;
-     * a `ReactNode` (e.g. a custom `Avatar`, icon or `img`) is rendered as-is.
-     *
-     * Note: with `showRecentlyUsed`, only string (URL) avatars are persisted to
-     * local storage. A `ReactNode` avatar is dropped from the stored entry (it is
-     * re-applied from the live option on render), so use a URL if the avatar must
-     * survive a reload as part of the recently-used identity.
+     * Leading avatar shown before the option label in the default renderer: a string is an image
+     * URL rendered in a circular `Avatar`, a `ReactNode` is rendered as-is. With `showRecentlyUsed`
+     * only string avatars are persisted; a `ReactNode` is re-applied from the live option.
      */
     avatar?: string | React.ReactNode;
     caption?: string;
@@ -80,9 +98,9 @@ type AutocompleteOptionWithMeta = Record<string, unknown> & {
     sortBy?: number;
 };
 
-type AutocompleteMuiProps<Value> = MuiAutocompleteProps<Value, boolean, boolean, boolean>;
+export type AutocompleteMuiProps<Value> = MuiAutocompleteProps<Value, boolean, boolean, boolean>;
 
-type AutocompleteValueFor<Value> = AutocompleteValue<Value, boolean, boolean, boolean>;
+export type AutocompleteValueFor<Value> = AutocompleteValue<Value, boolean, boolean, boolean>;
 
 const TypedMuiAutocomplete = MuiAutocomplete as unknown as <Value>(
     props: AutocompleteMuiProps<Value>,
@@ -97,6 +115,14 @@ export interface AutocompleteChipRenderContext<Value> {
     index: number;
     /** Props required by MUI Autocomplete, including the delete handler. */
     chipProps: React.ComponentProps<typeof Chip>;
+    /** `true` when `validateEntry` rejected this entry; always `false` without it. */
+    invalid: boolean;
+    /**
+     * True for every chip while a `sortableChips` drag is in progress — use it to suppress hover
+     * affordances (e.g. tooltips) that would otherwise fire under the moving pointer. Always
+     * `false` when `sortableChips` is not enabled.
+     */
+    isDragActive?: boolean;
 }
 
 export interface AutocompleteMenuListAction {
@@ -123,7 +149,7 @@ export interface AutocompleteMenuListActions {
     actions: ReadonlyArray<AutocompleteMenuListAction>;
 }
 
-interface AutocompleteBaseProps<Value = unknown>
+export interface AutocompleteBaseProps<Value = unknown>
     extends
         CommonComponentProps,
         Omit<
@@ -158,34 +184,52 @@ interface AutocompleteBaseProps<Value = unknown>
     actions?: Action[];
 
     /**
-     * Icon actions displayed in the autocomplete menu list. When `groupBy` is
-     * not provided, `label` is used as the heading. When options are grouped,
-     * the actions are displayed next to the first group heading. Ignored when
-     * `renderGroup` is provided. Pass an action's `anchorRef` to use its button
-     * as an anchor for a separately rendered menu or popper.
+     * Icon actions displayed in the options popup: under a `label` heading, or next to the first
+     * group heading when `groupBy` is set; ignored when `renderGroup` is provided. An action's
+     * `anchorRef` exposes its button as an anchor for a separately rendered menu or popper.
      */
     menuListActions?: AutocompleteMenuListActions;
 
     /**
-     * Renders each selected value in multiple mode. The callback receives the
-     * original option, the label resolved by `getOptionLabel`, its index, and
-     * the merged MUI chip props, including the default delete handler.
-     *
-     * `renderValue` takes precedence over `renderTags`, which takes precedence
-     * over `renderChip`; therefore this callback is used only when `multiple`
-     * is true and neither of the other render callbacks is provided. Custom
-     * rendering also takes responsibility for adding a tooltip and preserving
-     * chip actions. `chipProps` is merged as `{ ...muiChipProps,
-     * ...slotProps.chip, label }`. The computed `label` is applied last so it
-     * stays consistent with `context.label`; other props such as `onDelete`
-     * and `disabled` can still be overridden by `slotProps.chip`.
+     * Renders each selected value in multiple mode, receiving the option, its resolved label, its
+     * index and the merged chip props (`{ ...muiChipProps, ...slotProps.chip, label }`, including
+     * the default delete handler). Used only when neither `renderValue` nor `renderTags` is set;
+     * a custom renderer owns the tooltip and the chip actions.
      */
     renderChip?: (context: AutocompleteChipRenderContext<Value>) => React.ReactNode;
 
     /**
+     * Message rendered under the field, in the error state, when a `freeSolo` entry is rejected for
+     * being already selected (MUI drops it without calling `onChange`); a callback receives the
+     * rejected text, after a paste the first rejected fragment. Requires `multiple` and `freeSolo`,
+     * which `chipsInput` implies, and clears on the next input or value change.
+     */
+    duplicateEntryMessage?: React.ReactNode | ((entry: string) => React.ReactNode);
+
+    /**
+     * Called with the rejected text when a `freeSolo` entry is already selected: once per Enter, or
+     * once per rejected fragment of a paste in the `chipsInput` variant. Requires `multiple` and
+     * `freeSolo`, which `chipsInput` implies.
+     */
+    onDuplicateEntry?: (
+        event: React.KeyboardEvent<HTMLDivElement> | React.ClipboardEvent<HTMLDivElement>,
+        entry: string,
+    ) => void;
+
+    /**
+     * If true (with `multiple`), the selected chips can be reordered by pointer drag&drop: on drop
+     * `onChange` receives the reordered value with the `reorder` reason, and with a controlled `value`
+     * the new order shows once the consumer stores it. Options need a stable identity (`getOptionKey`,
+     * an `id` field or a unique label); the prop is ignored, with a console warning, under `renderValue`,
+     * `renderTags`, `disabled` or `readOnly`, and while it applies, `limitTags` is ignored.
+     * @defaultValue false
+     */
+    sortableChips?: boolean;
+
+    /**
      * The labels of the autocomplete
      @example
-     * `{ title: string, inputPlaceholder?: string }`
+     * `{ title: 'Tags', inputPlaceholder: 'Add a tag' }`
      */
     labels: AutocompleteLabels;
 
@@ -214,9 +258,8 @@ interface AutocompleteBaseProps<Value = unknown>
          */
         textField?: TextFieldProps;
         /**
-         * Props applied to the option's `Avatar` when the option `avatar` is a string (URL).
-         * Use this for a custom border, size, variant, etc. `sx` is merged on top of the
-         * default sizing. Ignored when `avatar` is a `ReactNode` (style that node directly).
+         * Props applied to the option's `Avatar` when `avatar` is a string URL; `sx` is merged on
+         * top of the default sizing. Ignored when `avatar` is a `ReactNode`.
          */
         avatar?: Partial<AvatarProps>;
     } & AutocompleteMuiProps<Value>['slotProps'];
@@ -243,13 +286,76 @@ export interface FilterAutocompleteProps<Value = unknown> extends Omit<
     slotProps?: Omit<NonNullable<AutocompleteBaseProps<Value>['slotProps']>, 'chip' | 'textField'>;
 }
 
-export type AutocompleteProps<Value = unknown> = DefaultAutocompleteProps<Value> | FilterAutocompleteProps<Value>;
+export interface ChipsInputAutocompleteProps<Value = unknown> extends Omit<
+    AutocompleteBaseProps<Value>,
+    | 'multiple'
+    | 'freeSolo'
+    | 'options'
+    | 'value'
+    | 'defaultValue'
+    | 'onChange'
+    | 'renderValue'
+    | 'renderTags'
+    | 'actions'
+    | 'menuListActions'
+    | 'showRecentlyUsed'
+    | 'recentlyLocalStorageKey'
+    | 'recentlyUsedLimit'
+    | 'sortableChips'
+> {
+    /** Multi-value free-text input that renders each entry as a chip. Implies `multiple` and `freeSolo`. */
+    variant: 'chipsInput';
+    /** Always `true` in this variant; do not pass it. */
+    multiple?: never;
+    /** Always `true` in this variant; do not pass it. */
+    freeSolo?: never;
+    /** Suggestions shown while typing. Without them the field has no popup. @default [] */
+    options?: ReadonlyArray<Value>;
+    /** Entries, as chips. Typed or pasted entries are strings. */
+    value?: ReadonlyArray<Value | string>;
+    /** Initially present entries when `value` is not passed. */
+    defaultValue?: ReadonlyArray<Value | string>;
+    /** Called when an entry is added or removed. */
+    onChange?: (
+        event: React.SyntheticEvent,
+        value: Array<Value | string>,
+        reason: AutocompleteChangeReason,
+        details?: AutocompleteChangeDetails<Value | string>,
+    ) => void;
+    /**
+     * Splits pasted text into chips instead of pasting it into the input. The text typed in the
+     * input is replaced: it is discarded and the input is cleared.
+     * @default false
+     */
+    createChipsOnPaste?: boolean;
+    /**
+     * Separators used to split pasted text when `createChipsOnPaste` is on. Fragments are trimmed
+     * and empty ones are dropped.
+     * @default [',', ';', '\n', '\t']
+     */
+    pasteSeparators?: ReadonlyArray<string>;
+    /**
+     * Marks an entry as invalid: its chip renders in the error color, but the entry is still added.
+     * Checked at render, so chips passed through `value` are covered too; `slotProps.chip.color`
+     * and `renderChip` take precedence.
+     */
+    validateEntry?: (entry: Value | string) => boolean;
+    /**
+     * Maximum width of a chip; a longer label is truncated with an ellipsis and shown in full in
+     * the tooltip. A `maxWidth` in `slotProps.chip.sx` does not override it.
+     * @default 150
+     */
+    chipMaxWidth?: number | string;
+}
 
-export type MuiOption = AutocompleteOptionWithMeta;
+export type AutocompleteProps<Value = unknown> =
+    DefaultAutocompleteProps<Value> | FilterAutocompleteProps<Value> | ChipsInputAutocompleteProps<Value>;
 
-interface AutocompleteMenuListActionButtonProps {
+/** @deprecated Use `AutocompleteOption`. */
+export type MuiOption = AutocompleteOption;
+
+interface AutocompleteMenuListActionButtonProps extends WithOwnerDataTestId {
     action: AutocompleteMenuListAction;
-    dataTestId: string;
 }
 
 function AutocompleteMenuListActionButton({
@@ -288,21 +394,24 @@ function AutocompleteMenuListActionButton({
     );
 }
 
-const isAutocompleteOptionObject = (option: unknown): option is AutocompleteOptionWithMeta => {
+const isAutocompleteOptionObject = (option: unknown): option is AutocompleteOption => {
     return option !== null && typeof option === 'object' && !Array.isArray(option);
 };
 
-const stripRecentlyUsedMeta = (option: object): MuiOption => {
+const stripRecentlyUsedMeta = (option: object): AutocompleteOption => {
     // A non-string `avatar` (React node) does not survive JSON serialization for
     // recently-used persistence and would break equality matching on reload, so it
     // is excluded from the persisted/compared shape. String (URL) avatars are kept.
-    const { avatar } = option as AutocompleteOptionWithMeta;
+    const { avatar } = option as AutocompleteOption;
     const keysToOmit = typeof avatar === 'string' ? ['groupBy', 'sortBy'] : ['groupBy', 'sortBy', 'avatar'];
 
-    return omit(option, keysToOmit) as MuiOption;
+    return omit(option, keysToOmit) as AutocompleteOption;
 };
 
-const getStoredRecentlyUsedItems = (showRecentlyUsed: boolean, recentlyLocalStorageKey?: string): MuiOption[] => {
+const getStoredRecentlyUsedItems = (
+    showRecentlyUsed: boolean,
+    recentlyLocalStorageKey?: string,
+): AutocompleteOption[] => {
     if (!showRecentlyUsed || !recentlyLocalStorageKey) {
         return [];
     }
@@ -310,7 +419,7 @@ const getStoredRecentlyUsedItems = (showRecentlyUsed: boolean, recentlyLocalStor
     try {
         const parsed: unknown = JSON.parse(localStorage.getItem(recentlyLocalStorageKey) || '[]');
         const stored: unknown[] = Array.isArray(parsed) ? parsed : [];
-        const recentlyUsedItems: MuiOption[] = [];
+        const recentlyUsedItems: AutocompleteOption[] = [];
 
         for (const item of stored) {
             const flattenedItems = Array.isArray(item) ? item : [item];
@@ -399,10 +508,183 @@ const renderOptionWithCustomLabelAndCaption = (
     );
 };
 
+/**
+ * A selected option wrapped for `SortableChips`: a stable `id` plus the chip props resolved from
+ * `getItemProps` at the option's position in the committed value, so they stay correct while the
+ * working copy is reordered live during a drag.
+ */
+interface SortableChipItem<Value> {
+    id: UniqueIdentifier;
+    key: React.Key;
+    option: Value;
+    label: string;
+    /** Index of the option in the committed (pre-drag) value — the index `renderChip` receives. */
+    index: number;
+    chipProps: ChipProps;
+    /** `true` when `validateEntry` rejected this entry. */
+    invalid: boolean;
+}
+
+/**
+ * Stand-in event passed to `onChange` for a drag reorder, which no React event triggers; it has to
+ * survive a consumer's `stopPropagation()`. `nativeEvent` is the pointer event that started the drag,
+ * when dnd-kit surfaces one.
+ */
+const createReorderEvent = (activatorEvent?: Event): React.SyntheticEvent => {
+    const target = activatorEvent?.target ?? null;
+    const noop = (): void => undefined;
+
+    return {
+        type: 'reorder',
+        nativeEvent: activatorEvent ?? { type: 'reorder' },
+        target,
+        currentTarget: target,
+        bubbles: false,
+        cancelable: false,
+        defaultPrevented: false,
+        eventPhase: 0,
+        isTrusted: false,
+        timeStamp: activatorEvent?.timeStamp ?? 0,
+        preventDefault: noop,
+        stopPropagation: noop,
+        isDefaultPrevented: () => false,
+        isPropagationStopped: () => false,
+        persist: noop,
+    } as unknown as React.SyntheticEvent;
+};
+
+/**
+ * The delete glyph on a chip: a consumer icon from `slotProps.chip.deleteIcon`, otherwise the
+ * lucide default at `size="1em"`, which follows the `.MuiChip-deleteIcon` font size.
+ * `flexShrink: 0` keeps the glyph from being squeezed by a truncated label.
+ */
+const resolveChipDeleteIcon = (deleteIcon: React.ReactNode): React.ReactElement =>
+    React.isValidElement(deleteIcon) ? deleteIcon : <X size="1em" style={{ flexShrink: 0 }} />;
+
+type AutocompletePaperSlotProps = NonNullable<NonNullable<AutocompleteMuiProps<unknown>['slotProps']>['paper']>;
+
+/**
+ * Folds an object `componentsProps.paper` into `slotProps.paper`, which wins key by key; class names, `style`
+ * and `sx` from both are combined. A `slotProps.paper` function is returned as is and replaces the other prop.
+ */
+function mergePaperSlotProps(
+    componentsPaperProps: PaperProps | undefined,
+    slotPaperProps: AutocompletePaperSlotProps | undefined,
+): AutocompletePaperSlotProps | undefined {
+    if (!componentsPaperProps || typeof componentsPaperProps !== 'object' || typeof slotPaperProps === 'function') {
+        return slotPaperProps;
+    }
+
+    if (!slotPaperProps) {
+        return componentsPaperProps;
+    }
+
+    // MUI types the slot's `ref` as a class-component ref, which a `div` ref does not satisfy.
+    const slotPaper = slotPaperProps as PaperProps;
+    const merged: PaperProps = { ...componentsPaperProps, ...slotPaper };
+
+    if (componentsPaperProps.className && slotPaper.className) {
+        merged.className = classNames(componentsPaperProps.className, slotPaper.className);
+    }
+
+    if (componentsPaperProps.style && slotPaper.style) {
+        merged.style = { ...componentsPaperProps.style, ...slotPaper.style };
+    }
+
+    if (componentsPaperProps.sx && slotPaper.sx) {
+        merged.sx = [componentsPaperProps.sx, slotPaper.sx].flat() as SxProps<Theme>;
+    }
+
+    return merged;
+}
+
+/**
+ * A single draggable chip in the default (no `renderChip`) path. Its delete icon is non-draggable
+ * so a click removes the option, and its tooltip is suppressed while any chip is being dragged.
+ */
+function SortableChipTag<Value>(props: { item: SortableChipItem<Value>; isDragActive: boolean }): React.JSX.Element {
+    const { item, isDragActive } = props;
+    const deleteIconRef = useNonDraggableRef<SVGSVGElement>();
+    const { deleteIcon, ...chipProps } = item.chipProps;
+    // The resolved icon only gains the ref that keeps a click on it from starting a drag.
+    const resolvedDeleteIcon = resolveChipDeleteIcon(deleteIcon);
+
+    return (
+        <Tooltip title={isDragActive ? '' : item.label}>
+            <Chip
+                {...chipProps}
+                deleteIcon={React.cloneElement(resolvedDeleteIcon as React.ReactElement<{ ref?: React.Ref<unknown> }>, {
+                    ref: deleteIconRef.setRef,
+                })}
+            />
+        </Tooltip>
+    );
+}
+
+/**
+ * `ChipProps` plus the per-chip `data-testid` the component always emits, declared so the
+ * attribute survives the cast and reaches a `renderChip` consumer spreading `chipProps`.
+ */
+type ChipPropsWithTestId = ChipProps & { 'data-testid': string };
+
+/** Chip rules of the `chipsInput` variant, applied on both chip render paths. */
+interface ChipRules {
+    validateEntry?: (entry: unknown) => boolean;
+    chipMaxWidth?: number | string;
+}
+
+/**
+ * The props both chip render paths hand to MUI: MUI's `getItemProps` result for the index, overlaid
+ * with `slotProps.chip`, plus the resolved label and the per-chip `data-testid`. Shared by both
+ * paths because the test-id format, the precedence and the `chipProps` shape are public API.
+ */
+function buildChipProps<G extends (state: { index: number }) => object>(params: {
+    option: unknown;
+    index: number;
+    getItemProps: G;
+    customGetOptionLabel: (option: unknown) => string;
+    chipSlotProps: Partial<React.ComponentProps<typeof Chip>> | undefined;
+    dataTestId: string;
+    chipRules?: ChipRules;
+}): { key: React.Key; label: string; chipProps: ChipPropsWithTestId; invalid: boolean } {
+    const { option, index, getItemProps, customGetOptionLabel, chipSlotProps, dataTestId, chipRules } = params;
+    const { key, ...chipPropsFromItem } = getItemProps({ index }) as ReturnType<G> & { key?: React.Key };
+    const label = customGetOptionLabel(option);
+    const invalid = chipRules?.validateEntry ? !chipRules.validateEntry(option) : false;
+    const chipMaxWidth = chipRules?.chipMaxWidth;
+
+    return {
+        key: key ?? index,
+        label,
+        invalid,
+        chipProps: {
+            ...chipPropsFromItem,
+            ...(invalid ? { color: 'error' } : {}),
+            // Before `chipSlotProps`, so a consumer that sets its own `slotProps.chip['data-testid']`
+            // still wins — the same precedence every other chip prop follows.
+            'data-testid': `${dataTestId}-chip-${index}`,
+            ...chipSlotProps,
+            ...(chipMaxWidth === undefined
+                ? {}
+                : {
+                      // MUI caps tags through `.MuiAutocomplete-root .MuiAutocomplete-tag`, which a rule on the
+                      // chip's own class alone loses to. Three classes outrank it and the Chip's base rule.
+                      sx: [
+                          { '&.MuiChip-root.MuiAutocomplete-tag': { maxWidth: chipMaxWidth } },
+                          ...castArray(chipSlotProps?.sx ?? []),
+                      ],
+                  }),
+            label,
+        } as ChipPropsWithTestId,
+    };
+}
+
 const createRenderSelectedValue = <Value,>(
     customGetOptionLabel: (option: unknown) => string,
     chipSlotProps: Partial<React.ComponentProps<typeof Chip>> | undefined,
+    dataTestId: string,
     renderChip?: (context: AutocompleteChipRenderContext<Value>) => React.ReactNode,
+    chipRules?: ChipRules,
 ): NonNullable<AutocompleteMuiProps<Value>['renderValue']> => {
     return (value, getItemProps): React.ReactNode => {
         if (!Array.isArray(value)) {
@@ -410,40 +692,46 @@ const createRenderSelectedValue = <Value,>(
         }
 
         return value.map((option, index) => {
-            const { key, ...chipPropsFromItem } = getItemProps({ index }) as ReturnType<typeof getItemProps> & {
-                key?: React.Key;
-            };
-            const label = customGetOptionLabel(option);
-            const chipProps = {
-                ...chipPropsFromItem,
-                ...chipSlotProps,
-                label,
-            } as React.ComponentProps<typeof Chip>;
+            const { key, label, chipProps, invalid } = buildChipProps({
+                option,
+                index,
+                getItemProps,
+                customGetOptionLabel,
+                chipSlotProps,
+                dataTestId,
+                chipRules,
+            });
 
             if (renderChip) {
                 return (
-                    <React.Fragment key={key ?? index}>
-                        {renderChip({ option: option as Value, label, index, chipProps })}
+                    <React.Fragment key={key}>
+                        {renderChip({ option: option as Value, label, index, chipProps, invalid })}
                     </React.Fragment>
                 );
             }
 
+            // Destructured only here, AFTER the `renderChip` early return above, so the `chipProps`
+            // object handed to a `renderChip` consumer keeps its documented shape.
+            const { deleteIcon, ...chipPropsWithoutDeleteIcon } = chipProps;
+
             return (
-                <Tooltip key={key ?? index} title={label}>
-                    <Chip {...chipProps} />
+                <Tooltip key={key} title={label}>
+                    <Chip {...chipPropsWithoutDeleteIcon} deleteIcon={resolveChipDeleteIcon(deleteIcon)} />
                 </Tooltip>
             );
         });
     };
 };
 
-interface AutocompleteInputProps {
+interface AutocompleteInputProps extends WithOwnerDataTestId {
     actions?: Action[];
-    dataTestId: string;
-    dataTestIdSuffix?: string;
+    /** Resolved duplicate message; when set it takes over `helperText` and forces the error state. */
+    duplicateEntryMessage?: React.ReactNode;
     inputParams: AutocompleteRenderInputParams;
     labels: AutocompleteLabels;
     loading?: boolean;
+    onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+    onPaste?: React.ClipboardEventHandler<HTMLDivElement>;
     refAnchor: React.RefObject<HTMLButtonElement | null>;
     textFieldSlotProps?: TextFieldProps;
 }
@@ -466,14 +754,19 @@ interface FilterAutocompleteInputProps extends Omit<
 > {
     autocompleteInputRef: React.RefObject<HTMLInputElement | null>;
     disabled: boolean;
-    label: string;
+    label: React.ReactNode;
     onTriggerClick(event: React.MouseEvent<HTMLElement>): void;
     selectedCount: number;
     triggerRef: React.RefObject<HTMLDivElement | null>;
 }
 
-type AutocompleteInternalProps<Value> = AutocompleteBaseProps<Value> & {
-    variant?: 'default' | 'filter';
+type AutocompleteInternalProps<Value> = Omit<AutocompleteBaseProps<Value>, 'options'> & {
+    options?: ReadonlyArray<Value>;
+    variant?: 'default' | 'filter' | 'chipsInput';
+    createChipsOnPaste?: boolean;
+    pasteSeparators?: ReadonlyArray<string>;
+    validateEntry?: (entry: unknown) => boolean;
+    chipMaxWidth?: number | string;
     searchTextFieldProps?: TextFieldProps;
 };
 
@@ -506,7 +799,7 @@ const FilterAutocompletePaper = React.forwardRef<HTMLDivElement, PaperProps>(
         };
 
         return (
-            <PaperComponent elevation={1} {...paperProps} ref={paperRef}>
+            <PaperComponent {...paperProps} ref={paperRef}>
                 <Box sx={{ px: 1, pt: 1 }}>
                     <TextField
                         {...searchTextFieldProps}
@@ -530,7 +823,7 @@ const FilterAutocompletePaper = React.forwardRef<HTMLDivElement, PaperProps>(
                                 sx: { '& input': { paddingLeft: 0 } },
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon aria-hidden="true" fontSize="small" />
+                                        <SearchIcon aria-hidden="true" size={DEFAULT_LUCIDE_ICON_SIZE} />
                                     </InputAdornment>
                                 ),
                             },
@@ -548,18 +841,29 @@ FilterAutocompletePaper.displayName = 'FilterAutocompletePaper';
 function AutocompleteInput({
     actions,
     dataTestId,
-    dataTestIdSuffix,
+    duplicateEntryMessage,
     inputParams,
     labels,
     loading,
+    onKeyDown,
+    onPaste,
     refAnchor,
     textFieldSlotProps,
 }: AutocompleteInputProps): React.JSX.Element {
+    // Taken apart so the caller's slot props are merged below instead of being replaced by the ones this
+    // component sets, and so MUI's own label wiring cannot be overwritten by the caller's `InputLabelProps`.
+    const {
+        slotProps: callerSlotProps,
+        InputLabelProps: callerInputLabelProps,
+        ...textFieldProps
+    } = textFieldSlotProps ?? {};
+    const objectSlot = (slot: unknown): object => (slot && typeof slot === 'object' ? slot : {});
+
     const actionButton =
         actions && actions.length === 1 ? (
             <Tooltip title={actions[0].disabledReason || actions[0].label}>
                 <IconButton
-                    sx={{ p: '2px' }}
+                    aria-label={actions[0].label}
                     onClick={(event: React.MouseEvent<HTMLElement>): void => {
                         event.preventDefault();
                         event.stopPropagation();
@@ -577,24 +881,25 @@ function AutocompleteInput({
         actions && actions.length > 1 ? (
             <IconButton
                 ref={refAnchor}
-                sx={{ p: '2px' }}
+                // A blank label would leave the button unnamed again, so it counts as "not provided".
+                aria-label={resolveMoreActionsAriaLabel(labels.moreActions)}
                 data-testid={`${dataTestId}-actions`}
                 onClick={(event): void => event.stopPropagation()}
             >
-                <MoreVert />
+                <EllipsisVertical size={DEFAULT_LUCIDE_ICON_SIZE} />
                 {/* zIndex of Autocomplete Popper is 1300 */}
-                <ActionBox actions={actions} anchorEl={refAnchor} zIndex={1400} dataTestIdSuffix={dataTestIdSuffix} />
+                <ActionBox actions={actions} anchorEl={refAnchor} zIndex={1400} dataTestId={`${dataTestId}-menu`} />
             </IconButton>
         ) : null;
 
     const circularProgress = loading ? (
-        <IconButton disableFocusRipple={true} disableRipple={true}>
-            <CircularProgress
-                size={'1.125rem'}
-                sx={{ cursor: 'default' }}
-                data-testid={`${dataTestId}-circular-progress`}
-            />
-        </IconButton>
+        // Not a button: the spinner is a passive status indicator, so it must not be exposed as an
+        // interactive (and unnamed) control. Laid out like the IconButtons beside it: the adornment
+        // is not always a flex container, and there a block box takes a line of its own and a
+        // baseline-aligned one pushes the buttons down.
+        <Box sx={{ display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle', p: '2px' }}>
+            <CircularProgress size={'1.125rem'} data-testid={`${dataTestId}-circular-progress`} />
+        </Box>
     ) : null;
 
     const endAdornment = inputParams.InputProps.endAdornment;
@@ -634,22 +939,47 @@ function AutocompleteInput({
 
     return (
         <TextField
-            {...textFieldSlotProps}
+            {...textFieldProps}
             {...inputParams}
-            data-testid={dataTestId}
+            /*
+             * The plain `dataTestId` belongs to the Autocomplete root, which is this
+             * TextField's ancestor — reusing it here would make `getByTestId` ambiguous.
+             */
+            data-testid={`${dataTestId}-textfield`}
             slotProps={{
+                ...callerSlotProps,
                 input: {
+                    ...objectSlot(callerSlotProps?.input),
                     ...inputParams.InputProps,
                     endAdornment: customEndAdornment,
                 },
                 /*
-                 * DESCOMP253-9 FIXME:
-                 *    There is a problem with adding data-testids to the TextField component directly, so we add it to the inputProps instead
+                 * `inputParams.inputProps` carries MUI's input ref and a11y wiring, so it is merged
+                 * into the `htmlInput` slot rather than replaced.
                  */
-                // htmlInput: { 'data-testid': `${dataTestId}-input` }
+                htmlInput: {
+                    ...objectSlot(callerSlotProps?.htmlInput),
+                    ...inputParams.inputProps,
+                    'data-testid': `${dataTestId}-input`,
+                },
+                // MUI's `slotProps.inputLabel` replaces `InputLabelProps` outright, so its `id`/`htmlFor`
+                // are added last here — otherwise a caller's `shrink` would cut the label off its input.
+                inputLabel: {
+                    ...callerInputLabelProps,
+                    ...objectSlot(callerSlotProps?.inputLabel),
+                    ...inputParams.InputLabelProps,
+                },
             }}
             label={labels.title}
             placeholder={isNil(inputParams.InputProps.startAdornment) ? labels.inputPlaceholder : undefined}
+            /*
+             * Both fall back to what `slotProps.textField` already spread in above; the duplicate
+             * message only borrows the helper line for as long as it is showing.
+             */
+            error={isNil(duplicateEntryMessage) ? textFieldSlotProps?.error : true}
+            helperText={isNil(duplicateEntryMessage) ? textFieldSlotProps?.helperText : duplicateEntryMessage}
+            onKeyDown={onKeyDown}
+            onPaste={onPaste}
         />
     );
 }
@@ -715,7 +1045,8 @@ function FilterAutocompleteInput(props: FilterAutocompleteInputProps): React.JSX
             onMouseLeave={(): void => setIsHovered(false)}
             inputProps={{
                 ...autocompleteInputProps,
-                'aria-label': label,
+                // `labels.title` accepts a node; only a string can name the input.
+                'aria-label': typeof label === 'string' ? label : undefined,
                 className: 'ring-autocomplete-filter-input',
                 'data-testid': `${dataTestId}-input`,
             }}
@@ -824,9 +1155,17 @@ function AutocompleteWithoutRef<Value>(
         loadingText = '',
         forcePopupIcon,
         popupIcon,
+        clearIcon,
         renderOption,
         renderValue,
         renderChip,
+        duplicateEntryMessage,
+        onDuplicateEntry,
+        createChipsOnPaste = false,
+        pasteSeparators = DEFAULT_PASTE_SEPARATORS,
+        validateEntry,
+        chipMaxWidth = 150,
+        sortableChips = false,
         dataTestIdSuffix,
         defaultValue,
         variant = 'default',
@@ -842,11 +1181,14 @@ function AutocompleteWithoutRef<Value>(
     const triggerRef = useRef<HTMLDivElement>(null);
     const paperRef = useRef<HTMLDivElement>(null);
     const [uncontrolledSearchValue, setUncontrolledSearchValue] = useState('');
-    const [uncontrolledFilterValue, setUncontrolledFilterValue] = useState<unknown>(
-        defaultValue ?? (otherProps.multiple ? [] : null),
-    );
-    const [uncontrolledFilterOpen, setUncontrolledFilterOpen] = useState(false);
     const isFilterVariant = variant === 'filter';
+    const isChipsInputVariant = variant === 'chipsInput';
+    const isMultiple = isChipsInputVariant || Boolean(otherProps.multiple);
+    const isFreeSolo = isChipsInputVariant || Boolean(otherProps.freeSolo);
+    const ownsVariantValue = isFilterVariant || isChipsInputVariant;
+    const [uncontrolledValue, setUncontrolledValue] = useState<unknown>(defaultValue ?? (isMultiple ? [] : null));
+    const [chipsInputText, setChipsInputText] = useState('');
+    const [uncontrolledFilterOpen, setUncontrolledFilterOpen] = useState(false);
     const filterLabels = labels as FilterAutocompleteLabels;
     const filterSearchTextFieldProps = isFilterVariant ? searchTextFieldProps : undefined;
 
@@ -855,13 +1197,49 @@ function AutocompleteWithoutRef<Value>(
         avatar: avatarSlotProps,
         ...autocompleteSlotProps
     } = (slotProps || {}) as NonNullable<AutocompleteBaseProps<Value>['slotProps']>;
+    const paperSlotProps = mergePaperSlotProps(otherProps.componentsProps?.paper, autocompleteSlotProps.paper);
     const listboxRef = React.useRef<HTMLElement | null>(null);
 
-    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<MuiOption[]>(() =>
+    const hasCustomRenderTags = Boolean((otherProps as AutocompleteMuiProps<Value>).renderTags);
+    const isReadOnly = Boolean((otherProps as AutocompleteMuiProps<Value>).readOnly);
+    const { limitTags } = otherProps as AutocompleteMuiProps<Value>;
+    // Why `sortableChips` cannot apply, if it cannot: the single source of truth for both the render
+    // decision below and the console warning further down, so the two cannot drift apart.
+    const sortableIgnoredReason = !otherProps.multiple
+        ? 'multiple is not enabled'
+        : renderValue
+          ? 'renderValue takes precedence'
+          : hasCustomRenderTags
+            ? 'renderTags takes precedence'
+            : otherProps.disabled
+              ? 'the component is disabled'
+              : isReadOnly
+                ? 'the component is read-only'
+                : undefined;
+    const isSortable = sortableChips && sortableIgnoredReason === undefined;
+    const valueProp = otherProps.value;
+    const isControlled = valueProp !== undefined;
+
+    // Reordering needs write access to the value, so an uncontrolled `sortableChips` Autocomplete is
+    // rendered controlled from this internal copy, seeded from `defaultValue`; a controlled `value`
+    // is rendered as-is. Not gated on `isSortable`, which flips with `disabled` or `readOnly`, because MUI's
+    // `useControlled` latches controlled-ness on the first render and a later switch would throw or stop dragging.
+    const ownsValue = sortableChips && !isFilterVariant && !isControlled && Boolean(otherProps.multiple);
+    const [sortableValue, setSortableValue] = useState<unknown[]>(() => (defaultValue ?? []) as unknown[]);
+
+    const [recentlyUsedItems, setRecentlyUsedItems] = React.useState<AutocompleteOption[]>(() =>
         getStoredRecentlyUsedItems(showRecentlyUsed, recentlyLocalStorageKey).slice(0, recentlyUsedLimit),
     );
     const recentlyUsedItemsRef = React.useRef(recentlyUsedItems);
-    const pendingRecentlyUsedItemsRef = React.useRef<MuiOption[] | null>(null);
+    const pendingRecentlyUsedItemsRef = React.useRef<AutocompleteOption[] | null>(null);
+
+    // Off unless the consumer asked for the feedback, so nothing below runs for every other usage.
+    const tracksDuplicateEntries =
+        isMultiple && isFreeSolo && (!isNil(duplicateEntryMessage) || !isNil(onDuplicateEntry));
+    const [rejectedEntry, setRejectedEntry] = useState<string | null>(null);
+    const pendingEntryRef = React.useRef<string | null>(null);
+    // An uncontrolled value that is not owned here lives in MUI's state, which only `onChange` reveals.
+    const reportedValueRef = React.useRef<unknown>(defaultValue);
 
     const handleOnOpen = (event: React.SyntheticEvent): void => {
         if (isFilterVariant && otherProps.open === undefined) {
@@ -898,7 +1276,9 @@ function AutocompleteWithoutRef<Value>(
     const controlledInputValue = otherProps.inputValue;
     const searchValue = controlledInputValue === undefined ? uncontrolledSearchValue : controlledInputValue;
     const filterOpen = otherProps.open === undefined ? uncontrolledFilterOpen : otherProps.open;
-    const filterValue = otherProps.value === undefined ? uncontrolledFilterValue : otherProps.value;
+    const currentValue = otherProps.value === undefined ? uncontrolledValue : otherProps.value;
+    // `undefined` leaves the value to MUI's own state.
+    const muiValue = ownsValue ? sortableValue : ownsVariantValue ? currentValue : otherProps.value;
 
     useLayoutEffect(() => {
         if (isFilterVariant && filterOpen) {
@@ -955,7 +1335,8 @@ function AutocompleteWithoutRef<Value>(
                   ref: mergeListboxRef(listboxSlotProps?.ref as React.Ref<HTMLElement>),
               };
 
-    let parsedOptions: AutocompleteMuiProps<Value>['options'] = options;
+    const resolvedOptions = options ?? [];
+    let parsedOptions: AutocompleteMuiProps<Value>['options'] = resolvedOptions;
     let resolvedGroupBy = groupBy;
     const shouldRenderMenuListAction = Boolean(menuListActions && !renderGroup);
 
@@ -981,13 +1362,13 @@ function AutocompleteWithoutRef<Value>(
             return isEqual(cleanOption, cleanValue);
         };
 
-        parsedOptions = options
+        parsedOptions = resolvedOptions
             .map((option) => {
                 if (!isAutocompleteOptionObject(option)) {
                     return option;
                 }
 
-                const foundItemIndex = recentlyUsedItems.findIndex((r: MuiOption) =>
+                const foundItemIndex = recentlyUsedItems.findIndex((r: AutocompleteOption) =>
                     isEqual(stripRecentlyUsedMeta(r), stripRecentlyUsedMeta(option)),
                 );
 
@@ -1010,7 +1391,106 @@ function AutocompleteWithoutRef<Value>(
         resolvedGroupBy = (): string => menuListActions.label ?? '';
     }
 
-    const isImplicitResultsGroup = Boolean(shouldRenderMenuListAction && !groupBy && !showRecentlyUsed);
+    /**
+     * Anything MUI does with an Enter shows up as a value or an input change. A rejected duplicate
+     * does neither, so this is what tells the two apart — see `handleTextFieldKeyDown`.
+     */
+    const settleEntry = (): void => {
+        // Nothing can be pending unless the feature is on, and every Autocomplete in the library
+        // routes its input changes through here — so leave the other ones alone.
+        if (!tracksDuplicateEntries) {
+            return;
+        }
+
+        pendingEntryRef.current = null;
+        setRejectedEntry(null);
+    };
+
+    /** The test MUI applies before adding a `freeSolo` entry: `isOptionEqualToValue`, `===` by default. */
+    const isEntryTaken = (entry: string, selected: unknown[]): boolean => {
+        const isSame =
+            (otherProps as AutocompleteMuiProps<Value>).isOptionEqualToValue ??
+            ((option: Value, value: Value): boolean => option === value);
+
+        return selected.some((existing) => isSame(entry as Value, existing as Value));
+    };
+
+    /** One message per action: it quotes the first rejected entry; the callback hears about each. */
+    const reportRejectedEntries = (
+        event: React.KeyboardEvent<HTMLDivElement> | React.ClipboardEvent<HTMLDivElement>,
+        entries: string[],
+    ): void => {
+        if (entries.length === 0) {
+            return;
+        }
+
+        if (!isNil(duplicateEntryMessage)) {
+            setRejectedEntry(entries[0]);
+        }
+
+        entries.forEach((entry) => onDuplicateEntry?.(event, entry));
+    };
+
+    /**
+     * Detects the one rejection MUI keeps to itself: a `freeSolo` entry that is already selected is
+     * dropped without `onChange` or `onInputChange`. Instead of re-deriving MUI's Enter branches, which would
+     * drift with MUI, an already selected entry is noted here and settled in a microtask; still pending then
+     * means nothing consumed it.
+     */
+    const handleTextFieldKeyDown = (
+        event: React.KeyboardEvent<HTMLDivElement> & { defaultMuiPrevented?: boolean },
+    ): void => {
+        textFieldSlotProps?.onKeyDown?.(event);
+
+        // MUI ignores an Enter that commits an IME composition, which it recognises by `which` 229.
+        if (
+            !tracksDuplicateEntries ||
+            event.key !== 'Enter' ||
+            event.defaultPrevented ||
+            event.nativeEvent.isComposing ||
+            event.which === 229
+        ) {
+            return;
+        }
+
+        const entry = (event.target as HTMLInputElement).value;
+        const selected = muiValue === undefined ? reportedValueRef.current : muiValue;
+
+        if (!entry || !isEntryTaken(entry, Array.isArray(selected) ? selected : [])) {
+            return;
+        }
+
+        pendingEntryRef.current = entry;
+
+        queueMicrotask(() => {
+            if (pendingEntryRef.current !== entry) {
+                return;
+            }
+
+            pendingEntryRef.current = null;
+
+            // Read only now: the Autocomplete's own `onKeyDown` runs after this handler, and MUI then ignores the key.
+            if (event.defaultMuiPrevented) {
+                return;
+            }
+
+            reportRejectedEntries(event, [entry]);
+        });
+    };
+
+    const handleOnInputChange = (
+        event: React.SyntheticEvent,
+        value: string,
+        reason: AutocompleteInputChangeReason,
+    ): void => {
+        settleEntry();
+
+        if (isChipsInputVariant) {
+            setChipsInputText(value);
+        }
+
+        (otherProps as AutocompleteMuiProps<Value>).onInputChange?.(event, value, reason);
+    };
 
     const handleOnChange = (
         event: React.SyntheticEvent,
@@ -1018,12 +1498,22 @@ function AutocompleteWithoutRef<Value>(
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<unknown> | undefined,
     ): void => {
-        if (isFilterVariant && otherProps.value === undefined) {
-            setUncontrolledFilterValue(value);
+        settleEntry();
+        reportedValueRef.current = value;
+
+        if (ownsVariantValue && otherProps.value === undefined) {
+            setUncontrolledValue(value);
+        }
+
+        if (ownsValue) {
+            // Uncontrolled only: mirror MUI-originated changes (select/remove/clear) into the
+            // internal copy that backs the value. When the consumer controls the value, its `value`
+            // prop is the single source of truth — mirroring here would apply changes it rejects.
+            setSortableValue((value as unknown[]) ?? []);
         }
 
         if (showRecentlyUsed && recentlyLocalStorageKey && reason === 'selectOption') {
-            const rawOption = otherProps.multiple ? details?.option : value;
+            const rawOption = isMultiple ? details?.option : value;
 
             if (isAutocompleteOptionObject(rawOption)) {
                 const selectedOption = stripRecentlyUsedMeta(rawOption);
@@ -1050,6 +1540,49 @@ function AutocompleteWithoutRef<Value>(
         );
     };
 
+    /**
+     * Turns a paste into chips. The default is prevented only when there is something to add, so a
+     * paste that holds nothing but separators still lands in the input as usual.
+     */
+    const handlePaste = (event: React.ClipboardEvent<HTMLDivElement>): void => {
+        textFieldSlotProps?.onPaste?.(event);
+
+        // A read-only input still fires `paste`, and this path bypasses MUI, which would otherwise block the edit.
+        if (!isChipsInputVariant || !createChipsOnPaste || otherProps.readOnly || otherProps.disabled) {
+            return;
+        }
+
+        const entries = splitPastedText(event.clipboardData.getData('text'), pasteSeparators);
+
+        if (entries.length === 0) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const current = Array.isArray(currentValue) ? (currentValue as unknown[]) : [];
+        const accepted: string[] = [];
+        const rejected: string[] = [];
+
+        entries.forEach((entry) => {
+            if (isEntryTaken(entry, [...current, ...accepted])) {
+                rejected.push(entry);
+            } else {
+                accepted.push(entry);
+            }
+        });
+
+        handleOnInputChange(event, '', 'clear');
+
+        if (accepted.length > 0) {
+            handleOnChange(event, [...current, ...accepted], 'createOption', {
+                option: accepted[accepted.length - 1],
+            });
+        }
+
+        reportRejectedEntries(event, rejected);
+    };
+
     const customGetOptionLabel = (option: unknown): string => {
         if (getOptionLabel) {
             return getOptionLabel(option as Value | string);
@@ -1069,26 +1602,145 @@ function AutocompleteWithoutRef<Value>(
         typeof autocompleteSlotProps.chip === 'function'
             ? undefined
             : (autocompleteSlotProps.chip as Partial<React.ComponentProps<typeof Chip>> | undefined);
-    const renderSelectedValue = createRenderSelectedValue<Value>(customGetOptionLabel, chipSlotProps, renderChip);
-    const hasCustomRenderTags = Boolean((otherProps as AutocompleteMuiProps<Value>).renderTags);
+    const chipRules: ChipRules | undefined = isChipsInputVariant ? { validateEntry, chipMaxWidth } : undefined;
+    const renderSelectedValue = createRenderSelectedValue<Value>(
+        customGetOptionLabel,
+        chipSlotProps,
+        dataTestId,
+        renderChip,
+        chipRules,
+    );
 
     React.useEffect(() => {
         if (!renderChip) {
             return;
         }
 
-        if (!otherProps.multiple) {
+        if (!isMultiple) {
             console.warn('Autocomplete: renderChip is ignored because multiple is not enabled.');
         } else if (renderValue) {
             console.warn('Autocomplete: renderChip is ignored because renderValue takes precedence.');
         } else if (hasCustomRenderTags) {
             console.warn('Autocomplete: renderChip is ignored because renderTags takes precedence.');
         }
-    }, [hasCustomRenderTags, otherProps.multiple, renderChip, renderValue]);
+    }, [hasCustomRenderTags, isMultiple, renderChip, renderValue]);
+
+    const resolvedDuplicateEntryMessage =
+        rejectedEntry === null
+            ? undefined
+            : typeof duplicateEntryMessage === 'function'
+              ? duplicateEntryMessage(rejectedEntry)
+              : duplicateEntryMessage;
+
+    React.useEffect(() => {
+        if (!sortableChips) {
+            return;
+        }
+
+        if (sortableIgnoredReason !== undefined) {
+            console.warn(`Autocomplete: sortableChips is ignored because ${sortableIgnoredReason}.`);
+        } else if (limitTags !== undefined && limitTags > -1) {
+            // `limitTags` is the one case that does NOT disable sorting: sortable chips render as
+            // one element so they can share a drag context, and MUI only truncates when renderValue
+            // returns an array — so limitTags cannot apply, but the reorder still works.
+            console.warn('Autocomplete: limitTags is ignored because sortableChips renders all chips.');
+        }
+    }, [limitTags, sortableChips, sortableIgnoredReason]);
+
+    /**
+     * Stable drag identity of an option: `getOptionKey` if provided, then an `id` field, then the
+     * label. Must be unique within the selected values for drag&drop to behave.
+     */
+    const getChipId = (option: unknown): UniqueIdentifier => {
+        const key = (otherProps as AutocompleteMuiProps<Value>).getOptionKey?.(option as Value);
+
+        if (key !== undefined) {
+            return key;
+        }
+
+        const { id } = (option ?? {}) as { id?: string | number };
+
+        return id ?? customGetOptionLabel(option);
+    };
+
+    const reorderChips = (reordered: SortableChipItem<Value>[], activatorEvent?: Event): void => {
+        const newValue = reordered.map(({ option }) => option);
+
+        if (!isControlled) {
+            setSortableValue(newValue);
+        }
+
+        onChange?.(createReorderEvent(activatorEvent), newValue as AutocompleteValueFor<Value>, 'reorder');
+    };
+
+    const duplicateChipIdWarned = useRef(false);
+
+    const renderSortableValue: NonNullable<AutocompleteMuiProps<Value>['renderValue']> = (
+        value,
+        getItemProps,
+        ownerState,
+    ) => {
+        if (!Array.isArray(value)) {
+            return null;
+        }
+
+        // Chip props are resolved from the committed value order up front, so they stay attached
+        // to the right option (delete handler included) while `SortableChips` live-reorders its
+        // working copy during a drag.
+        const chips = value.map((option, index): SortableChipItem<Value> => {
+            const { key, label, chipProps, invalid } = buildChipProps({
+                option,
+                index,
+                getItemProps,
+                customGetOptionLabel,
+                chipSlotProps,
+                dataTestId,
+                chipRules,
+            });
+
+            return { id: getChipId(option), key, option: option as Value, label, index, chipProps, invalid };
+        });
+
+        // dnd-kit requires unique ids; duplicates (e.g. two equal freeSolo strings without
+        // `getOptionKey`) would break the drag, so fall back to the static chip row.
+        if (new Set(chips.map(({ id }) => id)).size !== chips.length) {
+            if (!duplicateChipIdWarned.current) {
+                duplicateChipIdWarned.current = true;
+                console.warn(
+                    'Autocomplete: sortableChips requires unique option identities ' +
+                        '(getOptionKey, an id field, or unique labels); rendering non-sortable chips.',
+                );
+            }
+
+            return renderSelectedValue(value, getItemProps, ownerState);
+        }
+
+        return (
+            <SortableChips
+                items={chips}
+                onChange={reorderChips}
+                getItemLabel={(item): string => item.label}
+                renderChip={(item, position, isDragActive): React.ReactNode =>
+                    renderChip ? (
+                        renderChip({
+                            option: item.option,
+                            label: item.label,
+                            index: item.index,
+                            chipProps: item.chipProps,
+                            invalid: item.invalid,
+                            isDragActive,
+                        })
+                    ) : (
+                        <SortableChipTag item={item} isDragActive={isDragActive} />
+                    )
+                }
+            />
+        );
+    };
 
     const renderAutocompleteInput = (inputParams: AutocompleteRenderInputParams): React.ReactNode => {
         if (isFilterVariant) {
-            const selectedCount = Array.isArray(filterValue) ? filterValue.length : filterValue === null ? 0 : 1;
+            const selectedCount = Array.isArray(currentValue) ? currentValue.length : currentValue === null ? 0 : 1;
 
             return (
                 <FilterAutocompleteInput
@@ -1115,10 +1767,12 @@ function AutocompleteWithoutRef<Value>(
             <AutocompleteInput
                 actions={actions}
                 dataTestId={dataTestId}
-                dataTestIdSuffix={dataTestIdSuffix}
+                duplicateEntryMessage={resolvedDuplicateEntryMessage}
                 inputParams={inputParams}
                 labels={labels}
                 loading={loading}
+                onKeyDown={handleTextFieldKeyDown}
+                onPaste={handlePaste}
                 refAnchor={refAnchor}
                 textFieldSlotProps={textFieldSlotProps}
             />
@@ -1152,20 +1806,21 @@ function AutocompleteWithoutRef<Value>(
 
         return (
             <li key={key}>
-                <Box
-                    sx={{
+                {/* The same sticky `ListSubheader` MUI's default `renderGroup` draws, `top` included: it offsets
+                    the listbox's 8px top padding. The tighter right gutter lines the icon buttons up with the edge. */}
+                <ListSubheader
+                    className="MuiAutocomplete-groupLabel"
+                    component="div"
+                    sx={(theme): Record<string, unknown> => ({
                         alignItems: 'center',
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        pl: 1.5,
                         pr: 1,
-                    }}
+                        top: theme.spacing(-1),
+                    })}
                 >
-                    <Typography className="MuiAutocomplete-groupLabel" color="text.secondary" component="div">
-                        {group}
-                    </Typography>
+                    {group}
                     {isFirstGroup && (
-                        <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5, ml: 'auto' }}>
                             {menuListActions?.actions.map((action, index) => (
                                 <AutocompleteMenuListActionButton
                                     action={action}
@@ -1175,12 +1830,13 @@ function AutocompleteWithoutRef<Value>(
                             ))}
                         </Box>
                     )}
-                </Box>
+                </ListSubheader>
+                {/* MUI's `groupUl` indent: options sit 24px in, under the heading, with or without `groupBy`. */}
                 <Box
                     component="ul"
                     sx={{
                         padding: 0,
-                        '& .MuiAutocomplete-option': { paddingLeft: isImplicitResultsGroup ? 2 : 3 },
+                        '& .MuiAutocomplete-option': { paddingLeft: 3 },
                     }}
                 >
                     {children}
@@ -1195,12 +1851,23 @@ function AutocompleteWithoutRef<Value>(
                 className={classNames('ring-autocomplete', className)}
                 data-testid={dataTestId}
                 {...otherProps}
+                multiple={isChipsInputVariant ? true : otherProps.multiple}
+                freeSolo={isChipsInputVariant ? true : otherProps.freeSolo}
                 options={parsedOptions}
-                defaultValue={isFilterVariant ? undefined : defaultValue}
+                defaultValue={
+                    // Withheld exactly when `value` is supplied below: MUI warns when it gets both, and the
+                    // owned copies were seeded from `defaultValue` anyway.
+                    (ownsValue || ownsVariantValue
+                        ? undefined
+                        : defaultValue) as AutocompleteMuiProps<Value>['defaultValue']
+                }
                 open={isFilterVariant ? filterOpen : otherProps.open}
-                value={isFilterVariant ? (filterValue as AutocompleteValueFor<Value>) : otherProps.value}
+                value={muiValue as AutocompleteMuiProps<Value>['value']}
+                inputValue={
+                    isChipsInputVariant && controlledInputValue === undefined ? chipsInputText : otherProps.inputValue
+                }
                 disableCloseOnSelect={
-                    isFilterVariant && otherProps.multiple
+                    isFilterVariant && isMultiple
                         ? (otherProps.disableCloseOnSelect ?? true)
                         : otherProps.disableCloseOnSelect
                 }
@@ -1218,12 +1885,14 @@ function AutocompleteWithoutRef<Value>(
                                   otherProps.onInputChange?.(event, nextInputValue, reason);
                               }
                           }
-                        : otherProps.onInputChange
+                        : handleOnInputChange
                 }
                 loading={loading}
                 groupBy={resolvedGroupBy}
                 forcePopupIcon={hasActions && !isFilterVariant ? false : forcePopupIcon}
-                popupIcon={popupIcon ?? <KeyboardArrowDownIcon />}
+                // Undefined falls back to the theme's MuiAutocomplete defaults: lucide's chevron and X.
+                popupIcon={popupIcon}
+                clearIcon={clearIcon}
                 getOptionLabel={customGetOptionLabel}
                 ref={ref}
                 loadingText={loadingText}
@@ -1233,18 +1902,28 @@ function AutocompleteWithoutRef<Value>(
                         ? renderAutocompleteGroup
                         : (renderGroup as AutocompleteMuiProps<Value>['renderGroup']))
                 }
-                renderOption={renderOption || defaultRenderOption}
+                renderOption={renderOption || (defaultRenderOption as AutocompleteMuiProps<Value>['renderOption'])}
                 renderValue={
                     isFilterVariant
                         ? (): null => null
-                        : renderValue || (otherProps.multiple && !hasCustomRenderTags ? renderSelectedValue : undefined)
+                        : renderValue ||
+                          (isMultiple && !hasCustomRenderTags
+                              ? ((isSortable
+                                    ? renderSortableValue
+                                    : renderSelectedValue) as AutocompleteMuiProps<Value>['renderValue'])
+                              : undefined)
                 }
                 sx={{
+                    '& .MuiAutocomplete-clearIndicator': { padding: '2px' },
+                    '& .MuiAutocomplete-inputRoot :has(.MuiAutocomplete-tag)': { maxWidth: '100%', minWidth: 0 },
                     ...otherProps.sx,
                 }}
                 slotProps={
                     {
                         ...autocompleteSlotProps,
+                        // A theme default for `slotProps.paper` gives MUI a paper slot on every Autocomplete, and
+                        // that slot replaces `componentsProps.paper` whole, so the deprecated prop is folded in here.
+                        ...(paperSlotProps && { paper: paperSlotProps }),
                         listbox: listboxProps,
                         clearIndicator: isFilterVariant
                             ? { ...autocompleteSlotProps.clearIndicator, 'data-testid': `${dataTestId}-clear` }

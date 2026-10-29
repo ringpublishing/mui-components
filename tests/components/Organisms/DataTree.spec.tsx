@@ -1,9 +1,11 @@
 import { act } from 'react';
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { ThemeProvider } from '@mui/material';
 import { render, fireEvent, waitFor, RenderOptions, RenderResult } from '@testing-library/react';
 
-import { getCreatedTheme, DataTree, DataTreeProps, DataTreeItem, filterDataTreeItems } from '../../../src/index.js';
+import { getCreatedTheme, DataTree, DataTreeProps, DataTreeItem } from '../../../src/index.js';
+import { filterDataTreeItems } from '../../../src/components/Organisms/DataTree/DataTree.js';
+import { loadLibrary } from './treeDynamicLoading/renderTree.js';
 
 describe('Component: DataTree', () => {
     function renderDataTree(props: DataTreeProps, options: RenderOptions = {}): RenderResult {
@@ -14,6 +16,21 @@ describe('Component: DataTree', () => {
                 <DataTree {...props} />
             </ThemeProvider>,
             options,
+        );
+    }
+
+    /**
+     * Items with `loadItems` need `enableTreeDynamicLoading()`, module state, so it runs on a copy of the library of
+     * its own and the rest of this file renders without it. Tests using it get 60 s: loading the copy takes seconds
+     * on a busy run, and findBy has to time out first to report what is missing.
+     */
+    async function renderDynamicDataTree(props: DataTreeProps): Promise<RenderResult> {
+        const library = await loadLibrary({ withDynamicLoading: true });
+
+        return render(
+            <ThemeProvider theme={library.getCreatedTheme('light')}>
+                <library.DataTree {...props} />
+            </ThemeProvider>,
         );
     }
 
@@ -178,6 +195,113 @@ describe('Component: DataTree', () => {
         });
     });
 
+    describe('row expansion while searching', () => {
+        // `parent` starts collapsed and `second` expanded; both have a child matching "Nested".
+        const searchItems: DataTreeItem[] = [
+            {
+                itemId: 'parent',
+                label: 'Parent',
+                expanded: false,
+                items: [{ itemId: 'child', label: 'Nested Child' }],
+            },
+            {
+                itemId: 'second',
+                label: 'Second',
+                expanded: true,
+                items: [{ itemId: 'second-child', label: 'Nested Second' }],
+            },
+        ];
+
+        beforeEach(() => localStorage.clear());
+        afterEach(() => localStorage.clear());
+
+        function renderSearchTree(props: Partial<DataTreeProps> = {}): RenderResult {
+            return renderDataTree({
+                items: searchItems,
+                withSearch: true,
+                searchDebounceTime: 0,
+                dataTestIdSuffix: 'search',
+                ...props,
+            });
+        }
+
+        function getRow(view: RenderResult, itemId: string): HTMLElement {
+            return view.getByTestId(`ring-datatree-search-item-${itemId}`);
+        }
+
+        async function typeQuery(view: RenderResult, value: string): Promise<void> {
+            act(() => {
+                fireEvent.change(view.getByRole('textbox'), { target: { value } });
+            });
+
+            await waitFor(() => {
+                const highlight = view.container.querySelector('.Ring-DataTree-matchedLabel');
+                expect(highlight !== null).toBe(value !== '');
+            });
+
+            if (value !== '') {
+                await waitFor(() => {
+                    expect(view.getByTestId('ring-datatree-search-item-child')).toBeTruthy();
+                });
+            }
+        }
+
+        function clickCollapse(view: RenderResult, itemId: string): void {
+            act(() => {
+                fireEvent.click(view.getByTestId(`ring-datatree-search-item-${itemId}-collapse`));
+            });
+        }
+
+        it('collapses a matching row when its collapse icon is clicked', async () => {
+            const view = renderSearchTree();
+
+            await typeQuery(view, 'Nested');
+            clickCollapse(view, 'parent');
+
+            await waitFor(() => {
+                expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('false');
+            });
+            await waitFor(() => {
+                expect(view.queryByTestId('ring-datatree-search-item-child')).toBeNull();
+            });
+            expect(getRow(view, 'second').getAttribute('aria-expanded')).toBe('true');
+        });
+
+        it('restores the expansion from before the search when the query is cleared', async () => {
+            const view = renderSearchTree();
+
+            await typeQuery(view, 'Nested');
+            clickCollapse(view, 'parent');
+            clickCollapse(view, 'second');
+            await typeQuery(view, '');
+
+            await waitFor(() => {
+                expect(view.queryByTestId('ring-datatree-search-item-child')).toBeNull();
+            });
+            expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('false');
+            expect(getRow(view, 'second').getAttribute('aria-expanded')).toBe('true');
+            expect(view.getByText('Nested Second')).toBeTruthy();
+        });
+
+        it('persists the expansion from before the search, not the rows toggled during it', async () => {
+            const view = renderSearchTree({ persistence: { cacheKey: 'search-tree', restoreExpandedItems: true } });
+
+            function storedExpandedItems(): string[] | undefined {
+                return JSON.parse(localStorage.getItem('ring-tree-state-search-tree') ?? '{}').expandedItems;
+            }
+
+            await typeQuery(view, 'Nested');
+            clickCollapse(view, 'parent');
+            clickCollapse(view, 'second');
+
+            expect(storedExpandedItems()).toEqual(['second']);
+
+            await typeQuery(view, '');
+
+            expect(storedExpandedItems()).toEqual(['second']);
+        });
+    });
+
     // ── onClickRow ──────────────────────────────────────────────────────────
 
     it('calls onClickRow with the itemId when a row label is clicked', async () => {
@@ -243,6 +367,76 @@ describe('Component: DataTree', () => {
 
     // ── Label sanitization (XSS) ────────────────────────────────────────────
 
+    describe('row actions button', () => {
+        // The dynamic path is a lazily imported chunk; under a loaded test run it can take longer
+        // than findBy's default 1s to resolve.
+        const DYNAMIC_CHUNK_TIMEOUT = 5000;
+
+        const items: DataTreeItem[] = [
+            {
+                itemId: '1',
+                label: 'Item 1',
+                expanded: true,
+                rowActions: [{ label: 'Edit' }],
+                items: [{ itemId: '1.1', label: 'Item 1.1', rowActions: [{ label: 'Edit' }] }],
+            },
+        ];
+
+        it('is named "More actions" by default', () => {
+            const { getByRole } = renderDataTree({ items: [{ ...items[0], items: undefined }] });
+
+            expect(getByRole('button', { name: 'More actions' })).toBeTruthy();
+        });
+
+        it('takes its name from rowActionsAriaLabel on every nesting level', () => {
+            const { getAllByRole, queryByRole } = renderDataTree({ items, rowActionsAriaLabel: 'Row options' });
+
+            expect(getAllByRole('button', { name: 'Row options' })).toHaveLength(2);
+            expect(queryByRole('button', { name: 'More actions' })).toBeNull();
+        });
+
+        it('falls back to "More actions" when rowActionsAriaLabel is blank', () => {
+            const { getAllByRole } = renderDataTree({ items, rowActionsAriaLabel: '  ' });
+
+            expect(getAllByRole('button', { name: 'More actions' })).toHaveLength(2);
+        });
+
+        it('is named on the dynamic path too, where an item has loadItems', async () => {
+            const { findByRole } = await renderDynamicDataTree({
+                items: [
+                    {
+                        itemId: '1',
+                        label: 'Item 1',
+                        rowActions: [{ label: 'Edit' }],
+                        loadItems: (): DataTreeItem[] => [],
+                    },
+                ],
+                rowActionsAriaLabel: 'Row options',
+            });
+
+            expect(
+                await findByRole('button', { name: 'Row options' }, { timeout: DYNAMIC_CHUNK_TIMEOUT }),
+            ).toBeTruthy();
+        }, 60_000);
+
+        it('falls back to "More actions" on the dynamic path', async () => {
+            const { findByRole } = await renderDynamicDataTree({
+                items: [
+                    {
+                        itemId: '1',
+                        label: 'Item 1',
+                        rowActions: [{ label: 'Edit' }],
+                        loadItems: (): DataTreeItem[] => [],
+                    },
+                ],
+            });
+
+            expect(
+                await findByRole('button', { name: 'More actions' }, { timeout: DYNAMIC_CHUNK_TIMEOUT }),
+            ).toBeTruthy();
+        }, 60_000);
+    });
+
     describe('label sanitization', () => {
         it('strips disallowed HTML from labels', () => {
             const { container, queryByText } = renderDataTree({
@@ -267,6 +461,61 @@ describe('Component: DataTree', () => {
             });
 
             expect(container.querySelector('span.hl')).not.toBeNull();
+        });
+    });
+
+    describe('row accessibility', () => {
+        it('keeps the expand icon button out of the tab order and away from assistive technology', () => {
+            const { getByTestId, queryAllByRole } = renderDataTree({
+                items: [{ itemId: 'parent', label: 'Parent', items: [{ itemId: 'child', label: 'Child' }] }],
+            });
+
+            const expand = getByTestId('ring-datatree-item-parent-expand');
+
+            expect(expand.getAttribute('tabindex')).toBe('-1');
+            expect(expand.getAttribute('aria-hidden')).toBe('true');
+            expect(queryAllByRole('button', { name: '' })).toHaveLength(0);
+        });
+
+        it('keeps the expand icon button decorative on the dynamic path too', async () => {
+            const { findByTestId } = await renderDynamicDataTree({
+                items: [{ itemId: 'lazy', label: 'Lazy', loadItems: (): DataTreeItem[] => [] }],
+            });
+
+            const expand = await findByTestId('ring-datatree-item-lazy-expand', {}, { timeout: 5000 });
+
+            expect(expand.getAttribute('tabindex')).toBe('-1');
+            expect(expand.getAttribute('aria-hidden')).toBe('true');
+        }, 60_000);
+
+        it('names each row checkbox after the text of its label, also while search highlights it', async () => {
+            const { getByRole } = renderDataTree({
+                items: [
+                    { itemId: 'q3', label: 'Report Q3', checked: true },
+                    { itemId: 'q4', label: 'Report Q4' },
+                ],
+                onCheckboxChange: vi.fn(),
+                withSearch: true,
+                searchDebounceTime: 0,
+            });
+
+            expect((getByRole('checkbox', { name: 'Report Q3' }) as HTMLInputElement).checked).toBe(true);
+
+            act(() => {
+                fireEvent.change(getByRole('textbox'), { target: { value: 'Q3' } });
+            });
+
+            await waitFor(() => {
+                expect(document.querySelector('.Ring-DataTree-matchedLabel')).not.toBeNull();
+            });
+            expect(getByRole('checkbox', { name: 'Report Q3' })).toBeTruthy();
+        });
+
+        it('renders the drag-and-drop live region outside the tree', () => {
+            renderDataTree({ items: [{ itemId: '1', label: 'Item 1' }], onDragAndDropEnd: vi.fn() });
+
+            expect(document.querySelector('[role="tree"] [role="status"]')).toBeNull();
+            expect(document.querySelector('[role="status"][aria-live]')).not.toBeNull();
         });
     });
 });

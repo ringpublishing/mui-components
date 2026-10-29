@@ -1,10 +1,10 @@
 import { Box, Stack, styled, useTheme } from '@mui/material';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { SEPARATOR_ROW_HEIGHT } from '../DataGrid/spacer.js';
-import { DataToolbar } from '../../internal/DataToolbar.js';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { GridRowId } from '@mui/x-data-grid';
+import { GridSpacer, SEPARATOR_ROW_HEIGHT } from '../../internal/spacer.js';
+import { DataToolbar, StandaloneToolbarProps } from './DataToolbar.js';
 import { FilterChipGroup } from '../../internal/FilterChipGroup.js';
-import { GridSpacer } from '../../internal/GridSpacer.js';
 import { MediaCard, MediaCardProps } from '../MediaCard/MediaCard.js';
 import {
     calculateRowPosition,
@@ -36,6 +36,8 @@ import { useItemsSync, useBottomBarSetup } from './useMultimediaGridSetup.js';
 import { Placeholder, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
 import { CommonLanguages } from '../../../helpers/commonTypes.js';
 import { useScrollToActiveCard } from './useScrollToActiveCard.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
 export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
     const {
@@ -54,6 +56,18 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         error = false,
         slotProps = {},
         refreshItems,
+        sortField,
+        refreshCallback,
+        autoRefresh,
+        refreshRate,
+        disableAutoRefreshOnUserInteraction,
+        userInteractionDebounceDelay,
+        initialState,
+        autoRefreshCallback,
+        enableBulkActions = false,
+        bulkActions,
+        onBulkActionsClose,
+        maxRowsCount,
         sx = {},
         onLoadMore,
         hasMore = false,
@@ -68,9 +82,11 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         dynamicCardWidth = 200,
         dynamicCardHeight = 300,
         dataTestIdSuffix,
+        getItemDataTestId,
         placeholderLabels,
         filterChips,
     } = props;
+    const dataTestId = useRingDataTestId('MultimediaGrid', dataTestIdSuffix);
     const internalApiRef = useGridApiRef();
     const apiRef = externalApiRef || internalApiRef;
     const { setBottomBarState } = useBottomBarContext();
@@ -83,8 +99,11 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         );
     }
 
+    // Bulk actions work on the selection, so they turn checkbox selection on like `RingDataGrid` does.
+    const resolvedCheckboxSelection = checkboxSelection || enableBulkActions;
+
     useItemsSync(apiRef, items);
-    useBottomBarSetup(checkboxSelection, apiRef, setBottomBarState);
+    useBottomBarSetup(resolvedCheckboxSelection, apiRef, setBottomBarState);
 
     const [, forceUpdate] = useState([]);
     const parentRef = useRef<HTMLElement>(null);
@@ -135,7 +154,7 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
 
     useSyncGridProps({
         apiRef,
-        checkboxSelection,
+        checkboxSelection: resolvedCheckboxSelection,
         disableSelection,
         disableSelectionOnClick,
         selectionModel,
@@ -177,6 +196,23 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
         return calculateTotalHeight(virtualRows, itemHeight, gap.row, spacerHeight, totalTopOffset);
     }, [virtualRows, itemHeight, gap.row, spacerHeight, totalTopOffset]);
 
+    /*
+     * How many items precede each row. `virtualItem.index` counts rows, so without this
+     * offset every card in a row would share one index — and `getItemDataTestId` is
+     * documented as `(item, index)` over items.
+     */
+    const rowItemOffsets = useMemo(() => {
+        const offsets: number[] = [];
+        let seen = 0;
+
+        virtualRows.forEach((row, rowIndex) => {
+            offsets[rowIndex] = seen;
+            seen += row.items?.length ?? 0;
+        });
+
+        return offsets;
+    }, [virtualRows]);
+
     // Check if we should show empty or error state.
     const hasItems = items.length > 0;
     const showEmptyState = !loading && !error && !hasItems;
@@ -184,16 +220,29 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
     const showGrid = !error && hasItems;
 
     return (
-        <Stack sx={{ width: '100%', height: '100%', ...sx }}>
+        <Stack data-testid={dataTestId} sx={{ width: '100%', height: '100%', ...sx }}>
             <FilterChipGroup chips={filterChips?.chips} onDeleteAll={filterChips?.onDeleteAll} />
             {showRingToolbar ? (
-                <DataToolbar
+                <MultimediaGridToolbar
+                    apiRef={apiRef}
+                    dataTestIdSuffix={dataTestIdSuffix}
                     labels={labels}
                     sortableFields={sortableFields}
-                    rowsCount={totalRowCount}
+                    sortField={sortField}
+                    totalRowCount={totalRowCount}
                     loading={loading}
-                    mode="standalone"
                     refreshItems={refreshItems}
+                    refreshCallback={refreshCallback}
+                    autoRefresh={autoRefresh}
+                    refreshRate={refreshRate}
+                    disableAutoRefreshOnUserInteraction={disableAutoRefreshOnUserInteraction}
+                    userInteractionDebounceDelay={userInteractionDebounceDelay}
+                    initialState={initialState}
+                    autoRefreshCallback={autoRefreshCallback}
+                    enableBulkActions={enableBulkActions}
+                    bulkActions={bulkActions}
+                    onBulkActionsClose={onBulkActionsClose}
+                    maxRowsCount={maxRowsCount}
                     additionalComponent={additionalComponent}
                 />
             ) : null}
@@ -267,6 +316,8 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
                                     columnGap={gap.column}
                                 >
                                     {virtualRow.items?.map((item, indexInRow) => {
+                                        const itemIndex = (rowItemOffsets[virtualItem.index] ?? 0) + indexInRow;
+
                                         return (
                                             <GridItemContainer
                                                 key={generateItemKey(item, virtualItem.index, indexInRow)}
@@ -276,13 +327,17 @@ export const MultimediaGrid: React.FC<MultimediaGridProps> = (props) => {
                                                 <DefaultMediaCardSlot
                                                     apiRef={apiRef}
                                                     item={item}
-                                                    dataTestIdSuffix={[
-                                                        dataTestIdSuffix,
-                                                        `item-${virtualItem.index}-${indexInRow}`,
-                                                    ]
-                                                        .filter(Boolean)
-                                                        .join('-')}
                                                     {...slotProps?.mediaCard}
+                                                    // Set after the slot props, which would
+                                                    // otherwise give every card one id.
+                                                    itemDataTestId={resolveItemDataTestId({
+                                                        componentName: 'MultimediaGrid',
+                                                        listSuffix: dataTestIdSuffix,
+                                                        itemId: item.id,
+                                                        index: itemIndex,
+                                                        item,
+                                                        override: getItemDataTestId?.(item, itemIndex),
+                                                    })}
                                                 />
                                             </GridItemContainer>
                                         );
@@ -355,12 +410,51 @@ const GridItemContainer = styled(Box, {
     flexShrink: 0,
 }));
 
+interface MultimediaGridToolbarProps extends Omit<StandaloneToolbarProps, 'mode' | 'selectedRows'> {
+    apiRef: MediaGridApi;
+}
+
+/*
+ * Selection changes are dispatched without a grid-wide re-render, so the toolbar follows them
+ * on its own to keep the bulk actions in step with the selected items.
+ */
+function MultimediaGridToolbar(props: MultimediaGridToolbarProps): React.JSX.Element {
+    const { apiRef, onBulkActionsClose, ...toolbarProps } = props;
+    const [selectedRows, setSelectedRows] = useState<GridRowId[]>(() =>
+        Array.from(apiRef.current?.getSelectionModel().ids ?? []),
+    );
+
+    const handleSelectionChange = useCallback(({ selectedIds }: { selectedIds: GridRowId[] }): void => {
+        setSelectedRows(selectedIds);
+    }, []);
+
+    const handleBulkActionsClose = useCallback(
+        (event: React.MouseEvent<HTMLButtonElement>): void => {
+            apiRef.current?.clearSelection();
+            onBulkActionsClose?.(event);
+        },
+        [apiRef, onBulkActionsClose],
+    );
+
+    useSelectionChange(apiRef, handleSelectionChange);
+
+    return (
+        <DataToolbar
+            {...toolbarProps}
+            mode="standalone"
+            selectedRows={selectedRows}
+            onBulkActionsClose={handleBulkActionsClose}
+        />
+    );
+}
+
 interface MediaCardSlotProps extends MediaCardProps {
     apiRef: MediaGridApi;
     item: MediaGridItemProps;
+    itemDataTestId?: string;
 }
 
-const DefaultMediaCardSlot: React.FC<MediaCardSlotProps> = ({ apiRef, item, dataTestIdSuffix, ...otherProps }) => {
+const DefaultMediaCardSlot: React.FC<MediaCardSlotProps> = ({ apiRef, item, itemDataTestId, ...otherProps }) => {
     const [, forceUpdate] = useState({});
 
     const itemId = item.id;
@@ -438,7 +532,7 @@ const DefaultMediaCardSlot: React.FC<MediaCardSlotProps> = ({ apiRef, item, data
             onClick={handleCardClick}
             hoverable={mediaCardProps?.hoverable ?? true}
             active={isActiveCard || false}
-            dataTestIdSuffix={dataTestIdSuffix}
+            dataTestId={itemDataTestId}
             sx={{
                 height: '100%',
                 ...mediaCardProps?.sx,
@@ -457,4 +551,4 @@ export type {
 } from './multimediaGrid.types.js';
 
 export { useGridApiRef, useActiveCardChange } from './gridApi.js';
-export type { MediaGridApi as GridApiRef, MediaGridItemProps, MediaGridItemsProps } from './gridApi.js';
+export type { MediaGridApi, MediaGridApi as GridApiRef, MediaGridItemProps, MediaGridItemsProps } from './gridApi.js';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Chip } from '@mui/material';
-import { Delete, OpenInNew, Star, StarBorder } from '@mui/icons-material';
+import { ExternalLink, Star, Trash2 } from 'lucide-react';
 import { ActionBox, Autocomplete, ActionBoxItem } from '../../../../../src/index.js';
 
 interface Option {
@@ -28,19 +28,19 @@ function OptionChip({ option, label, chipProps, isMain, onSetMain }: OptionChipP
         {
             label: 'Open portal',
             onClick: (): void => console.info('Details', option),
-            icon: <OpenInNew />,
+            icon: <ExternalLink />,
         },
         {
             label: isMain ? 'Unset as main' : 'Set as main',
             onClick: onSetMain,
-            icon: isMain ? <StarBorder /> : <Star />,
+            icon: <Star fill={isMain ? 'none' : 'currentColor'} />,
             hasSeparatorAfter: true,
         },
         {
             label: 'Remove from selection',
             onClick: (event?: React.MouseEvent<Element, MouseEvent>): void =>
                 chipProps.onDelete?.(event as React.SyntheticEvent),
-            icon: <Delete />,
+            icon: <Trash2 />,
         },
     ];
 

@@ -19,7 +19,7 @@ const Example = (args: DefaultTreeViewProps): React.JSX.Element => {
             items={items}
             onDragAndDropEnd={(sourceAbsolutePosition, destinationAbsolutePosition): void => {
                 action('drag and drop end')(sourceAbsolutePosition, destinationAbsolutePosition);
-                setItems(moveItems(items, sourceAbsolutePosition, destinationAbsolutePosition));
+                setItems((prevItems) => moveItems(prevItems, sourceAbsolutePosition, destinationAbsolutePosition));
             }}
             onCheckboxChange={(itemId: string, checked: boolean): void => {
                 action('checkbox changed')(itemId, checked);
@@ -40,7 +40,7 @@ export const WithDragAndDrop: Story = {
         showColumnHeaders: true,
         itemsLabelColumnHeader: 'Name',
         columns: defaultColumns,
-        dragAndDropTooltipTitle: 'To drag and drop collapse the item first',
+        dragAndDropTooltipTitle: 'Collapse the item to drag it.',
     } as DefaultTreeViewProps,
     render: (args, context) =>
         createCodeStory({

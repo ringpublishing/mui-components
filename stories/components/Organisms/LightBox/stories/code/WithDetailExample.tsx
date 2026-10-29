@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { Download, Public, Web } from '@mui/icons-material';
+import { Download, Globe } from 'lucide-react';
 import {
     DetailDescriptionItemFieldLayout,
     DetailDescriptionItemFieldType,
@@ -37,26 +37,26 @@ export default function WithDetailExample(): React.JSX.Element {
     const detail = {
         bottomActions: [
             {
-                name: 'ACTION WITH URL',
+                name: 'Action with URL',
                 url: 'https://video.onet.pl/',
-                icon: <Web />,
+                icon: <Globe />,
             },
             {
-                name: 'ACTION WITH ON CLICK',
+                name: 'Action with on click',
                 onClick: () => console.log('Action clicked'),
                 icon: <Download />,
             },
             {
-                name: 'ACTION WITHOUT ICON',
+                name: 'Action without icon',
                 onClick: () => console.log('Action clicked'),
             },
         ],
         descriptionItems: [
             {
-                sectionTitle: 'IMAGE DETAILS',
+                sectionTitle: 'Image details',
                 fields: [
                     {
-                        name: 'DESCRIPTION',
+                        name: 'Description',
                         type: DetailDescriptionItemFieldType.DESCRIPTION,
                         maxLength: 100,
                         layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -67,18 +67,18 @@ export default function WithDetailExample(): React.JSX.Element {
                             ' Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                     },
                     {
-                        icon: <Public />,
-                        name: 'STATUS',
+                        icon: <Globe />,
+                        name: 'Status',
                         value: 'Published',
                     },
                     {
                         formatDate: true,
-                        name: 'CREATED',
+                        name: 'Created',
                         value: '2023-07-27T09:32:09Z',
                     },
                     {
                         formatDate: true,
-                        name: 'MODIFIED',
+                        name: 'Modified',
                         value: '2023-08-31T21:59:59Z',
                     },
                 ],
@@ -86,21 +86,21 @@ export default function WithDetailExample(): React.JSX.Element {
             {
                 fields: [
                     {
-                        name: 'TAGS',
+                        name: 'Tags',
                         type: DetailDescriptionItemFieldType.CHIPS,
                         value: ['photography', 'landscape', 'nature'],
                         collapsable: true,
                     },
                     {
-                        name: 'PHOTOGRAPHER',
+                        name: 'Photographer',
                         value: 'John Doe',
                     },
                     {
-                        name: 'LOCATION',
+                        name: 'Location',
                         value: 'New York, USA',
                     },
                 ],
-                sectionTitle: 'METADATA',
+                sectionTitle: 'Metadata',
             },
         ],
         main: {
@@ -127,7 +127,7 @@ export default function WithDetailExample(): React.JSX.Element {
                 onClose={(): void => setOpen(false)}
                 open={open}
                 detail={detail as LightBoxProps['detail']}
-                onImageChange={(image) => {
+                onImageChange={(image): void => {
                     console.log('Image changed:', image);
                 }}
             />

@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite';
-import { Download, Public, Web } from '@mui/icons-material';
+import { Download, Globe } from 'lucide-react';
 import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import WithDetailExampleCode from './code/WithDetailExample.tsx?raw';
@@ -19,26 +19,26 @@ export const WithDetail: Story = {
         detail: {
             bottomActions: [
                 {
-                    name: 'ACTION WITH URL',
+                    name: 'Action with URL',
                     url: 'https://video.onet.pl/',
-                    icon: <Web />,
+                    icon: <Globe />,
                 },
                 {
-                    name: 'ACTION WITH ON CLICK',
+                    name: 'Action with on click',
                     onClick: action('onClick'),
                     icon: <Download />,
                 },
                 {
-                    name: 'ACTION WITHOUT ICON',
+                    name: 'Action without icon',
                     onClick: action('onClick'),
                 },
             ],
             descriptionItems: [
                 {
-                    sectionTitle: 'IMAGE DETAILS',
+                    sectionTitle: 'Image details',
                     fields: [
                         {
-                            name: 'DESCRIPTION',
+                            name: 'Description',
                             type: DetailDescriptionItemFieldType.DESCRIPTION,
                             maxLength: 100,
                             layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -50,18 +50,18 @@ export const WithDetail: Story = {
                                 ' quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                         },
                         {
-                            icon: <Public />,
-                            name: 'STATUS',
+                            icon: <Globe />,
+                            name: 'Status',
                             value: 'Published',
                         },
                         {
                             formatDate: true,
-                            name: 'CREATED',
+                            name: 'Created',
                             value: '2023-07-27T09:32:09Z',
                         },
                         {
                             formatDate: true,
-                            name: 'MODIFIED',
+                            name: 'Modified',
                             value: '2023-08-31T21:59:59Z',
                         },
                     ],
@@ -69,21 +69,21 @@ export const WithDetail: Story = {
                 {
                     fields: [
                         {
-                            name: 'TAGS',
+                            name: 'Tags',
                             type: DetailDescriptionItemFieldType.CHIPS,
                             value: ['photography', 'landscape', 'nature'],
                             collapsable: true,
                         },
                         {
-                            name: 'PHOTOGRAPHER',
+                            name: 'Photographer',
                             value: 'John Doe',
                         },
                         {
-                            name: 'LOCATION',
+                            name: 'Location',
                             value: 'New York, USA',
                         },
                     ],
-                    sectionTitle: 'METADATA',
+                    sectionTitle: 'Metadata',
                 },
             ],
             main: {

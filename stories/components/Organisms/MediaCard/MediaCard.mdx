@@ -12,25 +12,29 @@ MediaCard is a versatile component for displaying multimedia resources such as p
 - **Status Labels** - ability to display status labels over the image and control their visibility on hover
 - **Actions** - set of actions available to the user
 - **Selection** - optional checkbox for card selection
-- **Focus Management** - visual effects when focusing and interacting
+- **Active state** - visual effects when hovering and selecting
 - **Information Fields** - ability to add descriptions below the image
 
 The component is built with flexibility in mind and can be used in various scenarios - from photo galleries to advanced asset management interfaces.
+
+For AI-related status labels and gradient usage, see the [AI color](?path=/docs/design-ai-color--docs) design guide.
 
 ## Quick Navigation
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Aspect Ratio](#aspect-ratio)
-- [Placeholder](#placeholder)
-- [Actions](#actions)
-- [Status Labels](#status-labels)
+- [Aspect ratio](#aspect-ratio)
+- [Status labels](#status-labels)
 - [Hoverable](#hoverable)
 - [Checkbox](#checkbox)
+- [Actions](#actions)
+- [Custom tooltips](#custom-tooltips)
+- [Card events](#card-events)
 - [Slots](#slots)
 - [Slot props](#slot-props)
-- [Card Events](#card-events)
-- [Advanced Example](#advanced-example)
+- [Placeholder](#placeholder)
+- [Image load error](#image-load-error)
+- [Combined features](#combined-features)
 
 ## Default
 
@@ -51,7 +55,7 @@ MediaCard supports the following main variants:
 | `variant`   | `'outlined' \| 'elevation'`                                | `'outlined'` | Style of the card               |
 | `square`    | `boolean`                                                  | `false`      | Disable rounded corners         |
 | `ratio`     | `string \| number`                                         | `'4/3'`      | Aspect ratio of the image       |
-| `objectFit` | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'cover'`    | How the image should fit        |
+| `objectFit` | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'contain'`  | How the image should fit        |
 | `image`     | `string`                                                   | -            | URL of the image                |
 | `fields`    | `MediaCardFieldsItem[]`                                    | -            | List of fields with information |
 
@@ -74,7 +78,7 @@ MediaCard supports the following main variants:
 
 <ArgTypes />
 
-## Aspect Ratio
+## Aspect ratio
 
 The MediaCard component allows you to control the aspect ratio of the displayed image using the `ratio` prop.
 
@@ -107,51 +111,20 @@ The `objectFit` prop determines how the image should be fitted within the MediaC
 
 <Canvas of={Stories.AspectRatio} />
 
-## Placeholder
+## Status labels
 
-The MediaCard component displays a placeholder when the media source is unavailable.
-
-By default, it shows the MUI `PhotoOutlined` icon as a placeholder.
-You can customize the placeholder icon by passing a different icon through the `iconPlaceholder` property.
-
-```jsx
-import { VideocamOutlined } from '@mui/icons-material';
-
-<MediaCard iconPlaceholder={<VideocamOutlined />} />;
-```
-
-This feature ensures that the MediaCard always has a visual representation, even when media content is not available, improving the user experience and maintaining layout consistency.
-
-<Canvas of={Stories.Placeholder} />
-
-## Actions
-
-The MediaCard component has been extended with a "show more" button functionality. This additional option allows for displaying extra actions related to the card's content.
-
-The "show more" functionality utilizes the `ActionBox` component, which accepts an array of actions conforming to the `Action` interface.
-
-### Notes
-
-- Actions are rendered in the order they are defined in the array.
-- Disabled actions are still visible but cannot be clicked.
-- Icons are optional and can be omitted if not needed.
-
-<Canvas of={Stories.Actions} />
-
-## Status Labels
-
-The MediaCard component is designed to display status labels with various configurations.
-
-An array of objects representing the status labels to be displayed.
+Status labels render as 16px tag chips (`Chip variant="tag"`) over the top-left corner of the image. `default`,
+`primary` and `secondary` become the grey `stone` tag. `tip` shows a tooltip; without it the label text is the native
+`title`.
 
 Each object in the array can have the following properties:
 
 | Property      | Type              | Description                                                     |
 | ------------- | ----------------- | --------------------------------------------------------------- |
 | `label`       | `string`          | The text to be displayed on the status label                    |
-| `color`       | `string`          | The color of the label, chosen from a predefined color palette  |
+| `color`       | `string`          | Chip colour of the label (default `error`)                      |
 | `icon`        | `React.ReactNode` | (Optional) An icon to be displayed alongside the label          |
-| `showOnHover` | `boolean`         | (Optional) If true, the label will only be visible on hover     |
+| `showOnHover` | `boolean`         | (Optional) Parks the label behind the left edge until hover     |
 | `tip`         | `string`          | (Optional) Tooltip text for the label                           |
 | `key`         | `string`          | (Optional) Unique key for the label, useful for React rendering |
 
@@ -159,7 +132,8 @@ Each object in the array can have the following properties:
 
 ## Hoverable
 
-The `MediaCard` component includes an optional hoverable functionality that enhances user interaction and provides visual feedback. When enabled, this feature allows for dynamic color changes based on the hover state and utilizes the MUI `CardActionArea` for improved accessibility.
+`hoverable` adds a pointer and a scrim on hover that follows the colour mode. `active` tints the card with
+`primary.main` at the selected opacity. The card keeps no state of its own: set `active` from `onClick`.
 
 ### Props
 
@@ -173,9 +147,10 @@ The `MediaCard` component includes an optional hoverable functionality that enha
 
 When the hoverable feature is enabled (`hoverable={true}`):
 
-1. **Color Change**: The component can change its color based on the hover state. This is achieved through the `onClick` callback.
-2. **Interactive Area**: The entire card becomes interactive using hover effect. This provides visual feedback to the user about possible actions.
-3. **Focus Management**: The parent component is responsible for managing the focus state. The `MediaCard` only receives the current state through props and reports changes via the callback.
+1. **Active tint**: the card shows the `active` tint; toggle `active` in the `onClick` callback.
+2. **Interactive area**: the whole card shows the hover scrim, so the user sees it can be clicked.
+3. **Active state**: the parent component owns it. `MediaCard` receives it through props and reports clicks through the
+   callback.
 
 ```jsx
 const [active, setActive] = useState(false);
@@ -192,14 +167,14 @@ const [active, setActive] = useState(false);
 
 ## Checkbox
 
-MediaCard includes checkbox functionality implemented using the Checkbox component from the Material-UI (MUI) library.
+`slotProps.checkbox` adds a MUI `Checkbox` (`color="overlay"`) in the top-right corner of the image.
 
 ### Notes
 
 1. The parent component should manage the checkbox's `checked` state.
 2. The implementation uses an `onClick` callback, which provides information about state changes to the parent component.
 3. In the click event handler, `event.stopPropagation()` should be called to prevent the event from bubbling up to parent elements.
-4. The parent component should also manage the `showOnHover` property for status labels to control checkbox visibility based on hover or active state.
+4. `slotProps.checkbox.showOnHover` hides the checkbox until the card is hovered.
 
 ```jsx
 const [checked, setChecked] = useState(false);
@@ -225,6 +200,61 @@ const handleCheckboxChange = (event) => {
 ```
 
 <Canvas of={Stories.Checkbox} />
+
+## Actions
+
+`actions` opens an `ActionBox` menu from the ⋮ button beside the title; `actionsAriaLabel` names the button (default
+`More actions`). Each action conforms to the `Action` interface.
+
+### Notes
+
+- Actions are rendered in the order they are defined in the array.
+- Disabled actions are still visible but cannot be clicked.
+- Icons are optional and can be omitted if not needed.
+
+<Canvas of={Stories.Actions} />
+
+## Custom tooltips
+
+Each entry in `fields` accepts `alwaysShowTooltip`, which shows the tooltip on hover even when the row does not overflow, and `tooltipTitle`, which replaces the tooltip content with any node. Use them for abbreviated rows such as author initials that should expand to full details on hover; rows without these props keep the overflow-only tooltip.
+
+<Canvas of={Stories.CustomTooltips} />
+
+## Card events
+
+`MediaCard` exposes the underlying MUI `<Card>` element through the `slotProps.card` channel. Any prop that the `Card` component accepts is forwarded to the root element — including all native DOM event handlers.
+
+### Common Use-Cases
+
+- **Hover-driven interactions** — `onMouseEnter` / `onMouseLeave` to trigger a video preview, fetch on demand, or update tooltips.
+- **Keyboard accessibility** — `onKeyDown` / `onFocus` / `onBlur` to integrate the card into custom keyboard navigation.
+- **Right-click menus** — `onContextMenu` for custom action menus.
+- **Accessibility attributes** — `aria-*`, `role`, `aria-describedby`, etc.
+- **Test hooks** — `data-*` attributes beyond the built-in `dataTestIdSuffix`.
+
+### Precedence
+
+Top-level `MediaCardProps` (`variant`, `square`, `tabIndex`, `onClick`, `className`, `sx`) take precedence over values supplied through `slotProps.card`. They are merged on top — top-level wins. Use `slotProps.card` for everything that is not already exposed at the top level. `elevation` is excluded from `slotProps.card` because MediaCard manages it implicitly via `variant` — overriding would diverge from the design system.
+
+```jsx
+<MediaCard
+    slotProps={{
+        card: {
+            onMouseEnter: () => setHovered(true),
+            onMouseLeave: () => setHovered(false),
+            onContextMenu: (e) => {
+                e.preventDefault();
+                openMenu();
+            },
+            'aria-label': 'Open detail view',
+        },
+    }}
+/>
+```
+
+The example below combines `slots.mediaCard` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
+
+<Canvas of={Stories.CardEvents} />
 
 ## Slots
 
@@ -268,7 +298,7 @@ The `slotProps` prop lets you forward arbitrary props to the internal sub-compon
 | Slot prop   | Type                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ----------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `card`      | `Omit<CardProps, "children" \| "variant" \| "square" \| "onClick" \| "tabIndex" \| "elevation">` | Props applied to the root MUI `<Card>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level MediaCardProps (`variant`, `square`, `onClick`, `tabIndex`, `className`, `sx`) take precedence and are merged on top. `elevation` is excluded because MediaCard manages it implicitly via `variant` (`outlined` → 0, `elevation` → 1) — overriding it would diverge from the design system. |
-| `cardMedia` | `CardMediaProps`                                                                                 | Props applied to the default `<CardMedia>`. Used **only** when `slots.mediaCard` is not provided. Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, etc.                                                                                                                                                                                                                                                                       |
+| `cardMedia` | `Omit<CardMediaProps<'img'>, 'component'>`                                                       | Props applied to the default `<img>`. Used **only** when `slots.mediaCard` is not provided. `component` is fixed; setting this slot skips the skeleton and the placeholder.                                                                                                                                                                                                                                                                                                  |
 | `checkbox`  | `CheckboxProps & { showOnHover?: boolean }`                                                      | Props applied to the selection `<Checkbox>`. The custom `showOnHover` flag hides the checkbox until the card is hovered (useful for grid scenarios). When `undefined`, the checkbox is not rendered.                                                                                                                                                                                                                                                                         |
 | `footer`    | `CardActionsProps`                                                                               | Props applied to the `<CardActions>` element wrapping `slots.footer` (e.g. `sx`, `disableSpacing`).                                                                                                                                                                                                                                                                                                                                                                          |
 
@@ -297,56 +327,40 @@ When the same prop can be supplied through more than one channel:
 />
 ```
 
-## Card Events
+## Placeholder
 
-`MediaCard` exposes the underlying MUI `<Card>` element through the `slotProps.card` channel. Any prop that the `Card` component accepts is forwarded to the root element — including all native DOM event handlers.
+The MediaCard component displays a placeholder when the media source is unavailable.
 
-### Common Use-Cases
-
-- **Hover-driven interactions** — `onMouseEnter` / `onMouseLeave` to trigger a video preview, fetch on demand, or update tooltips.
-- **Keyboard accessibility** — `onKeyDown` / `onFocus` / `onBlur` to integrate the card into custom keyboard navigation.
-- **Right-click menus** — `onContextMenu` for custom action menus.
-- **Accessibility attributes** — `aria-*`, `role`, `aria-describedby`, etc.
-- **Test hooks** — `data-*` attributes beyond the built-in `dataTestIdSuffix`.
-
-### Precedence
-
-Top-level `MediaCardProps` (`variant`, `square`, `tabIndex`, `onClick`, `className`, `sx`) take precedence over values supplied through `slotProps.card`. They are merged on top — top-level wins. Use `slotProps.card` for everything that is not already exposed at the top level. `elevation` is excluded from `slotProps.card` because MediaCard manages it implicitly via `variant` — overriding would diverge from the design system.
+By default, it shows the lucide `Image` icon on a `FeaturedIcon` plate sized from the frame. A different icon passed
+through `iconPlaceholder` gets the same plate; `null` or `false` leaves the frame empty.
 
 ```jsx
-<MediaCard
-    slotProps={{
-        card: {
-            onMouseEnter: () => setHovered(true),
-            onMouseLeave: () => setHovered(false),
-            onContextMenu: (e) => {
-                e.preventDefault();
-                openMenu();
-            },
-            'aria-label': 'Open detail view',
-        },
-    }}
-/>
+import { Video } from 'lucide-react';
+
+<MediaCard iconPlaceholder={<Video />} />;
 ```
 
-The example below combines `slots.mediaCard` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
+<Canvas of={Stories.Placeholder} />
 
-<Canvas of={Stories.CardEvents} />
+## Image load error
 
-## Advanced Example
+While the image loads, the card shows a skeleton. When it fails, the placeholder shows the `ImageOff` icon instead of
+`iconPlaceholder`, so a broken image reads differently from a missing one.
 
-This example shows how to combine different features of the MediaCard component to create a rich user interface.
+<Canvas of={Stories.ImageLoadError} />
 
-### Combined Features
+## Combined features
+
+This example shows how to combine different features of the MediaCard component to create a rich user interface:
 
 - Image with specific aspect ratio and fitting
 - Status labels with hover effects
 - Selection capability (checkbox)
-- Focus capability (hover effect and color change)
+- Active state (hover scrim and tint)
 - Action list
 - Information fields with different styles
 - Custom slots for footer content
 
-Note that both the checkbox state and focus state are managed by the parent component.
+Note that both the checkbox state and the active state are managed by the parent component.
 
 <Canvas of={Stories.AdvancedExample} />

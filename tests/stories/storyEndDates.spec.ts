@@ -1,7 +1,11 @@
+// @vitest-environment node
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+
+// Reads hundreds of files synchronously: ~0.1 s alone, but several seconds when the whole suite competes for the CPU.
+const FILE_SCAN_TIMEOUT_MS = 30_000;
 
 const storiesRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../stories/components');
 
@@ -20,16 +24,20 @@ function collectSourceFiles(dir: string): string[] {
 }
 
 describe('story sources', () => {
-    it('should never pin endDate to a date literal', () => {
-        const offenders = collectSourceFiles(storiesRoot).flatMap((file) =>
-            [...fs.readFileSync(file, 'utf8').matchAll(END_DATE_LITERAL)].map(
-                (match) => `${path.relative(storiesRoot, file)} → endDate "${match[1]}"`,
-            ),
-        );
+    it(
+        'should never pin endDate to a date literal',
+        () => {
+            const offenders = collectSourceFiles(storiesRoot).flatMap((file) =>
+                [...fs.readFileSync(file, 'utf8').matchAll(END_DATE_LITERAL)].map(
+                    (match) => `${path.relative(storiesRoot, file)} → endDate "${match[1]}"`,
+                ),
+            );
 
-        expect(
-            offenders,
-            'Hardcoded endDate expires and silently blanks the story. Derive it, e.g. dayjs().add(1, "year").toISOString().',
-        ).toEqual([]);
-    });
+            expect(
+                offenders,
+                'Hardcoded endDate expires and silently blanks the story. Derive it, e.g. dayjs().add(1, "year").toISOString().',
+            ).toEqual([]);
+        },
+        FILE_SCAN_TIMEOUT_MS,
+    );
 });

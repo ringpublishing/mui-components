@@ -1,6 +1,6 @@
 import { action } from 'storybook/actions';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { Edit, Remove } from '@mui/icons-material';
+import { Pencil, Minus } from 'lucide-react';
 
 import {
     Action,
@@ -9,8 +9,9 @@ import {
     renderComboCell,
     renderLinkCell,
     RingDataGridProps,
+    RingLucideIcon,
 } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 const defaultFilterChips = {
     chips: [
@@ -48,14 +49,14 @@ const actions: Action[] = [
     {
         label: 'Change name',
         onClick: () => null,
-        icon: <Edit />,
+        icon: <Pencil />,
     },
     {
         label: 'Remove',
         onClick: () => null,
         disabled: true,
         disabledReason: 'You cannot use this action',
-        icon: <Remove />,
+        icon: <Minus />,
     },
 ];
 
@@ -65,7 +66,7 @@ const customCellsRows: GridRowsProp = [
             title: 'In progress',
             color: 'primary',
             id: 0,
-            icon: <Edit fontSize="small" color="primary" />,
+            icon: <RingLucideIcon icon={Pencil} fontSize="small" color="primary" />,
         }),
     },
     {
@@ -110,7 +111,7 @@ const customCellsRows: GridRowsProp = [
             title: 'With placeholders',
             color: 'primary',
             id: 0,
-            icon: <Edit fontSize="small" color="primary" />,
+            icon: <RingLucideIcon icon={Pencil} fontSize="small" color="primary" />,
         }),
     },
     {

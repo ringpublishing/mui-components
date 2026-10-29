@@ -15,6 +15,21 @@ export enum FileUploaderStatus {
     Error = 'error',
 }
 
+/** Why a selected or dropped file was not passed to `onFilesSelected`. */
+export enum FileUploaderRejectionReason {
+    /** Larger than `maxFileSize`. */
+    FileTooLarge = 'file-too-large',
+    /** Matches none of the types in `accept`. */
+    FileInvalidType = 'file-invalid-type',
+    /** A second file while `multiple` is off — only the first acceptable one is taken. */
+    TooManyFiles = 'too-many-files',
+}
+
+export interface FileUploaderRejection {
+    file: File;
+    reason: FileUploaderRejectionReason;
+}
+
 export interface FileUploaderFile {
     id: string;
     /** Display name of the file. Falls back to file.name if not provided. */
@@ -57,6 +72,21 @@ export interface FileUploaderLabels {
      * @default '{uploaded} of {total} files uploaded'
      */
     filesUploaded?: string;
+    /**
+     * Accessible name of a file's remove button. Use {name} as the placeholder for the file name.
+     * @default 'Remove {name}'
+     */
+    removeFile?: string;
+    /**
+     * Accessible name of a failed file's retry button. Use {name} as the placeholder for the file name.
+     * @default 'Retry upload of {name}'
+     */
+    retryFile?: string;
+    /**
+     * Accessible name of the button that clears the URL field.
+     * @default 'Clear URL'
+     */
+    clearUrl?: string;
 }
 
 export interface FileUploaderProps extends CommonComponentProps {
@@ -75,11 +105,19 @@ export interface FileUploaderProps extends CommonComponentProps {
      */
     onRetry?: (fileId: string) => void;
     /**
+     * Callback fired with the files that were selected or dropped but not taken, each with its reason (a file of
+     * the wrong type that is also too large is `FileInvalidType`). The taken files of the same selection go to
+     * `onFilesSelected`, which is called first.
+     */
+    onFilesRejected?: (rejections: FileUploaderRejection[]) => void;
+    /**
      * Maximum file size in bytes
      */
     maxFileSize?: number;
     /**
-     * Accepted file types (e.g., 'image/*', '.pdf')
+     * Accepted file types, comma-separated (e.g., 'image/*', '.pdf'), checked for picked and dropped files and a
+     * file row's replacement. A MIME type is compared with the type the browser reports, which differs between
+     * browsers for some formats, so list the extensions too (e.g., 'audio/mpeg,.mp3').
      */
     accept?: string;
     /**

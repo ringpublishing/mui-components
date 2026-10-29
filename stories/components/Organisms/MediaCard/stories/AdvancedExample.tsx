@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import { Box, IconButton } from '@mui/material';
-import { Download, Favorite, InfoOutlined, Link, Share } from '@mui/icons-material';
+import { Download, Heart, Info, Link2, Share2 } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
-import AdvancedExampleCode from './code/AdvancedExampleCode.tsx?raw';
+import AdvancedExampleExampleCode from './code/AdvancedExampleExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof MediaCard>;
 
@@ -60,9 +60,9 @@ export const AdvancedExample: Story = {
             footer: (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-                        <InfoOutlined sx={{ fontSize: 16, color: '#BC1828' }} />
-                        <InfoOutlined sx={{ fontSize: 16, color: '#BC1828' }} />
-                        <InfoOutlined sx={{ fontSize: 16, color: '#BC1828' }} />
+                        <Info size={16} color="#BC1828" />
+                        <Info size={16} color="#BC1828" />
+                        <Info size={16} color="#BC1828" />
                         <Box
                             sx={{
                                 width: 16,
@@ -78,10 +78,10 @@ export const AdvancedExample: Story = {
                             <Download />
                         </IconButton>
                         <IconButton size="small">
-                            <Share />
+                            <Share2 />
                         </IconButton>
                         <IconButton size="small">
-                            <Favorite />
+                            <Heart />
                         </IconButton>
                     </Box>
                 </Box>
@@ -110,7 +110,7 @@ export const AdvancedExample: Story = {
             {
                 label: 'ASG',
                 color: 'secondary',
-                icon: <Link />,
+                icon: <Link2 />,
                 showOnHover: true,
             },
         ],
@@ -121,7 +121,7 @@ export const AdvancedExample: Story = {
             },
             {
                 label: 'Share',
-                icon: <Link />,
+                icon: <Link2 />,
             },
         ],
         fields: [
@@ -134,7 +134,7 @@ export const AdvancedExample: Story = {
         createCodeStory({
             context,
             customProps: {},
-            customCode: AdvancedExampleCode,
+            customCode: AdvancedExampleExampleCode,
             example: <AdvancedExampleWrapper {...args} />,
         }),
 };

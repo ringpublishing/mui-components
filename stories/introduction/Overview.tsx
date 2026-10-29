@@ -1,8 +1,5 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, SyntheticEvent, useState } from 'react';
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Alert,
     AlertTitle,
     Avatar,
@@ -19,8 +16,9 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { ChevronLeft, ExpandMore } from '@mui/icons-material';
+import { ChevronLeft } from 'lucide-react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Accordion } from '../../src/index.js';
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -69,12 +67,29 @@ const rows = [
 
 // Rendered as a real Storybook story so the global decorator in
 // `.storybook/preview.tsx` wraps it in <ThemeConfig> driven by the toolbar
-// globals (theme/locale/themeVersion). No manual channel subscription or
+// globals (theme/locale). No manual channel subscription or
 // local <ThemeConfig> needed here.
 export const Overview = (): ReactNode => {
+    const [tab, setTab] = useState(0);
     const [expanded, setExpanded] = useState<string>('');
+    const [deletedChips, setDeletedChips] = useState<string[]>([]);
 
-    const noop = (): void => undefined;
+    const deleteChip = (label: string) => (): void => setDeletedChips((labels) => [...labels, label]);
+    const toggle =
+        (panel: string) =>
+        (event: SyntheticEvent, isExpanded: boolean): void =>
+            setExpanded(isExpanded ? panel : '');
+
+    const accordionLabel = (
+        <>
+            <Typography variant={'body1'} component={'span'}>
+                Typography
+            </Typography>
+            <Typography variant={'body1'} component={'span'} color={'text.secondary'}>
+                Typography
+            </Typography>
+        </>
+    );
 
     return (
         <Stack
@@ -136,7 +151,7 @@ export const Overview = (): ReactNode => {
                 </IconButton>
             </Stack>
             <Stack>
-                <Tabs value={0}>
+                <Tabs value={tab} onChange={(event, value: number): void => setTab(value)}>
                     <Tab label="Tab" />
                     <Tab label="Tab" />
                     <Tab label="Tab" />
@@ -144,12 +159,12 @@ export const Overview = (): ReactNode => {
                 </Tabs>
             </Stack>
             <Stack direction={'row'} spacing={1}>
-                <Checkbox checked={true} />
-                <Radio checked={true} />
-                <Switch checked={true} />
+                <Checkbox defaultChecked={true} />
+                <Radio defaultChecked={true} />
+                <Switch defaultChecked={true} />
             </Stack>
             <Stack direction={'row'} spacing={1}>
-                <Rating value={3.5} precision={0.5} />
+                <Rating defaultValue={3.5} precision={0.5} />
             </Stack>
             <Stack direction={'row'} spacing={1}>
                 <Chip label={'Primary'} color={'primary'} size={'medium'} variant={'filled'} />
@@ -159,48 +174,46 @@ export const Overview = (): ReactNode => {
                 <Chip label={'Info'} color={'info'} size={'medium'} variant={'filled'} />
             </Stack>
             <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                <Chip label={'Deletable'} color={'default'} size={'medium'} variant={'filled'} onDelete={noop} />
-                <Chip
-                    label={'Thumbnail'}
-                    color={'default'}
-                    size={'medium'}
-                    variant={'filled'}
-                    onDelete={noop}
-                    avatar={<Avatar>OP</Avatar>}
-                />
+                {!deletedChips.includes('Deletable') && (
+                    <Chip
+                        label={'Deletable'}
+                        color={'default'}
+                        size={'medium'}
+                        variant={'filled'}
+                        onDelete={deleteChip('Deletable')}
+                    />
+                )}
+                {!deletedChips.includes('Thumbnail') && (
+                    <Chip
+                        label={'Thumbnail'}
+                        color={'default'}
+                        size={'medium'}
+                        variant={'filled'}
+                        onDelete={deleteChip('Thumbnail')}
+                        avatar={<Avatar>OP</Avatar>}
+                    />
+                )}
                 <Chip label={'Small'} color={'default'} size={'small'} variant={'filled'} />
                 <Chip label={'Outlined'} color={'default'} size={'small'} variant={'outlined'} />
                 <Chip label={'Default'} color={'default'} size={'medium'} />
             </Stack>
             <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                <TextField label={'Label'} size={'medium'} value={'Value'} />
-                <TextField label={'Label'} size={'medium'} value={'Value'} variant={'filled'} />
-                <TextField label={'Label'} size={'medium'} value={'Value'} variant={'outlined'} />
+                <TextField label={'Label'} size={'medium'} defaultValue={'Value'} />
+                <TextField label={'Label'} size={'medium'} defaultValue={'Value'} variant={'filled'} />
+                <TextField label={'Label'} size={'medium'} defaultValue={'Value'} variant={'outlined'} />
             </Stack>
             <Stack>
-                <Accordion expanded={expanded === 'panel1'} onChange={(): void => setExpanded('panel1')}>
-                    <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1bh-content" id="panel1bh-header">
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>Typography</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>Typography</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography variant="body1">
-                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus
-                            est, id dignissim quam.
-                        </Typography>
-                    </AccordionDetails>
+                <Accordion label={accordionLabel} expanded={expanded === 'panel1'} onChange={toggle('panel1')}>
+                    <Typography variant={'body1'}>
+                        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
+                        id dignissim quam.
+                    </Typography>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel2'} onChange={(): void => setExpanded('panel2')}>
-                    <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel2bh-content" id="panel2bh-header">
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>Typography</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>Typography</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus
-                            est, id dignissim quam.
-                        </Typography>
-                    </AccordionDetails>
+                <Accordion label={accordionLabel} expanded={expanded === 'panel2'} onChange={toggle('panel2')}>
+                    <Typography variant={'body1'}>
+                        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
+                        id dignissim quam.
+                    </Typography>
                 </Accordion>
             </Stack>
             <Stack>

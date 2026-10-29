@@ -11,7 +11,7 @@ import {
     Tooltip,
     TooltipProps,
 } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { X } from 'lucide-react';
 import { Action } from '../../../types.js';
 import dayjs from 'dayjs';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
@@ -21,9 +21,10 @@ export interface FeatureTooltipAction extends Action {
     href?: string;
 }
 
-type ActionsType = [FeatureTooltipAction, FeatureTooltipAction] | [FeatureTooltipAction] | [] | undefined;
+export type FeatureTooltipActions =
+    [FeatureTooltipAction, FeatureTooltipAction] | [FeatureTooltipAction] | [] | undefined;
 
-type FeatureTooltipPropsBase = Omit<TooltipProps, 'title' | 'arrow' | 'open'> &
+export type FeatureTooltipPropsBase = Omit<TooltipProps, 'title' | 'arrow' | 'open'> &
     Pick<CommonComponentProps, 'dataTestIdSuffix'>;
 
 export interface FeatureTooltipProps extends FeatureTooltipPropsBase {
@@ -32,8 +33,7 @@ export interface FeatureTooltipProps extends FeatureTooltipPropsBase {
      */
     title: string;
     /**
-     * Feature tooltip message
-     * Not required if videoEmbed was passed
+     * Feature tooltip message; an empty string hides it, e.g. when `videoEmbed` carries the content.
      */
     message: string;
     /**
@@ -55,7 +55,7 @@ export interface FeatureTooltipProps extends FeatureTooltipPropsBase {
      * Actions for tooltip button
      * [Default action, Secondary action]
      */
-    actions?: ActionsType;
+    actions?: FeatureTooltipActions;
     /**
      * Function called when showing tooltip
      */
@@ -75,13 +75,11 @@ export interface FeatureTooltipProps extends FeatureTooltipPropsBase {
      */
     capping?: number;
     /**
-     * URL to video embed, while passing yt link ensure that URL contains '/embed/'
-     * Not required if message was passed
+     * URL of an embedded video; a YouTube URL must contain `/embed/`. Not required when `message` is set.
      */
     videoEmbed?: string;
     /**
-     * URL to image
-     * Not required if message was passed. Won't be shown if videoEmbed was passed
+     * URL of an image; not required when `message` is set, and not shown when `videoEmbed` is set.
      */
     image?: string;
 }
@@ -268,6 +266,8 @@ export function FeatureTooltip(props: FeatureTooltipProps): React.JSX.Element {
     return (
         <Tooltip
             {...otherProps}
+            // MUI Tooltip forwards the attribute to its child, so this marks the anchor.
+            data-testid={dataTestId}
             arrow={true}
             open={isOpen}
             {...(offset
@@ -302,6 +302,7 @@ export function FeatureTooltip(props: FeatureTooltipProps): React.JSX.Element {
             }}
             title={
                 <Card
+                    data-testid={`${dataTestId}-content`}
                     variant="outlined"
                     sx={{
                         backgroundColor: 'transparent',
@@ -329,7 +330,7 @@ export function FeatureTooltip(props: FeatureTooltipProps): React.JSX.Element {
                                 color="contrast"
                                 onClick={closeButtonAction}
                             >
-                                <Close />
+                                <X size={24} />
                             </IconButton>
                         </Box>
                         {props?.message && (
@@ -366,7 +367,7 @@ export function FeatureTooltip(props: FeatureTooltipProps): React.JSX.Element {
     );
 }
 
-const processFeatureTooltipActions = (actions: ActionsType): ActionsType => {
+const processFeatureTooltipActions = (actions: FeatureTooltipActions): FeatureTooltipActions => {
     return actions?.map((action, index) => {
         if (index <= 1 && action.href) {
             return {
@@ -376,7 +377,7 @@ const processFeatureTooltipActions = (actions: ActionsType): ActionsType => {
         }
 
         return action;
-    }) as ActionsType;
+    }) as FeatureTooltipActions;
 };
 
 const addUtmParamsToUrl = (url: string): string => {

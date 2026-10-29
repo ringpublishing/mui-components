@@ -1,4 +1,4 @@
-import { DoNotDisturb, ImportExport, RocketLaunch } from '@mui/icons-material';
+import { Ban, ArrowUpDown, Rocket } from 'lucide-react';
 import { action } from 'storybook/actions';
 import { ActionBoxProps, ActionBoxItem } from '../../../../../src/index.js';
 
@@ -6,7 +6,7 @@ const actions: ActionBoxItem[] = [
     {
         label: 'Action 1',
         onClick: action('onClick'),
-        icon: <RocketLaunch />,
+        icon: <Rocket />,
         hasSeparatorAfter: true,
     },
     {
@@ -14,7 +14,7 @@ const actions: ActionBoxItem[] = [
         onClick: action('onClick'),
         disabled: true,
         disabledReason: 'Disabled because of some reason',
-        icon: <DoNotDisturb />,
+        icon: <Ban />,
     },
     {
         label: 'Action 3',
@@ -23,7 +23,7 @@ const actions: ActionBoxItem[] = [
     {
         label: 'Action 4',
         onClick: () => null,
-        icon: <ImportExport />,
+        icon: <ArrowUpDown />,
         hasSeparatorBefore: true,
     },
 ];
@@ -32,8 +32,6 @@ const defaultArgs: Partial<ActionBoxProps> = {
     actions,
     placement: 'bottom-end',
     tooltipPlacement: 'right',
-    hasScroll: true,
-    visibleActionsCount: 3,
     className: 'custom-class-name',
     sx: {},
 };

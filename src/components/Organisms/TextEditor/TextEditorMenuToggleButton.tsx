@@ -3,6 +3,7 @@ import { ToggleButton } from '@mui/material';
 
 import { Editor } from '@tiptap/core';
 import { useCurrentEditor } from '@tiptap/react';
+import { getLucideFontSize } from '../../../helpers/lucideSize.js';
 
 export interface TextEditorMenuToggleButtonProps {
     icon: React.JSX.Element;
@@ -61,6 +62,13 @@ export function TextEditorMenuToggleButton(props: TextEditorMenuToggleButtonProp
             sx={{
                 border: 'none',
                 color: (theme): string => theme.palette.text.secondary,
+                fontSize: getLucideFontSize('small'),
+                '& svg': {
+                    width: '1em',
+                    height: '1em',
+                    display: 'block',
+                    flexShrink: 0,
+                },
                 '&.Mui-disabled': {
                     border: 'none',
                 },

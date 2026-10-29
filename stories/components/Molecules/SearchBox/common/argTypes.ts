@@ -47,6 +47,16 @@ export const searchBoxArgTypes = {
             defaultValue: { summary: 'false' },
         },
     },
+    size: {
+        description: 'Height of the field: `small` 32px, `medium` 40px, the same as TextField, Select and Autocomplete.',
+        control: 'inline-radio' as const,
+        options: ['small', 'medium'],
+        table: {
+            category: 'appearance',
+            type: { summary: "'small' | 'medium'" },
+            defaultValue: { summary: "'medium'" },
+        },
+    },
     labels: {
         description: 'Labels for placeholder and clear button tooltip.',
         control: 'object' as const,

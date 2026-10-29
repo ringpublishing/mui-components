@@ -1,11 +1,11 @@
 import type { Meta } from '@storybook/react-vite';
 import { ChipsGroup } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
-import { Default } from './stories/Default.js';
-import { ChipsExpandable } from './stories/ChipsExpandable.js';
-import { ChipsExpandableAndCollapsable } from './stories/ChipsExpandableAndCollapsable.js';
-import { CustomLabels } from './stories/CustomLabels.js';
-import { DeleteAll } from './stories/DeleteAll.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { ChipsExpandable as ChipsExpandableStory } from './stories/ChipsExpandable.js';
+import { ChipsExpandableAndCollapsable as ChipsExpandableAndCollapsableStory } from './stories/ChipsExpandableAndCollapsable.js';
+import { DeleteAll as DeleteAllStory } from './stories/DeleteAll.js';
+import { CustomLabels as CustomLabelsStory } from './stories/CustomLabels.js';
 import ChipsGroupMDX from './ChipsGroup.mdx';
 
 const meta: Meta<typeof ChipsGroup> = {
@@ -96,4 +96,11 @@ const meta: Meta<typeof ChipsGroup> = {
 
 export default meta;
 
-export { Default, ChipsExpandable, ChipsExpandableAndCollapsable, DeleteAll, CustomLabels };
+export const Default = DefaultStory;
+export const ChipsExpandable = { ...ChipsExpandableStory, name: 'Expandable' };
+export const ChipsExpandableAndCollapsable = {
+    ...ChipsExpandableAndCollapsableStory,
+    name: 'Expandable — collapsable',
+};
+export const DeleteAll = { ...DeleteAllStory, name: 'Delete all' };
+export const CustomLabels = { ...CustomLabelsStory, name: 'Custom labels' };

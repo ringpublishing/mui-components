@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { GridRowSelectionModel } from '@mui/x-data-grid-pro';
+import { Box } from '@mui/material';
 
 import { RingDataGrid as RingDataGridComponent, RingDataGridProps } from '../../../../../src/index.js';
-import { useRingDataGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { useRingDataGridDemoData } from '../../../../helpers/ringDemoData.js';
 import { storiesColumns, getInitialColumnVisibilityModel } from '../DataGrid.stories.columnsandrows.js';
+import { GRID_CONTAINER_SX } from './gridContainer.js';
+
+// Module scope, not the render body: a type declared per render remounts the whole grid every time.
+const DataGridContainer = ({
+    withContainer,
+    children,
+}: {
+    withContainer: boolean;
+    children: React.ReactNode;
+}): React.JSX.Element => (withContainer ? <Box sx={GRID_CONTAINER_SX}>{children}</Box> : <>{children}</>);
 
 export function StoryRingDataGridWrapper(props: RingDataGridProps & { withContainer?: boolean }): React.JSX.Element {
     const { additionalComponent, withContainer = true } = props;
@@ -29,24 +40,8 @@ export function StoryRingDataGridWrapper(props: RingDataGridProps & { withContai
         };
     }
 
-    const DataGridContainer = ({ children }: { children: React.ReactNode }): React.JSX.Element =>
-        withContainer ? (
-            <div
-                style={{
-                    minWidth: '100%',
-                    width: '100%',
-                    padding: '20px',
-                    height: '600px',
-                }}
-            >
-                {children}
-            </div>
-        ) : (
-            <> {children}</>
-        );
-
     return (
-        <DataGridContainer>
+        <DataGridContainer withContainer={withContainer}>
             <RingDataGridComponent
                 {...props}
                 columnHeaderHeight={40}

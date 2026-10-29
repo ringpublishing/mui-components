@@ -52,7 +52,7 @@ export default function WithExternalQueryClientDemo(args: React.ComponentProps<t
                         action('invalidate all')();
                     }}
                     style={debugBtnStyle}
-                    title="Mark all cached queries as stale — they will refetch on next use"
+                    title="Mark all cached queries as stale — expanded items reload now, collapsed ones on next expand"
                 >
                     Invalidate all
                 </button>

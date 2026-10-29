@@ -1,133 +1,175 @@
-import React, { useRef, useState, useCallback } from 'react';
-import { Box, Stack, Typography, Button, Collapse, Tooltip, CircularProgress } from '@mui/material';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import React, { useRef, useState, useCallback, useId } from 'react';
+import { Box, Typography, Button, Collapse, Tooltip, CircularProgress, Link } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import { ChevronDown, Info, X } from 'lucide-react';
+import type { RingFileUploaderOwnerState } from '@ringpublishing/mui-theme';
 import {
     FileUploaderProps,
+    FileUploaderRejectionReason,
     FileUploaderSize,
     FileUploaderStatus,
     type FileUploaderLabels,
+    type FileUploaderRejection,
 } from './fileUploader.types.js';
-import { DropzoneContainer, UploadIconContainer, FileItem } from './components/index.js';
-import { TextField } from '../../Atoms/TextField/TextField.js';
-import { ClearOutlined } from '@mui/icons-material';
+import { UploadIcon, FileItem } from './components/index.js';
+import {
+    Dropzone,
+    DropzoneActions,
+    DropzoneBody,
+    DropzoneLinkGroup,
+    DropzoneText,
+    FileList,
+    FilesCounter,
+    FileUploaderHeader,
+    FileUploaderRoot,
+    HintIcon,
+    UrlRow,
+    UrlSection,
+    UrlSubmit,
+} from './components/slots.js';
+import { TextField } from '../../Molecules/TextField/TextField.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
-import { tv } from '../../../helpers/typographyMode.js';
+import { WithOwnerDataTestId } from '../../../helpers/dataTestId.js';
 
-interface DropzoneContentProps {
+const DEFAULT_LABELS = {
+    filesUploaded: '{uploaded} of {total} files uploaded',
+    removeFile: 'Remove {name}',
+    retryFile: 'Retry upload of {name}',
+    clearUrl: 'Clear URL',
+} as const;
+
+/**
+ * Whether a file matches `accept`: `.ext` against the name, `type/*` against the MIME group and `type/subtype`
+ * exactly against the type the browser reports for the file, all case-insensitive. A missing or empty `accept`, or
+ * the any-type wildcard, takes any file.
+ */
+function matchesAccept(file: File, accept?: string): boolean {
+    const tokens = (accept ?? '')
+        .split(',')
+        .map((token) => token.trim().toLowerCase())
+        .filter(Boolean);
+
+    if (tokens.length === 0) {
+        return true;
+    }
+
+    const name = file.name.toLowerCase();
+    const type = file.type.toLowerCase();
+
+    return tokens.some((token) => {
+        if (token === '*' || token === '*/*') {
+            return true;
+        }
+
+        if (token.startsWith('.')) {
+            return name.endsWith(token);
+        }
+
+        if (token.endsWith('/*')) {
+            return type.startsWith(token.slice(0, -1));
+        }
+
+        return type === token;
+    });
+}
+
+/**
+ * Splits the label's last word off, so in the small drop area it wraps together with the link that follows it
+ * ("… file to add" / "or upload from disk"). A one-word label goes with the link whole.
+ */
+function splitLastWord(label: string): [string, string] {
+    const trimmed = label.trimEnd();
+    const cut = trimmed.lastIndexOf(' ');
+
+    return cut === -1 ? ['', trimmed] : [trimmed.slice(0, cut), trimmed.slice(cut + 1)];
+}
+
+interface DropzoneContentProps extends WithOwnerDataTestId {
     labels: FileUploaderLabels;
     errorMessage?: string;
-    isDragging: boolean;
-    size: FileUploaderSize;
+    ownerState: RingFileUploaderOwnerState;
     onBrowseClick: () => void;
     actionSlot?: React.ReactNode;
-    dataTestId: string;
 }
 
 const SmallDropzoneContent: React.FC<DropzoneContentProps> = ({
     labels,
     errorMessage,
-    isDragging,
-    size,
+    ownerState,
     onBrowseClick,
     actionSlot,
     dataTestId,
-}) => (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <UploadIconContainer isError={Boolean(errorMessage)} isDragging={isDragging} size={size}>
-            <FileUploadOutlinedIcon sx={{ fontSize: tv('1rem') }} />
-        </UploadIconContainer>
-        <Stack sx={{ gap: '2px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-                <Typography variant="body1">{labels.dropzone} </Typography>
-                <Typography
-                    data-testid={`${dataTestId}-browse`}
-                    variant="body1"
-                    color="primary"
-                    onClick={onBrowseClick}
-                    sx={{
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                    }}
-                >
-                    {labels.uploadButton}
-                </Typography>
-                {actionSlot}
-                {labels.hint && (
-                    <Tooltip title={labels.hint} arrow={true} placement="top">
-                        <Box
-                            component="span"
-                            sx={{ display: 'inline-flex', alignItems: 'center', pointerEvents: 'auto' }}
-                        >
-                            <InfoOutlinedIcon sx={{ fontSize: 'medium', color: 'text.secondary' }} />
-                        </Box>
-                    </Tooltip>
-                )}
-            </Box>
-            {errorMessage && (
-                <Typography variant="body2" color="error">
-                    {errorMessage}
-                </Typography>
-            )}
-        </Stack>
-    </Box>
-);
+}) => {
+    const [labelHead, labelTail] = splitLastWord(labels.dropzone);
 
-const MediumDropzoneContent: React.FC<DropzoneContentProps> = ({
+    return (
+        <>
+            <DropzoneBody ownerState={ownerState}>
+                <UploadIcon
+                    isError={ownerState.error}
+                    isDragging={ownerState.dragOver}
+                    size={ownerState.size}
+                    dataTestId={`${dataTestId}-placeholder-icon`}
+                />
+                <DropzoneText ownerState={ownerState}>
+                    <Typography variant="body1">
+                        {labelHead && `${labelHead} `}
+                        <DropzoneLinkGroup ownerState={ownerState}>
+                            {labelTail}
+                            <Link
+                                data-testid={`${dataTestId}-browse`}
+                                component="button"
+                                type="button"
+                                variant="body1"
+                                onClick={onBrowseClick}
+                            >
+                                {labels.uploadButton}
+                            </Link>
+                            {labels.hint && (
+                                <Tooltip title={labels.hint} arrow={true} placement="top">
+                                    <HintIcon tabIndex={0} role="img" ownerState={ownerState}>
+                                        <RingLucideIcon icon={Info} fontSize="inherit" />
+                                    </HintIcon>
+                                </Tooltip>
+                            )}
+                        </DropzoneLinkGroup>
+                    </Typography>
+                    {errorMessage && (
+                        <Typography variant="body2" color="error">
+                            {errorMessage}
+                        </Typography>
+                    )}
+                </DropzoneText>
+            </DropzoneBody>
+            {actionSlot && <DropzoneActions ownerState={ownerState}>{actionSlot}</DropzoneActions>}
+        </>
+    );
+};
+
+const StackedDropzoneContent: React.FC<DropzoneContentProps> = ({
     labels,
     errorMessage,
-    isDragging,
-    size,
+    ownerState,
     onBrowseClick,
     actionSlot,
     dataTestId,
 }) => (
-    <Stack spacing={1} alignItems="center">
-        <UploadIconContainer isError={Boolean(errorMessage)} isDragging={isDragging} size={size}>
-            <FileUploadOutlinedIcon fontSize="large" />
-        </UploadIconContainer>
-        <Typography variant="subtitle1">{labels.dropzone}</Typography>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Button data-testid={`${dataTestId}-browse`} variant="contained" size="medium" onClick={onBrowseClick}>
-                {labels.uploadButton.toUpperCase()}
-            </Button>
-            {actionSlot}
-        </Box>
-        {labels.hint && !errorMessage && (
-            <Typography variant="body2" color="text.secondary">
-                {labels.hint}
-            </Typography>
-        )}
-        {errorMessage && (
-            <Typography variant="body2" color="error">
-                {errorMessage}
-            </Typography>
-        )}
-    </Stack>
-);
-
-const LargeDropzoneContent: React.FC<DropzoneContentProps> = ({
-    labels,
-    errorMessage,
-    isDragging,
-    size,
-    onBrowseClick,
-    actionSlot,
-    dataTestId,
-}) => (
-    <Stack spacing={3} alignItems="center">
-        <UploadIconContainer isError={Boolean(errorMessage)} isDragging={isDragging} size={size}>
-            <FileUploadOutlinedIcon sx={{ fontSize: (theme) => parseInt(theme.spacing(6)) }} />
-        </UploadIconContainer>
-        <Stack spacing={1} alignItems="center">
+    <>
+        <UploadIcon
+            isError={ownerState.error}
+            isDragging={ownerState.dragOver}
+            size={ownerState.size}
+            dataTestId={`${dataTestId}-placeholder-icon`}
+        />
+        <DropzoneBody ownerState={ownerState}>
             <Typography variant="subtitle1">{labels.dropzone}</Typography>
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <DropzoneActions ownerState={ownerState}>
                 <Button data-testid={`${dataTestId}-browse`} variant="contained" size="medium" onClick={onBrowseClick}>
-                    {labels.uploadButton.toUpperCase()}
+                    {labels.uploadButton}
                 </Button>
                 {actionSlot}
-            </Box>
+            </DropzoneActions>
             {labels.hint && !errorMessage && (
                 <Typography variant="body2" color="text.secondary">
                     {labels.hint}
@@ -138,87 +180,109 @@ const LargeDropzoneContent: React.FC<DropzoneContentProps> = ({
                     {errorMessage}
                 </Typography>
             )}
-        </Stack>
-    </Stack>
+        </DropzoneBody>
+    </>
 );
 
-interface UrlUploadSectionProps {
+interface UrlUploadSectionProps extends WithOwnerDataTestId {
     title?: string;
     placeholder?: string;
     submitButton?: string;
+    clearLabel: string;
     urlValue: string;
     onUrlValueChange: (value: string) => void;
     onSubmit: () => void;
     onClear?: () => void;
     textFieldProps?: React.ComponentProps<typeof TextField>;
     loading?: boolean;
-    dataTestId: string;
+    ownerState: RingFileUploaderOwnerState;
 }
 
 const UrlUploadSection: React.FC<UrlUploadSectionProps> = ({
     title,
     placeholder,
     submitButton,
+    clearLabel,
     urlValue,
     onUrlValueChange,
     onSubmit,
     onClear,
     textFieldProps,
     loading = false,
+    ownerState,
     dataTestId,
-}) => (
-    <Box>
-        <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            {title}
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-            <TextField
-                dataTestIdSuffix={`${dataTestId}-url-input`}
-                actions={
-                    urlValue
-                        ? [
-                              {
-                                  icon: <ClearOutlined />,
-                                  onClick: (): void => {
-                                      onUrlValueChange('');
-                                      onClear?.();
+}) => {
+    const titleId = useId();
+
+    return (
+        <UrlSection ownerState={ownerState}>
+            <Typography id={titleId} variant="subtitle2">
+                {title}
+            </Typography>
+            <UrlRow ownerState={ownerState}>
+                <TextField
+                    /*
+                     * `dataTestId` is already a complete `ring-fileuploader-…` id, so it is set
+                     * directly — passing it as a suffix would yield `ring-textfield-ring-…`.
+                     * The input below it inherits the prefix and becomes `…-url-input`.
+                     */
+                    data-testid={`${dataTestId}-url`}
+                    actions={
+                        urlValue
+                            ? [
+                                  {
+                                      icon: <X size={24} />,
+                                      onClick: (): void => {
+                                          onUrlValueChange('');
+                                          onClear?.();
+                                      },
+                                      label: clearLabel,
                                   },
-                                  label: 'Clear',
-                              },
-                          ]
-                        : []
-                }
-                fullWidth={true}
-                size="small"
-                placeholder={placeholder}
-                value={urlValue}
-                onChange={(e): void => onUrlValueChange(e.target.value)}
-                onKeyPress={(e): void => {
-                    if (e.key === 'Enter' && !loading) {
-                        onSubmit();
+                              ]
+                            : []
                     }
-                }}
-                disabled={loading}
-                {...textFieldProps}
-            />
-            <Button
-                data-testid={`${dataTestId}-url-submit`}
-                variant="outlined"
-                onClick={onSubmit}
-                disabled={loading}
-                sx={{ minWidth: 156 }}
-                startIcon={loading ? <CircularProgress size={20} sx={{ color: 'action.disabled' }} /> : undefined}
-            >
-                {submitButton?.toUpperCase()}
-            </Button>
-        </Box>
-    </Box>
-);
+                    fullWidth={true}
+                    size="small"
+                    placeholder={placeholder}
+                    value={urlValue}
+                    onChange={(e): void => onUrlValueChange(e.target.value)}
+                    onKeyPress={(e): void => {
+                        if (e.key === 'Enter' && !loading) {
+                            onSubmit();
+                        }
+                    }}
+                    disabled={loading}
+                    {...textFieldProps}
+                    slotProps={{
+                        ...textFieldProps?.slotProps,
+                        htmlInput: {
+                            ...(title ? { 'aria-labelledby': titleId } : {}),
+                            ...textFieldProps?.slotProps?.htmlInput,
+                        },
+                    }}
+                />
+                <UrlSubmit
+                    data-testid={`${dataTestId}-url-submit`}
+                    variant="outlined"
+                    size="small"
+                    onClick={onSubmit}
+                    disabled={loading}
+                    aria-busy={loading || undefined}
+                    startIcon={loading ? <CircularProgress size={20} color="inherit" aria-hidden={true} /> : undefined}
+                    ownerState={ownerState}
+                >
+                    {submitButton}
+                </UrlSubmit>
+            </UrlRow>
+        </UrlSection>
+    );
+};
 
 export function FileUploader(props: FileUploaderProps): React.JSX.Element {
     const {
         sx = {},
         onFilesSelected,
+        onFilesRejected,
         onRemove,
         onRetry,
         maxFileSize,
@@ -237,59 +301,87 @@ export function FileUploader(props: FileUploaderProps): React.JSX.Element {
     } = props;
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    // Entering a child of the drop area fires `dragleave` on the area itself; counting the enters and leaves
+    // keeps the drag-over state on until the pointer really leaves it.
+    const dragDepth = useRef(0);
     const [isDragging, setIsDragging] = useState(false);
     const [urlValue, setUrlValue] = useState('');
     const [isCollapsed, setIsCollapsed] = useState(initiallyCollapsed);
+    const fileListId = useId();
 
     const dataTestId = useRingDataTestId('FileUploader', dataTestIdSuffix);
 
     const files = controlledFiles || [];
+    const ownerState: RingFileUploaderOwnerState = {
+        size,
+        dragOver: isDragging,
+        error: Boolean(errorMessage),
+        collapsed: isCollapsed,
+    };
 
-    const validateFile = useCallback(
-        (file: File): string | null => {
+    const rejectionReason = useCallback(
+        (file: File): FileUploaderRejectionReason | null => {
+            if (!matchesAccept(file, accept)) {
+                return FileUploaderRejectionReason.FileInvalidType;
+            }
+
             if (maxFileSize && file.size > maxFileSize) {
-                return `File size exceeds ${maxFileSize} bytes`;
+                return FileUploaderRejectionReason.FileTooLarge;
             }
 
             return null;
         },
-        [maxFileSize],
+        [accept, maxFileSize],
     );
 
+    // Every way a file comes in — the picker, a drop, a file row's replacement — goes through here.
     const handleFiles = useCallback(
-        (selectedFiles: FileList | null): void => {
+        (selectedFiles: FileList | File[] | null): void => {
             if (!selectedFiles) {
                 return;
             }
 
-            const filesArray = Array.from(selectedFiles);
-            const validFiles: File[] = [];
+            const accepted: File[] = [];
+            const rejections: FileUploaderRejection[] = [];
 
-            filesArray.forEach((file) => {
-                const error = validateFile(file);
+            Array.from(selectedFiles).forEach((file) => {
+                const reason = rejectionReason(file);
 
-                if (!error) {
-                    validFiles.push(file);
+                if (reason) {
+                    rejections.push({ file, reason });
+                } else if (!multiple && accepted.length > 0) {
+                    rejections.push({ file, reason: FileUploaderRejectionReason.TooManyFiles });
+                } else {
+                    accepted.push(file);
                 }
             });
 
-            if (validFiles.length > 0) {
-                onFilesSelected?.(validFiles);
+            if (accepted.length > 0) {
+                onFilesSelected?.(accepted);
+            }
+
+            if (rejections.length > 0) {
+                onFilesRejected?.(rejections);
             }
         },
-        [onFilesSelected, validateFile],
+        [multiple, onFilesRejected, onFilesSelected, rejectionReason],
     );
 
     const handleDragEnter = (e: React.DragEvent): void => {
         e.preventDefault();
         e.stopPropagation();
+        dragDepth.current += 1;
         setIsDragging(true);
     };
 
     const handleDragLeave = (e: React.DragEvent): void => {
         e.preventDefault();
         e.stopPropagation();
-        setIsDragging(false);
+        dragDepth.current = Math.max(0, dragDepth.current - 1);
+
+        if (dragDepth.current === 0) {
+            setIsDragging(false);
+        }
     };
 
     const handleDragOver = (e: React.DragEvent): void => {
@@ -300,11 +392,9 @@ export function FileUploader(props: FileUploaderProps): React.JSX.Element {
     const handleDrop = (e: React.DragEvent): void => {
         e.preventDefault();
         e.stopPropagation();
+        dragDepth.current = 0;
         setIsDragging(false);
-
-        const droppedFiles = e.dataTransfer.files;
-
-        handleFiles(droppedFiles);
+        handleFiles(e.dataTransfer.files);
     };
 
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -329,67 +419,83 @@ export function FileUploader(props: FileUploaderProps): React.JSX.Element {
 
     const hasFiles = files.length > 0;
     const shouldShowDropzone = multiple || !hasFiles;
+    // A file without a status is idle — already in place, like the row draws it.
+    const uploadedCount = files.filter((f) => {
+        const status = f.status ?? FileUploaderStatus.Idle;
+
+        return (
+            status === FileUploaderStatus.Completed ||
+            status === FileUploaderStatus.Success ||
+            status === FileUploaderStatus.Idle
+        );
+    }).length;
+    const filesUploadedText = (labels.filesUploaded ?? DEFAULT_LABELS.filesUploaded)
+        .replace('{uploaded}', String(uploadedCount))
+        .replace('{total}', String(files.length));
+    // Status changes are read out from one polite region: the errors and, with several files, the progress.
+    const announcement = [
+        errorMessage,
+        ...files.map((f) => (f.status === FileUploaderStatus.Error ? f.errorMessage : undefined)),
+        hasFiles && multiple ? filesUploadedText : undefined,
+    ]
+        .filter((part): part is string => Boolean(part))
+        // A message that already ends its sentence gets no second full stop.
+        .map((part, index, parts) => (index < parts.length - 1 && !/[.!?…]$/.test(part) ? `${part}.` : part))
+        .join(' ');
+
+    const dropzoneContentProps: DropzoneContentProps = {
+        labels,
+        errorMessage,
+        ownerState,
+        onBrowseClick: handleBrowseClick,
+        actionSlot: action,
+        dataTestId,
+    };
+
+    const fileItems = files.map((file) => (
+        <FileItem
+            key={file.id}
+            uploadedFile={file}
+            ownerState={ownerState}
+            onRemove={handleRemove}
+            onRetry={onRetry}
+            onFilesSelected={handleFiles}
+            accept={accept}
+            removeLabel={labels.removeFile ?? DEFAULT_LABELS.removeFile}
+            retryLabel={labels.retryFile ?? DEFAULT_LABELS.retryFile}
+            dataTestIdPrefix={dataTestId}
+        />
+    ));
 
     return (
-        <Stack spacing={2} sx={{ width: '100%', height: '100%', ...sx }} {...otherProps}>
-            <Stack spacing={1}>
-                <Box>
-                    <Typography variant="headline2" sx={{ mb: 1 }}>
-                        {headline}
-                    </Typography>
+        <FileUploaderRoot data-testid={dataTestId} ownerState={ownerState} sx={sx} {...otherProps}>
+            {(headline || labels.description) && (
+                <FileUploaderHeader ownerState={ownerState}>
+                    {headline && <Typography variant="subtitle2">{headline}</Typography>}
                     {labels.description && (
                         <Typography variant="body1" color="text.secondary">
                             {labels.description}
                         </Typography>
                     )}
-                </Box>
-            </Stack>
+                </FileUploaderHeader>
+            )}
 
             {shouldShowDropzone && (
-                <DropzoneContainer
-                    data-testid={dataTestId}
-                    size={size}
-                    isError={Boolean(errorMessage)}
-                    className={isDragging ? 'drag-over' : ''}
+                <Dropzone
+                    data-testid={`${dataTestId}-dropzone`}
+                    className={isDragging ? 'drag-over' : undefined}
+                    ownerState={ownerState}
                     onDragEnter={handleDragEnter}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                 >
-                    {size === FileUploaderSize.Small && (
-                        <SmallDropzoneContent
-                            labels={labels}
-                            errorMessage={errorMessage}
-                            isDragging={isDragging}
-                            size={size}
-                            onBrowseClick={handleBrowseClick}
-                            actionSlot={action}
-                            dataTestId={dataTestId}
-                        />
+                    {size === FileUploaderSize.Small ? (
+                        <SmallDropzoneContent {...dropzoneContentProps} />
+                    ) : (
+                        <StackedDropzoneContent {...dropzoneContentProps} />
                     )}
-                    {size === FileUploaderSize.Medium && (
-                        <MediumDropzoneContent
-                            labels={labels}
-                            errorMessage={errorMessage}
-                            isDragging={isDragging}
-                            size={size}
-                            onBrowseClick={handleBrowseClick}
-                            actionSlot={action}
-                            dataTestId={dataTestId}
-                        />
-                    )}
-                    {size === FileUploaderSize.Large && (
-                        <LargeDropzoneContent
-                            labels={labels}
-                            errorMessage={errorMessage}
-                            isDragging={isDragging}
-                            size={size}
-                            onBrowseClick={handleBrowseClick}
-                            actionSlot={action}
-                            dataTestId={dataTestId}
-                        />
-                    )}
-                </DropzoneContainer>
+                </Dropzone>
             )}
             <input
                 data-testid={`${dataTestId}-input`}
@@ -406,92 +512,51 @@ export function FileUploader(props: FileUploaderProps): React.JSX.Element {
                     title={slotProps?.urlUploadSection?.title}
                     placeholder={slotProps?.urlUploadSection?.placeholder}
                     submitButton={slotProps?.urlUploadSection?.submitButton}
+                    clearLabel={labels.clearUrl ?? DEFAULT_LABELS.clearUrl}
                     textFieldProps={slotProps?.urlUploadSection?.textFieldProps}
                     loading={slotProps?.urlUploadSection?.loading}
                     onClear={slotProps?.urlUploadSection?.onClear}
                     urlValue={urlValue}
                     onUrlValueChange={setUrlValue}
                     onSubmit={(): void => handleUrlSubmit(urlValue)}
+                    ownerState={ownerState}
                     dataTestId={dataTestId}
                 />
             )}
 
             {hasFiles && multiple && (
                 <Box>
-                    <Button
+                    <FilesCounter
                         data-testid={`${dataTestId}-expand`}
                         onClick={(): void => setIsCollapsed(!isCollapsed)}
                         variant="text"
-                        startIcon={
-                            <ExpandMoreIcon
-                                sx={{
-                                    transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.3s',
-                                }}
-                            />
-                        }
-                        sx={{
-                            textTransform: 'none',
-                            color: 'text.secondary',
-                            fontWeight: 'normal',
-                            mb: 1,
-                            p: 0,
-                            '&:hover': {
-                                backgroundColor: 'transparent',
-                                color: 'text.primary',
-                            },
-                        }}
+                        aria-expanded={!isCollapsed}
+                        aria-controls={fileListId}
+                        startIcon={<RingLucideIcon icon={ChevronDown} />}
+                        ownerState={ownerState}
                     >
-                        {(labels.filesUploaded ?? '{uploaded} of {total} files uploaded')
-                            .replace(
-                                '{uploaded}',
-                                String(
-                                    files.filter(
-                                        (f) =>
-                                            f.status === FileUploaderStatus.Completed ||
-                                            f.status === FileUploaderStatus.Success ||
-                                            f.status === FileUploaderStatus.Idle,
-                                    ).length,
-                                ),
-                            )
-                            .replace('{total}', String(files.length))}
-                    </Button>
+                        {filesUploadedText}
+                    </FilesCounter>
                     <Collapse in={!isCollapsed}>
-                        <Stack spacing={1}>
-                            {files.map((file) => (
-                                <FileItem
-                                    key={file.id}
-                                    uploadedFile={file}
-                                    onRemove={handleRemove}
-                                    onRetry={onRetry}
-                                    onFilesSelected={onFilesSelected}
-                                    accept={accept}
-                                    dataTestIdPrefix={dataTestId}
-                                />
-                            ))}
-                        </Stack>
+                        <FileList id={fileListId} role="list" ownerState={ownerState}>
+                            {fileItems}
+                        </FileList>
                     </Collapse>
                 </Box>
             )}
 
             {hasFiles && !multiple && (
-                <Stack spacing={1}>
-                    {files.map((file) => (
-                        <FileItem
-                            key={file.id}
-                            uploadedFile={file}
-                            onRemove={handleRemove}
-                            onRetry={onRetry}
-                            onFilesSelected={onFilesSelected}
-                            accept={accept}
-                            dataTestIdPrefix={dataTestId}
-                        />
-                    ))}
-                </Stack>
+                <FileList role="list" ownerState={ownerState}>
+                    {fileItems}
+                </FileList>
             )}
-        </Stack>
+
+            <Box component="span" aria-live="polite" sx={visuallyHidden}>
+                {announcement}
+            </Box>
+        </FileUploaderRoot>
     );
 }
 
-export { FileUploaderSize, FileUploaderStatus } from './fileUploader.types.js';
-export type { FileUploaderProps, FileUploaderFile, UploadedFile } from './fileUploader.types.js';
+export { FileUploaderRejectionReason, FileUploaderSize, FileUploaderStatus } from './fileUploader.types.js';
+export type { FileUploaderProps, FileUploaderFile, FileUploaderRejection, UploadedFile } from './fileUploader.types.js';

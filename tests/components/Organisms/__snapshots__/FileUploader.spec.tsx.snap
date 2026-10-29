@@ -3,124 +3,67 @@
 exports[`FileUploader Component > should render correctly with Large size 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-9e0ag8-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-zpg53h"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiStack-root css-1nym90u-MuiStack-root"
+        class="ring-featuredicon MuiBox-root css-vo4elg"
+        data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
-          class="MuiBox-root css-q7rs8e"
+          aria-hidden="true"
+          class="MuiBox-root css-12x3t51"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-13ar1hw-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiStack-root css-aha7cr-MuiStack-root"
-        >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
-          >
-            Drag and drop file here or
-          </h6>
-          <div
-            class="MuiBox-root css-1c1kq07"
-          >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
-              data-testid="ring-fileuploader-browse"
-              tabindex="0"
-              type="button"
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              BROWSE FILE
-            </button>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
-          >
-            PDF, DOC (max. 10MB)
-          </p>
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
       </div>
-    </div>
-    <input
-      accept=".pdf,.doc,.docx"
-      data-testid="ring-fileuploader-input"
-      style="display: none;"
-      type="file"
-    />
-  </div>
-</div>
-`;
-
-exports[`FileUploader Component > should render correctly with Medium size 1`] = `
-<div>
-  <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
-  >
-    <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
-    >
       <div
-        class="MuiBox-root css-0"
+        class="css-19hpbzn-RingFileUploader-dropzoneBody"
       >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-b0f3jr"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiStack-root css-aha7cr-MuiStack-root"
-      >
-        <div
-          class="MuiBox-root css-1w50flk"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-gr3ief-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
-        </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="MuiBox-root css-1c1kq07"
+          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
@@ -128,7 +71,7 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
             tabindex="0"
             type="button"
           >
-            BROWSE FILE
+            Browse file
           </button>
         </div>
         <p
@@ -144,6 +87,105 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
       style="display: none;"
       type="file"
     />
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
+  </div>
+</div>
+`;
+
+exports[`FileUploader Component > should render correctly with Medium size 1`] = `
+<div>
+  <div
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
+  >
+    <div
+      class="css-1t55q62-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
+    >
+      <div
+        class="ring-featuredicon MuiBox-root css-a8eer8"
+        data-testid="ring-fileuploader-placeholder-icon"
+      >
+        <div
+          aria-hidden="true"
+          class="MuiBox-root css-2ce76t"
+        >
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div
+        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+        >
+          Drag and drop file here or
+        </h6>
+        <div
+          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            data-testid="ring-fileuploader-browse"
+            tabindex="0"
+            type="button"
+          >
+            Browse file
+          </button>
+        </div>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+        >
+          PDF, DOC (max. 10MB)
+        </p>
+      </div>
+    </div>
+    <input
+      accept=".pdf,.doc,.docx"
+      data-testid="ring-fileuploader-input"
+      style="display: none;"
+      type="file"
+    />
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
   </div>
 </div>
 `;
@@ -151,77 +193,120 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
 exports[`FileUploader Component > should render correctly with Small size 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-13e8gn7-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-1hflhbk"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiBox-root css-axw7ok"
+        class="css-161nn0t-RingFileUploader-dropzoneBody"
       >
         <div
-          class="MuiBox-root css-1r5dlx4"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-dd39zt-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiStack-root css-1d5qw32-MuiStack-root"
+          class="ring-featuredicon MuiBox-root css-q8o7xn"
+          data-testid="ring-fileuploader-placeholder-icon"
         >
           <div
-            class="MuiBox-root css-1qocved"
+            aria-hidden="true"
+            class="MuiBox-root css-1nrqwq3"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-1o0a2yy-MuiTypography-root"
-            >
-              Drag and drop file here or
-               
-            </p>
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-y6zmtr-MuiTypography-root"
-              data-testid="ring-fileuploader-browse"
-            >
-              Browse file
-            </p>
             <span
-              aria-label="PDF, DOC (max. 10MB)"
-              class="MuiBox-root css-s493y7"
-              data-mui-internal-clone-element="true"
+              class="ring-lucide-icon MuiBox-root css-9i6a7i"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-pqxou0-MuiSvgIcon-root"
-                data-testid="InfoOutlinedIcon"
-                focusable="false"
+                class="lucide lucide-file-up"
+                fill="none"
+                height="1em"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                  d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M14 2v5a1 1 0 0 0 1 1h5"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M12 12v6"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="m15 15-3-3-3 3"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </span>
           </div>
+        </div>
+        <div
+          class="css-vlmhm4-RingFileUploader-dropzoneText"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1o0a2yy-MuiTypography-root"
+          >
+            Drag and drop file here 
+            <span
+              class="css-1dz9je9-RingFileUploader-dropzoneLinkGroup"
+            >
+              or
+              <button
+                class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-nm2d4p-MuiTypography-root-MuiLink-root"
+                data-testid="ring-fileuploader-browse"
+                type="button"
+              >
+                Browse file
+              </button>
+              <span
+                aria-label="PDF, DOC (max. 10MB)"
+                class="css-6twvca-RingFileUploader-hintIcon"
+                data-mui-internal-clone-element="true"
+                role="img"
+                tabindex="0"
+              >
+                <span
+                  class="ring-lucide-icon MuiBox-root css-9i6a7i"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-info"
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M12 16v-4"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M12 8h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                  </svg>
+                </span>
+              </span>
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -230,6 +315,10 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
       data-testid="ring-fileuploader-input"
       style="display: none;"
       type="file"
+    />
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
     />
   </div>
 </div>
@@ -238,19 +327,9 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
 exports[`FileUploader Component > should render correctly with completed file 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
-    <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
-    >
-      <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
     <input
       accept=".pdf,.doc,.docx"
       data-testid="ring-fileuploader-input"
@@ -258,44 +337,77 @@ exports[`FileUploader Component > should render correctly with completed file 1`
       type="file"
     />
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-75d8dr-RingFileUploader-fileList"
+      role="list"
     >
       <div
-        class="MuiBox-root css-1v6ehjo"
+        class="css-1uu2lhk-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
+        role="listitem"
       >
         <div
-          class="MuiBox-root css-zb6agx"
+          class="css-1kunj5f-RingFileUploader-fileThumbnail"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1k2pfl4-MuiSvgIcon-root"
-            data-testid="UploadFileOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
         <div
-          class="MuiBox-root css-1fjtzvx"
+          class="css-4edt9o-RingFileUploader-fileContent"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-121b4sa-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            id="_r_n_"
           >
             test.pdf
-          </h6>
+          </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
           >
             12 Bytes
+            <span
+              class="css-tmhiln-RingFileUploader-fileMetaPercent"
+            >
+               · 
+              100%
+            </span>
           </p>
           <div
-            class="MuiBox-root css-1fhgjcy"
+            class="css-hirub3-RingFileUploader-fileProgress"
           >
             <span
+              aria-labelledby="_r_n_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="100"
@@ -310,27 +422,48 @@ exports[`FileUploader Component > should render correctly with completed file 1`
           </div>
         </div>
         <div
-          class="MuiBox-root css-fqvpkm"
+          class="css-1qphi61-RingFileUploader-fileActions"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1d1n1d2-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
           >
             100%
           </p>
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-tcs1qv-MuiSvgIcon-root"
-            data-testid="CheckCircleOutlineIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-ts7mhw"
           >
-            <path
-              d="M16.59 7.58 10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-circle-check lucide-check-circle-2"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m16 9-5.5 5.5L8 12"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
       </div>
     </div>
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
   </div>
 </div>
 `;
@@ -338,48 +471,67 @@ exports[`FileUploader Component > should render correctly with completed file 1`
 exports[`FileUploader Component > should render correctly with default props 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-1t55q62-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-b0f3jr"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiStack-root css-aha7cr-MuiStack-root"
+        class="ring-featuredicon MuiBox-root css-a8eer8"
+        data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
-          class="MuiBox-root css-1w50flk"
+          aria-hidden="true"
+          class="MuiBox-root css-2ce76t"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-gr3ief-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
+      </div>
+      <div
+        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+      >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="MuiBox-root css-1c1kq07"
+          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
@@ -387,7 +539,7 @@ exports[`FileUploader Component > should render correctly with default props 1`]
             tabindex="0"
             type="button"
           >
-            BROWSE FILE
+            Browse file
           </button>
         </div>
         <p
@@ -403,6 +555,10 @@ exports[`FileUploader Component > should render correctly with default props 1`]
       style="display: none;"
       type="file"
     />
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
   </div>
 </div>
 `;
@@ -410,19 +566,9 @@ exports[`FileUploader Component > should render correctly with default props 1`]
 exports[`FileUploader Component > should render correctly with error file 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
-    <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
-    >
-      <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
     <input
       accept=".pdf,.doc,.docx"
       data-testid="ring-fileuploader-input"
@@ -430,44 +576,71 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
       type="file"
     />
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-75d8dr-RingFileUploader-fileList"
+      role="list"
     >
       <div
-        class="MuiBox-root css-1gzr6b5"
+        class="css-lwgeco-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
+        role="listitem"
       >
         <div
-          class="MuiBox-root css-zb6agx"
+          class="css-1f48qpt-RingFileUploader-fileThumbnail"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-168iqmi-MuiSvgIcon-root"
-            data-testid="UploadFileOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
         <div
-          class="MuiBox-root css-1fjtzvx"
+          class="css-4edt9o-RingFileUploader-fileContent"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-9y9k3t-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1 css-jrs438-MuiTypography-root-RingFileUploader-fileName"
+            id="_r_s_"
           >
             test.pdf
-          </h6>
+          </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-gvdsun-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-dbixtd-MuiTypography-root-RingFileUploader-fileMessage"
           >
             Upload failed
           </p>
           <div
-            class="MuiBox-root css-1fhgjcy"
+            class="css-12gdcae-RingFileUploader-fileProgress"
           >
             <span
+              aria-labelledby="_r_s_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
@@ -482,22 +655,55 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
           </div>
         </div>
         <div
-          class="MuiBox-root css-fqvpkm"
+          class="css-1qphi61-RingFileUploader-fileActions"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-rgv7p4-MuiSvgIcon-root"
-            data-testid="ErrorOutlineIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-1zw5yx"
           >
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-circle-alert lucide-alert-circle"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                vector-effect="non-scaling-stroke"
+              />
+              <line
+                vector-effect="non-scaling-stroke"
+                x1="12"
+                x2="12"
+                y1="8"
+                y2="12"
+              />
+              <line
+                vector-effect="non-scaling-stroke"
+                x1="12"
+                x2="12.01"
+                y1="16"
+                y2="16"
+              />
+            </svg>
+          </span>
         </div>
       </div>
     </div>
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    >
+      Upload failed
+    </span>
   </div>
 </div>
 `;
@@ -505,19 +711,9 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
 exports[`FileUploader Component > should render correctly with idle file 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
-    <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
-    >
-      <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
     <input
       accept=".pdf,.doc,.docx"
       data-testid="ring-fileuploader-input"
@@ -525,46 +721,76 @@ exports[`FileUploader Component > should render correctly with idle file 1`] = `
       type="file"
     />
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-75d8dr-RingFileUploader-fileList"
+      role="list"
     >
       <div
-        class="MuiBox-root css-1v6ehjo"
+        class="css-1uu2lhk-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
+        role="listitem"
       >
         <div
-          class="MuiBox-root css-zb6agx"
+          class="css-1mpcfid-RingFileUploader-fileThumbnail"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-a5kzim-MuiSvgIcon-root"
-            data-testid="UploadFileOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
         <div
-          class="MuiBox-root css-1fjtzvx"
+          class="css-4edt9o-RingFileUploader-fileContent"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-121b4sa-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            id="_r_11_"
           >
             existing-file.pdf
-          </h6>
+          </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
           >
-            0 Bytes / 1.0kb
+            1.0kb
           </p>
         </div>
         <div
-          class="MuiBox-root css-fqvpkm"
+          class="css-1qphi61-RingFileUploader-fileActions"
         />
       </div>
     </div>
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
   </div>
 </div>
 `;
@@ -572,19 +798,9 @@ exports[`FileUploader Component > should render correctly with idle file 1`] = `
 exports[`FileUploader Component > should render correctly with uploading file 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
-    <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
-    >
-      <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
     <input
       accept=".pdf,.doc,.docx"
       data-testid="ring-fileuploader-input"
@@ -592,44 +808,77 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
       type="file"
     />
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-75d8dr-RingFileUploader-fileList"
+      role="list"
     >
       <div
-        class="MuiBox-root css-1v6ehjo"
+        class="css-1uu2lhk-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
+        role="listitem"
       >
         <div
-          class="MuiBox-root css-zb6agx"
+          class="css-2zdn3f-RingFileUploader-fileThumbnail"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1iddjux-MuiSvgIcon-root"
-            data-testid="UploadFileOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
         <div
-          class="MuiBox-root css-1fjtzvx"
+          class="css-4edt9o-RingFileUploader-fileContent"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 css-121b4sa-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            id="_r_j_"
           >
             test.pdf
-          </h6>
+          </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
           >
             5.0mb / 12 Bytes
+            <span
+              class="css-tmhiln-RingFileUploader-fileMetaPercent"
+            >
+               · 
+              50%
+            </span>
           </p>
           <div
-            class="MuiBox-root css-1fhgjcy"
+            class="css-hirub3-RingFileUploader-fileProgress"
           >
             <span
+              aria-labelledby="_r_j_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="50"
@@ -644,14 +893,15 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
           </div>
         </div>
         <div
-          class="MuiBox-root css-fqvpkm"
+          class="css-1qphi61-RingFileUploader-fileActions"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1d1n1d2-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
           >
             50%
           </p>
           <span
+            aria-labelledby="_r_j_"
             class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1b8fp5v-MuiCircularProgress-root"
             role="progressbar"
             style="width: 16px; height: 16px;"
@@ -673,6 +923,10 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
         </div>
       </div>
     </div>
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    />
   </div>
 </div>
 `;
@@ -680,48 +934,67 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
 exports[`FileUploader Component > should render multiple files when multiple prop is true 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-1t55q62-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-b0f3jr"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiStack-root css-aha7cr-MuiStack-root"
+        class="ring-featuredicon MuiBox-root css-a8eer8"
+        data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
-          class="MuiBox-root css-1w50flk"
+          aria-hidden="true"
+          class="MuiBox-root css-2ce76t"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-gr3ief-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
+      </div>
+      <div
+        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+      >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="MuiBox-root css-1c1kq07"
+          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
@@ -729,7 +1002,7 @@ exports[`FileUploader Component > should render multiple files when multiple pro
             tabindex="0"
             type="button"
           >
-            BROWSE FILE
+            Browse file
           </button>
         </div>
         <p
@@ -750,7 +1023,9 @@ exports[`FileUploader Component > should render multiple files when multiple pro
       class="MuiBox-root css-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-e6dsz-MuiButtonBase-root-MuiButton-root"
+        aria-controls="_r_2r_"
+        aria-expanded="true"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-z6pzmy-MuiButtonBase-root-MuiButton-root-RingFileUploader-filesCounter"
         data-testid="ring-fileuploader-expand"
         tabindex="0"
         type="button"
@@ -758,17 +1033,28 @@ exports[`FileUploader Component > should render multiple files when multiple pro
         <span
           class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1xtgchi-MuiSvgIcon-root"
-            data-testid="ExpandMoreIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-1d89b2p"
           >
-            <path
-              d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-chevron-down"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m6 9 6 6 6-6"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </span>
         1 of 2 files uploaded
       </button>
@@ -783,44 +1069,78 @@ exports[`FileUploader Component > should render multiple files when multiple pro
             class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
           >
             <div
-              class="MuiStack-root css-jfdv4h-MuiStack-root"
+              class="css-75d8dr-RingFileUploader-fileList"
+              id="_r_2r_"
+              role="list"
             >
               <div
-                class="MuiBox-root css-1v6ehjo"
+                class="css-1uu2lhk-RingFileUploader-fileItem"
                 data-testid="ring-fileuploader-file-1"
+                role="listitem"
               >
                 <div
-                  class="MuiBox-root css-zb6agx"
+                  class="css-1kunj5f-RingFileUploader-fileThumbnail"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1k2pfl4-MuiSvgIcon-root"
-                    data-testid="UploadFileOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <span
+                    class="ring-lucide-icon MuiBox-root css-9i6a7i"
                   >
-                    <path
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-file-up"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="M14 2v5a1 1 0 0 0 1 1h5"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="M12 12v6"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="m15 15-3-3-3 3"
+                        vector-effect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </span>
                 </div>
                 <div
-                  class="MuiBox-root css-1fjtzvx"
+                  class="css-4edt9o-RingFileUploader-fileContent"
                 >
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 css-121b4sa-MuiTypography-root"
+                  <p
+                    class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+                    id="_r_30_"
                   >
                     test.pdf
-                  </h6>
+                  </p>
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
                   >
                     0 Bytes
+                    <span
+                      class="css-tmhiln-RingFileUploader-fileMetaPercent"
+                    >
+                       · 
+                      100%
+                    </span>
                   </p>
                   <div
-                    class="MuiBox-root css-1fhgjcy"
+                    class="css-hirub3-RingFileUploader-fileProgress"
                   >
                     <span
+                      aria-labelledby="_r_30_"
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="100"
@@ -835,62 +1155,111 @@ exports[`FileUploader Component > should render multiple files when multiple pro
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root css-fqvpkm"
+                  class="css-1qphi61-RingFileUploader-fileActions"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1d1n1d2-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
                   >
                     100%
                   </p>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-tcs1qv-MuiSvgIcon-root"
-                    data-testid="CheckCircleOutlineIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <span
+                    class="ring-lucide-icon MuiBox-root css-ts7mhw"
                   >
-                    <path
-                      d="M16.59 7.58 10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-circle-check lucide-check-circle-2"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="m16 9-5.5 5.5L8 12"
+                        vector-effect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </span>
                 </div>
               </div>
               <div
-                class="MuiBox-root css-1v6ehjo"
+                class="css-1uu2lhk-RingFileUploader-fileItem"
                 data-testid="ring-fileuploader-file-2"
+                role="listitem"
               >
                 <div
-                  class="MuiBox-root css-zb6agx"
+                  class="css-2zdn3f-RingFileUploader-fileThumbnail"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1iddjux-MuiSvgIcon-root"
-                    data-testid="UploadFileOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <span
+                    class="ring-lucide-icon MuiBox-root css-9i6a7i"
                   >
-                    <path
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm4 18H6V4h7v5h5zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-file-up"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="M14 2v5a1 1 0 0 0 1 1h5"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="M12 12v6"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="m15 15-3-3-3 3"
+                        vector-effect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </span>
                 </div>
                 <div
-                  class="MuiBox-root css-1fjtzvx"
+                  class="css-4edt9o-RingFileUploader-fileContent"
                 >
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 css-121b4sa-MuiTypography-root"
+                  <p
+                    class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+                    id="_r_33_"
                   >
                     test2.pdf
-                  </h6>
+                  </p>
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
                   >
                     0 Bytes / 0 Bytes
+                    <span
+                      class="css-tmhiln-RingFileUploader-fileMetaPercent"
+                    >
+                       · 
+                      30%
+                    </span>
                   </p>
                   <div
-                    class="MuiBox-root css-1fhgjcy"
+                    class="css-hirub3-RingFileUploader-fileProgress"
                   >
                     <span
+                      aria-labelledby="_r_33_"
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="30"
@@ -905,14 +1274,15 @@ exports[`FileUploader Component > should render multiple files when multiple pro
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root css-fqvpkm"
+                  class="css-1qphi61-RingFileUploader-fileActions"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1d1n1d2-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
                   >
                     30%
                   </p>
                   <span
+                    aria-labelledby="_r_33_"
                     class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1b8fp5v-MuiCircularProgress-root"
                     role="progressbar"
                     style="width: 16px; height: 16px;"
@@ -938,6 +1308,12 @@ exports[`FileUploader Component > should render multiple files when multiple pro
         </div>
       </div>
     </div>
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    >
+      1 of 2 files uploaded
+    </span>
   </div>
 </div>
 `;
@@ -945,48 +1321,67 @@ exports[`FileUploader Component > should render multiple files when multiple pro
 exports[`FileUploader Component > should render with error message 1`] = `
 <div>
   <div
-    class="MuiStack-root css-5thf5h-MuiStack-root"
+    class="css-1of18vb-RingFileUploader-root"
+    data-testid="ring-fileuploader"
   >
     <div
-      class="MuiStack-root css-jfdv4h-MuiStack-root"
+      class="css-1vf3qj7-RingFileUploader-dropzone"
+      data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="MuiBox-root css-0"
-      >
-        <span
-          class="MuiTypography-root MuiTypography-headline2 css-4r4l7b-MuiTypography-root"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiBox-root css-1qxfmik"
-      data-testid="ring-fileuploader"
-    >
-      <div
-        class="MuiStack-root css-aha7cr-MuiStack-root"
+        class="ring-featuredicon MuiBox-root css-a8eer8"
+        data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
-          class="MuiBox-root css-192exeo"
+          aria-hidden="true"
+          class="MuiBox-root css-1ve8grf"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-gr3ief-MuiSvgIcon-root"
-            data-testid="FileUploadOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-9i6a7i"
           >
-            <path
-              d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-file-up"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M14 2v5a1 1 0 0 0 1 1h5"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M12 12v6"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m15 15-3-3-3 3"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
         </div>
+      </div>
+      <div
+        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+      >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="MuiBox-root css-1c1kq07"
+          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
@@ -994,7 +1389,7 @@ exports[`FileUploader Component > should render with error message 1`] = `
             tabindex="0"
             type="button"
           >
-            BROWSE FILE
+            Browse file
           </button>
         </div>
         <p
@@ -1010,6 +1405,12 @@ exports[`FileUploader Component > should render with error message 1`] = `
       style="display: none;"
       type="file"
     />
+    <span
+      aria-live="polite"
+      class="MuiBox-root css-ty8jgw"
+    >
+      Invalid file type
+    </span>
   </div>
 </div>
 `;

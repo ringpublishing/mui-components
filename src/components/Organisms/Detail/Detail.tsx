@@ -1,33 +1,83 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { Box, Button, ChipProps, IconButton, Link, Stack, Tooltip } from '@mui/material';
-import { CloseOutlined, DownloadOutlined, ZoomInOutlined } from '@mui/icons-material';
+import { Box, Button, ChipProps, IconButton, Link, Stack, type Theme, Tooltip } from '@mui/material';
+import { X, Download, ZoomIn } from 'lucide-react';
 import classNames from 'classnames';
 
 import { formatDate } from '../../../helpers/formatDate.js';
 import { determineTextColorBasedOnBackground } from '../../../helpers/colors.js';
 import EditableText from '../../Atoms/EditableText/EditableText.js';
 import { CommonComponentProps, WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import {
-    ChipsGroup,
-    LightBox,
-    LightBoxProps,
-    Media,
-    MediaProps,
-    Placeholder,
-    PlaceholderLabels,
-    PlaceholderVariant,
-} from '../../index.js';
+import { ChipsGroup } from '../../Molecules/ChipsGroup/index.js';
+import { LightBox, type LightBoxProps } from '../LightBox/index.js';
+import { Media, type MediaProps } from '../Media/index.js';
+import { Placeholder, type PlaceholderLabels, PlaceholderVariant } from '../../Molecules/Placeholder/index.js';
 import { Image } from '../../../types.js';
 import { downloadImage } from '../../../helpers/downloadImage.js';
-import { useDataViewContext } from '../../Templates/DataView/DataViewContext.js';
+import { useDataViewContext } from '../../internal/DataViewContext.js';
 import { AspectRatioOwnerStateProps } from '../../internal/AspectRatio.js';
-import { EditableSelect } from '../../internal/EditableSelect.js';
+import { EditableSelect } from './EditableSelect.js';
 import { isImage } from '../../../helpers/types.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import { tv } from '../../../helpers/typographyMode.js';
 
 export const DETAIL_WIDTH = 340;
+
+// A value shares its row with the field's icon: it may shrink and wrap anywhere (ids and
+// addresses have no natural break points), but never grows past its own width, so a short
+// value keeps the icon right beside it.
+const VALUE_SX = {
+    minWidth: 0,
+    flex: '0 1 auto',
+    overflowWrap: 'anywhere',
+} as const;
+
+// The slot sizes only a bare icon (its direct child); a control keeps its own size. It is one
+// caption line tall and centres its content, so a taller control sits on the first line of the value.
+const ICON_SLOT_SX = {
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    height: (theme: Theme): string => {
+        const lineHeight = theme.typography.caption.lineHeight;
+
+        // A unitless line height is a multiplier of the font size; as a height it needs `em`.
+        return typeof lineHeight === 'number' ? `${lineHeight}em` : String(lineHeight ?? 'auto');
+    },
+    '& > svg': {
+        width: '20px',
+        height: '20px',
+    },
+} as const;
+
+// Characters kept visible at the end of a middle-elided value: enough for a file name or the
+// tail of an id.
+const MIDDLE_ELLIPSIS_TAIL = 12;
+
+/*
+ * One line with the ellipsis in the middle: the head is clipped by CSS, the tail never shrinks.
+ * The whole value stays in the DOM for selection and assistive technology; the tooltip shows it.
+ */
+function renderMiddleEllipsis(value: string): React.JSX.Element {
+    // Code points, not UTF-16 units, so the split never lands inside a surrogate pair.
+    const characters = Array.from(value);
+    const splitAt = Math.max(0, characters.length - MIDDLE_ELLIPSIS_TAIL);
+    const head = characters.slice(0, splitAt).join('');
+    const tail = characters.slice(splitAt).join('');
+
+    return (
+        <Tooltip title={value} placement="bottom-start">
+            <Box component="span" sx={{ display: 'flex', minWidth: 0, maxWidth: '100%', whiteSpace: 'nowrap' }}>
+                <Box component="span" sx={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {head}
+                </Box>
+                <Box component="span" sx={{ flexShrink: 0 }}>
+                    {tail}
+                </Box>
+            </Box>
+        </Tooltip>
+    );
+}
 
 export interface TitleEditable {
     value: string;
@@ -36,29 +86,38 @@ export interface TitleEditable {
     label?: string;
 }
 
-interface MediaBottomIconPropsBase {
+export interface DetailMediaBottomIconBase {
     tooltip?: string;
 }
 
-interface MediaBottomIconPropsIcon extends MediaBottomIconPropsBase {
+export interface DetailMediaBottomIconWithIcon extends DetailMediaBottomIconBase {
     onClick: (e: MouseEvent) => void;
     type?: 'icon';
     icon: React.JSX.Element;
 }
 
-interface MediaBottomIconPropsChip extends MediaBottomIconPropsBase {
+export interface DetailMediaBottomIconWithChip extends DetailMediaBottomIconBase {
     onClick?: (e: MouseEvent) => void;
     type: 'chip';
     chip: ChipProps;
     color?: string;
 }
 
-type MediaBottomIconProps = MediaBottomIconPropsIcon | MediaBottomIconPropsChip;
+export type DetailMediaBottomIcon = DetailMediaBottomIconWithIcon | DetailMediaBottomIconWithChip;
 
-interface DetailMediaBaseProps extends AspectRatioOwnerStateProps, MediaProps, WithDataTestIdSuffix {
+export interface DetailMediaBaseProps extends AspectRatioOwnerStateProps, MediaProps, WithDataTestIdSuffix {
+    /**
+     * Shows the download and zoom buttons in the media toolbar. Requires `image` (a bare
+     * `slotProps.media.src` is not enough) and is ignored when `slots.media` is provided.
+     * @default false
+     */
     imageFullScreenPreview?: boolean;
+    /**
+     * URL used by the download button and passed to `handleFullScreenPreview` instead of `image`.
+     * It does not render a thumbnail — the thumbnail, and the built-in LightBox, always show `image`.
+     */
     fullScreenImageUrl?: string;
-    bottomIcons?: MediaBottomIconProps[];
+    bottomIcons?: DetailMediaBottomIcon[];
     /**
      * Whether to show the download icon in the media toolbar.
      * @default true
@@ -89,7 +148,7 @@ export type DetailMediaSlotProps = NonNullable<MediaProps['slotProps']> & {
  * handler (the built-in LightBox is then not rendered), or props forwarded to the built-in LightBox
  * via the `lightBox` slot, not both.
  */
-type DetailMediaProps = DetailMediaBaseProps &
+export type DetailMediaProps = DetailMediaBaseProps &
     (
         | {
               /**
@@ -155,6 +214,12 @@ export interface DetailDescriptionItemFieldDefault extends DetailDescriptionItem
     layout?: DetailDescriptionItemFieldLayout;
     type?: DetailDescriptionItemFieldType.DEFAULT;
     url?: string;
+    /**
+     * `middle` keeps the value on one line and elides its middle, so the start and the
+     * distinguishing end (an id, a file name) stay visible; the full value is in a tooltip.
+     * Without it a long value wraps and the field's icon stays beside its first line.
+     */
+    truncate?: 'middle';
 }
 
 export interface DetailDescriptionItemFieldDescription extends DetailDescriptionItemFieldTooltip {
@@ -233,9 +298,8 @@ export interface DetailProps extends CommonComponentProps {
     empty?: boolean;
 
     /**
-     * Labels for the placeholder rendered when the detail is in an empty state.
-     * Only `placeholderLabels.empty` is supported. When omitted, the Placeholder component
-     * falls back to its default localized labels.
+     * Labels for the empty-state placeholder; only `placeholderLabels.empty` is read. When omitted,
+     * the Placeholder falls back to its default localized labels.
      */
     placeholderLabels?: DetailPlaceholderLabels;
 
@@ -274,7 +338,7 @@ export function Detail(props: DetailProps): React.JSX.Element {
         dataTestIdSuffix,
     } = props;
 
-    const childrenDataTestIdSuffix = dataTestIdSuffix ?? 'detail';
+    const childrenDataTestIdSuffix = [dataTestIdSuffix, 'detail'].filter(Boolean).join('-');
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
 
     if (empty) {
@@ -322,25 +386,9 @@ export function Detail(props: DetailProps): React.JSX.Element {
     };
 
     const renderField = (sectionField: DetailDescriptionItemFieldTypes, index: number): React.JSX.Element => {
-        sectionField.type = sectionField.type || DetailDescriptionItemFieldType.DEFAULT;
-
+        // Values are derived into locals — `sectionField` comes from props and must not be
+        // mutated, or a re-render with the same object formats the already-formatted value.
         switch (sectionField.type) {
-            case DetailDescriptionItemFieldType.DEFAULT:
-                if (sectionField.formatDate && typeof sectionField.value === 'string') {
-                    sectionField.value = formatDate(sectionField.value);
-                }
-
-                if (Array.isArray(sectionField.value)) {
-                    sectionField.value = sectionField.value.join(', ');
-                }
-
-                break;
-            case DetailDescriptionItemFieldType.CHIPS:
-                if (!Array.isArray(sectionField.value)) {
-                    sectionField.value = sectionField.value ? [sectionField.value] : [];
-                }
-
-                break;
             case DetailDescriptionItemFieldType.DESCRIPTION:
                 return <DescriptionField key={sectionField.name + index} {...sectionField} />;
             case DetailDescriptionItemFieldType.EDITABLE:
@@ -353,8 +401,30 @@ export function Detail(props: DetailProps): React.JSX.Element {
                 );
         }
 
+        const isChipsField = sectionField.type === DetailDescriptionItemFieldType.CHIPS;
+
+        let displayValue: string | undefined;
+        let chipValues: Array<string | DetailDescriptionChipsItem> = [];
+
+        if (sectionField.type === DetailDescriptionItemFieldType.CHIPS) {
+            chipValues = Array.isArray(sectionField.value)
+                ? sectionField.value
+                : sectionField.value
+                  ? [sectionField.value]
+                  : [];
+        } else {
+            const rawValue =
+                sectionField.formatDate && typeof sectionField.value === 'string'
+                    ? formatDate(sectionField.value)
+                    : sectionField.value;
+
+            displayValue = Array.isArray(rawValue) ? rawValue.join(', ') : rawValue;
+        }
+
         const verticalLayout = sectionField.layout === DetailDescriptionItemFieldLayout.VERTICAL;
-        const url = sectionField.type === DetailDescriptionItemFieldType.DEFAULT ? sectionField.url || null : null;
+        const defaultField = isChipsField ? null : sectionField;
+        const url = defaultField?.url || null;
+        const truncateMiddle = defaultField?.truncate === 'middle';
 
         return (
             <Stack
@@ -370,7 +440,7 @@ export function Detail(props: DetailProps): React.JSX.Element {
                     enableOverflow={true}
                     alwaysShowTooltip={sectionField.alwaysShowTooltip}
                     tooltipTitle={sectionField.tooltipTitle}
-                    variant={'label'}
+                    variant={'caption'}
                     sx={{
                         color: (theme) => theme.palette.text.secondary,
                         width: verticalLayout ? '100%' : '40%',
@@ -381,72 +451,81 @@ export function Detail(props: DetailProps): React.JSX.Element {
                 </Typography>
                 <Box
                     sx={{
-                        '& svg': {
-                            width: '20px',
-                            height: '20px',
-                            marginLeft: 1,
-                        },
                         display: 'flex',
                         flexWrap: 'wrap',
                         width: verticalLayout ? '100%' : '60%',
                         wordBreak: 'break-word',
                     }}
                 >
-                    {sectionField.type !== DetailDescriptionItemFieldType.CHIPS && url === null && (
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: (theme) => theme.palette.text.primary,
-                            }}
-                        >
-                            {/*if there is no value, display '-' unless there is icon or array of icons*/}
-                            {sectionField.value || (sectionField.icon ? '' : '-')}
-                        </Typography>
-                    )}
+                    {!isChipsField && (
+                        // The value and its icon share one row: the value shrinks and wraps
+                        // (or elides) within the row, the icon keeps its size beside the first line.
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', minWidth: 0, maxWidth: '100%' }}>
+                            {url === null && (
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: (theme) => theme.palette.text.primary,
+                                        ...VALUE_SX,
+                                    }}
+                                >
+                                    {/*if there is no value, display '-' unless there is icon or array of icons*/}
+                                    {truncateMiddle && displayValue
+                                        ? renderMiddleEllipsis(displayValue)
+                                        : displayValue || (sectionField.icon ? '' : '-')}
+                                </Typography>
+                            )}
 
-                    {sectionField.value &&
-                        sectionField.type !== DetailDescriptionItemFieldType.CHIPS &&
-                        url !== null && (
-                            <Link
-                                href={url}
-                                typography="caption"
-                                sx={{
-                                    color: (theme) => theme.palette.primary.main,
-                                }}
-                            >
-                                {sectionField.value}
-                            </Link>
-                        )}
+                            {displayValue && url !== null && (
+                                <Link
+                                    href={url}
+                                    variant="caption"
+                                    sx={{
+                                        color: (theme) => theme.palette.primary.main,
+                                        ...VALUE_SX,
+                                    }}
+                                >
+                                    {truncateMiddle ? renderMiddleEllipsis(displayValue) : displayValue}
+                                </Link>
+                            )}
 
-                    {sectionField.value &&
-                        sectionField.type === DetailDescriptionItemFieldType.CHIPS &&
-                        Array.isArray(sectionField.value) && (
-                            <Box sx={{ marginTop: 0, width: '100%' }}>
-                                <ChipsGroup
-                                    chips={sectionField.value.map((badgeValue) => getChipProps(badgeValue))}
-                                    dataTestIdSuffix={`${childrenDataTestIdSuffix}-${index}`}
-                                    expandable={true}
-                                    collapsable={sectionField.collapsable || false}
-                                />
-                            </Box>
-                        )}
-
-                    {sectionField.type === DetailDescriptionItemFieldType.DEFAULT &&
-                        sectionField.icon &&
-                        (Array.isArray(sectionField.icon) ? (
-                            // for field with only icons margin should be adjusted
-                            <Box display={'flex'} flexWrap={'wrap'} marginLeft={!sectionField.value ? -1 : 0}>
-                                {sectionField.icon.map((icon, index) => (
-                                    <Box key={index} height={'20px'}>
-                                        {icon}
+                            {sectionField.icon &&
+                                (Array.isArray(sectionField.icon) ? (
+                                    // for field with only icons margin should be adjusted
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexShrink: 0,
+                                            gap: 1,
+                                            marginLeft: displayValue ? 1 : 0,
+                                        }}
+                                    >
+                                        {sectionField.icon.map((icon, index) => (
+                                            <Box key={index} sx={ICON_SLOT_SX}>
+                                                {icon}
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                ) : (
+                                    <Box sx={{ ...ICON_SLOT_SX, marginLeft: displayValue ? 1 : 0 }}>
+                                        {sectionField.icon}
                                     </Box>
                                 ))}
-                            </Box>
-                        ) : (
-                            sectionField.icon
-                        ))}
+                        </Box>
+                    )}
 
-                    {sectionField.type === DetailDescriptionItemFieldType.DEFAULT && sectionField.subValue && (
+                    {isChipsField && (
+                        <Box sx={{ marginTop: 0, width: '100%' }}>
+                            <ChipsGroup
+                                chips={chipValues.map((badgeValue) => getChipProps(badgeValue))}
+                                dataTestIdSuffix={`${childrenDataTestIdSuffix}-${index}`}
+                                expandable={true}
+                                collapsable={sectionField.collapsable || false}
+                            />
+                        </Box>
+                    )}
+
+                    {!isChipsField && sectionField.subValue && (
                         <Typography
                             variant="caption"
                             sx={{
@@ -467,12 +546,10 @@ export function Detail(props: DetailProps): React.JSX.Element {
         <Box
             className={classNames('ring-detail', className)}
             data-testid={dataTestId}
-            sx={{
-                width: `${DETAIL_WIDTH}px`,
-                height: '100%',
-                overflow: 'auto',
-                ...sx,
-            }}
+            sx={[
+                { width: `${DETAIL_WIDTH}px`, height: '100%', overflow: 'auto' },
+                ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+            ]}
         >
             {main ? <DetailMain {...main} /> : null}
             {slots?.afterMain && <Box sx={{ pt: 2, px: 2 }}>{slots.afterMain}</Box>}
@@ -487,7 +564,9 @@ export function Detail(props: DetailProps): React.JSX.Element {
                             }}
                             gap={1}
                         >
-                            <Typography variant={'headline2'}>{section.sectionTitle}</Typography>
+                            <Typography variant={'subtitle2'} component={'span'}>
+                                {section.sectionTitle}
+                            </Typography>
                             {section.fields.map((sectionField, index) => renderField(sectionField, index))}
                         </Stack>
                     );
@@ -503,7 +582,7 @@ export function Detail(props: DetailProps): React.JSX.Element {
                                         key={item.name}
                                         data-testid={`${dataTestId}-bottom-action-${index}`}
                                         variant={'text'}
-                                        color={'secondary'}
+                                        color={'inherit'}
                                         size={'medium'}
                                         onClick={
                                             item.url
@@ -553,7 +632,7 @@ export function DescriptionField(props: DetailDescriptionItemFieldDescription): 
                 enableOverflow={true}
                 alwaysShowTooltip={alwaysShowTooltip}
                 tooltipTitle={tooltipTitle}
-                variant={'label'}
+                variant={'caption'}
                 sx={{
                     color: (theme) => theme.palette.text.secondary,
                     width: verticalLayout ? '100%' : '40%',
@@ -627,7 +706,7 @@ export function EditableField(props: DetailDescriptionItemFieldEditable): React.
                 enableOverflow={true}
                 alwaysShowTooltip={alwaysShowTooltip}
                 tooltipTitle={tooltipTitle}
-                variant={'label'}
+                variant={'caption'}
                 sx={{
                     color: (theme): string => theme.palette.text.secondary,
                     width: verticalLayout ? '100%' : '40%',
@@ -637,11 +716,6 @@ export function EditableField(props: DetailDescriptionItemFieldEditable): React.
             </Typography>
             <Box
                 sx={{
-                    '& svg': {
-                        width: '20px',
-                        height: '20px',
-                        marginLeft: 1,
-                    },
                     display: 'flex',
                     flexWrap: 'wrap',
                     width: verticalLayout ? '100%' : '60%',
@@ -669,6 +743,19 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
     const shouldShowCloseIcon = onCloseClick && !(isInDataView && dataViewState.isMobile);
 
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
+    const hasFullScreenProps = Boolean(mediaProps?.fullScreenImageUrl || mediaProps?.imageFullScreenPreview);
+    const hasMedia = Boolean(mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media);
+
+    useEffect(() => {
+        if (process.env.NODE_ENV === 'production' || !hasFullScreenProps || hasMedia) {
+            return;
+        }
+
+        console.warn(
+            'Detail: `main.mediaProps.fullScreenImageUrl` / `imageFullScreenPreview` only complement the ' +
+                'thumbnail and do not render one — pass `main.mediaProps.image` too. No media is rendered.',
+        );
+    }, [hasFullScreenProps, hasMedia]);
 
     useEffect(() => {
         if (dataViewState && !dataViewState.onDetailClose && onCloseClick) {
@@ -695,16 +782,12 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                     }}
                 >
                     <IconButton
-                        sx={{
-                            color: (theme) => theme.palette.action.active,
-                            backgroundColor: (theme) => theme.palette.components.detail.close.background,
-                            '&:hover': { backgroundColor: (theme) => theme.palette.components.detail.close.hover },
-                        }}
+                        color="overlay"
                         data-testid={`${dataTestId}-close`}
                         onClick={onCloseClick}
                         aria-label="Close"
                     >
-                        <CloseOutlined />
+                        <X size={24} />
                     </IconButton>
                 </Box>
             ) : null}
@@ -779,7 +862,7 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
 
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
 
-    if (!bottomIcons?.every((icon) => icon.type === 'chip') && !bottomIcons?.every((icon) => icon.type !== 'chip')) {
+    if (bottomIcons?.some((icon) => icon.type === 'chip') && bottomIcons.some((icon) => icon.type !== 'chip')) {
         console.warn('DetailMainBottomIcons: bottomIcons should be either all of type "chip" or all of type "icon".');
     }
 
@@ -789,7 +872,7 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
         <ChipsGroup
             dataTestIdSuffix={dataTestIdSuffix}
             chips={bottomIcons
-                .filter((item): item is MediaBottomIconPropsChip => item.type === 'chip')
+                .filter((item): item is DetailMediaBottomIconWithChip => item.type === 'chip')
                 .map((item) => ({
                     ...item.chip,
                     onClick: item.onClick,
@@ -868,7 +951,7 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
                             }}
                             aria-label="Download image"
                         >
-                            <DownloadOutlined />
+                            <Download size={24} />
                         </IconButton>
                     )}
                     {enableFullScreenIcon && (
@@ -885,7 +968,7 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
                             }}
                             aria-label="Zoom in"
                         >
-                            <ZoomInOutlined />
+                            <ZoomIn size={24} />
                         </IconButton>
                     )}
                     {enableFullScreenIcon && !handleFullScreenPreview && (

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { Box, Typography } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
+import { Info } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import WithCustomisedRenderOptionExampleCode from './code/WithCustomisedRenderOptionExample.tsx?raw';
 import { Autocomplete, AutocompleteProps } from '../../../../../src/index.js';
@@ -32,7 +32,7 @@ export const WithCustomisedRenderOption: Story = {
                         }}
                     >
                         <Typography>{typedOption.label}</Typography>
-                        <InfoOutlined />
+                        <Info />
                     </Box>
                 </li>
             );

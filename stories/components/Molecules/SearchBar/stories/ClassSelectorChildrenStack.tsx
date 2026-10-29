@@ -1,8 +1,8 @@
-import { FilterList, MoreVert } from '@mui/icons-material';
+import { ListFilter, EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import type { StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { SearchBar } from '../../../../../src/index.js';
+import { DEFAULT_LUCIDE_ICON_SIZE, RingLucideIcon, SearchBar } from '../../../../../src/index.js';
 import { createCodeStory } from '../../../../helpers.js';
 import defaultArgs from '../common/defaultArgs.js';
 import ClassSelectorChildrenStackExampleCode from './code/ClassSelectorChildrenStackExample.tsx?raw';
@@ -13,10 +13,10 @@ const Example = (args: React.ComponentProps<typeof SearchBar>): React.JSX.Elemen
     return (
         <SearchBar {...args}>
             <IconButton key={0}>
-                <FilterList sx={{ color: 'primary.main' }} />
+                <RingLucideIcon icon={ListFilter} sx={{ fontSize: DEFAULT_LUCIDE_ICON_SIZE, color: 'primary.main' }} />
             </IconButton>
             <IconButton key={1}>
-                <MoreVert />
+                <EllipsisVertical />
             </IconButton>
         </SearchBar>
     );
@@ -28,7 +28,8 @@ export const ClassSelectorChildrenStack: Story = {
         searchFunc: () => null,
         sx: {
             width: '450px',
-            border: '1px solid #d9d9d9',
+            border: 1,
+            borderColor: 'divider',
             '.ring-search-bar-children-stack': {
                 justifyContent: 'space-between',
                 width: '50%',

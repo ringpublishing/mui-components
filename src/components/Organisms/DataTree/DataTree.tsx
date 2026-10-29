@@ -1,40 +1,37 @@
-import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
+import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { SimpleTreeView } from '@mui/x-tree-view';
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, PopperProps, Theme, Typography } from '@mui/material';
 
-// `import type { … }` is required (over `type X = import(...).Y`) so esbuild's
-// TS transform reliably erases the import — otherwise Vite's optional-peer-dep
-// plugin replaces `@tanstack/react-query` with a stub at module load time and
-// the static path crashes when the package is not installed.
-import type { QueryClient } from '@tanstack/react-query';
-
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
+import { WithItemDataTestId } from '../../../helpers/dataTestId.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { Action } from '../../../types.js';
 import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
 import {
     filterTreeItems,
+    getDndAccessibilityContainer,
     readLocalStorage,
     TreePersistenceConfig,
+    TreeQueryClient,
     useTreeExpansion,
     useWriteTreeState,
-} from '../treeShared.js';
-import { TreeSkeleton } from '../TreeSkeleton.js';
+} from '../../internal/tree/treeShared.js';
+import { TreeSkeleton } from '../../internal/tree/TreeSkeleton.js';
+import { getTreeDynamicComponent } from '../../internal/tree/treeDynamicRegistry.js';
 import { DataTreeItemComponent } from './DataTreeItem.js';
 
 const DROP_LINE_TOP = '43px';
 const DROP_LINE_HEIGHT = '2px';
 const DROP_LINE_DOT_SIZE = '8px';
-const SEARCH_BOX_HEIGHT = '40px';
-const SEARCH_BOX_BORDER_RADIUS = '4px';
 const COLUMN_HEADERS_PADDING_LEFT = '42px';
 const LABEL_COLUMN_BASE_WIDTH = 320;
 const NEST_INDENT = 32;
 const ROW_ACTIONS_WIDTH = '35px';
 
-export interface DataTreeItem {
+export interface DataTreeItem extends WithItemDataTestId {
     itemId: string;
     label: string;
     items?: DataTreeItem[];
@@ -44,6 +41,11 @@ export interface DataTreeItem {
     checked?: boolean;
     checkboxDisabled?: boolean;
     element?: React.JSX.Element;
+    /**
+     * Loads this item's children the first time it is expanded and caches them; do not combine it with `items`, which
+     * take precedence while `loadItems` still runs. Requires `@tanstack/react-query` and one call to
+     * `enableTreeDynamicLoading()` from `@ringpublishing/mui-components/tree-dynamic-loading`.
+     */
     loadItems?: (item: DataTreeItem) => Promise<DataTreeItem[]> | DataTreeItem[];
     /**
      * Always show the label tooltip on hover, regardless of whether the label overflows.
@@ -69,6 +71,11 @@ export interface DataTreeProps extends CommonComponentProps {
     items: DataTreeItem[];
     onExpand?: (itemId: string) => void;
     onClickRow?: (itemId: string) => void;
+    /**
+     * Shows a search box that filters the rows by label and expands them so every match is visible. A row toggled
+     * during a search keeps its state until the query is cleared, which restores the rows expanded before the search.
+     * @default false
+     */
     withSearch?: boolean;
     searchDebounceTime?: number;
     searchPlaceholder?: string;
@@ -82,19 +89,21 @@ export interface DataTreeProps extends CommonComponentProps {
     onDropIn?: (itemId: string, dropInItemId: string) => void;
     dragAndDropTooltipTitle?: string;
     dragAndDropTooltipPlacement?: PopperProps['placement'];
+    /**
+     * Accessible name of the icon button that opens an item's `rowActions` menu. A blank value counts as not provided.
+     * @default 'More actions'
+     */
+    rowActionsAriaLabel?: string;
     persistence?: TreePersistenceConfig;
     /**
-     * Optional external `QueryClient` for dynamic-loading (`loadItems`).
-     * Only consulted when at least one item exposes `loadItems`; passing this
-     * implicitly opts the tree into the dynamic code path.
+     * Optional external `QueryClient` for dynamic loading (`loadItems`). Only used when at least
+     * one item has `loadItems`; ignored for fully static trees.
      */
-    queryClient?: QueryClient;
+    queryClient?: TreeQueryClient;
     /**
-     * Namespaces query keys for this tree instance. Required when multiple trees of the same
-     * type share an external `queryClient` (e.g. two `DataTree`s on the same page) or when
-     * the tree is mounted inside a tab that can unmount/remount — otherwise two instances may
-     * collide on the same cache entry. When omitted, a stable per-mount ID is used
-     * (safe for the default internal-client case).
+     * Namespaces this tree's query keys in an external `queryClient`; ignored without one. Defaults to an id that
+     * changes on every mount, so pass a value unique among the trees sharing the client when a remounted tree (e.g.
+     * inside a tab) should reuse its cached children.
      */
     queryKeyPrefix?: string;
 }
@@ -103,14 +112,6 @@ interface PersistedTreeState {
     selectedItemIds?: string | string[];
     expandedItems?: string[];
 }
-
-/**
- * Lazily-loaded TanStack-Query–backed implementation. The dynamic chunk owns
- * the `QueryClientProvider`, the `useQuery`-driven items, and the optional
- * cache hydration / persistence. Bundlers split it into a separate file that
- * is fetched only when a tree contains at least one item with `loadItems`.
- */
-const DataTreeDynamicLazy = lazy(() => import('./DataTreeDynamic.js'));
 
 function hasAnyDynamicItem(items: DataTreeItem[]): boolean {
     for (const item of items) {
@@ -242,6 +243,7 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
         onDropIn,
         dragAndDropTooltipTitle,
         dragAndDropTooltipPlacement = 'top',
+        rowActionsAriaLabel,
         withSearch = false,
         searchDebounceTime = 500,
         sx,
@@ -252,6 +254,8 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
         persistence,
         dataTestIdSuffix,
     } = props;
+
+    const dataTestId = useRingDataTestId('DataTree', dataTestIdSuffix);
 
     const cacheKey = persistence?.cacheKey;
     const restoreExpandedItems = persistence?.restoreExpandedItems;
@@ -408,6 +412,7 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
 
     return (
         <SimpleTreeView
+            data-testid={dataTestId}
             expansionTrigger="iconContainer"
             expandedItems={expandedItems}
             checkboxSelection={onCheckboxChange !== undefined}
@@ -456,11 +461,7 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
                     defaultValue={''}
                     searchFunc={(q): void => setQuery(q)}
                     debounceTime={searchDebounceTime}
-                    sx={{
-                        height: SEARCH_BOX_HEIGHT,
-                        borderRadius: SEARCH_BOX_BORDER_RADIUS,
-                        marginY: 1,
-                    }}
+                    sx={{ marginY: 1 }}
                     labels={{ placeholder: searchPlaceholder }}
                 />
             )}
@@ -494,6 +495,7 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
                 </Box>
             )}
             <DndContext
+                accessibility={{ container: getDndAccessibilityContainer() }}
                 sensors={onDragAndDropEnd === undefined ? [] : sensors}
                 onDragMove={(e): void => {
                     setIsDragging(true);
@@ -560,6 +562,7 @@ function DataTreeStatic(props: DataTreeProps): React.JSX.Element {
                             dragAndDropTooltipTitle={dragAndDropTooltipTitle}
                             searchQuery={query}
                             dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
+                            rowActionsAriaLabel={rowActionsAriaLabel}
                             isDragging={isDragging}
                             dropLineUnderId={dropLineUnderId}
                             dropInId={dropInId}
@@ -580,9 +583,12 @@ export function DataTree(props: DataTreeProps): React.JSX.Element {
         return <DataTreeStatic {...props} />;
     }
 
+    // TanStack-Query–backed implementation, available once `enableTreeDynamicLoading()` ran and fetched on first use.
+    const DataTreeDynamic = getTreeDynamicComponent('dataTree');
+
     return (
         <Suspense fallback={<TreeSkeleton variant="data" />}>
-            <DataTreeDynamicLazy {...props} />
+            <DataTreeDynamic {...props} />
         </Suspense>
     );
 }

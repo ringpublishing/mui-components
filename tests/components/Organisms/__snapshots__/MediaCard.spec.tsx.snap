@@ -21,17 +21,53 @@ exports[`MediaCard common tests: > Should render correctly 1`] = `
             <div
               data-first-child=""
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1g5b3gj-MuiSvgIcon-root"
-                data-testid="PhotoOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <div
+                class="ring-featuredicon MuiBox-root css-1bu8oys"
+                data-testid="ring-mediacard-placeholder-icon"
               >
-                <path
-                  d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"
-                />
-              </svg>
+                <div
+                  aria-hidden="true"
+                  class="MuiBox-root css-1dqdug7"
+                >
+                  <div
+                    class="MuiBox-root css-79ghi9"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-image"
+                      fill="none"
+                      height="20"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        height="18"
+                        rx="2"
+                        ry="2"
+                        vector-effect="non-scaling-stroke"
+                        width="18"
+                        x="3"
+                        y="3"
+                      />
+                      <circle
+                        cx="9"
+                        cy="9"
+                        r="2"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"
+                        vector-effect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -46,17 +82,17 @@ exports[`MediaCard common tests: > Should render correctly 1`] = `
             class="MuiBox-root css-ve33ef"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-16qfeca-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
             >
               www.onet.pl
             </span>
             <span
-              class="MuiTypography-root MuiTypography-caption css-16qfeca-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
             >
               Najnowsze informacje na temat protestów w stolicy
             </span>
             <span
-              class="MuiTypography-root MuiTypography-caption css-16qfeca-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
             >
               Aktualizowane na bieżąco z najnowszymi wiadomościami
             </span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { MoreVertOutlined } from '@mui/icons-material';
+import { EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import { createCodeStory } from '../../../../helpers.js';
 import CustomToolbarExampleCode from './code/CustomToolbarExample.tsx?raw';
@@ -34,7 +34,7 @@ export const CustomToolbar: Story = {
         autoRefreshCallback: action('autoRefreshCallback'),
         additionalComponent: (
             <IconButton onClick={action('filter click')}>
-                <MoreVertOutlined />
+                <EllipsisVertical />
             </IconButton>
         ),
         filterChips: defaultFilterChips,

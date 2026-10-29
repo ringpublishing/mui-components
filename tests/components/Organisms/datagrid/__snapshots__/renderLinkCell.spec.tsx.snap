@@ -321,6 +321,7 @@ exports[`DataGrid - renderLinkCell > should render correctly 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                      data-testid="ring-datagrid-item-1-link"
                       href="https://ringpublishing.com"
                     >
                       ringpublishing.com
@@ -376,6 +377,7 @@ exports[`DataGrid - renderLinkCell > should render correctly 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                      data-testid="ring-datagrid-item-2-link"
                       href="https://design.ringpublishing.com"
                     >
                       design.ringpublishing.com
@@ -431,6 +433,7 @@ exports[`DataGrid - renderLinkCell > should render correctly 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                      data-testid="ring-datagrid-item-3-link"
                       href="https://ringpublishing.com/blog"
                     >
                       ringpublishing.com
@@ -486,6 +489,7 @@ exports[`DataGrid - renderLinkCell > should render correctly 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                      data-testid="ring-datagrid-item-4-link"
                       href="https://app.ringpublishing.com/"
                     >
                       https://app.ringpublishing.com/

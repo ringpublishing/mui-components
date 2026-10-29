@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { SimpleTree, SimpleTreeItem } from '@ringpublishing/mui-components';
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
 
 const items: SimpleTreeItem[] = [
     {

@@ -15,10 +15,34 @@ export function hexToRgb(hex: string): { r: number; g: number; b: number } | nul
         : null;
 }
 
-export function determineTextColorBasedOnBackground(hexColor: string): string {
-    const rgb = hexToRgb(hexColor);
+const RGB_COLOR = /^rgba?\(\s*([\d.]+)\s*[,\s]\s*([\d.]+)\s*[,\s]\s*([\d.]+)\s*(?:[,/]\s*([\d.]+)\s*)?\)$/i;
 
-    if (!rgb) {
+const toChannel = (value: string): number => Math.min(255, Math.max(0, Number(value)));
+
+function parseCssColor(color: string): { r: number; g: number; b: number; a: number } | null {
+    const rgbResult = RGB_COLOR.exec(color);
+
+    if (rgbResult) {
+        return {
+            r: toChannel(rgbResult[1]),
+            g: toChannel(rgbResult[2]),
+            b: toChannel(rgbResult[3]),
+            a: rgbResult[4] === undefined ? 1 : Number(rgbResult[4]),
+        };
+    }
+
+    const hex = hexToRgb(color);
+
+    return hex ? { ...hex, a: 1 } : null;
+}
+
+export function determineTextColorBasedOnBackground(backgroundColor: string): string {
+    const rgb = parseCssColor(backgroundColor);
+
+    // A translucent colour renders as itself blended with whatever sits behind it, and that
+    // backdrop is unknown here — so it takes the same safe default as an unparseable colour
+    // rather than a contrast computed from the base channels alone.
+    if (!rgb || rgb.a < 1) {
         return themeDark.palette.primary.contrastText;
     }
 

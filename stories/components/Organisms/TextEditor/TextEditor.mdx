@@ -19,8 +19,8 @@ A rich text editor component built on top of [TipTap](https://tiptap.dev/), prov
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Additional Extensions](#with-additional-extensions)
-- [With Two Texts](#with-two-texts)
+- [Switching content](#switching-content)
+- [Additional extensions](#additional-extensions)
 
 ## Default
 
@@ -32,7 +32,13 @@ Basic text editor with built-in formatting options: bold, italic, ordered/unorde
 
 <ArgTypes />
 
-## With Additional Extensions
+## Switching content
+
+Demonstrates switching between two different text contents in the same editor instance. Use the buttons above the editor to switch between Text #1 and Text #2.
+
+<Canvas of={Stories.WithTwoTexts} />
+
+## Additional extensions
 
 Demonstrates how to extend the editor with additional TipTap extensions. This example adds heading selection (h1-h6) and inline code formatting via custom menu controls.
 
@@ -47,6 +53,7 @@ Demonstrates how to extend the editor with additional TipTap extensions. This ex
 ```typescript
 import { Heading } from '@tiptap/extension-heading';
 import { Code } from '@tiptap/extension-code';
+import { Code2 } from 'lucide-react';
 
 <TextEditor
     content={content}
@@ -54,7 +61,7 @@ import { Code } from '@tiptap/extension-code';
     menuControls={[
         <TextEditorMenuSelectHeading levels={[1, 2, 3, 4, 5, 6]} />,
         <TextEditorMenuToggleButton
-            icon={<CodeOutlined />}
+             icon={<Code2 />}
             onClick={(editor) => editor.chain().focus().toggleCode().run()}
             active={(editor) => editor.isActive('code')}
             disabled={(editor) => !editor.can().chain().focus().toggleCode().run()}
@@ -65,9 +72,3 @@ import { Code } from '@tiptap/extension-code';
 ```
 
 <Canvas of={Stories.WithAdditionalExtensions} />
-
-## With Two Texts
-
-Demonstrates switching between two different text contents in the same editor instance. Use the buttons above the editor to switch between Text #1 and Text #2.
-
-<Canvas of={Stories.WithTwoTexts} />

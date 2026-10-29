@@ -19,8 +19,6 @@ export const canSelectItemByClick = (disableSelection: boolean, disableSelection
  * Helper to determine if an item can be selected
  */
 export const canSelectItem = (disableSelection: boolean): boolean => {
-    // Items can be selected if selection is not disabled
-    // In the future, this could be extended to check item-specific properties
     return !disableSelection;
 };
 

@@ -17,8 +17,8 @@ SearchBar is a comprehensive search component that combines a search input field
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Controlled Mode](#controlled-mode)
-- [Custom Styling](#custom-styling)
+- [Custom styling](#custom-styling)
+- [Controlled](#controlled)
 
 ## Default
 
@@ -30,14 +30,14 @@ The default SearchBar configuration, combining search input with a set of practi
 
 <ArgTypes />
 
-## Controlled Mode
-
-A controlled SearchBar implementation, where the input value and its changes are managed by the parent component. This pattern is recommended for scenarios requiring validation, state synchronization, or integration with complex business logic.
-
-<Canvas of={Stories.Controlled} />
-
-## Custom Styling
+## Custom styling
 
 Demonstrates advanced customization of the SearchBar's action area using CSS classes (`ring-search-bar-children-stack`). This example is useful when you need to control the alignment and spacing of child elements, such as icons and buttons.
 
 <Canvas of={Stories.ClassSelectorChildrenStack} />
+
+## Controlled
+
+A controlled SearchBar implementation, where the input value and its changes are managed by the parent component. This pattern is recommended for scenarios requiring validation, state synchronization, or integration with complex business logic.
+
+<Canvas of={Stories.Controlled} />

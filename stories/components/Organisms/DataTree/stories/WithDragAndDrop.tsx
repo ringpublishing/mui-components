@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { EditOutlined } from '@mui/icons-material';
+import { Pencil } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import { DataTree, DataTreeItem } from '../../../../../src/index.js';
 import WithDragAndDropExampleCode from './code/WithDragAndDropExample.tsx?raw';
@@ -16,7 +16,7 @@ const exampleItems: DataTreeItem[] = [
         column1: 'Column1 0',
         column2: 'Column2 0',
         expanded: true,
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         checkboxDisabled: true,
         items: [
             {
@@ -68,7 +68,7 @@ const exampleItems: DataTreeItem[] = [
         label: 'Item 1',
         column1: 'Column1 1',
         column2: 'Column2 1',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '1.0',
@@ -109,7 +109,7 @@ const exampleItems: DataTreeItem[] = [
         label: 'Item 3',
         column1: 'Column1 3',
         column2: 'Column2 3',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         checked: true,
     },
 ];
@@ -189,7 +189,7 @@ function Example(args: React.ComponentProps<typeof DataTree>): React.JSX.Element
             onCheckboxChange={(itemId, checked): void => {
                 setItems(checkItem(items, itemId, checked));
             }}
-            dragAndDropTooltipTitle={'To drag and drop collapse the item first'}
+            dragAndDropTooltipTitle={'Collapse the item to drag it.'}
         />
     );
 }

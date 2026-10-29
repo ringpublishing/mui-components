@@ -1,0 +1,235 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './Media.stories.js';
+
+<Meta isTemplate />
+
+# Media
+
+Renders multimedia content (images, video, and audio) in a card container with configurable overlays and interactive elements.
+
+- Displays images, video, and audio with consistent styling
+- Supports status labels, context menu actions, and bottom tooltips overlaid on media
+- Clicking an image, or pressing `Enter` / `Space` on it, opens a full-screen LightBox preview (can be disabled)
+- Falls back to an icon placeholder when media fails to load or no source is provided
+- Configurable aspect ratio and object-fit via `ratio` and `objectFit` props
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Video](#video)
+- [Audio](#audio)
+- [Audio — background](#audio--background)
+- [Max height](#max-height)
+- [Actions menu](#actions-menu)
+- [Editable caption](#editable-caption)
+- [Slots](#slots)
+- [Slot props](#slot-props)
+- [Card events](#card-events)
+- [No image URL](#no-image-url)
+- [Image load error](#image-load-error)
+    - [Image load error — fallback](#image-load-error--fallback)
+
+## Default
+
+Full example with an image, status labels, actions, and bottom tooltips. Clicking the image opens a LightBox full-screen preview; so does `Tab` to the image followed by `Enter` or `Space`. The image's alt text is `image.title`, falling back to `title`.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Video
+
+Use `slotProps.media` with `component: 'video'` to embed a video element. Full-screen preview is disabled automatically for non-image media types.
+
+```typescript
+<Media
+    title="Big Buck Bunny"
+    ratio="16/9"
+    slotProps={{
+        media: {
+            component: 'video',
+            src: 'https://example.com/video.mp4',
+            controls: true,
+            autoPlay: true,
+            muted: true
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.Video} />
+
+## Audio
+
+Use `slotProps.media` with `component: 'audio'` to embed an audio player. Set a wide ratio (e.g. `'7/1'` at 400px) so the frame is as tall as the player.
+
+```typescript
+<Media
+    title="Morning ambience"
+    ratio="7/1"
+    slotProps={{
+        media: {
+            component: 'audio',
+            src: 'https://example.com/audio.mp3',
+            controls: true,
+        }
+    }}
+/>
+```
+
+<Canvas of={Stories.Audio} />
+
+## Audio — background
+
+`slotProps.media.sx.backgroundColor` fills the frame around the audio player. The player is painted with the same colour
+and follows the theme's light or dark mode, so the frame and the player read as one bar in any browser that draws it
+(Chrome, Edge and Safari; Firefox keeps its own player). A theme token keeps the colour right in both modes.
+
+```typescript
+<Media
+    title="Morning ambience"
+    ratio="7/1"
+    slotProps={{
+        media: {
+            component: 'audio',
+            src: 'https://example.com/audio.mp3',
+            controls: true,
+            sx: {
+                backgroundColor: 'components.media.backgroundFill',
+            },
+        },
+    }}
+/>
+```
+
+<Canvas of={Stories.AudioBackground} />
+
+## Max height
+
+`height` fixes the media area to a CSS length (here `200px`) instead of deriving it from the container width and `ratio`, while `objectFit` still decides how the image fills that box. Use it when the card sits in a wide container and a ratio-derived height would grow too tall.
+
+<Canvas of={Stories.MaxHeight} />
+
+## Actions menu
+
+`actions` puts a menu behind the ⋮ button in the top-right corner. Each action takes a `label`, an `icon` and an
+`onClick`; `disabled` with `disabledReason` keeps it in the menu, greyed out, with the reason in a tooltip.
+
+Open the menu to see both; a click on **Edit** shows in the **Actions** tab of the story.
+
+<Canvas of={Stories.ActionsMenu} />
+
+## Editable caption
+
+Pass `onTitleSubmit` and/or `onDescriptionSubmit` to enable inline editing of the caption fields. Each prop is independent — you can make only one of them editable.
+
+When a callback is provided, the field renders via `EditableText`: a pencil icon appears next to the text, and clicking it activates an inline input. Press **Enter** or click away to submit. Press **Escape** to cancel. On submit failure the value reverts to its previous state.
+
+```typescript
+const [title, setTitle] = useState('Image title');
+const [description, setDescription] = useState('(Author / Source)');
+
+<Media
+    image={image}
+    title={title}
+    description={description}
+    onTitleSubmit={async (value) => { setTitle(value); return true; }}
+    onDescriptionSubmit={async (value) => { setDescription(value); return true; }}
+/>
+```
+
+<Canvas of={Stories.EditableCaption} />
+
+## Slots
+
+The `Media` component exposes a slot system that lets you replace the default media element with your own implementation.
+
+### Available Slots
+
+| Slot    | Type        | Default     | Description                                                                                                                                                 |
+| ------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media` | `ReactNode` | `CardMedia` | Custom React node rendered in place of the default `<CardMedia>`. Wrapped in `<AspectRatio>` so `ratio` and `objectFit` still apply to the surrounding box. |
+
+### Using `slots.media`
+
+Use the `media` slot when you need full control over the rendered element — for example a custom video player, an interactive preview component, or a third-party library wrapper. When `slots.media` is provided, `slotProps.media` is ignored and the LightBox full-screen preview is suppressed.
+
+```jsx
+<Media
+    ratio="16/9"
+    slots={{
+        media: <CustomPlayer src="https://example.com/clip.mp4" />,
+    }}
+/>
+```
+
+## Slot props
+
+The `slotProps` prop forwards arbitrary props to internal sub-components without redefining each one as a top-level Media prop. It mirrors the [MUI `slotProps` convention](https://mui.com/material-ui/customization/slots-and-classes/).
+
+| Slot prop | Type                                                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media`   | `CardMediaProps`<br />`& AudioHTMLAttributes`<br />`& VideoHTMLAttributes` | Props applied to the default `<CardMedia>`. Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, attach native media attributes (`controls`, `autoPlay`, `muted`, `playsInline`, etc.). When `slots.media` replaces the default render, only `component: 'audio'` is still consulted to apply audio-specific wrapper styling (transparent background); other props on `slotProps.media` are not forwarded to the custom slot node. |
+| `card`    | `Omit<CardProps, …>`                                                       | Props applied to the root MUI `<Card>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …). Top-level Media props (`sx`) take precedence and are merged on top. Excludes `children`, `variant`, `square`, `tabIndex`, `elevation` and `onClick` — see [Precedence rules](#precedence-rules).                                                                                                       |
+
+### Precedence rules
+
+When the same prop can be supplied through more than one channel:
+
+- **`elevation`, `variant`, `square`, `tabIndex`** — managed internally by `Media` (the root `<Card>` is always rendered with `elevation={0}`). Excluded from `slotProps.card` typing to prevent accidental override.
+- **`onClick`** — excluded. `Media` is not designed as a clickable container, and exposing both `slotProps.card.onClick` (whole card) and `slotProps.media.onClick` (default `<CardMedia>` only) at once would create two competing click channels for similar interactions. If you need a click handler on the rendered media element, use `slotProps.media.onClick`. If you need a click handler on the entire card, wrap `<Media>` in your own click container.
+- **`sx`** — additive: top-level `sx` is **merged on top of** `slotProps.card.sx` (they form an array layer for MUI).
+- **All other props** — supplied through `slotProps.card` are forwarded to `<Card>` directly.
+
+```jsx
+<Media
+    slots={{ media: <video ref={videoRef} muted /> }}
+    slotProps={{
+        card: {
+            onMouseEnter: () => videoRef.current?.play(),
+            onMouseLeave: () => videoRef.current?.pause(),
+            'aria-label': 'Hover to preview',
+        },
+    }}
+/>
+```
+
+## Card events
+
+`Media` forwards the underlying MUI `<Card>` element through the `slotProps.card` channel. Any prop that the `Card` component accepts is forwarded to the root element — including all native DOM event handlers.
+
+### Common Use-Cases
+
+- **Hover-driven interactions** — `onMouseEnter` / `onMouseLeave` to trigger a video preview, fetch on demand, or update tooltips.
+- **Keyboard accessibility** — `onKeyDown` / `onFocus` / `onBlur` to integrate the media into custom keyboard navigation.
+- **Right-click menus** — `onContextMenu` for custom action menus.
+- **Accessibility attributes** — `aria-*`, `role`, `aria-describedby`, etc.
+- **Test hooks** — `data-*` attributes beyond the built-in `dataTestIdSuffix`.
+
+The example below combines `slots.media` (custom native `<video>`) with `slotProps.card` (`onMouseEnter` / `onMouseLeave`) to play the video while the user is hovering the card.
+
+<Canvas of={Stories.CardEvents} />
+
+## No image URL
+
+When no `image` prop is provided, the component displays an icon placeholder that matches the media type.
+
+<Canvas of={Stories.NoImageUrl} />
+
+## Image load error
+
+When the image is set but fails to load, the placeholder shows the `ImageOff` icon, so a broken image reads differently
+from a missing one. A video that fails shows `VideoOff`; audio, which has no crossed-out icon, keeps `FileMusic`.
+An `onLoad` or `onError` passed in `slotProps.media` runs as well.
+
+<Canvas of={Stories.ImageLoadError} />
+
+### Image load error — fallback
+
+To show another image instead of the placeholder, call `event.preventDefault()` in your `onError` and swap the
+source. The element stays, and if the fallback fails too and you do not prevent it again, the placeholder takes over.
+
+<Canvas of={Stories.ImageLoadErrorFallback} />

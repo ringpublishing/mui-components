@@ -6,7 +6,8 @@ import { GridApiPro, GridRowSelectionModel } from '@mui/x-data-grid-pro';
 import { BottomBarSlotProps } from './BottomBarContainer.js';
 import { ChipItem } from './ChipItem.js';
 import { ImageBoxItem } from './ImageBoxItem.js';
-import { MediaGridApi } from '../../Organisms/MultimediaGrid/gridApi.js';
+import type { MediaGridApi } from '../gridApi.types.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
 
 interface RowData {
     id: GridRowId;
@@ -39,7 +40,13 @@ function isDataGridApi(apiRef: BottomBarContextState['apiRef']): apiRef is RefOb
     return !isMediaGridApi(apiRef) && apiRef !== undefined;
 }
 
-function BottomBar({ slotProps }: { slotProps?: BottomBarSlotProps }): React.JSX.Element | null {
+function BottomBar({
+    slotProps,
+    dataTestId,
+}: {
+    slotProps?: BottomBarSlotProps;
+    dataTestId?: string;
+}): React.JSX.Element | null {
     const { bottomBarState } = useBottomBarContext();
     const [selectedRowsData, setSelectedRowsData] = useState<RowData[]>([]);
     const [columns, setColumns] = useState<GridColDef[]>([]);
@@ -136,8 +143,10 @@ function BottomBar({ slotProps }: { slotProps?: BottomBarSlotProps }): React.JSX
 
         if (isDataGridApi(bottomBarState.apiRef) && bottomBarState.apiRef.current) {
             bottomBarState.apiRef.current.setRowSelectionModel(newSelection);
-        } else if (isMediaGridApi(bottomBarState.apiRef) && bottomBarState.apiRef.current) {
-            bottomBarState.apiRef.current.setSelectionModel(newSelection);
+        } else if (isMediaGridApi(bottomBarState.apiRef) && bottomBarState.apiRef.current?.isItemSelected(id)) {
+            // `setSelectionModel` only syncs the controlled prop and skips `onSelectionModelChange`; a toggle
+            // reports the removal the way a checkbox click does.
+            bottomBarState.apiRef.current.toggleItemSelection(id);
         }
 
         setSelectedRowsData(
@@ -158,6 +167,16 @@ function BottomBar({ slotProps }: { slotProps?: BottomBarSlotProps }): React.JSX
                         onRemove={removeElement}
                         getTooltip={slotProps?.getTooltip}
                         onClick={isOnClickProvided ? handleItemClick : undefined}
+                        // The bar's id may be a consumer override, so it is kept as given; the row id is
+                        // lower-cased like an item of every other list.
+                        dataTestId={
+                            dataTestId
+                                ? resolveItemDataTestId({
+                                      rootId: dataTestId,
+                                      itemId: String(selectedRow.id).toLowerCase(),
+                                  })
+                                : undefined
+                        }
                     />
                 ))}
             </Box>

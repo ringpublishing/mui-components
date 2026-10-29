@@ -5,7 +5,7 @@ import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 
 # Autocomplete
 
-Autocomplete extends [MUI Autocomplete](https://mui.com/material-ui/react-autocomplete/) component and supports all its properties.
+Autocomplete extends [MUI Autocomplete](https://mui.com/material-ui/react-autocomplete/) and accepts its props except `renderInput`; the `filter` and `chipsInput` variants accept fewer.
 
 The Autocomplete component provides a text input enhanced with a panel of suggested options. It's useful for:
 
@@ -15,26 +15,31 @@ The Autocomplete component provides a text input enhanced with a panel of sugges
 - Recently used items tracking
 - Custom option rendering with captions and avatars
 
+For AI-coloured selected chips and option rendering, see the [AI color](?path=/docs/design-ai-color--docs) design guide.
+
 ## Quick Navigation
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Dropdown Actions](#with-dropdown-actions)
-- [With Menu List Action](#with-menu-list-action)
-- [With Multiple Selection](#with-multiple-selection)
-- [With Multiple Dropdown Actions](#with-multiple-dropdown-actions)
-- [With Recently Used](#with-recently-used)
-- [With Caption](#with-caption)
-- [With Avatar](#with-avatar)
-- [With Customised Avatar](#with-customised-avatar)
-- [With Asynchronous Requests](#with-asynchronous-requests)
-- [With Customised Chips](#with-customised-chips)
-- [With Chip Actions](#with-chip-actions)
-- [With Chip Details](#with-chip-details)
-- [With Customised Render Option](#with-customised-render-option)
-- [With Free Solo](#with-free-solo)
-- [With Outlined TextField](#with-outlined-textfield)
-- [Filter Variant](#filter-variant)
+- [Caption](#caption)
+- [Avatar](#avatar)
+- [Avatar — customised](#avatar--customised)
+- [Customised chips](#customised-chips)
+- [Customised renderOption](#customised-renderoption)
+- [Multiple selection](#multiple-selection)
+- [Free solo](#free-solo)
+- [Free solo — duplicate feedback](#free-solo--duplicate-feedback)
+- [Recently used](#recently-used)
+- [Asynchronous requests](#asynchronous-requests)
+- [Dropdown actions](#dropdown-actions)
+- [Dropdown actions — multiple](#dropdown-actions--multiple)
+- [Menu list action](#menu-list-action)
+- [Chip actions](#chip-actions)
+- [Chip details](#chip-details)
+- [Sortable chips](#sortable-chips)
+- [Filter](#filter)
+- [Chips input](#chips-input)
+- [Long value](#long-value)
 
 ## Default
 
@@ -46,51 +51,80 @@ Basic usage of the Autocomplete component with a predefined list of options.
 
 <ArgTypes />
 
-## With Dropdown Actions
+## Caption
 
-Add action buttons to the Autocomplete input. Actions appear as icon buttons inside the input field and can trigger custom callbacks.
+Display additional caption text below each option label. Useful for providing extra context about each option.
 
 ### Key Features:
 
-- Single action button displayed in the input
-- Supports icon and click handler
-- Can be disabled with optional disabled reason
+- Secondary text displayed below the main label
+- Automatic text overflow handling
+- Caption is part of the option object
 
-<Canvas of={Stories.WithDropdownActions} />
+<Canvas of={Stories.WithCaption} />
 
-## With Menu List Action
+## Avatar
 
-An autocomplete menu list can render multiple icon buttons after its heading. The `anchorRef` from an action can be passed to `ActionBox` to render a custom action menu below that icon button.
+Show a leading avatar or image before each option label in the default renderer, without having to override `renderOption`.
 
-Use the `menuListActions` story control to edit the heading and action labels. The story adds refs and callbacks at render time:
+### Key Features:
 
-```tsx
-<Autocomplete
-    options={options}
-    labels={{ title: 'Search by' }}
-    menuListActions={{
-        label: 'Results',
-        actions: [
-            { label: 'Configure results', icon: <Tune />, anchorRef: configureRef },
-            { label: 'More actions', icon: <MoreVert />, onClick: handleMoreActions },
-            {
-                label: 'Save results',
-                icon: <Save />,
-                disabled: true,
-                disabledReason: 'Select a result before saving',
-            },
-        ],
-    }}
-/>
+- Avatar is part of the option object (the `avatar` field)
+- A string is treated as an image URL and rendered inside a circular `Avatar`
+- A `ReactNode` (custom `Avatar`, icon or `img`) is rendered as-is
+- Customize the string avatar (border, size, variant, …) via `slotProps.avatar`
+- Works alongside `caption`
+
+<Canvas of={Stories.WithAvatar} />
+
+## Avatar — customised
+
+Customize the string (URL) option avatar — border, size, variant, etc. — via `slotProps.avatar`, without overriding `renderOption`.
+
+### Key Features:
+
+- `slotProps.avatar` accepts standard MUI `Avatar` props
+- `sx` is merged on top of the default sizing, so it can override size or add a border
+- Applies to string avatars only; a `ReactNode` avatar is styled directly on the node
+
+<Canvas of={Stories.WithCustomisedAvatar} />
+
+## Customised chips
+
+Customize the appearance of selected value chips in multiple selection mode using `slotProps.chip`.
+
+### Key Features:
+
+- Custom chip color and size
+- Chips show tooltips with full label on hover
+- Uses MUI Chip props
+
+### Configuration:
+
+```typescript
+slotProps={{
+    chip: {
+        color: 'primary',
+        size: 'small',
+    },
+}}
 ```
 
-<Canvas of={Stories.WithMenuListAction} />
+<Canvas of={Stories.WithCustomisedChips} />
 
-## With Menu List Actions With groupBy and ActionBox
+## Customised renderOption
 
-When `groupBy` is provided, a single menu list action is rendered next to the first group heading. Its `anchorRef` can be used to open an external `ActionBox` while keeping the Autocomplete options available.
+Fully customize how each option is rendered in the dropdown using the `renderOption` prop.
 
-## With Multiple Selection
+### Key Features:
+
+- Complete control over option rendering
+- Can include icons, multiple text lines, or custom layouts
+- Receives option data and props for accessibility
+
+<Canvas of={Stories.WithCustomisedRenderOption} />
+
+## Multiple selection
 
 Demonstrates multiple selection mode where users can select multiple options from the list. Selected options are displayed as chips in the input field.
 
@@ -114,37 +148,45 @@ Demonstrates multiple selection mode where users can select multiple options fro
 
 <Canvas of={Stories.WithMultipleSelection} />
 
-## With Multiple Dropdown Actions
+## Free solo
 
-When multiple actions are provided, they are displayed in a dropdown menu accessible via a "more" button (MoreVert icon).
+Allow users to enter custom values that are not in the predefined options list. New values are added to the selection when the user types and confirms.
 
 ### Key Features:
 
-- Multiple actions in a dropdown menu
-- Actions grouped under MoreVert icon button
-- Each action has its own icon and handler
-- Works with single or multiple selection mode
+- Users can type custom values
+- Typed values arrive as strings; the example turns them into options in `onChange`
+- Combined with multiple selection mode
+
+<Canvas of={Stories.WithFreeSolo} />
+
+## Free solo — duplicate feedback
+
+In `freeSolo` mode, MUI silently drops an entry that is already selected: neither `onChange` nor `onInputChange` is called, so the user gets no hint why pressing Enter did nothing. `duplicateEntryMessage` renders a message under the field in that case and puts the field in the error state until the next input or value change. Pass a callback to quote the rejected text in the message.
+
+### Key Features:
+
+- Works only with `multiple` and `freeSolo` — ignored otherwise
+- Takes over `slotProps.textField.helperText` and `error` while it shows, then hands them back
+- Identity follows `isOptionEqualToValue` (MUI's default is `===`) — pass a case-insensitive comparator to catch `Design` when `design` is already a chip
+- `onDuplicateEntry` receives the rejected text for feedback of your own, e.g. a toast — no message needed
 
 ### Usage:
 
-```typescript
-actions={[
-    {
-        icon: <ManageSearch />,
-        onClick: handleSettings,
-        label: 'Settings',
-    },
-    {
-        icon: <InfoOutlined />,
-        onClick: handleInfo,
-        label: 'Info',
-    },
-]}
+```tsx
+<Autocomplete
+    multiple
+    freeSolo
+    options={[]}
+    isOptionEqualToValue={(option, value) => option.toLowerCase() === value.toLowerCase()}
+    duplicateEntryMessage={(entry) => `"${entry}" is already on the list`}
+    labels={{ title: 'Tags' }}
+/>
 ```
 
-<Canvas of={Stories.WithMultipleDropdownActions} />
+<Canvas of={Stories.WithDuplicateFeedback} />
 
-## With Recently Used
+## Recently used
 
 Track and display recently selected items in a separate group. Items are stored in localStorage and persist across sessions.
 
@@ -152,7 +194,7 @@ Track and display recently selected items in a separate group. Items are stored 
 
 - Automatic grouping of recently used items
 - Configurable limit for stored items (default: 3)
-- Requires `recentlyLocalStorageKey` for persistence
+- `recentlyLocalStorageKey` is required; without it the component throws
 
 ### Configuration:
 
@@ -169,45 +211,7 @@ recentlyUsedLimit={3}
 
 <Canvas of={Stories.WithRecentlyUsed} />
 
-## With Caption
-
-Display additional caption text below each option label. Useful for providing extra context about each option.
-
-### Key Features:
-
-- Secondary text displayed below the main label
-- Automatic text overflow handling
-- Caption is part of the option object
-
-<Canvas of={Stories.WithCaption} />
-
-## With Avatar
-
-Show a leading avatar or image before each option label in the default renderer, without having to override `renderOption`.
-
-### Key Features:
-
-- Avatar is part of the option object (the `avatar` field)
-- A string is treated as an image URL and rendered inside a circular `Avatar`
-- A `ReactNode` (custom `Avatar`, icon or `img`) is rendered as-is
-- Customize the string avatar (border, size, variant, …) via `slotProps.avatar`
-- Works alongside `caption`
-
-<Canvas of={Stories.WithAvatar} />
-
-## With Customised Avatar
-
-Customize the string (URL) option avatar — border, size, variant, etc. — via `slotProps.avatar`, without overriding `renderOption`.
-
-### Key Features:
-
-- `slotProps.avatar` accepts standard MUI `Avatar` props
-- `sx` is merged on top of the default sizing, so it can override size or add a border
-- Applies to string avatars only; a `ReactNode` avatar is styled directly on the node
-
-<Canvas of={Stories.WithCustomisedAvatar} />
-
-## With Asynchronous Requests
+## Asynchronous requests
 
 Load options dynamically when the dropdown opens. Shows a loading indicator while data is being fetched.
 
@@ -215,34 +219,86 @@ Load options dynamically when the dropdown opens. Shows a loading indicator whil
 
 - Lazy loading of options on dropdown open
 - Built-in loading state and indicator
-- Options are cached after first load
+- The example loads the options once and keeps them
 
 <Canvas of={Stories.WithAsynchronousRequests} />
 
-## With Customised Chips
+## Dropdown actions
 
-Customize the appearance of selected value chips in multiple selection mode using `slotProps.chip`.
+Add action buttons to the Autocomplete input. Actions appear as icon buttons inside the input field and can trigger custom callbacks.
 
 ### Key Features:
 
-- Custom chip color and size
-- Chips show tooltips with full label on hover
-- Uses MUI Chip props
+- Single action button displayed in the input
+- Supports icon and click handler
+- Can be disabled with optional disabled reason
 
-### Configuration:
+<Canvas of={Stories.WithDropdownActions} />
+
+## Dropdown actions — multiple
+
+When multiple actions are provided, they are displayed in a dropdown menu accessible via a "more" button (EllipsisVertical icon).
+
+### Key Features:
+
+- Multiple actions in a dropdown menu
+- Actions grouped under EllipsisVertical icon button
+- Each action has its own icon and handler
+- Works with single or multiple selection mode
+
+### Usage:
 
 ```typescript
-slotProps={{
-    chip: {
-        color: 'primary',
-        size: 'small',
+
+actions={[
+    {
+        icon: <Search />,
+        onClick: handleSettings,
+        label: 'Settings',
     },
-}}
+    {
+        icon: <Info />,
+        onClick: handleInfo,
+        label: 'Info',
+    },
+]}
 ```
 
-<Canvas of={Stories.WithCustomisedChips} />
+<Canvas of={Stories.WithMultipleDropdownActions} />
 
-## With Chip Actions
+## Menu list action
+
+An autocomplete menu list can render multiple icon buttons after its heading. The `anchorRef` from an action can be passed to `ActionBox` to render a custom action menu below that icon button.
+
+Use the `menuListActions` story control to edit the heading and action labels. The story adds refs and callbacks at render time:
+
+```tsx
+<Autocomplete
+    options={options}
+    labels={{ title: 'Search by' }}
+    menuListActions={{
+        label: 'Results',
+        actions: [
+            { label: 'Configure results', icon: <Settings2 />, anchorRef: configureRef },
+            { label: 'More actions', icon: <MoreVertical />, onClick: handleMoreActions },
+            {
+                label: 'Save results',
+                icon: <Save />,
+                disabled: true,
+                disabledReason: 'Select a result before saving',
+            },
+        ],
+    }}
+/>
+```
+
+<Canvas of={Stories.WithMenuListAction} />
+
+## With Menu List Actions With groupBy and ActionBox
+
+When `groupBy` is provided, the menu list actions are rendered next to the first group heading. An action's `anchorRef` can be used to open an external `ActionBox` while keeping the Autocomplete options available.
+
+## Chip actions
 
 Use `renderChip` when selected values need their own interactive UI. The callback
 is called separately for each selected option, so every chip can receive different
@@ -254,7 +310,7 @@ delete handler. Pass these props to the custom `Chip` to preserve chip removal.
 
 `renderValue` takes precedence over `renderTags`, which takes precedence over
 `renderChip`. Therefore, `renderChip` is used only with `multiple={true}` when
-neither of the other callbacks is provided. The component warns in development
+neither of the other callbacks is provided. The component warns on the console
 when `renderChip` is ignored for one of these reasons.
 
 Custom rendering returns exactly the node from the callback: the default label
@@ -275,7 +331,7 @@ such as `onDelete` or `disabled`.
 
 <Canvas of={Stories.WithChipActions} />
 
-## With Chip Details
+## Chip details
 
 `renderChip` is not limited to `ActionBox`. A custom renderer can attach a Popper,
 dialog, tooltip, or any other UI containing additional information about the
@@ -283,57 +339,41 @@ selected option.
 
 <Canvas of={Stories.WithChipDetails} />
 
-## With Customised Render Option
+## Sortable chips
 
-Fully customize how each option is rendered in the dropdown using the `renderOption` prop.
-
-### Key Features:
-
-- Complete control over option rendering
-- Can include icons, multiple text lines, or custom layouts
-- Receives option data and props for accessibility
-
-<Canvas of={Stories.WithCustomisedRenderOption} />
-
-## With Free Solo
-
-Allow users to enter custom values that are not in the predefined options list. New values are added to the selection when the user types and confirms.
+With `sortableChips` (and `multiple`), the selected chips can be reordered by dragging.
+The dragged chip follows the pointer slightly tilted, while a dashed indicator marks the
+drop slot; the remaining chips reflow live, also across wrapped rows.
 
 ### Key Features:
 
-- Users can type custom values
-- New values are converted to option objects
-- Combined with multiple selection mode
+- On drop, `onChange` receives the reordered value with the `reorder` reason
+- A quick click still deletes (the "X") or activates the chip — dragging starts after a short hold
+- Options need a stable identity: `getOptionKey`, an `id` field, or a unique label
+- Pointer-only by design; the input's keyboard navigation is unchanged
+- A controlled `value` stays authoritative: the new order shows once your handler stores it
+- Ignored, with a console warning, without `multiple`, when `renderValue` / `renderTags` replaces
+  the chip row, and when the component is `disabled` or `readOnly`
+- `limitTags` is ignored, with a console warning: sortable chips render as one drag context, so
+  every chip renders; sorting still works
+- On `reorder`, `event` is a stand-in: its methods do nothing and `currentTarget` is not the input
+- While a chip is dragged, and for 180ms after the drop, its `data-testid` matches two elements
 
-<Canvas of={Stories.WithFreeSolo} />
-
-## With Outlined TextField
-
-Use the outlined variant of the text field instead of the default filled variant.
-
-### Key Features:
-
-- Alternative text field design with border outline
-- Supports all other Autocomplete features
-- Uses MUI's `outlined` variant
-
-### Configuration:
-
-```typescript
+```tsx
 <Autocomplete
-    options={options}
-    labels={{ title: 'search by' }}
-    slotProps={{
-        textField: {
-            variant: 'outlined'
+    multiple
+    sortableChips
+    onChange={(event, value, reason) => {
+        if (reason === 'reorder') {
+            // value is the full array in its new order
         }
     }}
 />
 ```
 
-<Canvas of={Stories.WithOutlinedTextField} />
+<Canvas of={Stories.WithSortableChips} />
 
-## Filter Variant
+## Filter
 
 Use `variant="filter"` for a compact filter trigger. Selected values are summarized as a count, while an outlined search field is displayed at the top of the options panel. The filter variant supports loading, custom option rendering, and recently used items. It does not render selected values, tags, chips, or trigger actions.
 
@@ -341,14 +381,50 @@ The popup search field receives focus when opened. Arrow keys, Enter, Escape, Pa
 
 <Canvas of={Stories.FilterDefault} />
 
-### Multiple Selection
+### Filter — multiple
 
 Multiple selection keeps the panel open and updates the count in the trigger.
 
 <Canvas of={Stories.FilterMultiple} />
 
-### Controlled
+### Filter — controlled
 
 Control `open` and `inputValue` to show the panel with a prefilled search query. Update `inputValue` in `onInputChange` to keep the popup search field interactive.
 
 <Canvas of={Stories.FilterControlled} />
+
+## Chips input
+
+`variant="chipsInput"` turns the field into a free-text input that keeps every entry as a chip. It replaces the removed `ChipsInput`: `multiple` and `freeSolo` are implied (passing them is a type error), `options` is optional, and typed or pasted entries are strings.
+
+Moving from `ChipsInput`? See [Migration FAQ → Breaking Version Upgrades → 2.0.0 → ChipsInput Migration](?path=/docs/migration-faq-breaking-version-upgrades-2-0-0-chipsinput-migration--docs).
+
+### Key Features:
+
+- Enter adds a chip; the same entry twice is rejected, with `duplicateEntryMessage` / `onDuplicateEntry` as feedback
+- `validateEntry` colours invalid chips with the error colour; the entry is still added
+- `createChipsOnPaste` (disabled by default) splits pasted text on `pasteSeparators` (default `,` `;` new line, tab) and replaces the typed text
+- `chipMaxWidth` (default `150`) truncates long labels; the tooltip shows the full label
+
+<Canvas of={Stories.ChipsInputVariant} />
+
+### Chips input — validation
+
+`validateEntry` returns `false` for an entry that should be flagged. The chip turns red, but the entry is still added. It is checked on every render, so chips passed through `value` are validated too.
+
+<Canvas of={Stories.ChipsInputWithValidation} />
+
+### Chips input — paste
+
+With `createChipsOnPaste`, pasted text is split on `pasteSeparators`, fragments are trimmed, empty ones dropped, and entries already on the list rejected. The text typed in the input is replaced.
+
+<Canvas of={Stories.ChipsInputWithPaste} />
+
+## Long value
+
+Selected values longer than the field. A single value is cut off with an ellipsis while the field is not focused,
+and the clear button and the actions stay at the right edge. A long chip is truncated to the width of the field and
+keeps its delete glyph; in `variant="chipsInput"`, `chipMaxWidth` truncates chips earlier. Pass icons through
+`actions`, so the field sizes and places them the same way in every Autocomplete.
+
+<Canvas of={Stories.WithLongValue} />

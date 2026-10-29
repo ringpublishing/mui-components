@@ -2,8 +2,10 @@ import React from 'react';
 import { Box, Tooltip } from '@mui/material';
 import { GridRowId } from '@mui/x-data-grid';
 import { get } from 'lodash';
-import { Close, PhotoOutlined } from '@mui/icons-material';
+import { X, Image } from 'lucide-react';
+import { FeaturedIcon } from '../../Atoms/FeaturedIcon/FeaturedIcon.js';
 import { tv } from '../../../helpers/typographyMode.js';
+import { mediaFrameFill } from '../../../helpers/mediaFrameFill.js';
 
 interface RowData {
     id: GridRowId;
@@ -20,13 +22,18 @@ interface ImageBoxItemProps {
     onRemove: (id: GridRowId) => void;
     getTooltip?: (row: Record<string, unknown>) => React.ReactNode;
     onClick?: (item: RowData) => void;
+    /**
+     * Prefix for the test ids inside this tile, under its bar's; the tile renders none of its own. Its placeholder
+     * glyph is `<prefix>-placeholder-icon`.
+     */
+    dataTestId?: string;
 }
 
 const IMAGE_HEIGHT = 60;
 const PLACEHOLDER_WIDTH = 80;
 
 export function ImageBoxItem(props: ImageBoxItemProps): React.JSX.Element {
-    const { selectedRow, fieldMap, onRemove, getTooltip, onClick } = props;
+    const { selectedRow, fieldMap, onRemove, getTooltip, onClick, dataTestId } = props;
     const labelCandidate = get(selectedRow, fieldMap.name);
     const label =
         typeof labelCandidate === 'string' && labelCandidate.trim().length > 0
@@ -90,10 +97,16 @@ export function ImageBoxItem(props: ImageBoxItemProps): React.JSX.Element {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: 'grey.200',
+                            // The same frame fill and glyph as the grid's own placeholder, so the strip
+                            // matches the cards it mirrors in both colour modes.
+                            backgroundColor: mediaFrameFill,
                         }}
                     >
-                        <PhotoOutlined color="disabled" sx={{ fontSize: tv('1.5rem') }} />
+                        <FeaturedIcon
+                            size="inherit"
+                            icon={Image}
+                            dataTestId={dataTestId ? `${dataTestId}-placeholder-icon` : undefined}
+                        />
                     </Box>
                 )}
                 <Box
@@ -102,29 +115,31 @@ export function ImageBoxItem(props: ImageBoxItemProps): React.JSX.Element {
                         event.stopPropagation();
                         onRemove(selectedRow.id);
                     }}
-                    sx={{
+                    sx={(theme): object => ({
                         position: 'absolute',
                         top: 4,
                         right: 4,
                         opacity: 0,
                         transition: 'opacity 0.2s ease',
-                        border: (theme) => `2px solid ${theme.colors.red[600]}`,
-                        borderRadius: '50%',
+                        // The overlay plate the theme gives controls over imagery (MediaCard's status
+                        // labels, Media's action button): the chip's own fill is a translucent tint
+                        // and disappears on a photo. Both modes, opaque glyph.
+                        backgroundColor: theme.palette.components.overlay?.background,
+                        borderRadius: 1,
                         width: 20,
                         height: 20,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                    }}
+                        fontSize: tv('1rem')(theme),
+                        color: theme.palette.components.overlay?.foreground,
+                        '&:hover': {
+                            backgroundColor: theme.palette.components.overlay?.hover,
+                        },
+                    })}
                 >
-                    <Close
-                        sx={(theme): object => ({
-                            fontSize: tv('1rem')(theme),
-                            fontWeight: 'bold',
-                            color: theme.colors.red[600],
-                        })}
-                    />
+                    <X size="1em" />
                 </Box>
             </Box>
         </Tooltip>

@@ -1,0 +1,1 @@
+../../.github/instructions/stories.instructions.md

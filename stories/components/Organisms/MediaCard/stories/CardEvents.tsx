@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
-import { OndemandVideoOutlined } from '@mui/icons-material';
+import { MonitorPlay } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import CardEventsExampleCode from './code/CardEventsExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
@@ -63,7 +63,7 @@ export const CardEvents: Story = {
         ratio: '16/9',
         objectFit: 'cover',
         hoverable: true,
-        iconPlaceholder: <OndemandVideoOutlined />,
+        iconPlaceholder: <MonitorPlay />,
         sx: { width: '320px' },
     },
     parameters: {

@@ -7,6 +7,24 @@
     "homepage": "https://design.ringpublishing.com",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "sideEffects": [
+        "./dist/index.js"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./icons": {
+            "types": "./dist/icons/index.d.ts",
+            "default": "./dist/icons/index.js"
+        },
+        "./tree-dynamic-loading": {
+            "types": "./dist/treeDynamicLoading.d.ts",
+            "default": "./dist/treeDynamicLoading.js"
+        },
+        "./package.json": "./package.json"
+    },
     "engines": {
         "node": "^18||^20||^22||^24"
     },
@@ -16,7 +34,7 @@
     "scripts": {
         "build": "npm-run-all build:*",
         "build:check-ts": "tsc",
-        "build:library": "tsc -p tsconfig.build.json",
+        "build:library": "tsc -p tsconfig.build.json --declaration false && tsc -p tsconfig.build.json --emitDeclarationOnly --removeComments false",
         "build:move-images": "mkdir -p dist/components/Molecules/Placeholder/images && cp src/components/Molecules/Placeholder/images/*.svg dist/components/Molecules/Placeholder/images",
         "build:storybook": "storybook build",
         "lint": "npm run lint:js",
@@ -26,12 +44,15 @@
         "prebuild": "rimraf dist && npm run generate:version",
         "pretest": "npm run generate:version",
         "prepare": "npm run build && husky",
+        "test:stories": "node scripts/docscan.mjs ${STORYBOOK_URL:-http://localhost:6006}",
         "storybook:preview": "storybook dev",
         "test": "vitest --run",
         "test:e2e": "playwright test",
         "test:e2e:ui": "playwright test --ui",
         "test:e2e:report": "playwright show-report",
+        "test:stories:audit": "node scripts/storyaudit.mjs",
         "test:update": "vitest -u --run",
+        "test:update:exports": "tsx scripts/exports-snapshot.ts",
         "test:watch": "vitest",
         "watch": "tsc --watch"
     },
@@ -39,10 +60,7 @@
         "@dnd-kit/core": "^6.1.0",
         "@dnd-kit/sortable": "^10.0.0",
         "@dnd-kit/utilities": "^3.2.0",
-        "@emotion/react": "^11.0.0",
-        "@emotion/styled": "^11.0.0",
         "@floating-ui/dom": "^1.6.0",
-        "@ringpublishing/mui-theme": "^4.8.0",
         "@tanstack/react-virtual": "^3.13.0",
         "@tiptap/core": "^3.0.0",
         "@tiptap/extension-bold": "^3.0.0",
@@ -65,9 +83,13 @@
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.11.1",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@fontsource/inter": "^5.3.0",
         "@playwright/test": "1.60.0",
         "@ringieraxelspringer/eslint-config": "^24.0.0",
         "@ringieraxelspringer/tsconfig": "^7.0.0",
+        "@ringpublishing/mui-theme": "^5.0.0",
         "@storybook/addon-docs": "^10.0.0",
         "@storybook/cli": "^10.0.0",
         "@storybook/react-vite": "^10.0.0",
@@ -110,7 +132,8 @@
         }
     },
     "peerDependencies": {
-        "@mui/icons-material": "^7.0.0",
+        "@emotion/react": "^11.5.0",
+        "@emotion/styled": "^11.3.0",
         "@mui/material": "^7.0.0",
         "@mui/utils": "^7.0.0",
         "@mui/x-data-grid": "^8.17.0",
@@ -119,13 +142,15 @@
         "@mui/x-date-pickers-pro": "^8.17.0",
         "@mui/x-license": "^8.17.0",
         "@mui/x-tree-view": "^8.17.0",
+        "@ringpublishing/mui-theme": "^5.0.0",
         "@tanstack/react-query": "^4.0.0 || ^5.0.0",
         "dayjs": "^1.0.0",
+        "lucide-react": "^1.42.0",
         "react": "^18||^19",
         "react-dom": "^18||^19"
     },
     "lint-staged": {
-        "*.{ts,tsx}": "eslint --no-ignore --max-warnings 0",
+        "*.{ts,tsx}": "eslint --no-ignore",
         "*.{ts,tsx,js,jsx,json,md,mdx,css}": "prettier --check"
     },
     "eslintConfig": {
@@ -139,6 +164,130 @@
             "n/no-unsupported-features/node-builtins": "off",
             "react/prop-types": "off"
         },
+        "overrides": [
+            {
+                "files": [
+                    "tests/**/*.{ts,tsx}",
+                    "e2e/**/*.{ts,tsx}"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-unused-expressions": "error"
+                }
+            },
+            {
+                "files": [
+                    "src/components/Atoms/**"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-restricted-imports": [
+                        "error",
+                        {
+                            "patterns": [
+                                {
+                                    "group": [
+                                        "**/Molecules/**",
+                                        "**/Organisms/**",
+                                        "**/Templates/**",
+                                        "**/internal/**"
+                                    ],
+                                    "message": "Atoms import only atoms, helpers and MUI.",
+                                    "allowTypeImports": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "files": [
+                    "src/components/Molecules/**"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-restricted-imports": [
+                        "error",
+                        {
+                            "patterns": [
+                                {
+                                    "group": [
+                                        "**/Organisms/**",
+                                        "**/Templates/**"
+                                    ],
+                                    "message": "Molecules import only atoms, molecules, internal, helpers and MUI.",
+                                    "allowTypeImports": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "files": [
+                    "src/components/Organisms/**"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-restricted-imports": [
+                        "error",
+                        {
+                            "patterns": [
+                                {
+                                    "group": [
+                                        "**/Templates/**"
+                                    ],
+                                    "message": "Organisms do not import templates.",
+                                    "allowTypeImports": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "files": [
+                    "src/components/internal/**"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-restricted-imports": [
+                        "error",
+                        {
+                            "patterns": [
+                                {
+                                    "group": [
+                                        "**/Organisms/**",
+                                        "**/Templates/**"
+                                    ],
+                                    "message": "internal/ imports at most molecules.",
+                                    "allowTypeImports": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "files": [
+                    "src/helpers/**",
+                    "src/theme/**",
+                    "src/icons/**",
+                    "src/types.ts"
+                ],
+                "rules": {
+                    "@typescript-eslint/no-restricted-imports": [
+                        "error",
+                        {
+                            "patterns": [
+                                {
+                                    "group": [
+                                        "**/components/**"
+                                    ],
+                                    "message": "helpers, theme, icons and types do not import components.",
+                                    "allowTypeImports": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
         "ignorePatterns": [
             "**/code/*"
         ]

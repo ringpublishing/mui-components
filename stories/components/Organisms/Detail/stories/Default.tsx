@@ -1,27 +1,22 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import {
-    ContentCopy,
-    Download,
-    EditOutlined,
-    InfoOutlined,
-    PrintOutlined,
-    Public,
-    UploadOutlined,
-    Web,
-} from '@mui/icons-material';
+import { Download, Pencil, Info, Printer, Globe, Upload } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
 import {
+    CopyIconButton,
     Detail,
     DetailDescriptionItemFieldLayout,
     DetailDescriptionItemFieldType,
     EditableFieldType,
 } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
+import { getCreatedTheme } from '../../../../../src/theme/index.js';
 
 type Story = StoryObj<typeof Detail>;
+
+const theme = getCreatedTheme('light');
 
 const Example = (args: React.ComponentProps<typeof Detail>): React.JSX.Element => {
     return <Detail {...args} />;
@@ -31,26 +26,26 @@ export const Default: Story = {
     args: {
         bottomActions: [
             {
-                name: 'ACTION WITH URL',
+                name: 'Action with URL',
                 url: 'https://video.onet.pl/',
-                icon: <Web />,
+                icon: <Globe />,
             },
             {
-                name: 'ACTION WITH ON CLICK',
+                name: 'Action with on click',
                 onClick: action('onClick'),
                 icon: <Download />,
             },
             {
-                name: 'ACTION WITHOUT ICON',
+                name: 'Action without icon',
                 onClick: action('onClick'),
             },
         ],
         descriptionItems: [
             {
-                sectionTitle: 'SECTION ONE',
+                sectionTitle: 'Section one',
                 fields: [
                     {
-                        name: 'DESCRIPTION',
+                        name: 'Description',
                         type: DetailDescriptionItemFieldType.DESCRIPTION,
                         maxLength: 100,
                         layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -61,27 +56,27 @@ export const Default: Story = {
                             ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     },
                     {
-                        icon: <Public />,
-                        name: 'WITH ICON',
+                        icon: <Globe />,
+                        name: 'With icon',
                         value: 'Published',
                     },
                     {
                         formatDate: true,
-                        name: 'DATE FORMATTED',
+                        name: 'Date formatted',
                         value: '2023-07-27T09:32:09Z',
                     },
                     {
                         formatDate: false,
-                        name: 'DATE NOT FORMATTED',
+                        name: 'Date not formatted',
                         value: '2023-08-31T21:59:59Z',
                     },
                     {
-                        name: 'ICONS',
+                        name: 'Icons',
                         value: '',
-                        icon: [<Web key={'0'} />, <Public key={'1'} />],
+                        icon: [<Globe key={'0'} />, <Globe key={'1'} />],
                     },
                     {
-                        name: 'EDITABLE',
+                        name: 'Editable',
                         value: 'Editable value',
                         type: DetailDescriptionItemFieldType.EDITABLE,
                         onSubmit: function cb(): Promise<boolean> {
@@ -91,7 +86,7 @@ export const Default: Story = {
                         },
                     },
                     {
-                        name: 'EDITABLE SELECT',
+                        name: 'Editable select',
                         value: 'option2',
                         type: DetailDescriptionItemFieldType.EDITABLE,
                         fieldType: EditableFieldType.SELECT,
@@ -113,40 +108,40 @@ export const Default: Story = {
             {
                 fields: [
                     {
-                        name: 'LIST OF STRINGS',
+                        name: 'List of strings',
                         value: ['string 1', 'string 2'],
                     },
                     {
-                        name: 'SINGLE STRING',
+                        name: 'Single string',
                         value: 'string value',
                     },
                     {
-                        name: 'NO VALUE',
+                        name: 'No value',
                         value: '',
                     },
                     {
-                        name: 'WITH LINK',
+                        name: 'With link',
                         value: '#Learn_more',
                         url: 'https://design.ringpublishing.com/',
                     },
                     {
-                        name: 'NUMBER',
+                        name: 'Number',
                         value: '10',
                     },
                     {
-                        name: 'SINGLE CHIP',
+                        name: 'Single chip',
                         type: DetailDescriptionItemFieldType.CHIPS,
                         value: 'chip value',
                     },
                     {
-                        name: 'LIST OF CHIPS',
+                        name: 'List of chips',
                         type: DetailDescriptionItemFieldType.CHIPS,
                         value: ['chip 1', 'chip 2', 'chip 3'],
                         collapsable: true,
                     },
                     {
                         layout: DetailDescriptionItemFieldLayout.VERTICAL,
-                        name: 'LIST OF CUSTOMISED CHIPS',
+                        name: 'List of customised chips',
                         type: DetailDescriptionItemFieldType.CHIPS,
                         value: [
                             {
@@ -154,18 +149,18 @@ export const Default: Story = {
                                 value: 'chip with onClick',
                             },
                             {
-                                badgeColor: '#00a7ee',
+                                badgeColor: theme.palette.primary.main,
                                 value: 'chip with color',
                             },
                         ],
                     },
                 ],
-                sectionTitle: 'SECTION TWO',
+                sectionTitle: 'Section two',
             },
             {
                 fields: [
                     {
-                        name: 'WITH SUBVALUE',
+                        name: 'With subvalue',
                         subValue: {
                             label: '',
                             value: 'John Doe',
@@ -174,21 +169,18 @@ export const Default: Story = {
                     },
                     {
                         layout: DetailDescriptionItemFieldLayout.VERTICAL,
-                        name: 'IDENTIFIER (UUID)',
+                        name: 'Identifier (UUID)',
                         value: '1234-5432-2334-1234-5432-2334',
                         icon: (
-                            <ContentCopy
-                                onClick={action('onClick')}
-                                sx={{
-                                    color: '#00A7EE',
-                                    fontSize: '1.7rem',
-                                    cursor: 'pointer',
-                                }}
+                            <CopyIconButton
+                                size="small"
+                                value="1234-5432-2334-1234-5432-2334"
+                                onCopied={action('onCopied')}
                             />
                         ),
                     },
                 ],
-                sectionTitle: 'SECTION THREE',
+                sectionTitle: 'Section three',
             },
         ],
         main: {
@@ -196,25 +188,25 @@ export const Default: Story = {
                 bottomIcons: [
                     {
                         type: 'icon',
-                        icon: <InfoOutlined />,
+                        icon: <Info />,
                         onClick: action('onClick'),
                         tooltip: 'Info',
                     },
                     {
                         type: 'icon',
-                        icon: <EditOutlined />,
+                        icon: <Pencil />,
                         onClick: action('on click'),
                         tooltip: 'Edit',
                     },
                     {
                         type: 'icon',
-                        icon: <PrintOutlined />,
+                        icon: <Printer />,
                         onClick: action('on click'),
                         tooltip: 'Print',
                     },
                     {
                         type: 'icon',
-                        icon: <UploadOutlined />,
+                        icon: <Upload />,
                         onClick: action('on click'),
                         tooltip: 'Upload',
                     },
@@ -222,7 +214,7 @@ export const Default: Story = {
                 imageFullScreenPreview: true,
                 image: {
                     src: getImagePath(TestImage.CAR, ImageSize.LARGE),
-                    title: TestImage.CAR,
+                    title: 'The rear of an orange vintage car parked under a wooden carport',
                 },
                 objectFit: 'cover',
                 ratio: '4/3',

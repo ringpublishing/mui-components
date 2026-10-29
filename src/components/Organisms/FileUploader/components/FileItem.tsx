@@ -1,35 +1,48 @@
 import React from 'react';
-import { Box, Typography, IconButton, LinearProgress, CircularProgress, Button, useTheme } from '@mui/material';
-import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { IconButton, LinearProgress, CircularProgress, Button } from '@mui/material';
+import { CircleAlert, CircleCheck, FileUp, RotateCw, Trash2 } from 'lucide-react';
+import type { RingFileUploaderOwnerState } from '@ringpublishing/mui-theme';
+import { RingLucideIcon } from '../../../../helpers/RingLucideIcon.js';
 import { FileUploaderFile, FileUploaderStatus } from '../fileUploader.types.js';
-import { FileItemContainer } from './FileItemContainer.js';
-import { ThumbnailBox } from './ThumbnailBox.js';
 import { formatFileSize } from '../helpers/formatFileSize.js';
-import { tv } from '../../../../helpers/typographyMode.js';
+import {
+    FileActions,
+    FileContent,
+    FileItemRoot,
+    FileMessage,
+    FileMeta,
+    FileMetaPercent,
+    FileName,
+    FilePercent,
+    FileProgress,
+    FileThumbnail,
+} from './slots.js';
 
 interface FileItemProps {
     uploadedFile: FileUploaderFile;
+    ownerState: RingFileUploaderOwnerState;
     onRemove: (fileId: string) => void;
     onRetry?: (fileId: string) => void;
     onFilesSelected?: (files: File[]) => void;
     accept?: string;
+    removeLabel: string;
+    retryLabel: string;
     dataTestIdPrefix: string;
 }
 
 export function FileItem({
     uploadedFile,
+    ownerState: uploaderState,
     onRemove,
     onRetry,
     onFilesSelected,
     accept,
+    removeLabel,
+    retryLabel,
     dataTestIdPrefix,
 }: FileItemProps): React.JSX.Element {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
-    const theme = useTheme();
+    const nameId = React.useId();
     const status = uploadedFile.status ?? FileUploaderStatus.Idle;
     const isIdle = status === FileUploaderStatus.Idle;
     const isUploading = status === FileUploaderStatus.Uploading;
@@ -39,6 +52,8 @@ export function FileItem({
     const totalSizeBytes = uploadedFile.size ?? uploadedFile.file?.size ?? 0;
     const progress = uploadedFile.progress ?? 0;
     const showProgressBar = uploadedFile.showProgressBar !== undefined ? uploadedFile.showProgressBar : !isIdle;
+    const hasAction = Boolean(uploadedFile.action);
+    const ownerState: RingFileUploaderOwnerState = { ...uploaderState, status, hasAction };
 
     const uploadedBytes =
         uploadedFile.uploadedBytes !== undefined
@@ -46,12 +61,14 @@ export function FileItem({
             : totalSizeBytes > 0
               ? (progress / 100) * totalSizeBytes
               : 0;
-
-    const hasAction = Boolean(uploadedFile.action);
-
-    const handleRemove = (): void => {
-        onRemove(uploadedFile.id);
-    };
+    // A file that is not being uploaded shows its size alone.
+    const sizeText = isUploading
+        ? `${formatFileSize(uploadedBytes)} / ${formatFileSize(totalSizeBytes)}`
+        : formatFileSize(totalSizeBytes);
+    const percentText = isUploading ? `${progress}%` : '100%';
+    const showPercent = !isIdle && !isError;
+    // A replacer function, so `$&` or `$$` in a file name is not read as a replacement pattern.
+    const fileLabel = (label: string): string => label.replace('{name}', () => fileName);
 
     const handleActionClick = (): void => {
         if (uploadedFile.action?.onClick) {
@@ -73,116 +90,80 @@ export function FileItem({
         }
     };
 
-    const iconColor = isError
-        ? 'error.main'
-        : isCompleted
-          ? 'success.main'
-          : isIdle
-            ? 'text.secondary'
-            : 'primary.main';
-
-    const iconFontSize = tv('1.5rem')(theme);
-
-    const defaultIcon = (
-        <UploadFileOutlinedIcon
-            sx={{
-                fontSize: iconFontSize,
-                color: iconColor,
-            }}
-        />
-    );
-
     return (
-        <FileItemContainer data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}`} isError={isError}>
-            <ThumbnailBox>
-                {uploadedFile.icon
-                    ? React.cloneElement(uploadedFile.icon as React.ReactElement<{ sx?: Record<string, unknown> }>, {
-                          sx: {
-                              fontSize: iconFontSize,
-                              color: iconColor,
-                              ...(uploadedFile.icon as React.ReactElement<{ sx?: Record<string, unknown> }>).props?.sx,
-                          },
-                      })
-                    : defaultIcon}
-            </ThumbnailBox>
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography
-                    variant="subtitle1"
-                    color={isError ? 'error.main' : 'text.primary'}
-                    sx={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                    }}
-                >
+        <FileItemRoot
+            data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}`}
+            role="listitem"
+            ownerState={ownerState}
+        >
+            <FileThumbnail ownerState={ownerState}>
+                {uploadedFile.icon ?? <RingLucideIcon icon={FileUp} fontSize="inherit" />}
+            </FileThumbnail>
+            <FileContent ownerState={ownerState}>
+                <FileName id={nameId} variant="subtitle1" variantMapping={{ subtitle1: 'p' }} ownerState={ownerState}>
                     {fileName}
-                </Typography>
+                </FileName>
                 {!hasAction && !isError && (
-                    <Typography variant="body2" color="text.secondary">
-                        {progress < 100
-                            ? `${formatFileSize(uploadedBytes)} / ${formatFileSize(totalSizeBytes)}`
-                            : formatFileSize(totalSizeBytes)}
-                    </Typography>
+                    <FileMeta variant="body2" ownerState={ownerState}>
+                        {sizeText}
+                        {showPercent && <FileMetaPercent ownerState={ownerState}> · {percentText}</FileMetaPercent>}
+                    </FileMeta>
                 )}
                 {!hasAction && isError && uploadedFile.errorMessage && (
-                    <Typography variant="body2" color="error.main" sx={{ mt: 0.5 }}>
+                    <FileMessage variant="body2" ownerState={ownerState}>
                         {uploadedFile.errorMessage}
-                    </Typography>
+                    </FileMessage>
                 )}
                 {!hasAction && showProgressBar && (
-                    <Box sx={{ mt: '4px' }}>
+                    <FileProgress ownerState={ownerState}>
                         <LinearProgress
+                            aria-labelledby={nameId}
                             variant="determinate"
                             value={progress}
                             color={isError ? 'error' : isCompleted ? 'success' : 'primary'}
                         />
-                    </Box>
+                    </FileProgress>
                 )}
-            </Box>
-            <Box sx={{ minWidth: 14, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
+            </FileContent>
+            <FileActions ownerState={ownerState}>
                 {hasAction && uploadedFile.action && (
                     <Button
                         data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}-action`}
                         variant="text"
                         onClick={handleActionClick}
-                        sx={{ textTransform: 'none' }}
                     >
                         {uploadedFile.action.label}
                     </Button>
                 )}
-
-                {!hasAction && !isError && !isIdle && (
-                    <Typography variant="body2" color="text.secondary" sx={{ minWidth: 4, textAlign: 'right' }}>
-                        {isUploading ? `${progress}%` : '100%'}
-                    </Typography>
+                {!hasAction && showPercent && (
+                    <FilePercent variant="body2" ownerState={ownerState}>
+                        {percentText}
+                    </FilePercent>
                 )}
-                {!hasAction && isUploading && <CircularProgress size={16} />}
-                {!hasAction && isCompleted && (
-                    <CheckCircleOutlineIcon fontSize="small" sx={{ color: 'success.main' }} />
-                )}
-                {!hasAction && isError && <ErrorOutlineIcon fontSize="small" sx={{ color: 'error.main' }} />}
+                {!hasAction && isUploading && <CircularProgress size={16} aria-labelledby={nameId} />}
+                {!hasAction && isCompleted && <RingLucideIcon icon={CircleCheck} fontSize="small" color="success" />}
+                {!hasAction && isError && <RingLucideIcon icon={CircleAlert} fontSize="small" color="error" />}
                 {!hasAction && isError && onRetry && (
                     <IconButton
                         data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}-retry`}
+                        aria-label={fileLabel(retryLabel)}
                         size="small"
                         onClick={(): void => onRetry(uploadedFile.id)}
-                        sx={{ color: 'text.secondary' }}
                     >
-                        <RefreshIcon fontSize="small" />
+                        <RingLucideIcon icon={RotateCw} fontSize="small" />
                     </IconButton>
                 )}
-
-                {uploadedFile?.showRemove && (
+                {uploadedFile.showRemove && (
                     <IconButton
                         data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}-remove`}
+                        aria-label={fileLabel(removeLabel)}
                         size="small"
-                        onClick={handleRemove}
-                        sx={{ color: 'text.secondary' }}
+                        onClick={(): void => onRemove(uploadedFile.id)}
                     >
-                        <DeleteOutlineOutlinedIcon fontSize="small" />
+                        <RingLucideIcon icon={Trash2} fontSize="small" />
                     </IconButton>
                 )}
-            </Box>
+            </FileActions>
             {hasAction && (
                 <input
                     data-testid={`${dataTestIdPrefix}-file-${uploadedFile.id}-input`}
@@ -193,6 +174,6 @@ export function FileItem({
                     onChange={handleFileChange}
                 />
             )}
-        </FileItemContainer>
+        </FileItemRoot>
     );
 }

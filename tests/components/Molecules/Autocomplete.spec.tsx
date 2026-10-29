@@ -1,9 +1,10 @@
 import React from 'react';
 import { vi, describe, it, expect } from 'vitest';
 import { act, fireEvent, render } from '@testing-library/react';
-import { InfoOutlined, ManageSearch, Tune } from '@mui/icons-material';
 import { Chip } from '@mui/material';
+import { Info, Search, Settings2 } from 'lucide-react';
 import { Autocomplete } from '../../../src/components/Molecules/Autocomplete/Autocomplete.js';
+import { render as renderWithRingTheme } from '../../test-utils/customRenderer.js';
 
 vi.useFakeTimers();
 
@@ -33,7 +34,7 @@ describe('Autocomplete', () => {
             },
             actions: [
                 {
-                    icon: <ManageSearch />,
+                    icon: <Search />,
                     onClick: vi.fn(),
                     disabled: false,
                     label: 'Settings',
@@ -51,14 +52,14 @@ describe('Autocomplete', () => {
             },
             actions: [
                 {
-                    icon: <ManageSearch />,
+                    icon: <Search />,
                     onClick: vi.fn(),
 
                     disabled: false,
                     label: 'Settings',
                 },
                 {
-                    icon: <InfoOutlined />,
+                    icon: <Info />,
                     onClick: vi.fn(),
                     disabled: false,
                     label: 'Settings 2',
@@ -356,6 +357,426 @@ describe('Autocomplete', () => {
         });
     });
 
+    it('should render sortable chips with the default renderer and keep deletion working', () => {
+        const handleChange = vi.fn();
+
+        const { container, getByText, queryByText } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                defaultValue={[options[0], options[1]]}
+                onChange={handleChange}
+            />,
+        );
+
+        expect(getByText('Onet')).toBeDefined();
+        expect(getByText('Fakt')).toBeDefined();
+
+        const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+        expect(deleteIcons.length).toBe(2);
+        fireEvent.click(deleteIcons[1]);
+
+        expect(handleChange).toHaveBeenCalledWith(expect.anything(), [options[0]], 'removeOption', {
+            option: options[1],
+        });
+        // sortableChips renders controlled from an internal copy, so the deletion must stick.
+        expect(queryByText('Fakt')).toBeNull();
+    });
+
+    it('should mark every selected chip with a per-chip data-testid, sortable or not', () => {
+        const { queryByTestId, rerender } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                dataTestIdSuffix="portals"
+                defaultValue={[options[0], options[1]]}
+            />,
+        );
+
+        expect(queryByTestId('ring-autocomplete-portals-chip-0')).not.toBeNull();
+        expect(queryByTestId('ring-autocomplete-portals-chip-1')).not.toBeNull();
+
+        rerender(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                dataTestIdSuffix="portals"
+                defaultValue={[options[0], options[1]]}
+            />,
+        );
+
+        expect(queryByTestId('ring-autocomplete-portals-chip-0')).not.toBeNull();
+        expect(queryByTestId('ring-autocomplete-portals-chip-1')).not.toBeNull();
+    });
+
+    it('should compose sortableChips with renderChip and expose isDragActive', () => {
+        const renderChip = vi.fn(({ label, chipProps }): React.ReactNode => <Chip {...chipProps} label={label} />);
+
+        const { getByText } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                defaultValue={[options[0]]}
+                renderChip={renderChip}
+            />,
+        );
+
+        expect(getByText('Onet')).toBeDefined();
+        expect(renderChip).toHaveBeenCalledWith(
+            expect.objectContaining({
+                option: options[0],
+                label: 'Onet',
+                index: 0,
+                isDragActive: false,
+                chipProps: expect.objectContaining({ onDelete: expect.any(Function) }),
+            }),
+        );
+    });
+
+    it('should keep a controlled value authoritative when the consumer rejects a change', () => {
+        const handleChange = vi.fn();
+
+        // A controlled consumer that ignores the change (never updates its state): the rendered
+        // value must stay its `value` prop, exactly as it does without sortableChips.
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                value={[options[0], options[1]]}
+                onChange={handleChange}
+            />,
+        );
+
+        const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+        expect(deleteIcons.length).toBe(2);
+        fireEvent.click(deleteIcons[1]);
+
+        expect(handleChange).toHaveBeenCalledWith(expect.anything(), [options[0]], 'removeOption', {
+            option: options[1],
+        });
+        expect(container.querySelectorAll('.MuiChip-root').length).toBe(2);
+    });
+
+    it('renders the lucide X as the chip delete glyph on the non-sortable path', () => {
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                value={[options[0], options[1]]}
+                onChange={vi.fn()}
+            />,
+        );
+
+        const deleteIcon = container.querySelector('.MuiChip-deleteIcon');
+
+        expect(deleteIcon?.classList.contains('lucide-x')).toBe(true);
+        expect(container.querySelector('[data-testid="CancelIcon"]')).toBeNull();
+    });
+
+    it('renders the same lucide X as the chip delete glyph on the sortable path', () => {
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                value={[options[0], options[1]]}
+                onChange={vi.fn()}
+            />,
+        );
+
+        const deleteIcon = container.querySelector('.MuiChip-deleteIcon');
+
+        expect(deleteIcon?.classList.contains('lucide-x')).toBe(true);
+        expect(container.querySelector('[data-testid="CancelIcon"]')).toBeNull();
+    });
+
+    // A truncated label must not take its width from the delete target: jsdom has no layout, so the
+    // flex rule itself is what can be asserted here.
+    it('keeps the default delete glyph from shrinking on both chip paths, and leaves a custom one alone', () => {
+        const flexShrinkOf = (container: HTMLElement): string[] =>
+            Array.from(container.querySelectorAll('.MuiChip-deleteIcon')).map(
+                (icon) => getComputedStyle(icon).flexShrink,
+            );
+        const props = {
+            options,
+            labels: { title: 'Title' },
+            multiple: true as const,
+            value: [options[0], options[1]],
+            onChange: vi.fn(),
+        };
+
+        const plain = render(<Autocomplete {...props} />);
+        expect(flexShrinkOf(plain.container)).toEqual(['0', '0']);
+        plain.unmount();
+
+        const sortable = render(<Autocomplete {...props} sortableChips={true} />);
+        expect(flexShrinkOf(sortable.container)).toEqual(['0', '0']);
+        sortable.unmount();
+
+        const custom = render(
+            <Autocomplete {...props} slotProps={{ chip: { deleteIcon: <span className="custom-glyph" /> } }} />,
+        );
+        expect(custom.container.querySelector('.custom-glyph')?.getAttribute('style')).toBeNull();
+    });
+
+    // The theme supplies both indicators, so the assertion runs under ThemeConfig.
+    it('renders the lucide X in the clear button, matching the popup chevron', () => {
+        const { getByRole, getByTitle } = renderWithRingTheme(
+            <Autocomplete options={options} labels={{ title: 'Title' }} value={options[0]} onChange={vi.fn()} />,
+        );
+
+        const clearIcon = getByTitle('Clear').querySelector('svg');
+        const popupIcon = getByRole('button', { name: 'Open' }).querySelector('svg');
+
+        expect(clearIcon?.classList.contains('lucide-x')).toBe(true);
+        expect(clearIcon?.getAttribute('width')).toBe(popupIcon?.getAttribute('width'));
+    });
+
+    it('lets a consumer clearIcon win over the lucide default', () => {
+        const { getByTitle } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                value={options[0]}
+                onChange={vi.fn()}
+                clearIcon={<span data-testid="custom-clear" />}
+            />,
+        );
+
+        const clearButton = getByTitle('Clear');
+
+        expect(clearButton.querySelector('[data-testid="custom-clear"]')).not.toBeNull();
+        expect(clearButton.querySelector('.lucide-x')).toBeNull();
+    });
+
+    it('lets slotProps.chip.deleteIcon win over the lucide default on both chip paths', () => {
+        for (const sortableChips of [false, true]) {
+            const { container, unmount } = render(
+                <Autocomplete
+                    options={options}
+                    labels={{ title: 'Title' }}
+                    multiple={true}
+                    sortableChips={sortableChips}
+                    value={[options[0], options[1]]}
+                    onChange={vi.fn()}
+                    slotProps={{ chip: { deleteIcon: <span data-testid="custom-x" /> } }}
+                />,
+            );
+
+            expect(container.querySelectorAll('[data-testid="custom-x"]').length).toBe(2);
+            expect(container.querySelector('.MuiChip-root .lucide-x')).toBeNull();
+
+            unmount();
+        }
+    });
+
+    it('does not advertise a keyboard drag on sortable chips, which are pointer-only', () => {
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                value={[options[0], options[1]]}
+                onChange={vi.fn()}
+            />,
+        );
+
+        // Positive control: the drag context IS mounted.
+        expect(container.querySelector('[id^="DndLiveRegion"]')).not.toBeNull();
+
+        // No `role="button"` wrapper around the chip's own ButtonBase (axe `nested-interactive`),
+        // no dead tab stop, and no "press the space bar" promise the component cannot keep.
+        expect(container.querySelectorAll('[aria-roledescription="sortable"]').length).toBe(0);
+        expect(container.querySelectorAll('[tabindex="0"]').length).toBe(0);
+        expect(container.textContent).not.toContain('space bar');
+
+        // MUI still owns the chips' own keyboard model.
+        container.querySelectorAll('.MuiChip-root').forEach((chip) => {
+            expect(chip.getAttribute('tabindex')).toBe('-1');
+            expect(chip.parentElement?.getAttribute('role')).toBeNull();
+        });
+    });
+
+    it('should not make chips sortable when disabled or readOnly', () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const disabled = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                disabled={true}
+                defaultValue={[options[0], options[1]]}
+            />,
+        );
+
+        // Anchored on dnd-kit's own live region — i.e. "a drag context is mounted here". The
+        // previous anchor, `[aria-roledescription="sortable"]`, is now absent on the WORKING
+        // sortable path too (pointer-only chips no longer advertise a keyboard drag), which would
+        // make this assertion pass even if sortableChips were silently broken.
+        expect(disabled.container.querySelector('[id^="DndLiveRegion"]')).toBeNull();
+        expect(disabled.getByText('Onet')).toBeDefined();
+        expect(warnSpy).toHaveBeenCalledWith(
+            'Autocomplete: sortableChips is ignored because the component is disabled.',
+        );
+
+        const readOnly = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                readOnly={true}
+                defaultValue={[options[0], options[1]]}
+            />,
+        );
+
+        expect(readOnly.container.querySelector('[id^="DndLiveRegion"]')).toBeNull();
+        expect(warnSpy).toHaveBeenCalledWith(
+            'Autocomplete: sortableChips is ignored because the component is read-only.',
+        );
+        warnSpy.mockRestore();
+    });
+
+    it('should keep a consumer deleteIcon from slotProps on sortable chips', () => {
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                defaultValue={[options[0]]}
+                slotProps={{ chip: { deleteIcon: <span data-testid="custom-delete" /> } }}
+            />,
+        );
+
+        expect(container.querySelector('[data-testid="custom-delete"]')).toBeDefined();
+    });
+
+    it('should survive readOnly and disabled flipping on after mount with sortableChips', () => {
+        // The internal value copy that backs an UNCONTROLLED sortable Autocomplete is handed to MUI
+        // whether or not sorting is enabled. Turning `readOnly` (or `disabled`) on after mount — an
+        // ordinary form switching to view mode — must not take `value` from an array to `undefined`
+        // while MUI's `useControlled` still believes the field is controlled, or MUI throws on
+        // `value.length`.
+        vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        for (const lockProp of ['readOnly', 'disabled'] as const) {
+            const props = {
+                options,
+                labels: { title: 'Title' },
+                multiple: true,
+                sortableChips: true,
+                defaultValue: [options[0]],
+            };
+            const { rerender, getByText, unmount } = render(<Autocomplete {...props} {...{ [lockProp]: false }} />);
+
+            expect(getByText('Onet')).toBeDefined();
+
+            rerender(<Autocomplete {...props} {...{ [lockProp]: true }} />);
+
+            // Still rendering the same chips, from the same copy.
+            expect(getByText('Onet')).toBeDefined();
+
+            // And back: the copy is still the source of truth, so the chips do not vanish.
+            rerender(<Autocomplete {...props} {...{ [lockProp]: false }} />);
+            expect(getByText('Onet')).toBeDefined();
+
+            unmount();
+        }
+
+        vi.mocked(console.warn).mockRestore();
+    });
+
+    it('should let a consumer slotProps.chip data-testid win over the generated one', () => {
+        const { container } = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                defaultValue={[options[0]]}
+                slotProps={{ chip: { 'data-testid': 'my-own-chip' } as never }}
+            />,
+        );
+
+        expect(container.querySelector('[data-testid="my-own-chip"]')).not.toBeNull();
+        expect(container.querySelector('[data-testid="ring-autocomplete-chip-0"]')).toBeNull();
+    });
+
+    it('should warn when sortableChips is ignored', () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        render(<Autocomplete options={options} labels={{ title: 'Title' }} sortableChips={true} />);
+        render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                renderValue={(): React.ReactNode => null}
+            />,
+        );
+        render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                renderTags={(): React.ReactNode => null}
+            />,
+        );
+
+        expect(warnSpy).toHaveBeenNthCalledWith(
+            1,
+            'Autocomplete: sortableChips is ignored because multiple is not enabled.',
+        );
+        expect(warnSpy).toHaveBeenNthCalledWith(
+            2,
+            'Autocomplete: sortableChips is ignored because renderValue takes precedence.',
+        );
+        expect(warnSpy).toHaveBeenNthCalledWith(
+            3,
+            'Autocomplete: sortableChips is ignored because renderTags takes precedence.',
+        );
+        warnSpy.mockRestore();
+    });
+
+    it('should fall back to non-sortable chips when option identities collide', () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+        const duplicateOptions = [{ label: 'Dup' }, { label: 'Dup' }];
+
+        const { getAllByText } = render(
+            <Autocomplete
+                options={duplicateOptions}
+                labels={{ title: 'Title' }}
+                multiple={true}
+                sortableChips={true}
+                defaultValue={[duplicateOptions[0], duplicateOptions[1]]}
+            />,
+        );
+
+        expect(getAllByText('Dup').length).toBeGreaterThanOrEqual(2);
+        expect(warnSpy).toHaveBeenCalledWith(
+            'Autocomplete: sortableChips requires unique option identities ' +
+                '(getOptionKey, an id field, or unique labels); rendering non-sortable chips.',
+        );
+        warnSpy.mockRestore();
+    });
+
     it('should handle using freeSolo options', () => {
         const mockProps = {
             options,
@@ -414,7 +835,7 @@ describe('Autocomplete', () => {
         localStorage.setItem(localStorageKey, '[]');
 
         const avatarOptions = [
-            { label: 'Onet', id: 1, avatar: <InfoOutlined /> },
+            { label: 'Onet', id: 1, avatar: <Info /> },
             { label: 'Fakt', id: 2, avatar: 'https://picsum.photos/seed/fakt/48' },
         ];
 
@@ -550,9 +971,7 @@ describe('Autocomplete', () => {
         const { getAllByRole } = render(<Autocomplete {...mockProps} />);
 
         const clearButtons = getAllByRole('button');
-        const chipCancelButton = clearButtons.find(
-            (btn) => btn.querySelector('svg[data-testid="CancelIcon"]') !== null,
-        );
+        const chipCancelButton = clearButtons.find((btn) => btn.querySelector('.MuiChip-deleteIcon') !== null);
 
         expect(chipCancelButton).toBeDefined();
         fireEvent.click(chipCancelButton as HTMLElement);
@@ -648,6 +1067,106 @@ describe('Autocomplete', () => {
         localStorage.removeItem(localStorageKey);
     });
 
+    it('should lay the loading spinner wrapper out like the action buttons beside it', () => {
+        const mockProps = {
+            options,
+            labels: {
+                title: 'Title',
+            },
+            loading: true,
+            actions: [
+                {
+                    icon: <Search />,
+                    onClick: vi.fn(),
+                    disabled: false,
+                    label: 'Settings',
+                },
+            ],
+        };
+
+        const { getByTestId } = render(<Autocomplete {...mockProps} />);
+
+        const spinnerWrapper = getByTestId('ring-autocomplete-circular-progress').parentElement as HTMLElement;
+
+        // The adornment is not always a flex container: there a block wrapper grows the field, and a
+        // baseline-aligned one moves the action buttons down while `loading` is on.
+        expect(getComputedStyle(spinnerWrapper).display).toBe('inline-flex');
+        expect(getComputedStyle(spinnerWrapper).verticalAlign).toBe('middle');
+    });
+
+    it('should expose the action label as the accessible name of the single-action button', () => {
+        const mockProps = {
+            options,
+            labels: {
+                title: 'Title',
+            },
+            actions: [
+                {
+                    icon: <Search />,
+                    onClick: vi.fn(),
+                    disabled: false,
+                    label: 'Settings',
+                },
+            ],
+        };
+
+        const { getByRole } = render(<Autocomplete {...mockProps} />);
+
+        expect(getByRole('button', { name: 'Settings' })).toBeDefined();
+    });
+
+    it('should expose an accessible name on the multiple-actions menu button, overridable via labels', () => {
+        const actions = [
+            {
+                icon: <Search />,
+                onClick: vi.fn(),
+                disabled: false,
+                label: 'Settings',
+            },
+            {
+                icon: <Info />,
+                onClick: vi.fn(),
+                disabled: false,
+                label: 'Info',
+            },
+        ];
+
+        const withDefault = render(<Autocomplete options={options} labels={{ title: 'Title' }} actions={actions} />);
+        expect(withDefault.getByRole('button', { name: 'More actions' })).toBeDefined();
+        withDefault.unmount();
+
+        const withCustom = render(
+            <Autocomplete
+                options={options}
+                labels={{ title: 'Title', moreActions: 'Więcej akcji' }}
+                actions={actions}
+            />,
+        );
+        expect(withCustom.getByRole('button', { name: 'Więcej akcji' })).toBeDefined();
+        withCustom.unmount();
+
+        // A blank label must not produce an unnamed button — the default wins.
+        const withBlank = render(
+            <Autocomplete options={options} labels={{ title: 'Title', moreActions: '   ' }} actions={actions} />,
+        );
+        expect(withBlank.getByRole('button', { name: 'More actions' })).toBeDefined();
+    });
+
+    it('should not expose the loading spinner as an unnamed button', () => {
+        const mockProps = {
+            options,
+            labels: {
+                title: 'Title',
+            },
+            loading: true,
+        };
+
+        const { getByTestId } = render(<Autocomplete {...mockProps} />);
+
+        const spinner = getByTestId('ring-autocomplete-circular-progress');
+        expect(spinner.closest('button')).toBeNull();
+    });
+
     it('should render multiple menu list actions and forward their refs to the triggers', () => {
         const firstActionRef = React.createRef<HTMLButtonElement>();
         const secondActionRef = React.createRef<HTMLButtonElement>();
@@ -660,8 +1179,8 @@ describe('Autocomplete', () => {
                 menuListActions={{
                     label: 'Results',
                     actions: [
-                        { anchorRef: firstActionRef, icon: <Tune />, label: 'Filters', onClick: firstOnClick },
-                        { anchorRef: secondActionRef, icon: <Tune />, label: 'More', onClick: secondOnClick },
+                        { anchorRef: firstActionRef, icon: <Settings2 />, label: 'Filters', onClick: firstOnClick },
+                        { anchorRef: secondActionRef, icon: <Settings2 />, label: 'More', onClick: secondOnClick },
                     ],
                 }}
                 open={true}
@@ -690,7 +1209,7 @@ describe('Autocomplete', () => {
                         {
                             disabled: true,
                             disabledReason: 'Select a result before saving',
-                            icon: <Tune />,
+                            icon: <Settings2 />,
                             label: 'Save results',
                         },
                     ],
@@ -713,7 +1232,7 @@ describe('Autocomplete', () => {
             <Autocomplete
                 options={options}
                 labels={{ title: 'Title' }}
-                menuListActions={{ label: 'Results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                menuListActions={{ label: 'Results', actions: [{ icon: <Settings2 />, label: 'Filters' }] }}
                 open={true}
             />,
         );
@@ -731,7 +1250,7 @@ describe('Autocomplete', () => {
             <Autocomplete
                 options={options}
                 labels={{ title: 'Title' }}
-                menuListActions={{ actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                menuListActions={{ actions: [{ icon: <Settings2 />, label: 'Filters' }] }}
                 open={true}
                 slotProps={{ popper: { disablePortal: true } }}
             />,
@@ -746,7 +1265,7 @@ describe('Autocomplete', () => {
             <Autocomplete
                 options={options}
                 labels={{ title: 'Title' }}
-                menuListActions={{ label: 'Filter results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                menuListActions={{ label: 'Filter results', actions: [{ icon: <Settings2 />, label: 'Filters' }] }}
                 defaultValue={options[0]}
                 open={true}
                 slotProps={{ popper: { disablePortal: true } }}
@@ -768,7 +1287,7 @@ describe('Autocomplete', () => {
             <Autocomplete
                 options={groupedOptions}
                 labels={{ title: 'Title' }}
-                menuListActions={{ label: 'Filter results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                menuListActions={{ label: 'Filter results', actions: [{ icon: <Settings2 />, label: 'Filters' }] }}
                 groupBy={(option): string => option.category}
                 open={true}
                 slotProps={{ popper: { disablePortal: true } }}
@@ -788,7 +1307,7 @@ describe('Autocomplete', () => {
             <Autocomplete
                 options={options}
                 labels={{ title: 'Title' }}
-                menuListActions={{ label: 'Results', actions: [{ icon: <Tune />, label: 'Filters' }] }}
+                menuListActions={{ label: 'Results', actions: [{ icon: <Settings2 />, label: 'Filters' }] }}
                 renderGroup={renderGroup}
                 groupBy={(): string => 'Results'}
                 open={true}

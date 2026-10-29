@@ -1,91 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { createVirtualRows, VirtualRow } from './gridHelpers.js';
-import { MediaCardProps } from '../MediaCard/MediaCard.js';
 import { SelectionModelChangeHandler } from './multimediaGrid.types.js';
-import { SpacerItem } from '../DataGrid/spacer.js';
 import { GridRowId, GridRowSelectionModel } from '@mui/x-data-grid-pro';
+import type {
+    DispatchOptions,
+    EventHandler,
+    GridAction,
+    GridCallbackDetails,
+    GridState,
+    MediaGridApi,
+    MediaGridApiInstance,
+    MediaGridItemProps,
+    Unsubscribe,
+} from '../../internal/gridApi.types.js';
 
-export interface MediaGridItemProps extends Omit<MediaCardProps, 'id'> {
-    id: GridRowId;
-}
-
-export type MediaGridItemsProps = ReadonlyArray<MediaGridItemProps | SpacerItem>;
-
-interface GridState {
-    items: {
-        idItemsLookup: Map<GridRowId, MediaGridItemProps>;
-        ids: GridRowId[];
-    };
-    selection: {
-        selectedIds: Set<GridRowId>;
-        isEnabled: boolean;
-        disableSelectionOnClick: boolean;
-    };
-    activeCard: {
-        activeCardId: GridRowId | null;
-    };
-    sorting: { field: string; direction: 'asc' | 'desc' } | null;
-}
-
-type GridAction =
-    | { type: 'SET_ITEMS'; payload: MediaGridItemsProps }
-    | { type: 'UPDATE_ITEMS'; payload: MediaGridItemsProps }
-    | { type: 'SELECT_ITEMS'; payload: GridRowId[] }
-    | { type: 'TOGGLE_ITEM_SELECTION'; payload: GridRowId }
-    | { type: 'CLEAR_SELECTION' }
-    | { type: 'SET_SELECTION_CONFIG'; payload: { isEnabled?: boolean; disableSelectionOnClick?: boolean } }
-    | { type: 'SET_ACTIVE_CARD'; payload: GridRowId | null };
-
-type EventHandler = (params: any) => void;
-type Unsubscribe = () => void;
-
-export interface GridCallbackDetails {
-    reason: 'selectItems' | 'toggleItem' | 'clearSelection';
-}
-
-export interface MediaGridApi {
-    current: GridApi | null;
-}
-
-interface GridApi {
-    mode: 'media';
-
-    getState: () => GridState;
-    dispatch: (action: GridAction, options?: DispatchOptions) => void;
-
-    subscribeEvent: (event: string, handler: EventHandler) => Unsubscribe;
-    publishEvent: (event: string, params: any) => void;
-
-    getItem: (id: GridRowId) => MediaGridItemProps | undefined;
-    getAllItems: () => MediaGridItemsProps;
-    getAllCells: () => Map<GridRowId, MediaGridItemProps>;
-    updateItems: (updates: MediaGridItemsProps) => void;
-    setItems: (items: MediaGridItemsProps) => void;
-    getItemIdForIndex: (index: number) => GridRowId;
-
-    getSelectedItems: () => MediaGridItemsProps;
-    getSelectionModel: () => GridRowSelectionModel;
-    setSelectionModel: (selectionModel: GridRowSelectionModel) => void;
-    toggleItemSelection: (id: GridRowId) => void;
-    isItemSelected: (id: GridRowId) => boolean;
-    clearSelection: () => void;
-
-    isSelectionEnabled: () => boolean;
-    setSelectionEnabled: (enabled: boolean) => void;
-    isSelectionOnClickDisabled: () => boolean;
-    setSelectionOnClickDisabled: (disabled: boolean) => void;
-
-    getActiveCardId: () => GridRowId | null;
-    setActiveCardId: (id: GridRowId | null) => void;
-    isCardActive: (id: GridRowId) => boolean;
-    setOnSelectionModelChange: (
-        callback: ((selectionModel: GridRowSelectionModel, details: GridCallbackDetails) => void) | null,
-    ) => void;
-
-    // Virtual Rows API
-    setColumnsRef: (getColumns: () => number) => void;
-    getVirtualRows: () => VirtualRow[];
-}
+export type {
+    GridCallbackDetails,
+    MediaGridApi,
+    MediaGridApiInstance,
+    MediaGridItemProps,
+    MediaGridItemsProps,
+} from '../../internal/gridApi.types.js';
 
 class EventBus {
     private listeners = new Map<string, Set<EventHandler>>();
@@ -210,12 +145,7 @@ function gridReducer(state: GridState, action: GridAction): GridState {
     }
 }
 
-interface DispatchOptions {
-    silent?: boolean;
-    skipSelectionCallback?: boolean;
-}
-
-function createGridApi(): GridApi {
+function createGridApi(): MediaGridApiInstance {
     let stateRef = initialState;
     const eventBus = new EventBus();
 
@@ -227,8 +157,7 @@ function createGridApi(): GridApi {
     } | null = null;
 
     let onSelectionModelChangeRef:
-        | ((newSelection: GridRowSelectionModel, details: GridCallbackDetails) => void)
-        | null = null;
+        ((newSelection: GridRowSelectionModel, details: GridCallbackDetails) => void) | null = null;
 
     const dispatch = (action: GridAction, options: DispatchOptions = {}): void => {
         const prevState = stateRef;
@@ -283,7 +212,7 @@ function createGridApi(): GridApi {
         }
     };
 
-    const api: GridApi = {
+    const api: MediaGridApiInstance = {
         mode: 'media',
         getState: () => stateRef,
         dispatch,
@@ -428,7 +357,7 @@ function createGridApi(): GridApi {
 }
 
 export function useGridApiRef(): MediaGridApi {
-    const apiRef = useRef<GridApi | null>(null);
+    const apiRef = useRef<MediaGridApiInstance | null>(null);
 
     if (apiRef.current === null) {
         apiRef.current = createGridApi();
@@ -476,7 +405,7 @@ export function useSelectionChange(apiRef: MediaGridApi, callback: (params: Sele
     }, [apiRef, callback]);
 }
 
-interface ActiveCardChangeParams {
+export interface ActiveCardChangeParams {
     activeCardId: GridRowId | null;
 }
 

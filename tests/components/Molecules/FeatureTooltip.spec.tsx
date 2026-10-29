@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { FeatureTooltip, FeatureTooltipProps } from '../../../src/index.js';
-import { render } from '../../test-utils/customRenderer.js';
+import { render, waitFor } from '../../test-utils/customRenderer.js';
 
 const localStorageMock = (function (): object {
     return {
@@ -35,6 +35,11 @@ describe('FeatureTooltip', () => {
 
         const { findByRole } = render(<FeatureTooltip {...mockProps} />);
         const tooltipText = await findByRole('tooltip');
+
+        // The Grow transition writes its progress into an inline style, so snapshot only once it
+        // has settled — mid-flight the transform is still `scale(1, 1)`.
+        const growing = tooltipText.firstElementChild as HTMLElement;
+        await waitFor(() => expect(growing.style.transform).toBe('none'));
 
         expect(tooltipText).toMatchSnapshot();
     });

@@ -1,9 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Components: SplitButton > should render component with all actions visible after click on dropdown 1`] = `
-<div>
+<div
+  aria-hidden="true"
+>
   <div
     class="ring-split-button MuiBox-root css-1g7kd96"
+    data-testid="ring-splitbutton"
   >
     <div
       aria-label="split button"
@@ -16,7 +19,7 @@ exports[`Components: SplitButton > should render component with all actions visi
       >
         <button
           class="MuiButtonBase-root MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-firstButton css-1blvszr-MuiButtonBase-root-MuiButton-root"
-          data-testid="ring-splitbutton"
+          data-testid="ring-splitbutton-main"
           tabindex="0"
           type="button"
         >
@@ -24,6 +27,8 @@ exports[`Components: SplitButton > should render component with all actions visi
         </button>
       </div>
       <button
+        aria-controls="_r_a_"
+        aria-expanded="true"
         aria-haspopup="menu"
         aria-label="split button dropdown"
         class="MuiButtonBase-root MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-lastButton css-wyro15-MuiButtonBase-root-MuiButton-root"
@@ -33,13 +38,20 @@ exports[`Components: SplitButton > should render component with all actions visi
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-          data-testid="ArrowDropDownIcon"
-          focusable="false"
+          class="lucide lucide-chevron-down"
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          style="flex-shrink: 0;"
           viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="m7 10 5 5 5-5z"
+            d="m6 9 6 6 6-6"
           />
         </svg>
       </button>
@@ -52,6 +64,7 @@ exports[`Components: SplitButton > should render component with main action disa
 <div>
   <div
     class="ring-split-button MuiBox-root css-1g7kd96"
+    data-testid="ring-splitbutton"
   >
     <div
       aria-label="split button"
@@ -65,7 +78,7 @@ exports[`Components: SplitButton > should render component with main action disa
       >
         <button
           class="MuiButtonBase-root Mui-disabled MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary css-1blvszr-MuiButtonBase-root-MuiButton-root"
-          data-testid="ring-splitbutton"
+          data-testid="ring-splitbutton-main"
           disabled=""
           tabindex="-1"
           type="button"
@@ -82,6 +95,7 @@ exports[`Components: SplitButton > should render component with main action visi
 <div>
   <div
     class="ring-split-button MuiBox-root css-1g7kd96"
+    data-testid="ring-splitbutton"
   >
     <div
       aria-label="split button"
@@ -94,7 +108,7 @@ exports[`Components: SplitButton > should render component with main action visi
       >
         <button
           class="MuiButtonBase-root MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-firstButton css-1blvszr-MuiButtonBase-root-MuiButton-root"
-          data-testid="ring-splitbutton"
+          data-testid="ring-splitbutton-main"
           tabindex="0"
           type="button"
         >
@@ -111,13 +125,20 @@ exports[`Components: SplitButton > should render component with main action visi
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-          data-testid="ArrowDropDownIcon"
-          focusable="false"
+          class="lucide lucide-chevron-down"
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          style="flex-shrink: 0;"
           viewBox="0 0 24 24"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="m7 10 5 5 5-5z"
+            d="m6 9 6 6 6-6"
           />
         </svg>
       </button>

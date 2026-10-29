@@ -1,0 +1,70 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './FeaturedIcon.stories.js';
+
+<Meta isTemplate />
+
+# FeaturedIcon
+
+FeaturedIcon is a glyph centred on a circular plate. It marks a place where content is missing — a media frame
+without an image, an empty state, an area waiting for a file. It is decorative: the meaning comes from the text
+next to it, so the plate and the glyph are hidden from assistive technology.
+
+## Key Features
+
+- three fixed sizes for layouts, and `inherit`, which sizes itself from the frame it fills
+- six colours from the theme palette, in light and dark mode
+- accepts a lucide icon or a ready element such as an MUI icon
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Sizes](#sizes)
+- [Colours](#colours)
+- [Sized by its box](#sized-by-its-box)
+- [Empty state](#empty-state)
+- [Usage guidelines](#usage-guidelines)
+
+## Default
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Sizes
+
+`small`, `medium` and `large` are fixed plates for an icon that is a part of a layout: an empty state, a widget,
+an upload area. The glyph is 40% of the plate; a glyph under 24 px is drawn with a 1 px stroke, a custom icon's own
+stroke included.
+
+<Canvas of={Stories.Sizes} />
+
+## Colours
+
+<Canvas of={Stories.Colors} />
+
+## Sized by its box
+
+With `size="inherit"` the icon fills its parent and the plate is half of the parent's shorter side, 40–120 px, so a
+portrait box behaves like a landscape one with the same shorter side. Give the parent a width and a height; a parent
+without them leaves the icon at its smallest size.
+
+<Canvas of={Stories.SizedByItsBox} />
+
+## Empty state
+
+<Canvas of={Stories.EmptyState} />
+
+## Usage guidelines
+
+**Use it** where content is missing: a media frame without an image, a grid cell or a thumbnail without a
+picture, an empty list or panel, an area waiting for a file.
+
+**Do not use it**
+
+- as a button or a control — use `IconButton`;
+- for a person or an entity — use `Avatar`;
+- for a full empty, error or not-found state with a heading and actions — use `Placeholder`;
+- in slots smaller than 40 px, such as the icon inside a chip — use a plain icon there.

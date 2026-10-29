@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { Tooltip } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithSubtitle } from './stories/WithSubtitle.js';
-import { WithHint } from './stories/WithHint.js';
-import { WithCustomTitle } from './stories/WithCustomTitle.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithSubtitle as WithSubtitleStory } from './stories/WithSubtitle.js';
+import { WithHint as WithHintStory } from './stories/WithHint.js';
+import { WithCustomTitle as WithCustomTitleStory } from './stories/WithCustomTitle.js';
 import defaultArgs from './common/defaultArgs.js';
 import TooltipMdx from './Tooltip.mdx';
 
@@ -178,4 +178,7 @@ const meta: Meta<typeof Tooltip> = {
 
 export default meta;
 
-export { Default, WithSubtitle, WithHint, WithCustomTitle };
+export const Default = DefaultStory;
+export const WithSubtitle = { ...WithSubtitleStory, name: 'Subtitle' };
+export const WithHint = { ...WithHintStory, name: 'Hint' };
+export const WithCustomTitle = { ...WithCustomTitleStory, name: 'Custom title' };

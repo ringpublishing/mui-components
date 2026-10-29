@@ -2,7 +2,7 @@ import type { StoryObj } from '@storybook/react-vite';
 import { createCodeStory } from '../../../../helpers.js';
 import SingleImageExampleCode from './code/SingleImageExample.tsx?raw';
 import { LightBox, LightBoxProps } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 import { LightBoxWrapper } from './Default.js';
 
 type Story = StoryObj<typeof LightBox>;

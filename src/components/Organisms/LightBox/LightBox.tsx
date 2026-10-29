@@ -1,18 +1,22 @@
 import React, { useState, useMemo } from 'react';
-import { DialogProps, Box, Skeleton, Dialog, IconButton, ThemeProvider } from '@mui/material';
+import { DialogProps, Box, Skeleton, Dialog, GlobalStyles, IconButton, Theme, ThemeProvider } from '@mui/material';
+import classNames from 'classnames';
+import {
+    ArrowLeft,
+    ArrowRight,
+    Download,
+    GalleryHorizontal,
+    Info,
+    Maximize,
+    Minimize,
+    X,
+    ZoomIn,
+    ZoomOut,
+} from 'lucide-react';
 import { getCreatedTheme } from '../../../theme/theme.js';
-import CloseIcon from '@mui/icons-material/Close';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import ZoomOutIcon from '@mui/icons-material/ZoomOut';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DownloadIcon from '@mui/icons-material/Download';
-import InfoIcon from '@mui/icons-material/InfoOutlined';
+import { lucidePaletteRules } from '@ringpublishing/mui-theme';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import { Image } from '../../../types.js';
-import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { downloadImage } from '../../../helpers/downloadImage.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
@@ -44,8 +48,8 @@ import { tv } from '../../../helpers/typographyMode.js';
 
 export interface LightBoxProps extends CommonComponentProps, Omit<DialogProps, 'children' | 'onClose'> {
     /**
-     * Callback function called when the LightBox is closed.
-     * Had to override the onClose prop from DialogProps to add ability to not pass the reason argument.
+     * Called when the LightBox closes. `reason` is set for Escape and backdrop clicks, and omitted when the close
+     * button is used.
      * @param event The event object.
      * @param reason The reason for closing the LightBox.
      */
@@ -104,6 +108,11 @@ const LOAD_MORE_THRESHOLD = 600;
 const MARGIN = 32;
 const HIDE_TOP_BAR_DELAY = 5000;
 const ZOOM_SENSITIVITY = 1.2;
+const LIGHTBOX_CLASS_NAME = 'ring-lightbox';
+
+function lightBoxIconPaletteRules(theme: Theme): ReturnType<typeof lucidePaletteRules> {
+    return lucidePaletteRules(theme, `.${LIGHTBOX_CLASS_NAME}`);
+}
 
 /**
  * The LightBox component is used to display images in a separate dialog/gallery.
@@ -174,8 +183,8 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
 
     const dataTestId = useRingDataTestId('LightBox', dataTestIdSuffix);
 
-    // Build a real dark Ring theme so custom palette extensions (e.g. palette.components.*)
-    // get their correct dark values instead of the ambient light theme's — see PR #369 review.
+    // A full dark Ring theme, so palette extensions such as `palette.components.*` get their dark values instead of
+    // the ambient light theme's.
     const darkTheme = useMemo(() => getCreatedTheme('dark'), []);
 
     const [topBarHeight, setTopBarHeight] = useState(getTopBarHeight());
@@ -809,10 +818,14 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
 
     return (
         <ThemeProvider theme={darkTheme}>
+            {/* The page-wide `color="error"` rules for plain lucide icons follow the page theme;
+                inside the dialog they have to follow the dark one. */}
+            {open && <GlobalStyles styles={lightBoxIconPaletteRules} />}
             <Dialog
+                data-testid={dataTestId}
                 onClose={handleClose}
                 open={open}
-                className={className}
+                className={classNames(LIGHTBOX_CLASS_NAME, className)}
                 fullScreen={true}
                 slotProps={{
                     paper: {
@@ -832,6 +845,11 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                             backgroundColor: darkTheme.palette.grey[900],
                             flexDirection: 'row',
                             position: 'relative',
+                            // The global scrollbar colour follows the app's mode, not this dark theme,
+                            // so set the dark thumb once here; the strip and the Detail panel inherit it.
+                            scrollbarColor: darkTheme.palette._native
+                                ? `${darkTheme.palette._native.scrollbarBackground} transparent`
+                                : undefined,
                         }}
                     >
                         <Box
@@ -884,7 +902,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                     aria-label="close"
                                     sx={{ color: 'white' }}
                                 >
-                                    <CloseIcon />
+                                    <X size={24} />
                                 </IconButton>
                                 <Box sx={{ display: 'flex', gap: darkTheme.spacing(1), alignItems: 'center' }}>
                                     <IconButton
@@ -899,7 +917,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             },
                                         }}
                                     >
-                                        <ZoomOutIcon />
+                                        <ZoomOut size={24} />
                                     </IconButton>
                                     <Box
                                         onClick={handleResetZoom}
@@ -935,7 +953,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                         aria-label="zoom in"
                                         sx={{ color: 'white' }}
                                     >
-                                        <ZoomInIcon />
+                                        <ZoomIn size={24} />
                                     </IconButton>
                                     <IconButton
                                         data-testid={`${dataTestId}-fullscreen`}
@@ -945,7 +963,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                         aria-label="toggle full screen"
                                         sx={{ color: 'white' }}
                                     >
-                                        {fullScreenHandle.active ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                                        {fullScreenHandle.active ? <Minimize size={24} /> : <Maximize size={24} />}
                                     </IconButton>
                                     {enableDownloadIcon && (
                                         <IconButton
@@ -960,7 +978,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                                 }
                                             }}
                                         >
-                                            <DownloadIcon />
+                                            <Download size={24} />
                                         </IconButton>
                                     )}
                                     {detail && (
@@ -970,7 +988,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             aria-label="toggle detail panel"
                                             sx={{ color: 'white' }}
                                         >
-                                            <InfoIcon />
+                                            <Info size={24} />
                                         </IconButton>
                                     )}
                                 </Box>
@@ -1007,7 +1025,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             },
                                         }}
                                     >
-                                        <ArrowBackIosNewIcon />
+                                        <ArrowLeft size={24} />
                                     </IconButton>
                                 )}
                                 {images.length > 1 && currentImageIndex < images.length - 1 && (
@@ -1028,13 +1046,13 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             },
                                         }}
                                     >
-                                        <ArrowForwardIosIcon />
+                                        <ArrowRight size={24} />
                                     </IconButton>
                                 )}
                                 {images.length > 0 && (imageDimensions || previousImageDimensions) && (
                                     <LightBoxImage
                                         imageRef={imageRef}
-                                        testId="image"
+                                        testId={`${dataTestId}-image`}
                                         src={images[displayedImageIndex]?.src}
                                         alt={images[displayedImageIndex]?.title || `Image ${displayedImageIndex + 1}`}
                                         onLoad={handleImageLoad}
@@ -1128,7 +1146,7 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             borderRadius: 0,
                                         }}
                                     >
-                                        <ViewCarouselOutlinedIcon />
+                                        <GalleryHorizontal size={24} />
                                     </IconButton>
                                     <Box
                                         ref={carouselRef}
@@ -1146,19 +1164,8 @@ export function LightBox(props: LightBoxProps): React.JSX.Element {
                                             overflowY: 'hidden',
                                             WebkitOverflowScrolling: 'touch',
                                             flexShrink: 0,
-                                            '&::-webkit-scrollbar': {
-                                                height: { xs: '6px', md: '10px' },
-                                            },
-                                            '&::-webkit-scrollbar-track': {
-                                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                            },
-                                            '&::-webkit-scrollbar-thumb': {
-                                                backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                                                borderRadius: '4px',
-                                                '&:hover': {
-                                                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                                                },
-                                            },
+                                            // Set here so the strip stays thin whatever the theme's CSS baseline sets.
+                                            scrollbarWidth: 'thin',
                                         }}
                                     >
                                         {images.map((image, index) => (

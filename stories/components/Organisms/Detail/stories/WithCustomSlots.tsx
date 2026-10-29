@@ -2,11 +2,11 @@ import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import { Box } from '@mui/material';
-import { Download, EditOutlined, InfoOutlined, PrintOutlined, Public, UploadOutlined, Web } from '@mui/icons-material';
+import { Download, Pencil, Info, Printer, Globe, Upload } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import WithCustomSlotsExampleCode from './code/WithCustomSlotsExample.tsx?raw';
 import { Detail, DetailDescriptionItemFieldType } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof Detail>;
 
@@ -18,28 +18,28 @@ export const WithCustomSlots: Story = {
     args: {
         bottomActions: [
             {
-                name: 'ACTION WITH URL',
+                name: 'Action with URL',
                 url: 'https://video.onet.pl/',
-                icon: <Web />,
+                icon: <Globe />,
             },
             {
-                name: 'ACTION WITH ON CLICK',
+                name: 'Action with on click',
                 onClick: action('onClick'),
                 icon: <Download />,
             },
         ],
         descriptionItems: [
             {
-                sectionTitle: 'SECTION ONE',
+                sectionTitle: 'Section one',
                 fields: [
                     {
-                        icon: <Public />,
-                        name: 'WITH ICON',
+                        icon: <Globe />,
+                        name: 'With icon',
                         value: 'Published',
                     },
                     {
                         formatDate: true,
-                        name: 'DATE FORMATTED',
+                        name: 'Date formatted',
                         value: '2023-07-27T09:32:09Z',
                     },
                 ],
@@ -47,16 +47,16 @@ export const WithCustomSlots: Story = {
             {
                 fields: [
                     {
-                        name: 'LIST OF CHIPS',
+                        name: 'List of chips',
                         type: DetailDescriptionItemFieldType.CHIPS,
                         value: ['chip 1', 'chip 2', 'chip 3'],
                     },
                     {
-                        name: 'LIST OF STRINGS',
+                        name: 'List of strings',
                         value: ['string 1', 'string 2'],
                     },
                 ],
-                sectionTitle: 'SECTION TWO',
+                sectionTitle: 'Section two',
             },
         ],
         main: {
@@ -64,25 +64,25 @@ export const WithCustomSlots: Story = {
                 bottomIcons: [
                     {
                         type: 'icon',
-                        icon: <InfoOutlined />,
+                        icon: <Info />,
                         onClick: action('onClick'),
                         tooltip: 'Info',
                     },
                     {
                         type: 'icon',
-                        icon: <EditOutlined />,
+                        icon: <Pencil />,
                         onClick: action('onClick'),
                         tooltip: 'Edit',
                     },
                     {
                         type: 'icon',
-                        icon: <PrintOutlined />,
+                        icon: <Printer />,
                         onClick: action('onClick'),
                         tooltip: 'Print',
                     },
                     {
                         type: 'icon',
-                        icon: <UploadOutlined />,
+                        icon: <Upload />,
                         onClick: action('onClick'),
                         tooltip: 'Upload',
                     },
@@ -105,20 +105,14 @@ export const WithCustomSlots: Story = {
             onCloseClick: action('onCloseClick'),
         },
         slots: {
-            afterMain: (
-                <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
-                    Custom slot after main
-                </Box>
-            ),
+            afterMain: <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>Custom slot after main</Box>,
             afterDescriptionItems: (
-                <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
+                <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>
                     Custom slot after description items
                 </Box>
             ),
             afterBottomActions: (
-                <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
-                    Custom slot after bottom actions
-                </Box>
+                <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>Custom slot after bottom actions</Box>
             ),
         },
     },

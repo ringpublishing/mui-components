@@ -1,9 +1,23 @@
+import { act, Component, ReactNode } from 'react';
 import { vi, describe, it, expect } from 'vitest';
 import { ThemeProvider } from '@mui/material';
-import { EditOutlined } from '@mui/icons-material';
+import { Pencil } from 'lucide-react';
 import { render, fireEvent, RenderOptions, RenderResult, waitFor } from '@testing-library/react';
 
-import { filterItems, getCreatedTheme, TreeView, TreeViewItem, TreeViewProps } from '../../../src/index.js';
+import { getCreatedTheme, TreeView, TreeViewItem, TreeViewProps } from '../../../src/index.js';
+import { filterItems } from '../../../src/components/Organisms/TreeView/TreeView.js';
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+    public static getDerivedStateFromError(error: Error): { error: Error } {
+        return { error };
+    }
+
+    public state: { error: Error | null } = { error: null };
+
+    public render(): ReactNode {
+        return this.state.error ? <p role="alert">{this.state.error.message}</p> : this.props.children;
+    }
+}
 
 describe('Component: TreeView', () => {
     function renderTreeView(mockProps: TreeViewProps, options: RenderOptions = {}): RenderResult {
@@ -41,7 +55,7 @@ describe('Component: TreeView', () => {
                     column1: 'Column1 0',
                     column2: 'Column2 0',
                     expanded: true,
-                    rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+                    rowActions: [{ label: 'Edit', icon: <Pencil /> }],
                     checkboxDisabled: true,
                     items: [
                         {
@@ -94,7 +108,7 @@ describe('Component: TreeView', () => {
                     label: 'Item 1',
                     column1: 'Column1 1',
                     column2: 'Column2 1',
-                    rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+                    rowActions: [{ label: 'Edit', icon: <Pencil /> }],
 
                     items: [
                         {
@@ -136,7 +150,7 @@ describe('Component: TreeView', () => {
                     label: 'Item 3',
                     column1: 'Column1 3',
                     column2: 'Column2 3',
-                    rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+                    rowActions: [{ label: 'Edit', icon: <Pencil /> }],
                     checked: true,
                 },
             ],
@@ -197,30 +211,6 @@ describe('Component: TreeView', () => {
         fireEvent.click(getByRole('checkbox'));
 
         expect(onCheckboxChangeMock).toHaveBeenCalledWith('1', true);
-    });
-
-    it('should call onDragAndDropEnd when drag and drop is completed', () => {
-        const onDragAndDropEndMock = vi.fn();
-        const mockProps: TreeViewProps = {
-            variant: 'default',
-            items: [
-                { itemId: '1', label: 'Item 1' },
-                { itemId: '2', label: 'Item 2' },
-            ],
-            onDragAndDropEnd: onDragAndDropEndMock,
-            columns: [{ name: 'column1', width: 100, header: 'First Column' }],
-            showColumnHeaders: false,
-        };
-
-        const { getByText } = renderTreeView(mockProps);
-
-        fireEvent.dragStart(getByText('Item 1'));
-        fireEvent.dragEnter(getByText('Item 2'));
-        fireEvent.drop(getByText('Item 2'));
-
-        waitFor(() => {
-            expect(onDragAndDropEndMock).toHaveBeenCalled();
-        });
     });
 
     describe('XSS / label sanitization', () => {
@@ -368,6 +358,298 @@ describe('Component: TreeView', () => {
             waitFor(() => {
                 expect(queryByText('Child Item')).toBeDefined();
             });
+        });
+    });
+
+    describe('row actions button', () => {
+        const items: TreeViewItem[] = [
+            {
+                itemId: '1',
+                label: 'Item 1',
+                expanded: true,
+                rowActions: [{ label: 'Edit' }],
+                items: [{ itemId: '1.1', label: 'Item 1.1', rowActions: [{ label: 'Edit' }] }],
+            },
+        ];
+
+        it('is named "More actions" by default', () => {
+            const { getByRole } = renderTreeView({ variant: 'default', items: [{ ...items[0], items: undefined }] });
+
+            expect(getByRole('button', { name: 'More actions' })).toBeTruthy();
+        });
+
+        it('takes its name from rowActionsAriaLabel on every nesting level', () => {
+            const { getAllByRole, queryByRole } = renderTreeView({
+                variant: 'default',
+                items,
+                rowActionsAriaLabel: 'Row options',
+            });
+
+            expect(getAllByRole('button', { name: 'Row options' })).toHaveLength(2);
+            expect(queryByRole('button', { name: 'More actions' })).toBeNull();
+        });
+
+        it('falls back to "More actions" when rowActionsAriaLabel is blank', () => {
+            const { getAllByRole } = renderTreeView({ variant: 'default', items, rowActionsAriaLabel: '  ' });
+
+            expect(getAllByRole('button', { name: 'More actions' })).toHaveLength(2);
+        });
+    });
+
+    describe('row accessibility', () => {
+        it('keeps the expand icon button out of the tab order and away from assistive technology', () => {
+            const { getByTestId, queryAllByRole } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'parent', label: 'Parent', items: [{ itemId: 'child', label: 'Child' }] }],
+            });
+
+            const expand = getByTestId('ring-treeview-item-parent-expand');
+
+            expect(expand.getAttribute('tabindex')).toBe('-1');
+            expect(expand.getAttribute('aria-hidden')).toBe('true');
+            expect(queryAllByRole('button', { name: '' })).toHaveLength(0);
+        });
+
+        it('names each row checkbox after the text of its label', () => {
+            const { getByRole } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'tj', label: 'Tom &amp; <span>Jerry</span>', checked: true }],
+                onCheckboxChange: vi.fn(),
+            });
+
+            expect((getByRole('checkbox', { name: 'Tom & Jerry' }) as HTMLInputElement).checked).toBe(true);
+        });
+
+        it('renders the drag-and-drop live region outside the tree', () => {
+            renderTreeView({
+                variant: 'default',
+                items: [{ itemId: '1', label: 'Item 1' }],
+                onDragAndDropEnd: vi.fn(),
+            });
+
+            expect(document.querySelector('[role="tree"] [role="status"]')).toBeNull();
+            expect(document.querySelector('[role="status"][aria-live]')).not.toBeNull();
+        });
+
+        it('loads a dynamic row expanded with the keyboard', async () => {
+            const loadItems = vi.fn(() => [{ itemId: 'kbd-child', label: 'Loaded child' }]);
+            const { getByRole, findByText } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'kbd-dynamic', label: 'Dynamic', loadItems }],
+            });
+            const row = getByRole('treeitem');
+
+            act(() => {
+                row.focus();
+            });
+            fireEvent.keyDown(row, { key: 'ArrowRight' });
+
+            expect(await findByText('Loaded child')).toBeTruthy();
+            expect(loadItems).toHaveBeenCalledTimes(1);
+        });
+
+        it('loads a dynamic row once when its icon is clicked', async () => {
+            const loadItems = vi.fn(() => [{ itemId: 'click-child', label: 'Clicked child' }]);
+            const { getByTestId, findByText } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'click-dynamic', label: 'Dynamic', loadItems }],
+            });
+
+            fireEvent.click(getByTestId('ring-treeview-item-click-dynamic-expand'));
+
+            expect(await findByText('Clicked child')).toBeTruthy();
+            expect(loadItems).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not load a dynamic row that search expands by itself', async () => {
+            const loadItems = vi.fn(() => [{ itemId: 'search-child', label: 'Child' }]);
+            const { getByRole } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'search-dynamic', label: 'Dynamic folder', loadItems }],
+                withSearch: true,
+                searchDebounceTime: 0,
+            });
+
+            act(() => {
+                fireEvent.change(getByRole('textbox'), { target: { value: 'Dynamic' } });
+            });
+
+            await waitFor(() => {
+                expect(getByRole('treeitem').getAttribute('aria-expanded')).toBe('true');
+            });
+            expect(loadItems).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('dynamic rows', () => {
+        it('loads the children again each time the row is expanded', async () => {
+            const loadItems = vi
+                .fn()
+                .mockReturnValueOnce([{ itemId: 'reload-child-1', label: 'First load' }])
+                .mockReturnValueOnce([{ itemId: 'reload-child-2', label: 'Second load' }]);
+            const { getByTestId, findByTestId, findByText, queryByText } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'reload', label: 'Dynamic', loadItems }],
+            });
+
+            fireEvent.click(getByTestId('ring-treeview-item-reload-expand'));
+            expect(await findByText('First load')).toBeTruthy();
+
+            fireEvent.click(getByTestId('ring-treeview-item-reload-collapse'));
+            fireEvent.click(await findByTestId('ring-treeview-item-reload-expand'));
+
+            expect(await findByText('Second load')).toBeTruthy();
+            expect(queryByText('First load')).toBeNull();
+            expect(loadItems).toHaveBeenCalledTimes(2);
+        });
+
+        it('replaces the children of a row that loads the same itemIds on every expansion', async () => {
+            const loadItems = vi
+                .fn()
+                .mockReturnValueOnce([
+                    { itemId: 'same-1', label: 'First load 1' },
+                    { itemId: 'same-2', label: 'First load 2' },
+                ])
+                .mockReturnValueOnce([
+                    { itemId: 'same-1', label: 'Second load 1' },
+                    { itemId: 'same-2', label: 'Second load 2' },
+                ]);
+            const { getByTestId, findByTestId, findByText, queryByText, getAllByRole, queryByRole } = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'same', label: 'Dynamic', loadItems }],
+            });
+
+            fireEvent.click(getByTestId('ring-treeview-item-same-expand'));
+            expect(await findByText('First load 2')).toBeTruthy();
+
+            fireEvent.click(getByTestId('ring-treeview-item-same-collapse'));
+            fireEvent.click(await findByTestId('ring-treeview-item-same-expand'));
+
+            expect(await findByText('Second load 2')).toBeTruthy();
+            expect(queryByText('First load 1')).toBeNull();
+            expect(getAllByRole('treeitem')).toHaveLength(3);
+            expect(queryByRole('progressbar')).toBeNull();
+            expect(loadItems).toHaveBeenCalledTimes(2);
+        });
+
+        // Rows under a dynamic row inherit its loadItems, so a loadItems that ignores the row it gets loads the same
+        // rows again for each of them. The label getter stops a tree that renders forever instead of hanging the run.
+        function countedRow(itemId: string, label: string): TreeViewItem & { renders: () => number } {
+            let renders = 0;
+
+            return {
+                itemId,
+                get label(): string {
+                    renders += 1;
+
+                    if (renders > 200) {
+                        throw new Error(`${itemId} was rendered inside itself forever`);
+                    }
+
+                    return label;
+                },
+                renders: (): number => renders,
+            };
+        }
+
+        function renderInBoundary(items: TreeViewItem[]): RenderResult {
+            return render(
+                <ThemeProvider theme={getCreatedTheme('light')}>
+                    <ErrorBoundary>
+                        <TreeView variant="default" items={items} />
+                    </ErrorBoundary>
+                </ThemeProvider>,
+            );
+        }
+
+        it('leaves out a row that loadItems returns inside itself or inside a row below it', async () => {
+            const file = countedRow('cycle-file', 'File');
+            const folderAgain = countedRow('cycle-folder', 'Folder again');
+            const loadItems = vi.fn(() => [file, folderAgain]);
+            const { getByTestId, findByTestId, getAllByRole, queryByRole, queryByText } = renderInBoundary([
+                { itemId: 'cycle-folder', label: 'Folder', loadItems },
+            ]);
+
+            fireEvent.click(getByTestId('ring-treeview-item-cycle-folder-expand'));
+            fireEvent.click(await findByTestId('ring-treeview-item-cycle-file-expand'));
+
+            await waitFor(() => {
+                expect(loadItems).toHaveBeenCalledTimes(2);
+                expect(queryByRole('progressbar')).toBeNull();
+            });
+            expect(queryByRole('alert')).toBeNull();
+            expect(queryByText('Folder again')).toBeNull();
+            expect(getAllByRole('treeitem')).toHaveLength(2);
+            expect(file.renders()).toBeLessThan(50);
+        });
+
+        it('fails with the duplicate itemId instead of freezing when loadItems returns rows already in the tree', async () => {
+            const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+            const loadItems = vi.fn(() => [countedRow('same-file-1', 'File 1'), countedRow('same-file-2', 'File 2')]);
+            const { getByTestId, findByTestId, findByRole } = renderInBoundary([
+                { itemId: 'same-folder', label: 'Folder', loadItems },
+            ]);
+
+            fireEvent.click(getByTestId('ring-treeview-item-same-folder-expand'));
+            fireEvent.click(await findByTestId('ring-treeview-item-same-file-1-expand'));
+
+            expect((await findByRole('alert')).textContent).toMatch(/same id.*"same-file-2"/);
+            consoleError.mockRestore();
+        });
+
+        it('loads the children of a row with its own loadItems when another tree used the same itemId', async () => {
+            const firstLoadItems = vi.fn(() => [{ itemId: 'first-child', label: 'First tree child' }]);
+            const secondLoadItems = vi.fn(() => [{ itemId: 'second-child', label: 'Second tree child' }]);
+            const firstTree = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'shared', label: 'Dynamic', loadItems: firstLoadItems }],
+            });
+
+            fireEvent.click(firstTree.getByTestId('ring-treeview-item-shared-expand'));
+            expect(await firstTree.findByText('First tree child')).toBeTruthy();
+            firstTree.unmount();
+
+            const secondTree = renderTreeView({
+                variant: 'default',
+                items: [{ itemId: 'shared', label: 'Dynamic', loadItems: secondLoadItems }],
+            });
+
+            fireEvent.click(secondTree.getByTestId('ring-treeview-item-shared-expand'));
+
+            expect(await secondTree.findByText('Second tree child')).toBeTruthy();
+            expect(secondTree.queryByText('First tree child')).toBeNull();
+            expect(firstLoadItems).toHaveBeenCalledTimes(1);
+            expect(secondLoadItems).toHaveBeenCalledTimes(1);
+        });
+
+        it('keeps the loaded children of a row that search hides and brings back, without loading them again', async () => {
+            const loadItems = vi.fn(() => [{ itemId: 'hidden-child', label: 'Loaded child' }]);
+            const { getByTestId, getByRole, findByText, queryByText } = renderTreeView({
+                variant: 'default',
+                items: [
+                    { itemId: 'hidden', label: 'Dynamic folder', loadItems },
+                    { itemId: 'other', label: 'Other' },
+                ],
+                withSearch: true,
+                searchDebounceTime: 0,
+            });
+
+            fireEvent.click(getByTestId('ring-treeview-item-hidden-expand'));
+            expect(await findByText('Loaded child')).toBeTruthy();
+
+            act(() => {
+                fireEvent.change(getByRole('textbox'), { target: { value: 'Other' } });
+            });
+            await waitFor(() => {
+                expect(queryByText('Dynamic folder')).toBeNull();
+            });
+
+            act(() => {
+                fireEvent.change(getByRole('textbox'), { target: { value: '' } });
+            });
+
+            expect(await findByText('Loaded child')).toBeTruthy();
+            expect(loadItems).toHaveBeenCalledTimes(1);
         });
     });
 });

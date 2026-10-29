@@ -6,15 +6,13 @@ Ring Publishing MUI Components are not intended to function as a general-purpose
 ## Installation
 
 ```shell
-npm install @ringpublishing/mui-components @mui/material
+npm install @ringpublishing/mui-components @ringpublishing/mui-theme @mui/material @emotion/react @emotion/styled lucide-react
 ```
 
-To use MUI-X Components you also need to install MUI-X packages:
+Some components are built on MUI-X packages. They are required peer dependencies, which npm 7+ installs; the table shows which component is built on which.
 ```shell
 npm install @mui/x-license @mui/x-data-grid @mui/x-data-grid-pro @mui/x-date-pickers @mui/x-date-pickers-pro @mui/x-tree-view
 ```
-
-Install only the packages required by the components you use:
 
 | Component | Required MUI-X package(s) |
 |---|---|
@@ -24,6 +22,24 @@ Install only the packages required by the components you use:
 | `DateTimePicker` | `@mui/x-date-pickers` `@mui/x-date-pickers-pro` `@mui/x-license` |
 | `TimePicker` | `@mui/x-date-pickers` `@mui/x-date-pickers-pro` `@mui/x-license` |
 | `TreeView` | `@mui/x-tree-view` `@mui/x-license` |
+| `SimpleTree` | `@mui/x-tree-view` |
+| `DataTree` | `@mui/x-tree-view` |
+
+### Dynamic loading in `SimpleTree` / `DataTree`
+
+Only needed if a tree item uses `loadItems` to load its children on expand. Install TanStack Query (v4 or v5) and enable dynamic loading once, in code that runs in the browser before such a tree renders:
+
+```shell
+npm install @tanstack/react-query
+```
+
+```javascript
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
+```
+
+Trees without `loadItems` need neither. See the "Dynamic loading" section of the `SimpleTree` / `DataTree` docs.
 
 ### Set up Ring theme
 

@@ -5,7 +5,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import SlotsExampleCode from './code/SlotsExample.tsx?raw';
 import { MultimediaGrid, MultimediaGridSlotComponent, MultimediaGridSlotProps } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { useMultimediaGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { useMultimediaGridDemoData } from '../../../../helpers/ringDemoData.js';
 
 type Story = StoryObj<typeof MultimediaGrid>;
 

@@ -6,22 +6,19 @@ export interface DataTreeCheckboxSlotProps {
     checked: boolean;
     checkboxDisabled: boolean;
     itemId: string;
+    /** The row's label as plain text — the checkbox's accessible name. */
+    ariaLabel: string;
     onCheckboxChange?: (itemId: string, checked: boolean) => void;
     checkboxSetRef: (node: HTMLElement | null) => void;
 }
 
 /**
- * Module-scope checkbox slot for `DataTree`. MUI compares slot components by
- * reference; a fresh inline component on every render forces an unmount /
- * remount of the underlying input on every checkbox toggle, which loses
- * keyboard focus. Keeping this at module scope gives MUI a stable identity
- * and lets it just rerender the existing node.
- *
- * Used by both the static (`DataTreeItem`) and dynamic (`DataTreeItemDynamic`)
- * row components — they thread the per-row data through `slotProps.checkbox`.
+ * Module-scope checkbox slot for `DataTree` rows, static and dynamic alike. MUI compares slot
+ * components by reference, so an inline component would remount the input on every toggle and lose
+ * keyboard focus.
  */
 export const DataTreeCheckboxSlot = forwardRef<HTMLButtonElement, DataTreeCheckboxSlotProps>((props, ref) => {
-    const { hasCheckbox, checked, checkboxDisabled, itemId, onCheckboxChange, checkboxSetRef } = props;
+    const { hasCheckbox, checked, checkboxDisabled, itemId, ariaLabel, onCheckboxChange, checkboxSetRef } = props;
 
     if (!hasCheckbox) {
         return null;
@@ -33,6 +30,9 @@ export const DataTreeCheckboxSlot = forwardRef<HTMLButtonElement, DataTreeCheckb
                 ref={ref}
                 checked={checked}
                 disabled={checkboxDisabled}
+                // The tree item's own `aria-checked` follows MUI's selection, not `checked`, so the
+                // checkbox stays exposed and is named after the row.
+                slotProps={{ input: { 'aria-label': ariaLabel } }}
                 sx={{ padding: '0px' }}
                 onChange={(): void => onCheckboxChange?.(itemId, !checked)}
                 onClick={(e): void => {

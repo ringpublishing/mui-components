@@ -1,0 +1,369 @@
+import { Meta, Title, Subtitle, IconGallery, IconItem, Source } from '@storybook/addon-docs/blocks';
+import { Box, Button, IconButton, Typography } from '@mui/material';
+import { ListFilter, Save, Sparkles, Trash2 } from 'lucide-react';
+import {
+    AIPencil,
+    AIPencilIcon,
+    EarthOff,
+    EarthOffIcon,
+    ListFilterOff,
+    ListFilterOffIcon,
+} from '../../src/icons/index.js';
+import { RingLucideIcon } from '../../src/index.js';
+import { Live, Specimen, SpecimenRow } from './Icons.js';
+
+<Meta title="Icons" tags={['new@2.0']} />
+
+<Title>Icons</Title>
+
+<Subtitle>Paste any icon from lucide.dev. ThemeConfig takes care of the size, the stroke and the colour.</Subtitle>
+
+The library draws its icons with [lucide-react](https://lucide.dev), and so does your application: find the icon
+on lucide.dev, copy the import, render it. There is no icon component to learn first. This page tells you what
+`ThemeConfig` does to that pasted icon, and what to reach for on the few occasions a plain icon is not enough.
+
+- [Paste an icon from lucide.dev](#paste-an-icon-from-lucidedev)
+- [`RingLucideIcon`: `sx` and the AI gradient](#ringlucideicon-sx-and-the-ai-gradient)
+- [Ring icons](#ring-icons)
+- [Outside `ThemeConfig`, and overriding the defaults](#outside-themeconfig-and-overriding-the-defaults)
+- [Cheat sheet](#cheat-sheet)
+- [In tests](#in-tests)
+
+## Paste an icon from lucide.dev
+
+Every plain lucide icon rendered inside `ThemeConfig` comes out the way the design system draws icons:
+
+- **20px** wide and tall — lucide on its own renders 24px;
+- a **1.5px stroke at every size** — lucide on its own uses 2, and lets it thin out as the icon shrinks;
+- `color` understands the theme palette: `primary`, `secondary`, `error`, `warning`, `info`, `success`, `action`,
+  `disabled`;
+- `fontSize` understands the MUI variants: `small` (20px), `medium` (24px), `large` (32px) and `inherit` (the size
+  of the surrounding text).
+
+<Source
+    language="tsx"
+    code={`import { Save, Trash2 } from 'lucide-react';
+
+<Save />                                     // 20px, 1.5px stroke
+<Trash2 color="error" />                     // the palette's error colour
+<Trash2 color="primary" fontSize="large" />  // 32px, still a 1.5px stroke
+<Trash2 fontSize="inherit" />                // follows the text around it`}
+/>
+
+<Live>
+    <SpecimenRow>
+        <Specimen label={'<Save />\n20px'}>
+            <Save />
+        </Specimen>
+        <Specimen label={'color="error"'}>
+            <Trash2 color="error" />
+        </Specimen>
+        <Specimen label={'color="primary"\nfontSize="small"'}>
+            <Trash2 color="primary" fontSize="small" />
+        </Specimen>
+        <Specimen label={'color="success"\nfontSize="medium"'}>
+            <Trash2 color="success" fontSize="medium" />
+        </Specimen>
+        <Specimen label={'color="warning"\nfontSize="large"'}>
+            <Trash2 color="warning" fontSize="large" />
+        </Specimen>
+        <Specimen label={'color="disabled"\nfontSize="inherit" in h4'}>
+            <Typography variant="h4" component="span" sx={{ lineHeight: 1 }}>
+                <Trash2 color="disabled" fontSize="inherit" />
+            </Typography>
+        </Specimen>
+    </SpecimenRow>
+</Live>
+
+### Explicit props still win
+
+Anything you write on the icon beats the default: `size={28}` renders 28px (with the 1.5px stroke), `strokeWidth={2}`
+renders the heavier lucide stroke, and a hex value or `currentColor` in `color` behaves exactly as on lucide.dev.
+
+The one exception: when an icon carries both `fontSize` and lucide's `size`, `fontSize` wins. Pick one.
+
+Drop `absoluteStrokeWidth` from plain icons: it compounds with the pinned stroke (`<Save absoluteStrokeWidth size={32} />`
+draws 1.125px instead of 1.5px).
+
+<Source
+    language="tsx"
+    code={`import { Save } from 'lucide-react';
+
+<Save size={28} />                       // 28px, 1.5px stroke
+<Save strokeWidth={2} />                 // lucide's heavier stroke
+<Save color="#7b7b7b" />                 // any CSS colour, as on lucide.dev
+<Save size={28} fontSize="small" />      // 20px — fontSize takes precedence over size`}
+/>
+
+### Colour from the host
+
+An icon without a `color` takes the colour of whatever it sits in. `IconButton color="error"`, a `Button`'s
+`startIcon`, a `Box` with `sx={{ color: 'text.secondary' }}` — all colour the icon by themselves, so there is nothing
+to repeat on the icon.
+
+<Source
+    language="tsx"
+    code={`import { Save, Trash2 } from 'lucide-react';
+import { Box, Button, IconButton } from '@mui/material';
+
+<IconButton color="error" aria-label="Delete"><Trash2 /></IconButton>
+<Button variant="contained" startIcon={<Save />}>Save</Button>
+<Box sx={{ color: 'text.secondary' }}><Save /></Box>`}
+/>
+
+<Live>
+    <SpecimenRow>
+        <Specimen label={'IconButton color="error"'}>
+            <IconButton color="error" aria-label="Delete">
+                <Trash2 />
+            </IconButton>
+        </Specimen>
+        <Specimen label="Button startIcon">
+            <Button variant="contained" startIcon={<Save />}>
+                {'Save'}
+            </Button>
+        </Specimen>
+        <Specimen label={"Box sx={{ color: 'text.secondary' }}"}>
+            <Box sx={{ color: 'text.secondary', display: 'inline-flex' }}>
+                <Save />
+            </Box>
+        </Specimen>
+    </SpecimenRow>
+</Live>
+
+### What a plain icon cannot do
+
+Two things, and both point to `RingLucideIcon` below:
+
+- **`sx`** — a plain icon ignores it. Put spacing on the host (`Stack spacing`, `startIcon` is already spaced), or use
+  `RingLucideIcon`.
+- **`color="ai"`** — the AI gradient does not apply to a plain icon. Use `RingLucideIcon` or the `*Icon` wrappers of the
+  [Ring icons](#ring-icons).
+
+If your own stylesheet targets the icon (`svg { … }`), it wins over these defaults — the library never fights
+application CSS.
+
+## `RingLucideIcon`: `sx` and the AI gradient
+
+`RingLucideIcon` renders a lucide glyph inside a `span` you can style. Reach for it when the icon itself needs `sx`,
+when it should carry the AI gradient, or when you want one component with the full MUI icon prop surface. Otherwise
+the plain icon is the lighter choice.
+
+<Source
+    language="tsx"
+    code={`import { Save, Sparkles, Trash2 } from 'lucide-react';
+import { RingLucideIcon } from '@ringpublishing/mui-components';
+
+<RingLucideIcon icon={Trash2} color="error" fontSize="small" sx={{ mr: 1 }} />
+<RingLucideIcon icon={Sparkles} color="ai" fontSize="large" />
+<RingLucideIcon
+    icon={Save}
+    sx={{ color: '#7b7b7b', transition: 'color 150ms', '&:hover': { color: 'primary.main' } }}
+/>`}
+/>
+
+<Live>
+    <SpecimenRow>
+        <Specimen label={'color="error"\nfontSize="small"'}>
+            <RingLucideIcon icon={Trash2} color="error" fontSize="small" />
+        </Specimen>
+        <Specimen label={'default\n(medium, 24px)'}>
+            <RingLucideIcon icon={Trash2} />
+        </Specimen>
+        <Specimen label={'color="ai"\nfontSize="large"'}>
+            <RingLucideIcon icon={Sparkles} color="ai" fontSize="large" />
+        </Specimen>
+        <Specimen label={"sx={{ color, '&:hover': … }}\nhover me"}>
+            <RingLucideIcon
+                icon={Save}
+                sx={{ color: '#7b7b7b', transition: 'color 150ms', '&:hover': { color: 'primary.main' } }}
+            />
+        </Specimen>
+        <Specimen label={'fontSize="inherit" in h4'}>
+            <Typography variant="h4" component="span" sx={{ lineHeight: 1 }}>
+                <RingLucideIcon icon={Trash2} color="disabled" fontSize="inherit" />
+            </Typography>
+        </Specimen>
+    </SpecimenRow>
+</Live>
+
+### Props
+
+| Prop                  | Type                                                                                                                   | Default                   | What it does                                                                                                                                                                                                                 |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `icon`                | `LucideIcon`                                                                                                           | —                         | The glyph to render: any `lucide-react` export, or a Ring glyph such as `AIPencil`.                                                                                                                                          |
+| `color`               | `inherit` \| `primary` \| `secondary` \| `error` \| `warning` \| `info` \| `success` \| `action` \| `disabled` \| `ai` | `inherit`                 | Palette names resolve through the theme and follow the colour mode. `ai` paints the stroke with the AI gradient. `inherit` takes the colour of the surrounding text. For any other colour, use `sx={{ color: '…' }}`.        |
+| `fontSize`            | `small` \| `medium` \| `large` \| `inherit`                                                                            | `medium`                  | 20 / 24 / 32 px, or `1em` of the surrounding text. Note the default: `medium` is 24px, one step larger than a plain icon's 20px — pass `fontSize="small"` to match plain icons side by side.                                 |
+| `sx`                  | `SxProps<Theme>`                                                                                                       | —                         | Applied to the wrapping `span`: margins, colour, transitions, hover states.                                                                                                                                                  |
+| `strokeWidth`         | `number`                                                                                                               | `1.5` under `ThemeConfig` | Stroke thickness in pixels, kept at every `fontSize`.                                                                                                                                                                        |
+| `absoluteStrokeWidth` | `boolean`                                                                                                              | `false`                   | Lucide's own switch for a stroke that ignores the icon size. Leave it off under `ThemeConfig`: the stroke is already pinned to 1.5px at every size, and with `fontSize="inherit"` the switch has nothing to compute against. |
+| `iconProps`           | `LucideProps` without `color`, `size`, `stroke`                                                                        | —                         | Forwarded to the `svg` itself — `aria-label`, `data-testid`, a `className` on the glyph.                                                                                                                                     |
+| `className`           | `string`                                                                                                               | —                         | Added to the `span` next to its own `ring-lucide-icon` class.                                                                                                                                                                |
+| `ref`                 | `HTMLSpanElement`                                                                                                      | —                         | The wrapping `span`.                                                                                                                                                                                                         |
+| anything else         | `span` attributes                                                                                                      | —                         | `onClick`, `title`, `aria-*`, `data-*` land on the `span`.                                                                                                                                                                   |
+
+## Ring icons
+
+Three glyphs the design needs and lucide does not ship. They are drawn on lucide's grid with lucide's API — `size`,
+`color`, `strokeWidth` — so everything in the first section applies to them unchanged.
+
+<Source
+    language="tsx"
+    code={"import { AIPencil, EarthOff, ListFilterOff } from '@ringpublishing/mui-components/icons';"}
+/>
+
+The same names are also exported from the package root, `@ringpublishing/mui-components`.
+
+<Live>
+    <IconGallery>
+        <IconItem name="AIPencil">
+            <AIPencil />
+        </IconItem>
+        <IconItem name="EarthOff">
+            <EarthOff />
+        </IconItem>
+        <IconItem name="ListFilterOff">
+            <ListFilterOff />
+        </IconItem>
+    </IconGallery>
+</Live>
+
+`ListFilterOff` is the struck-through partner of lucide's `ListFilter`. Pair them on a filters toggle: the same three
+bars, cut by the diagonal, so the control reads as one glyph in two states.
+
+<Source
+    language="tsx"
+    code={`import { ListFilter } from 'lucide-react';
+import { ListFilterOff } from '@ringpublishing/mui-components/icons';
+
+{filtersVisible ? <ListFilterOff /> : <ListFilter />}`}
+/>
+
+<Live>
+    <SpecimenRow>
+        <Specimen label="ListFilter — filters hidden">
+            <ListFilter />
+        </Specimen>
+        <Specimen label="ListFilterOff — filters shown">
+            <ListFilterOff />
+        </Specimen>
+    </SpecimenRow>
+</Live>
+
+### The same glyphs with `sx` and the gradient
+
+Each glyph also ships pre-wrapped in `RingLucideIcon`, under the same name with an `Icon` suffix. `AIPencilIcon`,
+`EarthOffIcon` and `ListFilterOffIcon` take every prop from the [table above](#props) except `icon`.
+
+<Source
+    language="tsx"
+    code={`import { AIPencilIcon, EarthOffIcon, ListFilterOffIcon } from '@ringpublishing/mui-components/icons';
+
+<AIPencilIcon color="ai" fontSize="large" sx={{ mr: 1 }} />
+<EarthOffIcon color="disabled" fontSize="small" />
+<ListFilterOffIcon color="primary" />`}
+/>
+
+<Live>
+    <SpecimenRow>
+        <Specimen label={'AIPencilIcon\ncolor="ai" fontSize="large"'}>
+            <AIPencilIcon color="ai" fontSize="large" />
+        </Specimen>
+        <Specimen label={'EarthOffIcon\ncolor="disabled" fontSize="small"'}>
+            <EarthOffIcon color="disabled" fontSize="small" />
+        </Specimen>
+        <Specimen label={'ListFilterOffIcon\ncolor="primary"'}>
+            <ListFilterOffIcon color="primary" />
+        </Specimen>
+    </SpecimenRow>
+</Live>
+
+### Wrap your own glyph
+
+`createRingIcon(glyph, displayName)` is the factory behind those wrappers, and it works on any lucide-compatible glyph:
+one you drew yourself, or a lucide icon you keep reaching for with `sx`. The result is a named component with the
+`RingLucideIcon` props; `RingIcon` and `RingIconProps` are the exported types.
+
+<Source
+    language="tsx"
+    code={`import { Trash2 } from 'lucide-react';
+import { createRingIcon } from '@ringpublishing/mui-components';
+
+export const DeleteIcon = createRingIcon(Trash2, 'DeleteIcon');
+
+<DeleteIcon color="error" sx={{ mr: 1 }} />`}
+/>
+
+## Outside `ThemeConfig`, and overriding the defaults
+
+`ThemeConfig` already mounts `RingIconDefaults`: every plain lucide icon under it gets the design system's size,
+stroke, palette colours and `fontSize` variants. You do not add anything to get that. `RingIconDefaults` appears in
+application code in two situations only.
+
+**You build the theme without `ThemeConfig`.** MUI's `ThemeProvider` with `getCreatedTheme()` knows nothing about
+icons, so mount the provider once, inside it, and you are back to the defaults above:
+
+<Source
+    language="tsx"
+    code={`import { ThemeProvider } from '@mui/material';
+import { RingIconDefaults, getCreatedTheme } from '@ringpublishing/mui-components';
+
+const theme = getCreatedTheme('light');
+
+<ThemeProvider theme={theme}>
+    <RingIconDefaults>
+        <App />
+    </RingIconDefaults>
+</ThemeProvider>`}
+/>
+
+**You want to override the design system's defaults for a part of the app.** `size` and `strokeWidth` on
+`RingIconDefaults` exist for exactly this: a nested provider wins over the one `ThemeConfig` mounted, so the icons in
+that subtree stop following the design system and follow you. Icons outside the subtree keep the design system's
+defaults.
+
+<Source
+    language="tsx"
+    code={`import { RingIconDefaults } from '@ringpublishing/mui-components';
+
+<RingIconDefaults size={24} strokeWidth={2}>
+    {/* plain lucide icons here render 24px with a 2px stroke, and the stroke stays 2px at every size */}
+</RingIconDefaults>`}
+/>
+
+To get lucide's own defaults back instead — 24px and a 2px stroke that scales with the icon — wrap the subtree in
+`lucide-react`'s `<LucideProvider>` without props.
+
+Most library components pass their own `size`, so the override does not resize them. Of the icons the theme supplies,
+the ones that open a picker, switch the calendar view and mark an `Alert` follow it; a picker's clear `x` and the month
+arrows keep the size MUI X gives them through `fontSize`, which wins over `size`. A different `strokeWidth` reaches them
+all.
+
+The numbers themselves are exported as `DEFAULT_LUCIDE_ICON_SIZE` (`20`) and `DEFAULT_LUCIDE_STROKE_WIDTH` (`1.5`) for
+code that needs them — a canvas, an SVG sprite, a size calculation.
+
+## Cheat sheet
+
+| I want…                                          | Use                                                                                 |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| an icon in a button, list item, cell or chip     | the plain lucide icon: `<Save />`                                                   |
+| a palette colour                                 | `<Trash2 color="error" />`                                                          |
+| a MUI size variant                               | `<Trash2 fontSize="large" />`                                                       |
+| an exact pixel size                              | `<Trash2 size={28} />`                                                              |
+| the icon to follow the text size                 | `<Trash2 fontSize="inherit" />`                                                     |
+| the colour of the `IconButton` / `Button` around | nothing — the icon inherits it                                                      |
+| margin, hover or a transition on the icon itself | `<RingLucideIcon icon={Trash2} sx={{ … }} />`                                       |
+| the AI gradient                                  | `<RingLucideIcon icon={Sparkles} color="ai" />` or `<AIPencilIcon color="ai" />`    |
+| a Ring glyph                                     | `AIPencil`, `EarthOff`, `ListFilterOff` from `@ringpublishing/mui-components/icons` |
+| my own glyph with the MUI props                  | `createRingIcon(MyGlyph, 'MyIcon')`                                                 |
+| the Ring defaults without `ThemeConfig`          | `<RingIconDefaults>` inside your `ThemeProvider`                                    |
+| other defaults for one part of the page          | `<RingIconDefaults size={24} strokeWidth={2}>`                                      |
+| lucide's own defaults for one part of the page   | `<LucideProvider>` from `lucide-react`                                              |
+
+## In tests
+
+A plain icon is the `svg.lucide` element itself; lucide marks it `aria-hidden` unless you pass an `aria-*` prop or a
+`title`. `RingLucideIcon` and the `*Icon` wrappers render `span.ring-lucide-icon` around the glyph, and with
+`color="ai"` the span also holds a 0×0 `svg.ring-gradient-definition` carrying the gradient — query the glyph as
+`svg:not(.ring-gradient-definition)`. A `data-testid` on `RingLucideIcon` lands on the span; pass it through
+`iconProps` to put it on the glyph.

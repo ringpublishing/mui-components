@@ -1,12 +1,13 @@
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { Box, IconButton, Theme, useTheme } from '@mui/material';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { alpha, Box, IconButton, Theme, useTheme } from '@mui/material';
 import { TreeItem } from '@mui/x-tree-view';
 import DOMPurify from 'dompurify';
 import React, { useMemo } from 'react';
 import { WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import type { SimpleTreeItem } from './SimpleTree.js';
+import { DECORATIVE_EXPAND_BUTTON_PROPS } from '../../internal/tree/treeShared.js';
 
 export interface SimpleTreeItemComponentProps extends WithDataTestIdSuffix {
     item: SimpleTreeItem;
@@ -26,14 +27,9 @@ const ROOT_ITEM_PADDING_LEFT = '4px';
 const SELECTED_BORDER_RADIUS = '8px';
 
 /**
- * Static-only SimpleTree item. Renders the row + recursively renders
- * `item.items`. `loadItems` is ignored here; the parent `SimpleTree` is
- * responsible for swapping in the dynamic implementation
- * (`SimpleTreeItemDynamicComponent`) when any item exposes `loadItems`.
- *
- * Importantly this file does NOT import `@tanstack/react-query`, so it
- * lives in the main bundle and lets `@tanstack/react-query` stay an
- * optional peer dependency for consumers who never use `loadItems`.
+ * Static SimpleTree item: renders the row and, recursively, `item.items`; `loadItems` is ignored,
+ * since `SimpleTree` swaps in `SimpleTreeItemDynamicComponent` when any item exposes it. It ships in
+ * the main bundle, so it must not import `@tanstack/react-query`, an optional peer.
  */
 export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): React.JSX.Element {
     const { item, order, instanceId, expandedItems, currentSelectedItem, searchQuery, dataTestIdSuffix } = props;
@@ -41,10 +37,12 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
     const { itemId, label, items: staticItems, element, alwaysShowTooltip, tooltipTitle } = item;
 
     const theme = useTheme();
-    const dataTestId = useRingDataTestId(
-        'simpletree',
-        dataTestIdSuffix ? `${dataTestIdSuffix}-item-${itemId}` : `item-${itemId}`,
-    );
+    const dataTestId = resolveItemDataTestId({
+        componentName: 'SimpleTree',
+        listSuffix: dataTestIdSuffix,
+        itemId,
+        item,
+    });
 
     const sanitizedLabel = useMemo(() => DOMPurify.sanitize(label, { ALLOWED_TAGS: ['span'] }), [label]);
 
@@ -54,9 +52,9 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
     const isSelected = itemId === currentSelectedItem;
 
     const compactThemeColors = {
-        backgroundItemActive: theme.colors.blue[100],
-        secondBackgroundActive: theme.colors.blue[50],
-        fontColorSelected: theme.colors.grey[900],
+        backgroundItemActive: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+        secondBackgroundActive: alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        fontColorSelected: theme.palette.text.primary,
     };
 
     const compactExpandedStyles = {
@@ -68,6 +66,7 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
         <TreeItem
             key={itemId}
             itemId={itemId}
+            data-testid={dataTestId}
             style={{
                 marginLeft: nestLevel > 0 ? `${NEST_INDENT}px` : '0px',
             }}
@@ -80,8 +79,8 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
                     paddingY: '0px',
                     zIndex: 0,
                     '&:hover': {
-                        // @ts-expect-error - mui theme type missing
-                        backgroundColor: (t: Theme): string => t.palette.primary.focusVisible,
+                        backgroundColor: (t: Theme): string =>
+                            alpha(t.palette.primary.main, t.palette.action.hoverOpacity),
                     },
                     '&.Mui-focused': {
                         zIndex: 0,
@@ -103,7 +102,7 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
                     borderBottomLeftRadius: BORDER_RADIUS,
                     borderTopLeftRadius: BORDER_RADIUS,
                     '&:has(*)': {
-                        borderRightColor: (t: Theme) => t.palette.components.datagrid.border,
+                        borderRightColor: (t: Theme) => t.palette.divider,
                         borderRightWidth: '0px',
                         borderRightStyle: 'solid',
                     },
@@ -126,6 +125,7 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
             slots={{
                 expandIcon: () => (
                     <IconButton
+                        {...DECORATIVE_EXPAND_BUTTON_PROPS}
                         color="inherit"
                         sx={{
                             width: hasChildren ? `${ICON_SIZE}px` : '0px',
@@ -136,7 +136,7 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
                         }}
                         data-testid={`${dataTestId}-expand`}
                     >
-                        <KeyboardArrowDown />
+                        <ChevronDown size={ICON_SIZE} style={{ flexShrink: 0 }} />
                     </IconButton>
                 ),
                 collapseIcon: () => (
@@ -150,7 +150,7 @@ export function SimpleTreeItemComponent(props: SimpleTreeItemComponentProps): Re
                         }}
                         data-testid={`${dataTestId}-collapse`}
                     >
-                        <KeyboardArrowUp />
+                        <ChevronUp size={ICON_SIZE} style={{ flexShrink: 0 }} />
                     </Box>
                 ),
                 label: () => (

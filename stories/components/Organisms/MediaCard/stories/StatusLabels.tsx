@@ -1,11 +1,11 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
-import { DeleteOutlined, LockOpenOutlined } from '@mui/icons-material';
+import { Trash2, LockOpen } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import StatusLabelsExampleCode from './code/StatusLabelsExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof MediaCard>;
 
@@ -20,7 +20,7 @@ export const StatusLabels: Story = {
             {
                 label: 'Deleted',
                 color: 'error',
-                icon: <DeleteOutlined />,
+                icon: <Trash2 />,
                 key: 'test-deleted',
             },
             {
@@ -31,13 +31,13 @@ export const StatusLabels: Story = {
             {
                 label: 'J. Zatrzymałowski',
                 color: 'error',
-                icon: <LockOpenOutlined />,
+                icon: <LockOpen />,
                 tip: 'This resource is locked by J. Zatrzymałowski',
             },
             {
                 label: 'New',
                 color: 'primary',
-                icon: <LockOpenOutlined />,
+                icon: <LockOpen />,
                 showOnHover: true,
             },
         ],

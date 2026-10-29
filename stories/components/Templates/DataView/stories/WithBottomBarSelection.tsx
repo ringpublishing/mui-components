@@ -3,22 +3,23 @@ import type { StoryObj, Meta } from '@storybook/react-vite';
 import type { GridRowId } from '@mui/x-data-grid';
 import type { GridRowSelectionModel } from '@mui/x-data-grid-pro';
 import {
-    People,
-    Share,
+    Users,
+    Share2,
     Bookmark,
-    Visibility,
-    Assessment,
-    ReadMore,
-    Compare,
-    PhotoLibrary,
+    Eye,
+    ChartColumn,
+    Ellipsis,
+    Columns2,
+    Images,
     ShoppingCart,
-    PlayArrow,
-    LocalMovies,
-} from '@mui/icons-material';
+    Play,
+    Film,
+} from 'lucide-react';
 
 import { createCodeStory } from '../../../../helpers.js';
 import customCode from './code/WithBottomBarSelectionExample.tsx?raw';
 import {
+    type BottomBarApiRef,
     DataView,
     type DataViewProps,
     type TopSlotProps,
@@ -33,10 +34,9 @@ import {
     useActiveCardChange,
     useGridApiRef,
 } from '../../../../../src/components/Organisms/MultimediaGrid/MultimediaGrid.js';
-import { BottomBarContextState } from '../../../../../src/components/internal/BottomBar/BottomBarContext.js';
 import { DefaultDataViewArgs, searchBarChildren } from '../common/defaultArgs.js';
 
-import { getImagePath, TestImage, ImageSize } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, TestImage, ImageSize } from '../../../../helpers/imagesData.js';
 
 type DataViewMeta = Meta<typeof DataView>;
 
@@ -48,9 +48,9 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
             title: 'Breaking News: Election Results',
             image: getImagePath(TestImage.RIVER, ImageSize.LARGE),
             fields: [
-                { value: 'Redakcja Polityczna' },
-                { value: 'Najważniejsze wyniki wyborów samorządowych 2024' },
-                { value: '15 minut temu' },
+                { value: 'Politics Desk' },
+                { value: 'Key results of the 2024 local elections' },
+                { value: '15 minutes ago' },
             ],
             statusLabels: [
                 {
@@ -65,18 +65,18 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
                 },
             ],
             actions: [
-                { label: 'Udostępnij', icon: <Share fontSize="small" /> },
-                { label: 'Zapisz', icon: <Bookmark fontSize="small" /> },
+                { label: 'Share', icon: <Share2 /> },
+                { label: 'Save', icon: <Bookmark /> },
             ],
         },
         {
             id: 1,
-            title: 'Wywiad z ekspertem ekonomicznym',
+            title: 'An interview with an economist',
             image: getImagePath(TestImage.PEOPLE, ImageSize.MEDIUM),
             fields: [
                 { value: 'Anna Kowalska' },
-                { value: 'Analiza sytuacji na rynku nieruchomości' },
-                { value: '2 godziny temu' },
+                { value: 'Analysis of the property market' },
+                { value: '2 hours ago' },
             ],
             statusLabels: [
                 {
@@ -88,23 +88,23 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
         },
         {
             id: 2,
-            title: 'Relacja z meczu Polska - Niemcy',
+            title: 'Match report: Poland vs Germany',
             image: getImagePath(TestImage.CAMERA, ImageSize.MEDIUM),
             fields: [
                 { value: 'Sport24' },
-                { value: 'Dramatyczny mecz zakończony w dogrywce' },
-                { value: '4 godziny temu' },
+                { value: 'A dramatic match decided in extra time' },
+                { value: '4 hours ago' },
             ],
             statusLabels: [
                 {
-                    label: 'WYNIKI',
+                    label: 'RESULTS',
                     color: 'primary',
                     key: 'match-results',
                 },
             ],
             actions: [
-                { label: 'Zobacz więcej', icon: <Visibility fontSize="small" /> },
-                { label: 'Statystyki', icon: <Assessment fontSize="small" /> },
+                { label: 'See more', icon: <Eye /> },
+                { label: 'Statistics', icon: <ChartColumn /> },
             ],
         },
         {
@@ -112,48 +112,48 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
             separator: {
                 title: 'Most Popular Today',
                 color: 'primary',
-                icon: <People fontSize="small" />,
+                icon: <Users />,
             },
         },
         {
             id: 4,
-            title: 'Recenzja nowego iPhone 15',
+            title: 'Reviewing the new iPhone 15',
             image: getImagePath(TestImage.APARTMENT, ImageSize.LARGE),
             fields: [
-                { value: 'Dział Technologii' },
-                { value: 'Pełna recenzja najnowszego smartfona Apple' },
-                { value: '6 godzin temu' },
+                { value: 'Technology desk' },
+                { value: 'A full review of the newest Apple smartphone' },
+                { value: '6 hours ago' },
             ],
             statusLabels: [
                 {
-                    label: 'RECENZJA',
+                    label: 'REVIEW',
                     color: 'info',
                     key: 'review-content',
                 },
                 {
-                    label: 'OCENA: 8/10',
+                    label: 'RATING: 8/10',
                     color: 'success',
                     key: 'rating',
                     showOnHover: true,
                 },
             ],
             actions: [
-                { label: 'Czytaj więcej', icon: <ReadMore fontSize="small" /> },
-                { label: 'Porównaj', icon: <Compare fontSize="small" /> },
+                { label: 'Read more', icon: <Ellipsis /> },
+                { label: 'Compare', icon: <Columns2 /> },
             ],
         },
         {
             id: 5,
-            title: 'Kulisy nagrywania serialu',
+            title: 'Behind the scenes of the series',
             image: getImagePath(TestImage.LIVING_ROOM, ImageSize.MEDIUM),
             fields: [
-                { value: 'Magazyn Kulturalny' },
-                { value: 'Ekskluzywne zdjęcia z planu najnowszego serialu' },
-                { value: '8 godzin temu' },
+                { value: 'Culture Magazine' },
+                { value: 'Exclusive photos from the set of the new series' },
+                { value: '8 hours ago' },
             ],
             statusLabels: [
                 {
-                    label: 'EKSKLUZYWNE',
+                    label: 'EXCLUSIVE',
                     color: 'secondary',
                     key: 'exclusive-content',
                 },
@@ -161,16 +161,12 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
         },
         {
             id: 6,
-            title: 'Prognoza pogody na weekend',
+            title: 'Weekend weather forecast',
             image: getImagePath(TestImage.MOUNTAINS, ImageSize.MEDIUM),
-            fields: [
-                { value: 'Meteorologia' },
-                { value: 'Słoneczny weekend z temperaturą do 25°C' },
-                { value: '1 dzień temu' },
-            ],
+            fields: [{ value: 'Weather Desk' }, { value: 'A sunny weekend, up to 25°C' }, { value: '1 day ago' }],
             statusLabels: [
                 {
-                    label: 'POGODA',
+                    label: 'WEATHER',
                     color: 'info',
                     key: 'weather-forecast',
                 },
@@ -178,42 +174,38 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
         },
         {
             id: 7,
-            title: 'Nowe trendy w modzie 2024',
+            title: 'New fashion trends for 2024',
             image: getImagePath(TestImage.PEOPLE_2, ImageSize.MEDIUM),
             fields: [
-                { value: 'Lifestyle & Moda' },
-                { value: 'Co będzie modne w nadchodzącym sezonie?' },
-                { value: '1 dzień temu' },
+                { value: 'Lifestyle & Fashion' },
+                { value: 'What will be in style next season?' },
+                { value: '1 day ago' },
             ],
             statusLabels: [
                 {
-                    label: 'TRENDY',
+                    label: 'TRENDS',
                     color: 'warning',
                     key: 'fashion-trends',
                 },
             ],
             actions: [
-                { label: 'Galeria', icon: <PhotoLibrary fontSize="small" /> },
-                { label: 'Kup teraz', icon: <ShoppingCart fontSize="small" /> },
+                { label: 'Gallery', icon: <Images /> },
+                { label: 'Buy now', icon: <ShoppingCart /> },
             ],
         },
         {
             id: 8,
-            title: 'Poradnik inwestycyjny',
+            title: 'An investment guide',
             image: getImagePath(TestImage.FARM, ImageSize.MEDIUM),
-            fields: [
-                { value: 'Finanse Osobiste' },
-                { value: 'Jak bezpiecznie inwestować w 2024 roku' },
-                { value: '2 dni temu' },
-            ],
+            fields: [{ value: 'Personal Finance' }, { value: 'How to invest safely in 2024' }, { value: '2 days ago' }],
             statusLabels: [
                 {
-                    label: 'PORADNIK',
+                    label: 'GUIDE',
                     color: 'success',
                     key: 'financial-guide',
                 },
                 {
-                    label: 'SPRAWDZONE',
+                    label: 'VERIFIED',
                     color: 'primary',
                     key: 'verified-content',
                     showOnHover: true,
@@ -222,37 +214,37 @@ const Example = (args: Partial<DataViewProps>): React.JSX.Element => {
         },
         {
             id: 9,
-            title: 'Premiera filmu "Dune 3"',
+            title: 'The "Dune 3" premiere',
             image: getImagePath(TestImage.DESERT, ImageSize.MEDIUM),
             fields: [
-                { value: 'Kino i Film' },
-                { value: 'Długo wyczekiwana kontynuacja sagi science-fiction' },
-                { value: '3 dni temu' },
+                { value: 'Film & Cinema' },
+                { value: 'The long-awaited sequel to the science-fiction saga' },
+                { value: '3 days ago' },
             ],
             statusLabels: [
                 {
-                    label: 'PREMIERA',
+                    label: 'PREMIERE',
                     color: 'error',
                     key: 'movie-premiere',
                 },
             ],
             actions: [
-                { label: 'Zwiastun', icon: <PlayArrow fontSize="small" /> },
-                { label: 'Kup bilety', icon: <LocalMovies fontSize="small" /> },
+                { label: 'Trailer', icon: <Play /> },
+                { label: 'Buy tickets', icon: <Film /> },
             ],
         },
         {
             id: 10,
-            title: 'Przepis na domową pizzę',
+            title: 'A recipe for homemade pizza',
             image: getImagePath(TestImage.KITCHEN, ImageSize.MEDIUM),
             fields: [
                 { value: 'Kuchnia & Przepisy' },
                 { value: 'Krok po kroku do idealnej pizzy w domu' },
-                { value: '4 dni temu' },
+                { value: '4 days ago' },
             ],
             statusLabels: [
                 {
-                    label: 'PRZEPIS',
+                    label: 'RECIPE',
                     color: 'success',
                     key: 'recipe-content',
                 },
@@ -431,7 +423,7 @@ export const WithBottomBarSelection: StoryObj<DataViewMeta> = {
                         </>
                     );
                 },
-                onClick: (item: Record<string, unknown>, apiRef: BottomBarContextState['apiRef']): void => {
+                onClick: (item: Record<string, unknown>, apiRef: BottomBarApiRef): void => {
                     if (apiRef && 'current' in apiRef && apiRef.current && 'setActiveCardId' in apiRef.current) {
                         apiRef.current.setActiveCardId(item.id as GridRowId);
                     }

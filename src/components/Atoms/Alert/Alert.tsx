@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material';
+import { X } from 'lucide-react';
 import {
     Alert as MuiAlert,
     AlertProps as MuiAlertProps,
@@ -16,6 +16,7 @@ import React from 'react';
 
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { getLucideSizeFromFontSize } from '../../../helpers/lucideSize.js';
 
 type AlertButtonProps = Omit<ButtonProps, 'children' | 'variant' | 'color' | 'size' | 'onClick' | 'href'> & {
     target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
@@ -27,19 +28,19 @@ type AlertActionBase = {
     buttonProps?: AlertButtonProps;
 };
 
-type AlertButtonAction = AlertActionBase & {
+export type AlertButtonAction = AlertActionBase & {
     onClick: React.MouseEventHandler<HTMLButtonElement>;
     href?: never;
 };
 
-type AlertLinkAction = AlertActionBase & {
+export type AlertLinkAction = AlertActionBase & {
     href: string;
     onClick?: never;
 };
 
-type AlertAction = AlertButtonAction | AlertLinkAction;
+export type AlertAction = AlertButtonAction | AlertLinkAction;
 
-type AlertContentProps = {
+export type AlertContentProps = {
     /** Main alert title shown above the description. */
     title?: React.ReactNode;
     /** Optional supporting text shown below the title. */
@@ -111,7 +112,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) =
                 size="small"
                 sx={{ alignSelf: 'flex-start' }}
             >
-                <Close fontSize="small" />
+                <X size={getLucideSizeFromFontSize('small')} />
             </IconButton>
         );
     };

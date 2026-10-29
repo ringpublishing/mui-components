@@ -4,6 +4,7 @@ import { ScopedThemeOverrides } from '@ringpublishing/mui-theme';
 import classNames from 'classnames';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { filtersWrapperComponents, SizeEnum, VariantEnum } from './filtersWrapperTheme.js';
+import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
 
 export interface FiltersWrapperProps extends CommonComponentProps {
     /**
@@ -24,7 +25,7 @@ export interface FiltersWrapperProps extends CommonComponentProps {
     clearButtonLabel?: string;
     /**
      * Variant of elements
-     * @default 'standard'
+     * @default 'outlined'
      */
     variant?: VariantEnum;
     /**
@@ -47,12 +48,14 @@ export function FiltersWrapper(props: FiltersWrapperProps): React.JSX.Element {
         withClearButton,
         clearButtonLabel,
         size = SizeEnum.SMALL,
-        variant = VariantEnum.STANDARD,
+        variant = VariantEnum.OUTLINE,
         sx,
         className,
         buttonStyle = { size: 'small', variant: 'contained' },
+        dataTestIdSuffix,
     } = props;
 
+    const dataTestId = useRingDataTestId('FiltersWrapper', dataTestIdSuffix);
     const theme = useTheme();
 
     return (
@@ -65,6 +68,7 @@ export function FiltersWrapper(props: FiltersWrapperProps): React.JSX.Element {
                     ...sx,
                 }}
                 className={classNames('ring-filters-wrapper', className)}
+                data-testid={dataTestId}
             >
                 {(label || (withClearButton && clearButtonLabel)) && (
                     <Box
@@ -75,12 +79,17 @@ export function FiltersWrapper(props: FiltersWrapperProps): React.JSX.Element {
                         }}
                     >
                         {label && (
-                            <Typography variant="headline1" sx={{ p: theme.spacing(1, 0, 1, 0) }}>
+                            <Typography variant="subtitle1" sx={{ p: theme.spacing(1, 0, 1, 0) }}>
                                 {label}
                             </Typography>
                         )}
                         {withClearButton && onClear && (
-                            <Button onClick={onClear} variant="text" size="medium">
+                            <Button
+                                onClick={onClear}
+                                variant="text"
+                                size="medium"
+                                data-testid={`${dataTestId}-clear`}
+                            >
                                 {clearButtonLabel}
                             </Button>
                         )}

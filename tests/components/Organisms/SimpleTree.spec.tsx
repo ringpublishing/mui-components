@@ -3,7 +3,8 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { ThemeProvider } from '@mui/material';
 import { render, fireEvent, waitFor, RenderOptions, RenderResult } from '@testing-library/react';
 
-import { getCreatedTheme, SimpleTree, SimpleTreeProps } from '../../../src/index.js';
+import { getCreatedTheme, SimpleTree, SimpleTreeItem, SimpleTreeProps } from '../../../src/index.js';
+import { loadLibrary } from './treeDynamicLoading/renderTree.js';
 
 describe('Component: SimpleTree', () => {
     function renderSimpleTree(props: SimpleTreeProps, options: RenderOptions = {}): RenderResult {
@@ -14,6 +15,21 @@ describe('Component: SimpleTree', () => {
                 <SimpleTree {...props} />
             </ThemeProvider>,
             options,
+        );
+    }
+
+    /**
+     * Items with `loadItems` need `enableTreeDynamicLoading()`, module state, so it runs on a copy of the library of
+     * its own and the rest of this file renders without it. Tests using it get 60 s: loading the copy takes seconds
+     * on a busy run, and findBy has to time out first to report what is missing.
+     */
+    async function renderDynamicSimpleTree(props: SimpleTreeProps): Promise<RenderResult> {
+        const library = await loadLibrary({ withDynamicLoading: true });
+
+        return render(
+            <ThemeProvider theme={library.getCreatedTheme('light')}>
+                <library.SimpleTree {...props} />
+            </ThemeProvider>,
         );
     }
 
@@ -59,6 +75,26 @@ describe('Component: SimpleTree', () => {
         });
 
         expect(queryByText('Hidden Child')).toBeNull();
+    });
+
+    it('renders expansion chevrons at the 18px control size without shrinking', () => {
+        const { getByTestId } = renderSimpleTree({
+            items: [
+                {
+                    itemId: 'parent',
+                    label: 'Parent',
+                    expanded: false,
+                    items: [{ itemId: 'child', label: 'Child' }],
+                },
+            ],
+            dataTestIdSuffix: 'icon-size',
+        });
+
+        const chevron = getByTestId('ring-simpletree-icon-size-item-parent-expand').querySelector('svg');
+
+        expect(chevron?.getAttribute('width')).toBe('18');
+        expect(chevron?.getAttribute('height')).toBe('18');
+        expect(chevron?.getAttribute('style')).toContain('flex-shrink: 0');
     });
 
     // ── Search ─────────────────────────────────────────────────────────────
@@ -165,6 +201,153 @@ describe('Component: SimpleTree', () => {
             const treeItems = queryAllByRole('treeitem');
             const match = treeItems.find((el) => el.textContent?.includes('Nested Child'));
             expect(match).toBeUndefined();
+        });
+    });
+
+    describe('row expansion while searching', () => {
+        // `parent` starts collapsed and `second` expanded; both have a child matching "Nested".
+        const searchItems: SimpleTreeItem[] = [
+            {
+                itemId: 'parent',
+                label: 'Parent',
+                expanded: false,
+                items: [{ itemId: 'child', label: 'Nested Child' }],
+            },
+            {
+                itemId: 'second',
+                label: 'Second',
+                expanded: true,
+                items: [{ itemId: 'second-child', label: 'Nested Second' }],
+            },
+        ];
+
+        beforeEach(() => localStorage.clear());
+        afterEach(() => localStorage.clear());
+
+        function renderSearchTree(props: Partial<SimpleTreeProps> = {}): RenderResult {
+            return renderSimpleTree({
+                items: searchItems,
+                withSearch: true,
+                searchDebounceTime: 0,
+                dataTestIdSuffix: 'search',
+                ...props,
+            });
+        }
+
+        function getRow(view: RenderResult, itemId: string): HTMLElement {
+            return view.getByTestId(`ring-simpletree-search-item-${itemId}`);
+        }
+
+        async function typeQuery(view: RenderResult, value: string): Promise<void> {
+            act(() => {
+                fireEvent.change(view.getByRole('textbox'), { target: { value } });
+            });
+
+            await waitFor(() => {
+                const highlight = view.container.querySelector('.Ring-TreeView-matchedLabel');
+                expect(highlight !== null).toBe(value !== '');
+            });
+
+            if (value !== '') {
+                await waitFor(() => {
+                    expect(view.getByTestId('ring-simpletree-search-item-child')).toBeTruthy();
+                });
+            }
+        }
+
+        function clickIcon(view: RenderResult, itemId: string, icon: 'expand' | 'collapse'): void {
+            act(() => {
+                fireEvent.click(view.getByTestId(`ring-simpletree-search-item-${itemId}-${icon}`));
+            });
+        }
+
+        it('collapses a matching row when its collapse icon is clicked', async () => {
+            const onExpand = vi.fn();
+            const view = renderSearchTree({ onExpand });
+
+            await typeQuery(view, 'Nested');
+            expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('true');
+
+            clickIcon(view, 'parent', 'collapse');
+
+            await waitFor(() => {
+                expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('false');
+            });
+            await waitFor(() => {
+                expect(view.queryByTestId('ring-simpletree-search-item-child')).toBeNull();
+            });
+            expect(getRow(view, 'second').getAttribute('aria-expanded')).toBe('true');
+            expect(onExpand).toHaveBeenCalledWith('parent');
+        });
+
+        it('collapses a matching row on ArrowLeft', async () => {
+            const view = renderSearchTree();
+
+            await typeQuery(view, 'Nested');
+
+            const row = getRow(view, 'parent');
+
+            act(() => {
+                row.focus();
+            });
+            act(() => {
+                fireEvent.keyDown(row, { key: 'ArrowLeft' });
+            });
+
+            await waitFor(() => {
+                expect(row.getAttribute('aria-expanded')).toBe('false');
+            });
+        });
+
+        it('expands a row collapsed during the search again', async () => {
+            const view = renderSearchTree();
+
+            await typeQuery(view, 'Nested');
+            clickIcon(view, 'parent', 'collapse');
+
+            await waitFor(() => {
+                expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('false');
+            });
+
+            clickIcon(view, 'parent', 'expand');
+
+            await waitFor(() => {
+                expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('true');
+            });
+        });
+
+        it('restores the expansion from before the search when the query is cleared', async () => {
+            const view = renderSearchTree();
+
+            await typeQuery(view, 'Nested');
+            clickIcon(view, 'parent', 'collapse');
+            clickIcon(view, 'second', 'collapse');
+            await typeQuery(view, '');
+
+            await waitFor(() => {
+                expect(view.queryByTestId('ring-simpletree-search-item-child')).toBeNull();
+            });
+            expect(getRow(view, 'parent').getAttribute('aria-expanded')).toBe('false');
+            expect(getRow(view, 'second').getAttribute('aria-expanded')).toBe('true');
+            expect(view.getByText('Nested Second')).toBeTruthy();
+        });
+
+        it('persists the expansion from before the search, not the rows toggled during it', async () => {
+            const view = renderSearchTree({ persistence: { cacheKey: 'search-tree', restoreExpandedItems: true } });
+
+            function storedExpandedItems(): string[] | undefined {
+                return JSON.parse(localStorage.getItem('ring-tree-state-search-tree') ?? '{}').expandedItems;
+            }
+
+            await typeQuery(view, 'Nested');
+            clickIcon(view, 'parent', 'collapse');
+            clickIcon(view, 'second', 'collapse');
+
+            expect(storedExpandedItems()).toEqual(['second']);
+
+            await typeQuery(view, '');
+
+            expect(storedExpandedItems()).toEqual(['second']);
         });
     });
 
@@ -340,5 +523,30 @@ describe('Component: SimpleTree', () => {
 
             expect(queryByText('Persisted Child')).toBeTruthy();
         });
+    });
+
+    describe('row accessibility', () => {
+        it('keeps the expand icon button out of the tab order and away from assistive technology', () => {
+            const { getByTestId, queryAllByRole } = renderSimpleTree({
+                items: [{ itemId: 'parent', label: 'Parent', items: [{ itemId: 'child', label: 'Child' }] }],
+            });
+
+            const expand = getByTestId('ring-simpletree-item-parent-expand');
+
+            expect(expand.getAttribute('tabindex')).toBe('-1');
+            expect(expand.getAttribute('aria-hidden')).toBe('true');
+            expect(queryAllByRole('button', { name: '' })).toHaveLength(0);
+        });
+
+        it('keeps the expand icon button decorative on the dynamic path too', async () => {
+            const { findByTestId } = await renderDynamicSimpleTree({
+                items: [{ itemId: 'lazy', label: 'Lazy', loadItems: (): [] => [] }],
+            });
+
+            const expand = await findByTestId('ring-simpletree-item-lazy-expand', {}, { timeout: 5000 });
+
+            expect(expand.getAttribute('tabindex')).toBe('-1');
+            expect(expand.getAttribute('aria-hidden')).toBe('true');
+        }, 60_000);
     });
 });

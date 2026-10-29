@@ -2,8 +2,7 @@ import React from 'react';
 import { Stack } from '@mui/material';
 import classNames from 'classnames';
 
-import { basicGrey100 } from '../../../theme/index.js';
-import { SearchBox, ControlledSearchBoxProps, UncontrolledSearchBoxProps } from '../SearchBox/SearchBox.js';
+import { SearchBoxField, ControlledSearchBoxProps, UncontrolledSearchBoxProps } from '../SearchBox/SearchBox.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
 type SearchBarChildrenProps = {
@@ -31,15 +30,16 @@ export function SearchBar(props: SearchBarProps): React.JSX.Element {
             justifyContent="space-between"
             className={classNames('ring-search-bar', className)}
             sx={{
-                borderBottom: `1px solid ${basicGrey100}`,
+                borderBottom: (theme): string => `1px solid ${theme.palette.divider}`,
                 padding: '8px 8px 8px 16px',
                 ...sx,
             }}
         >
-            <SearchBox
+            <SearchBoxField
                 {...(otherProps as ControlledSearchBoxProps)}
+                isBorderless={true}
                 dataTestIdSuffix={dataTestIdSuffix}
-                sx={{ flexGrow: 1, paddingRight: 4, border: 'none', paddingY: 0, paddingLeft: 0 }}
+                sx={{ flexGrow: 1, paddingRight: 4, paddingLeft: 0 }}
             />
             <Stack direction="row" alignItems="center" spacing={2} className="ring-search-bar-children-stack">
                 {children}

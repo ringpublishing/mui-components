@@ -1,6 +1,6 @@
 import React from 'react';
 import { MediaCard } from '@ringpublishing/mui-components';
-import { VideocamOutlined } from '@mui/icons-material';
+import { Video } from 'lucide-react';
 
 export default function SlotsExample(): React.JSX.Element {
     return (
@@ -17,7 +17,7 @@ export default function SlotsExample(): React.JSX.Element {
                     </video>
                 ),
             }}
-            iconPlaceholder={<VideocamOutlined />}
+            iconPlaceholder={<Video />}
             ratio="16/9"
             objectFit="cover"
         />

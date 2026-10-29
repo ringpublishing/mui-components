@@ -26,7 +26,7 @@ Why — see [theme.lib ADR-008](https://github.com/Ringier-Axel-Springer-PL/ring
 
 ⚠️ Exception — `theme.spacing(0)` as a single arg:
 
-`SpacingFactor` does not include `0` (there is no such step in the Figma kit). If you use `theme.spacing(0)`, it means a magic number — **reconsider**. Often `0` is just a `'0px'` literal (CSS). You can:
+`0` is not a step of the Figma spacing scale: `SpacingFactor` accepts it only as a shortcut for `'0px'`. If you use `theme.spacing(0)`, it means a magic number — **reconsider**. Often `0` is just a `'0px'` literal (CSS). You can:
 
 ```tsx
 // BEFORE:
@@ -177,14 +177,6 @@ interface DropzoneConfig {
 This is **desired** — it enforces compile-time validation that no one passes `vertical: 2.7` in the config.
 
 ```tsx
-// src/components/Organisms/FileUploader/components/UploadIconContainer.tsx:29-30
-width: theme.spacing(containerSize),
-height: theme.spacing(containerSize),
-```
-
-Here `containerSize` should be `SpacingFactor`. Check the prop declaration and narrow it if needed.
-
-```tsx
 // src/components/Organisms/MultimediaGrid/useSpacing.ts:62-63
 const themeRowSpacing = theme.spacing(resolved.row);
 const themeColumnSpacing = theme.spacing(resolved.column);
@@ -199,7 +191,7 @@ const themeColumnSpacing = theme.spacing(resolved.column);
 // MUI v6 compatibility: using fixed px values instead of theme.spacing(0.25)
 ```
 
-The comment points to a workaround (`theme.spacing(0.25)` does not exist in v6 scale). In v7.2 it doesn't exist either — `0.25` is not in `SpacingFactor`. **The comment is still valid**, the code is untouched. Optionally update the API name in the comment: `theme.getSpacing(0.25)`.
+The comment points to a workaround (`theme.spacing(0.25)` does not exist in v6 scale). In the current scale it doesn't exist either — `0.25` is not in `SpacingFactor`. **The comment is still valid**, the code is untouched. Optionally update the API name in the comment: `theme.getSpacing(0.25)`.
 
 ## Migration workflow per file
 
@@ -242,7 +234,7 @@ margin: 0,
 
 ### 2. `theme.spacing()` with arity > 4
 
-MUI's `theme.spacing()` (typically) accepts 1-4 args. If any legacy code passes 5+ args, getSpacing will return `0px` + console error. Practically never observed, but worth knowing.
+MUI's `theme.spacing()` (typically) accepts 1-4 args. If any existing code passes 5+ args, getSpacing will return `0px` + console error. Practically never observed, but worth knowing.
 
 ### 3. CSS shorthand vs MUI `sx={{ p: ... }}` (numeric)
 
@@ -300,7 +292,7 @@ const MyComponent = ({ padding }: MyComponentProps) => (
 A: Marginal. Single dispatch, switch case on version + array lookup. A micro-benchmark showed <0.1ms per 1000 calls. Not worth worrying about.
 
 **Q: What if my custom Theme overrides in a consumer app change `spacing`?**
-A: `theme.spacing` overrides are respected by MUI internal. `theme.getSpacing` uses the **Ring-defined `spacingScale`** (from theme.lib) — regardless of overrides. So the result of `theme.spacing(2)` may differ in an app with custom spacing overrides from `theme.getSpacing(2)`. **This is a feature** — the Ring DS strict scale does not change per-consumer.
+A: `theme.spacing` overrides are respected by MUI internal. `theme.getSpacing` uses the **Ring-defined `spacingScale`** (from theme.lib) — regardless of overrides. So the result of `theme.spacing(2)` may differ in an app with custom spacing overrides from `theme.getSpacing(2)`. **This is a feature** — the Ring design system's strict scale does not change per consumer.
 
 **Q: Is the migration backward compatible?**
 A: Yes — `theme.spacing()` still works. Migration is optional and incremental. `getSpacing()` is just a new API alongside the old one.
@@ -309,4 +301,4 @@ A: Yes — `theme.spacing()` still works. Migration is optional and incremental.
 
 - [theme.lib ADR-008](https://github.com/Ringier-Axel-Springer-PL/ring-ui-mui-theme/blob/master/docs/adr/008-strict-getSpacing-api.md) — design rationale + full API spec
 - [theme.lib ADR-006](https://github.com/Ringier-Axel-Springer-PL/ring-ui-mui-theme/blob/master/docs/adr/006-mui-module-augmentation-categories.md) — `getSpacing` is Category A augmentation (propagates cross-package automatically)
-- [theme.lib spacing.generated.ts](https://github.com/Ringier-Axel-Springer-PL/ring-ui-mui-theme/blob/master/src/theme/config/v7.2/spacing.generated.ts) — definition of `spacingScale` and `SpacingFactor` for v7.2
+- [theme.lib spacing.generated.ts](https://github.com/Ringier-Axel-Springer-PL/ring-ui-mui-theme/blob/master/src/theme/config/next/spacing.generated.ts) — definition of `spacingScale` and `SpacingFactor`

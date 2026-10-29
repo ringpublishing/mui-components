@@ -1,8 +1,10 @@
+import { readFileSync } from 'fs';
 import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-import { describe, it, expect, beforeEach, afterEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll, vi } from 'vitest';
 
 import {
     migratePackageNameInFile,
@@ -11,6 +13,14 @@ import {
 
 const OLD_PACKAGE_NAME = '@ring-internal/ui-components';
 const NEW_PACKAGE_NAME = '@ringpublishing/mui-components';
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const { exports: packageExports } = JSON.parse(readFileSync(path.join(repoRoot, 'package.json'), 'utf8')) as {
+    exports: Record<string, unknown>;
+};
+const exportedSubpaths = Object.keys(packageExports)
+    .filter((key) => key !== '.')
+    .map((key) => key.slice(1));
 
 describe('Package name migration utils', () => {
     let TEST_DIR: string;
@@ -24,6 +34,7 @@ describe('Package name migration utils', () => {
     });
 
     afterEach(async () => {
+        vi.restoreAllMocks();
         await fs.rm(TEST_DIR, { recursive: true, force: true });
     });
 
@@ -105,15 +116,83 @@ describe('Package name migration utils', () => {
             expect(content).toBe("const lib = require('@ringpublishing/mui-components');");
         });
 
-        it('should preserve subpath imports', async () => {
+        it('should rewrite a dist subpath to the package root', async () => {
             const testFile = path.join(TEST_DIR, 'subpath.ts');
             await fs.writeFile(testFile, "import { Foo } from '@ring-internal/ui-components/dist/foo';");
 
             migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
 
             const content = await fs.readFile(testFile, 'utf8');
-            expect(content).toBe("import { Foo } from '@ringpublishing/mui-components/dist/foo';");
+            expect(content).toBe("import { Foo } from '@ringpublishing/mui-components';");
         });
+
+        it('should rewrite a dist subpath that already uses the new package name', async () => {
+            const testFile = path.join(TEST_DIR, 'new-name-subpath.ts');
+            await fs.writeFile(
+                testFile,
+                "import { TextField } from '@ringpublishing/mui-components/dist/components/Atoms/TextField/TextField.js';",
+            );
+
+            const migrated = migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
+
+            const content = await fs.readFile(testFile, 'utf8');
+            expect(migrated).toBe(true);
+            expect(content).toBe("import { TextField } from '@ringpublishing/mui-components';");
+        });
+
+        it('should keep the icons subpath', async () => {
+            const testFile = path.join(TEST_DIR, 'icons.ts');
+            await fs.writeFile(testFile, "import { createRingIcon } from '@ring-internal/ui-components/icons';");
+
+            migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
+
+            const content = await fs.readFile(testFile, 'utf8');
+            expect(content).toBe("import { createRingIcon } from '@ringpublishing/mui-components/icons';");
+        });
+
+        it('should leave a package.json require that already uses the new package name untouched', async () => {
+            const testFile = path.join(TEST_DIR, 'package-json-new-name.cjs.js');
+            const original = "const { version } = require('@ringpublishing/mui-components/package.json');";
+            await fs.writeFile(testFile, original);
+
+            const migrated = migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
+
+            const content = await fs.readFile(testFile, 'utf8');
+            expect(migrated).toBe(false);
+            expect(content).toBe(original);
+        });
+
+        it.each(exportedSubpaths)('should keep the %s subpath the exports map exposes', async (subpath) => {
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+            const testFile = path.join(TEST_DIR, 'exported-subpath.ts');
+            await fs.writeFile(
+                testFile,
+                `import a from '${OLD_PACKAGE_NAME}${subpath}';\nconst b = require("${NEW_PACKAGE_NAME}${subpath}");`,
+            );
+
+            migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
+
+            const content = await fs.readFile(testFile, 'utf8');
+            expect(content).toBe(
+                `import a from '${NEW_PACKAGE_NAME}${subpath}';\nconst b = require("${NEW_PACKAGE_NAME}${subpath}");`,
+            );
+            expect(warn).not.toHaveBeenCalled();
+        });
+
+        it.each(['/package.json5', '/packageXjson', '/icons/index.js'])(
+            'should rewrite %s, which the exports map does not expose, to the package root',
+            async (subpath) => {
+                const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+                const testFile = path.join(TEST_DIR, 'not-exported.ts');
+                await fs.writeFile(testFile, `import a from '${OLD_PACKAGE_NAME}${subpath}';`);
+
+                migratePackageNameInFile(testFile, OLD_PACKAGE_NAME, NEW_PACKAGE_NAME);
+
+                const content = await fs.readFile(testFile, 'utf8');
+                expect(content).toBe(`import a from '${NEW_PACKAGE_NAME}';`);
+                expect(warn).toHaveBeenCalledTimes(1);
+            },
+        );
 
         it('should support both single and double quotes', async () => {
             const testFile = path.join(TEST_DIR, 'quotes.ts');

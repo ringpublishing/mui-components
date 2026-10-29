@@ -1,17 +1,6 @@
-// Thin wrapper around `@ringpublishing/mui-theme`.
-//
-// The underlying theme package owns:
-//   - ThemeConfig (version/language/typographyMode/overrides)
-//   - getTheme (4-layer builder)
-//   - MUI augmentations (Typography/Paper/Button/IconButton variants)
-//   - basicGrey100 / basicGrey200 re-exports
-//
-// Ring UI components adds:
-//   - Opinionated MUI X integration (Ring DataGrid overrides + locale
-//     bundles sourced from the theme's `/mui-x` sub-entry).
-//
-// Apps that don't need MUI X should import `ThemeConfig` directly from
-// `@ringpublishing/mui-theme` — doing so pulls zero MUI X code.
+// Thin wrapper around `@ringpublishing/mui-theme` that adds the MUI X integration (Ring DataGrid
+// overrides and locale bundles from the theme's `/mui-x` sub-entry); the theme's `ThemeConfig` mounts
+// `RingIconDefaults`. Apps that do not need MUI X can import `ThemeConfig` from `@ringpublishing/mui-theme` directly.
 
 import React from 'react';
 import { PaletteMode } from '@mui/material';
@@ -30,20 +19,27 @@ import {
 } from '@ringpublishing/mui-theme';
 import { getMuiXLocales, ringDataGridOverrides } from '@ringpublishing/mui-theme/mui-x';
 
-export { basicGrey100, basicGrey200 } from '@ringpublishing/mui-theme';
+// LightBox and helpers/colors.ts build their own theme with this default and ignore a `version` passed to
+// ThemeConfig.
+const DEFAULT_THEME_VERSION: ThemeVersion = 'next';
 
-const DEFAULT_THEME_VERSION: ThemeVersion = 'reference';
-
-export type ThemeConfigProps = CoreThemeConfigProps;
-export type GetCreatedThemeOptions = GetThemeOptions;
+// The public types leave out `version`, yet both functions below still forward one passed from JavaScript; the
+// library's tests and Storybook pass it to ThemeConfig through `internalTheme.ts`.
+export type ThemeConfigProps = Omit<CoreThemeConfigProps, 'version'>;
+export type GetCreatedThemeOptions = Omit<GetThemeOptions, 'version'>;
 
 export function getCreatedTheme(mode: PaletteMode | string, options?: GetCreatedThemeOptions): Theme {
-    const { language = CommonLanguages.enUS, themeOverrides, externalLocales, version, ...rest } = options ?? {};
+    const {
+        language = CommonLanguages.enUS,
+        themeOverrides,
+        externalLocales,
+        version,
+        ...rest
+    }: GetThemeOptions = options ?? {};
 
     return getTheme(mode, {
         ...rest,
         language,
-        // Defensive pin: callers opt into the upcoming Ring DS via `version: 'next'`.
         version: version ?? DEFAULT_THEME_VERSION,
         themeOverrides: {
             ...themeOverrides,
@@ -56,14 +52,8 @@ export function getCreatedTheme(mode: PaletteMode | string, options?: GetCreated
     });
 }
 
-export const ThemeConfig = ({
-    children,
-    language,
-    themeOverrides,
-    externalLocales,
-    version,
-    ...rest
-}: ThemeConfigProps): React.ReactNode[] | React.ReactNode => {
+export const ThemeConfig = (props: ThemeConfigProps): React.ReactNode[] | React.ReactNode => {
+    const { children, language, themeOverrides, externalLocales, version, ...rest }: CoreThemeConfigProps = props;
     // Ring MUI X defaults sit underneath consumer-provided values (consumer wins on collision).
     const mergedThemeOverrides = {
         ...themeOverrides,

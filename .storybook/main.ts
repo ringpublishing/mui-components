@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { StorybookConfig } from '@storybook/react-vite';
 import remarkGfm from 'remark-gfm';
 // eslint-disable-next-line n/no-extraneous-import -- rollup is a transitive dep via vite; only types used
@@ -27,6 +28,14 @@ const config: StorybookConfig = {
         disableWhatsNewNotifications: true,
     },
 
+    features: {
+        // No story defines a `play` function, so the Interactions panel would only ever be empty.
+        interactions: false,
+        // Its New / Modified / Related filters count stories changed since the last commit; the published
+        // build has no git history, so they would always read 0.
+        changeDetection: false,
+    },
+
     framework: {
         name: '@storybook/react-vite',
         options: {},
@@ -36,6 +45,10 @@ const config: StorybookConfig = {
         {
             titlePrefix: 'Introduction',
             directory: '../stories/introduction',
+        },
+        {
+            titlePrefix: 'Design',
+            directory: '../stories/design',
         },
         {
             titlePrefix: 'Components',
@@ -59,11 +72,9 @@ const config: StorybookConfig = {
         // a stub when it sees `peerDependenciesMeta.optional` on this package,
         // even though it may be installed (devDependencies). Force the real
         // module for Storybook when the dep is present so the dynamic chunk
-        // can resolve `QueryClient` etc.; if the dep is genuinely missing,
-        // skip the alias and let the static path keep working — dynamic-loading
-        // stories will then fail at the Suspense boundary, which is the
-        // documented "you must install @tanstack/react-query to use loadItems"
-        // failure mode.
+        // can resolve `QueryClient` etc. It is a devDependency and has to be:
+        // `preview.tsx` calls `enableTreeDynamicLoading()`, and without the
+        // package the dynamic modules' named imports fail `storybook build`.
         let reactQueryPath: string | null = null;
 
         try {
@@ -72,9 +83,24 @@ const config: StorybookConfig = {
             // not installed — let the optional-peer-dep stub take over
         }
 
+        // The `stories/**/code/*Example.tsx` files are the snippets shown in the
+        // Playground, so they import the library the way a consumer would. These
+        // two aliases make them resolvable as real modules as well, so a story
+        // can render the snippet it displays instead of keeping a second copy of
+        // it. `tsconfig.build.json` already maps the package name for TS.
+        const fromRoot = (relativePath: string): string => fileURLToPath(new URL(relativePath, import.meta.url));
+
         return mergeConfig(config, {
             resolve: {
-                alias: reactQueryPath ? [{ find: /^@tanstack\/react-query$/, replacement: reactQueryPath }] : [],
+                alias: [
+                    ...(reactQueryPath ? [{ find: /^@tanstack\/react-query$/, replacement: reactQueryPath }] : []),
+                    { find: /^@ringpublishing\/mui-components$/, replacement: fromRoot('../src/index.ts') },
+                    {
+                        find: /^@ringpublishing\/mui-components\/tree-dynamic-loading$/,
+                        replacement: fromRoot('../src/treeDynamicLoading.ts'),
+                    },
+                    { find: /^RingDemoImages$/, replacement: fromRoot('../stories/helpers/imagesData.ts') },
+                ],
             },
             optimizeDeps: {
                 include: reactQueryPath ? ['@tanstack/react-query'] : [],

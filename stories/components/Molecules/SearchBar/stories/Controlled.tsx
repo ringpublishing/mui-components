@@ -1,4 +1,4 @@
-import { MoreVert } from '@mui/icons-material';
+import { EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import { SearchBar } from '../../../../../src/index.js';
 import { createCodeStory } from '../../../../helpers.js';
@@ -15,7 +15,7 @@ const Example = (args: React.ComponentProps<typeof SearchBar>): React.JSX.Elemen
     return (
         <SearchBar {...args} value={value} onChange={setValue}>
             <IconButton key={1}>
-                <MoreVert />
+                <EllipsisVertical />
             </IconButton>
         </SearchBar>
     );
@@ -26,7 +26,7 @@ export const Controlled: Story = {
         ...defaultArgs,
         withClearButton: true,
         className: 'custom-class-name',
-        sx: { border: '1px solid #d9d9d9' },
+        sx: { border: 1, borderColor: 'divider' },
     },
     render: (args, context) =>
         createCodeStory({

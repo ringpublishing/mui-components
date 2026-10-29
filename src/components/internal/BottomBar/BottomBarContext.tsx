@@ -1,6 +1,6 @@
 import { GridApi, GridRowSelectionModel } from '@mui/x-data-grid-pro';
 import React, { createContext, SetStateAction, useContext, Dispatch, useState, RefObject } from 'react';
-import { MediaGridApi } from '../../Organisms/MultimediaGrid/gridApi.js';
+import type { MediaGridApi } from '../gridApi.types.js';
 
 export type BottomBarContextState = {
     isSelectionModeEnabled?: boolean;
@@ -10,6 +10,13 @@ export type BottomBarContextState = {
     items?: any[];
     apiRef?: RefObject<GridApi | null> | MediaGridApi;
 };
+
+/**
+ * API of the grid whose selection the `DataView` bottom bar shows: a `RingDataGrid` API ref, a `MultimediaGrid`
+ * one (`MediaGridApi`, `current.mode === 'media'`), or `undefined` before a grid has registered.
+ */
+export type BottomBarApiRef = BottomBarContextState['apiRef'];
+
 export interface BottomBarContext {
     bottomBarState: BottomBarContextState;
     setBottomBarState: Dispatch<SetStateAction<BottomBarContextState>>;

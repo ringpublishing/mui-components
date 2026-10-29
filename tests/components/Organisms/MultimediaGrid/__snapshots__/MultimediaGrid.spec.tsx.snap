@@ -4,6 +4,7 @@ exports[`MultimediaGrid > should render correctly with a spacer item 1`] = `
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -20,6 +21,7 @@ exports[`MultimediaGrid > should render correctly with empty items 1`] = `
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -63,6 +65,7 @@ exports[`MultimediaGrid > should render correctly with media items 1`] = `
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -79,9 +82,10 @@ exports[`MultimediaGrid > should render toolbar when showRingToolbar is true 1`]
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
-      style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px; position: relative;"
+      style="border-bottom: 1px solid rgba(0, 0, 0, 0.12); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px; position: relative;"
     >
       <div
         class="MuiStack-root css-1k60ign-MuiStack-root"
@@ -117,6 +121,7 @@ exports[`MultimediaGrid empty and error states > should not render empty state w
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -129,6 +134,7 @@ exports[`MultimediaGrid empty and error states > should not render error state w
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -141,6 +147,7 @@ exports[`MultimediaGrid empty and error states > should prioritize error state o
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -184,6 +191,7 @@ exports[`MultimediaGrid empty and error states > should render empty state when 
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -227,6 +235,7 @@ exports[`MultimediaGrid empty and error states > should render error state when 
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -286,6 +295,7 @@ exports[`MultimediaGrid slots > should render with a custom slot component 1`] =
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"
@@ -302,6 +312,7 @@ exports[`MultimediaGrid with infinite scroll > should render with infinite scrol
 <div>
   <div
     class="MuiStack-root css-qs3qvz-MuiStack-root"
+    data-testid="ring-multimediagrid"
   >
     <div
       class="MuiBox-root css-qfcxy1"

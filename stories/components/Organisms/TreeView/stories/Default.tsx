@@ -40,7 +40,7 @@ export const Default: Story = {
         itemsLabelColumnHeader: 'Name',
         columns: defaultColumns,
         searchPlaceholder: 'Search',
-        dragAndDropTooltipTitle: 'To drag and drop collapse the item first',
+        dragAndDropTooltipTitle: 'Collapse the item to drag it.',
     } as DefaultTreeViewProps,
     render: (args, context) =>
         createCodeStory({

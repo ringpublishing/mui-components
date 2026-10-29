@@ -318,9 +318,11 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-1-combo"
                     style="--Paper-shadow: none;"
                   >
                     <img
+                      alt=""
                       class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-prx4ow-MuiCardMedia-root"
                       src="https://design.ringpublishing.com/images/mountains_medium.jpg"
                     />
@@ -330,18 +332,28 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1n4s7xt-MuiSvgIcon-root"
-                          data-testid="CommentOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <span
+                          class="ring-lucide-icon MuiBox-root css-1kj4wk9"
                         >
-                          <path
-                            d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4zM20 4v13.17L18.83 16H4V4zM6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"
-                          />
-                        </svg>
-                        <p
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-message-square"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+                            />
+                          </svg>
+                        </span>
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1o7q1o2-MuiTypography-root"
                         >
                           Ada i Michał z "Rolnika..." odliczają dni do ślubu. Taką suknię będzie miała panna młoda: nie chcemy przesadzać
@@ -354,7 +366,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                               1
                             </span>
                           </div>
-                        </p>
+                        </div>
                       </div>
                       <div
                         class="MuiBox-root css-1w1cbyh"
@@ -368,7 +380,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                         </span>
                       </div>
                       <div
-                        class="MuiBox-root css-1glb82o"
+                        class="MuiBox-root css-xy6hrv"
                       >
                         <div
                           class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1lflu6f-MuiChip-root"
@@ -399,6 +411,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                         </div>
                         <div
                           class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1rtyte2-MuiChip-root"
+                          data-testid="ring-datagrid-item-1-combo-more"
                         >
                           <span
                             class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
@@ -456,9 +469,11 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-2-combo"
                     style="--Paper-shadow: none;"
                   >
                     <img
+                      alt=""
                       class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-prx4ow-MuiCardMedia-root"
                       src="https://www.africaventura.fr/_next/image?url=https%3A%2F%2Fmedia.venturatravel.org%2Funsafe%2F1300x%2Fsmart%2Fday_detail%2Fdef634ac-a0e7-4c81-b6ce-7a614198ccfc-_mg_9740.jpg&w=3840&q=75"
                     />
@@ -468,11 +483,11 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1o7q1o2-MuiTypography-root"
                         >
                           John Adams
-                        </p>
+                        </div>
                       </div>
                       <div
                         class="MuiBox-root css-1w1cbyh"
@@ -486,7 +501,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                         </span>
                       </div>
                       <div
-                        class="MuiBox-root css-1glb82o"
+                        class="MuiBox-root css-xy6hrv"
                       >
                         <div
                           class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1lflu6f-MuiChip-root"
@@ -547,6 +562,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-3-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
@@ -555,7 +571,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1o7q1o2-MuiTypography-root"
                         >
                           Thomas Jefferson
@@ -568,7 +584,7 @@ exports[`DataGrid - renderComboCell > should render correctly 1`] = `
                               1
                             </span>
                           </div>
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -837,7 +853,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                         aria-label="Id column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_1g_"
+                        id="_r_1j_"
                         tabindex="-1"
                         type="button"
                       >
@@ -942,7 +958,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                         aria-label="Combo column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_1n_"
+                        id="_r_1q_"
                         tabindex="-1"
                         type="button"
                       >
@@ -1042,6 +1058,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-1-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
@@ -1050,22 +1067,32 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1n4s7xt-MuiSvgIcon-root"
-                          data-testid="CommentOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <span
+                          class="ring-lucide-icon MuiBox-root css-1kj4wk9"
                         >
-                          <path
-                            d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4zM20 4v13.17L18.83 16H4V4zM6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"
-                          />
-                        </svg>
-                        <p
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-message-square"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+                            />
+                          </svg>
+                        </span>
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           Ada i Michał z "Rolnika..." odliczają dni do ślubu. Taką suknię będzie miała panna młoda: nie chcemy przesadzać
-                        </p>
+                        </div>
                         <div
                           class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorSecondary MuiChip-outlinedSecondary css-orrnzs-MuiChip-root"
                         >
@@ -1125,6 +1152,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-2-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
@@ -1133,11 +1161,11 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           John Adams
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1188,6 +1216,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-3-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
@@ -1196,11 +1225,11 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           Thomas Jefferson
-                        </p>
+                        </div>
                         <div
                           class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorSecondary MuiChip-outlinedSecondary css-orrnzs-MuiChip-root"
                         >
@@ -1266,7 +1295,7 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="_r_1b_"
+              id="_r_1e_"
             >
               Rows per page:
             </p>
@@ -1276,9 +1305,9 @@ exports[`DataGrid - renderComboCell > should render correctly for density=compac
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_1b_ _r_1a_"
+                aria-labelledby="_r_1e_ _r_1d_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="_r_1a_"
+                id="_r_1d_"
                 role="combobox"
                 tabindex="0"
               >
@@ -1478,7 +1507,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                         aria-label="Id column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_r_"
+                        id="_r_t_"
                         tabindex="-1"
                         type="button"
                       >
@@ -1583,7 +1612,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                         aria-label="Combo column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_12_"
+                        id="_r_14_"
                         tabindex="-1"
                         type="button"
                       >
@@ -1683,9 +1712,11 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-1-combo"
                     style="--Paper-shadow: none;"
                   >
                     <img
+                      alt=""
                       class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-mdbigc-MuiCardMedia-root"
                       src="https://design.ringpublishing.com/images/mountains_medium.jpg"
                     />
@@ -1695,22 +1726,32 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1n4s7xt-MuiSvgIcon-root"
-                          data-testid="CommentOutlinedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <span
+                          class="ring-lucide-icon MuiBox-root css-1kj4wk9"
                         >
-                          <path
-                            d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4zM20 4v13.17L18.83 16H4V4zM6 12h12v2H6zm0-3h12v2H6zm0-3h12v2H6z"
-                          />
-                        </svg>
-                        <p
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-message-square"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+                            />
+                          </svg>
+                        </span>
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           Ada i Michał z "Rolnika..." odliczają dni do ślubu. Taką suknię będzie miała panna młoda: nie chcemy przesadzać
-                        </p>
+                        </div>
                         <div
                           class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorSecondary MuiChip-outlinedSecondary css-orrnzs-MuiChip-root"
                         >
@@ -1781,9 +1822,11 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-2-combo"
                     style="--Paper-shadow: none;"
                   >
                     <img
+                      alt=""
                       class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-mdbigc-MuiCardMedia-root"
                       src="https://www.africaventura.fr/_next/image?url=https%3A%2F%2Fmedia.venturatravel.org%2Funsafe%2F1300x%2Fsmart%2Fday_detail%2Fdef634ac-a0e7-4c81-b6ce-7a614198ccfc-_mg_9740.jpg&w=3840&q=75"
                     />
@@ -1793,11 +1836,11 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           John Adams
-                        </p>
+                        </div>
                       </div>
                       <div
                         class="MuiBox-root css-1w1cbyh"
@@ -1859,6 +1902,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-3-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
@@ -1867,11 +1911,11 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1j41zpt-MuiTypography-root"
                         >
                           Thomas Jefferson
-                        </p>
+                        </div>
                         <div
                           class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorSecondary MuiChip-outlinedSecondary css-orrnzs-MuiChip-root"
                         >
@@ -1937,7 +1981,7 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="_r_m_"
+              id="_r_o_"
             >
               Rows per page:
             </p>
@@ -1947,9 +1991,9 @@ exports[`DataGrid - renderComboCell > should render correctly for height between
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_m_ _r_l_"
+                aria-labelledby="_r_o_ _r_n_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="_r_l_"
+                id="_r_n_"
                 role="combobox"
                 tabindex="0"
               >
@@ -2149,7 +2193,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
                         aria-label="Id column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_23_"
+                        id="_r_27_"
                         tabindex="-1"
                         type="button"
                       >
@@ -2254,7 +2298,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
                         aria-label="Combo column menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
-                        id="_r_2a_"
+                        id="_r_2e_"
                         tabindex="-1"
                         type="button"
                       >
@@ -2354,22 +2398,56 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1vg2zu7-MuiPaper-root-MuiCard-root"
+                    data-testid="ring-datagrid-item-1-combo"
                     style="--Paper-shadow: none;"
                   >
                     <div
                       class="MuiBox-root css-soh2o9"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14xnq2b-MuiSvgIcon-root"
-                        data-testid="PhotoOutlinedIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <div
+                        class="ring-featuredicon MuiBox-root css-1bu8oys"
+                        data-testid="ring-datagrid-item-1-combo-placeholder-icon"
                       >
-                        <path
-                          d="M19 5v14H5V5zm0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-4.86 8.86-3 3.87L9 13.14 6 17h12z"
-                        />
-                      </svg>
+                        <div
+                          aria-hidden="true"
+                          class="MuiBox-root css-1m4k35i"
+                        >
+                          <span
+                            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="lucide lucide-image"
+                              fill="none"
+                              height="1em"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                height="18"
+                                rx="2"
+                                ry="2"
+                                width="18"
+                                x="3"
+                                y="3"
+                              />
+                              <circle
+                                cx="9"
+                                cy="9"
+                                r="2"
+                              />
+                              <path
+                                d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                     <div
                       class="MuiCardContent-root css-pyu8to-MuiCardContent-root"
@@ -2377,7 +2455,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
                       <div
                         class="MuiBox-root css-1qfnnxj"
                       >
-                        <p
+                        <div
                           class="MuiTypography-root MuiTypography-body2 css-1o7q1o2-MuiTypography-root"
                         >
                           Thomas Jefferson
@@ -2390,7 +2468,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
                               1
                             </span>
                           </div>
-                        </p>
+                        </div>
                       </div>
                       <div
                         class="MuiBox-root css-1w1cbyh"
@@ -2458,7 +2536,7 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="_r_1u_"
+              id="_r_22_"
             >
               Rows per page:
             </p>
@@ -2468,9 +2546,9 @@ exports[`DataGrid - renderComboCell > should show placeholder when imageUrl is u
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_1u_ _r_1t_"
+                aria-labelledby="_r_22_ _r_21_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="_r_1t_"
+                id="_r_21_"
                 role="combobox"
                 tabindex="0"
               >

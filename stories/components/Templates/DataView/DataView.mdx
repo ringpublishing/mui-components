@@ -24,12 +24,12 @@ Key features:
 - [Default](#default)
 - [Component API](#component-api)
 - [Example Slots Usage](#example-slots-usage)
-- [With Dynamic Width Filter](#with-dynamic-width-filter)
-- [Without Detail And Filter](#without-detail-and-filter)
-- [With Multimedia Grid](#with-multimedia-grid)
-- [With Autocomplete Filters](#with-autocomplete-filters)
-- [With Selection Mode](#with-selection-mode)
-- [With BottomBar Selection](#with-bottombar-selection)
+- [No filter or detail panel](#no-filter-or-detail-panel)
+- [Dynamic width filter](#dynamic-width-filter)
+- [Selection mode](#selection-mode)
+- [Selection — MultimediaGrid](#selection--multimediagrid)
+- [Autocomplete filters](#autocomplete-filters)
+- [MultimediaGrid in main slot](#multimediagrid-in-main-slot)
 
 ## Default
 
@@ -73,8 +73,8 @@ Clicking a row in the grid opens the detail panel with the selected item's infor
                 <SplitButton key="action" size="small" actions={[{ label: 'Publish', onClick: handlePublish }]} />,
             ],
             menuActions: [
-                { label: 'Edit', icon: <EditOutlined />, onClick: handleEdit },
-                { label: 'Delete', icon: <DeleteOutline />, onClick: handleDelete },
+                { label: 'Edit', icon: <Pencil />, onClick: handleEdit },
+                { label: 'Delete', icon: <Trash2 />, onClick: handleDelete },
             ],
             openSlotsOnMobileLabels: {
                 leftSlot: 'Filters',
@@ -94,7 +94,14 @@ Clicking a row in the grid opens the detail panel with the selected item's infor
 />
 ```
 
-## With Dynamic Width Filter
+## No filter or detail panel
+
+`DataView` in its minimal configuration — without left and right slots. Only the search bar and main grid content
+are displayed.
+
+<Canvas of={Stories.WithoutDetailAndFilter} />
+
+## Dynamic width filter
 
 Demonstrates the resizable left slot panel. Users can drag the right edge of the left panel to change its width
 within the defined `minWidth` and `maxWidth` range.
@@ -116,20 +123,38 @@ within the defined `minWidth` and `maxWidth` range.
 
 <Canvas of={Stories.WithDynamicWidthFilter} />
 
-## Without Detail And Filter
+## Selection mode
 
-`DataView` in its minimal configuration — without left and right slots. Only the search bar and main grid content
-are displayed.
+A list of stories: `RingDataGrid` in the main slot, the filters on the left and the details on the right — a row click
+or the info button in the search bar opens them. The icon in the grid toolbar
+turns on selection mode (`enableBulkActions`) — the rows get checkboxes, the toolbar shows the bulk actions and the
+selected rows collect in the bottom bar; the X in the toolbar leaves the mode (`onBulkActionsClose`).
 
-<Canvas of={Stories.WithoutDetailAndFilter} />
+### Columns sized from their content
 
-## With Multimedia Grid
+Only Title has `flex`, so it takes whatever the other columns leave. The others are as wide as their widest header
+or visible cell: MUI measures them (`autosizeOnMount`, with the fields listed in `autosizeOptions.columns`) and clamps
+the result to the column's `minWidth` / `maxWidth` — Authors stops at 220px and wraps. Measure again when a web font
+finishes loading: text measured in the fallback font is narrower, and a column sized to it wraps once the real font
+arrives. A grid that loads more rows calls `apiRef.current.autosizeColumns(options)` after they render.
 
-`DataView` with an embedded `MultimediaGrid` in the main slot.
+<Canvas of={Stories.WithSelectionMode} />
 
-<Canvas of={Stories.WithMultimediaGrid} />
+## Selection — MultimediaGrid
 
-## With Autocomplete Filters
+Full-featured `DataView` with `MultimediaGrid` and bottom bar for managing multi-item selection.
+
+### Selection Features
+
+**MultimediaGrid Configuration**
+
+- `checkboxSelection={true}` — enables checkbox-based multi-select mode
+- `disableSelectionOnClick={true}` — cards open detail view; only checkboxes toggle selection
+- `showOnHover={true}` — checkboxes appear on hover for a cleaner interface
+
+<Canvas of={Stories.WithBottomBarSelection} />
+
+## Autocomplete filters
 
 An alternate `DataView` presentation that replaces the default search bar with a custom top slot. The top slot groups
 the page heading, search input, and filter-variant `Autocomplete` controls in one area, with active filter chips below.
@@ -142,7 +167,7 @@ Use a custom `top` slot when the standard `DataView` search bar needs to be comb
 function TopSlot(props: TopSlotProps): React.JSX.Element {
     return (
         <Box>
-            <Typography variant="headline1">Content library</Typography>
+            <Typography variant="subtitle1">Content library</Typography>
             <Box>
                 <SearchBox {...(props as ControlledSearchBoxProps)} />
                 <Autocomplete variant="filter" labels={contentTypeLabels} multiple={true} options={contentTypes} />
@@ -164,23 +189,8 @@ function TopSlot(props: TopSlotProps): React.JSX.Element {
 
 <Canvas of={Stories.WithAutocompleteFilters} />
 
-## With Selection Mode
+## MultimediaGrid in main slot
 
-Demonstrates `DataView` with `MultimediaGrid` checkbox selection and bottom bar integration for tracking selected items.
-Selection state is managed via `checkboxSelection` and `disableSelectionOnClick` props on MultimediaGrid.
+`DataView` with an embedded `MultimediaGrid` in the main slot.
 
-<Canvas of={Stories.WithSelectionMode} />
-
-## With BottomBar Selection
-
-Full-featured `DataView` with `MultimediaGrid` and bottom bar for managing multi-item selection.
-
-### Selection Features
-
-**MultimediaGrid Configuration**
-
-- `checkboxSelection={true}` — enables checkbox-based multi-select mode
-- `disableSelectionOnClick={true}` — cards open detail view; only checkboxes toggle selection
-- `showOnHover={true}` — checkboxes appear on hover for a cleaner interface
-
-<Canvas of={Stories.WithBottomBarSelection} />
+<Canvas of={Stories.WithMultimediaGrid} />

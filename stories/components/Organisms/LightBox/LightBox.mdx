@@ -5,7 +5,7 @@ import * as Stories from './LightBox.stories.js';
 
 # LightBox
 
-A full-featured image viewer dialog with carousel navigation, zoom controls, and fullscreen support. Displays images in a separate dialog/gallery with smooth transitions and touch gesture support.
+A full-featured image viewer dialog with carousel navigation, zoom controls, and fullscreen support. Displays images in a separate dialog/gallery with smooth transitions and touch gesture support. LightBox always renders in the dark palette.
 
 - Navigate through multiple images with arrow keys or carousel
 - Zoom in/out with mouse wheel or pinch gestures
@@ -19,12 +19,12 @@ A full-featured image viewer dialog with carousel navigation, zoom controls, and
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Single Image](#single-image)
-- [With Infinite Scroll](#with-infinite-scroll)
-- [With Custom Download Image](#with-custom-download-image)
-- [With Hide Download Icon](#with-hide-download-icon)
-- [With Detail](#with-detail)
-- [With Initial Image Id](#with-initial-image-id)
+- [Single image](#single-image)
+- [Initial image ID](#initial-image-id)
+- [Infinite scroll](#infinite-scroll)
+- [Download icon hidden](#download-icon-hidden)
+- [Download — custom handler](#download--custom-handler)
+- [Detail panel](#detail-panel)
 
 ## Default
 
@@ -36,31 +36,37 @@ The default LightBox with multiple images and a carousel at the bottom. Click th
 
 <ArgTypes />
 
-## Single Image
+## Single image
 
 LightBox with a single image. When only one image is provided, the carousel and navigation arrows are hidden.
 
 <Canvas of={Stories.SingleImage} />
 
-## With Infinite Scroll
+## Initial image ID
+
+Opens the LightBox at a specific image by providing `initialImageId`. Each image must have a unique `id` field for this to work.
+
+<Canvas of={Stories.WithInitialImageId} />
+
+## Infinite scroll
 
 Demonstrates lazy loading of additional images when the user scrolls to the end of the carousel. Uses `onImagesScrollEnd` callback and `moreImagesLoading` indicator.
 
 <Canvas of={Stories.WithInfiniteScroll} />
 
-## With Custom Download Image
-
-Overrides the default download behavior with a custom `handleImageDownload` callback. Useful when images need to be downloaded from a different source or require authentication.
-
-<Canvas of={Stories.WithCustomDownloadImage} />
-
-## With Hide Download Icon
+## Download icon hidden
 
 Hides the download button in the toolbar by setting `enableDownloadIcon` to `false`.
 
 <Canvas of={Stories.WithHideDownloadIcon} />
 
-## With Detail
+## Download — custom handler
+
+Overrides the default download behavior with a custom `handleImageDownload` callback. Useful when images need to be downloaded from a different source or require authentication.
+
+<Canvas of={Stories.WithCustomDownloadImage} />
+
+## Detail panel
 
 Shows a detail panel alongside the image with metadata sections, action buttons, and an editable title. The detail panel supports description items with various field types (text, chips, dates) and bottom action buttons.
 
@@ -69,12 +75,6 @@ Shows a detail panel alongside the image with metadata sections, action buttons,
 - Editable title field
 - Description items organized in sections
 - Action buttons with icons and URLs or click handlers
-- Collapsable chip fields for tags
+- Collapsible chip fields for tags
 
 <Canvas of={Stories.WithDetail} />
-
-## With Initial Image Id
-
-Opens the LightBox at a specific image by providing `initialImageId`. Each image must have a unique `id` field for this to work.
-
-<Canvas of={Stories.WithInitialImageId} />

@@ -5,6 +5,8 @@ import * as Stories from './TreeView.stories.js';
 
 # TreeView
 
+**Deprecated.** Use `SimpleTree` (compact) or `DataTree` (default).
+
 The TreeView component displays hierarchical data in an expandable/collapsible tree structure. It supports two variants: **default** (with columns, checkboxes, row actions, and drag-and-drop) and **compact** (a minimal layout with custom elements).
 
 **Key Features:**
@@ -23,12 +25,12 @@ The TreeView component displays hierarchical data in an expandable/collapsible t
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Compact View Variant](#compact-view-variant)
-- [With Search](#with-search)
-- [With Drag And Drop](#with-drag-and-drop)
-- [With Drop In](#with-drop-in)
-- [With Dynamic Loading](#with-dynamic-loading)
-- [Controlled Selection](#controlled-selection)
+- [Compact view](#compact-view)
+- [Search](#search)
+- [Drag and drop](#drag-and-drop)
+- [Drag and drop — drop in](#drag-and-drop--drop-in)
+- [Dynamic loading](#dynamic-loading)
+- [Controlled selection](#controlled-selection)
 
 ## Default
 
@@ -40,37 +42,37 @@ Basic TreeView with columns, checkboxes, and row actions in the default variant.
 
 <ArgTypes />
 
-## Compact View Variant
+## Compact view
 
 A compact layout variant with custom elements (Chip badges) and search functionality. Ideal for simpler tree structures that don't require columns or row actions.
 
 <Canvas of={Stories.CompactViewVariant} />
 
-## With Search
+## Search
 
 TreeView with search/filter functionality enabled. Items are filtered by matching words in their labels, with matched text highlighted.
 
 <Canvas of={Stories.WithSearch} />
 
-## With Drag And Drop
+## Drag and drop
 
 TreeView with drag and drop support for reordering items. Expanded items must be collapsed before they can be dragged.
 
 <Canvas of={Stories.WithDragAndDrop} />
 
-## With Drop In
+## Drag and drop — drop in
 
 Extends drag and drop with drop-in functionality, allowing items to be dropped into other items to create new nesting levels.
 
 <Canvas of={Stories.WithDropIn} />
 
-## With Dynamic Loading
+## Dynamic loading
 
 Demonstrates lazy loading of child items when a parent is expanded. The `loadItems` function is called on demand and supports error handling with retry.
 
 <Canvas of={Stories.WithDynamicLoading} />
 
-## Controlled Selection
+## Controlled selection
 
 Externally controlled item selection using `selectedItems` and `onSelectedItemsChange` props. Buttons allow programmatic selection of different item groups.
 

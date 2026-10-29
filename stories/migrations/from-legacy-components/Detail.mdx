@@ -9,6 +9,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 ### main - title and image with actions
 
 ```
+
 {
     title: {
         value: 'Test title',
@@ -20,21 +21,21 @@ import { Meta } from '@storybook/addon-docs/blocks';
         },
         label: 'Title'
     },
-     mediaImageProps: {
+     mediaProps: {
         bottomIcons: [
             {
-                icon: <InfoOutlined />,
+                icon: <Info />,
                 onClick: () => null,
                 tooltip: 'Info'
             },
             {
-                icon: <EditOutlined />,
+                icon: <Pencil />,
                 onClick: () => null,
                 tooltip: 'Edit'
             },
         ],
-        imageUrl: 'url',
-        ratio: 'fixed',
+        image: 'url',
+        ratio: '4/3',
         imageFullScreenPreview: true,
         fullScreenImageUrl: 'url'
     },
@@ -46,10 +47,10 @@ import { Meta } from '@storybook/addon-docs/blocks';
 - a string can be passed or an object with value property
 - for an editable title, pass an object with value, editable set to true, onSubmit (which returns a promise with boolean result), and label properties
 
-#### mediaImageProps
+#### mediaProps
 
-- imageFullScreenPreview - if true icon will be shown to open image in LightBox
-- bottomIcons is now a list of objects with icon (component with MUI icon should be passed), onClick, and tooltip properties
+- imageFullScreenPreview - if true, the media toolbar shows the download and zoom buttons; zoom opens the image in LightBox. Requires image
+- bottomIcons is now a list of objects with an icon component, onClick, and tooltip properties
 
 ### descriptionItems
 
@@ -59,13 +60,13 @@ descriptionItems: [
         sectionTitle: 'title',
         fields: [
             {
-                icon: <Public />,
-                name: 'WITH ICON',
+                icon: <Globe />,
+                name: 'With icon',
                 value: 'Published'
             },
             {
                 type: DetailDescriptionItemFieldType.DESCRIPTION,
-                name: 'DESCRIPTION',
+                name: 'Description',
                 value: 'description',
                 maxLength: 100,
                 layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -73,7 +74,7 @@ descriptionItems: [
                 showLessLabel: 'Show less'
             },
             {
-                name: 'DATE FORMATTED',
+                name: 'Date formatted',
                 formatDate: true,
                 value: '2023-07-27T09:32:09Z',
                  subValue: {
@@ -83,7 +84,7 @@ descriptionItems: [
             },
             {
                 type: DetailDescriptionItemFieldType.EDITABLE,
-                name: 'EDITABLE',
+                name: 'Editable',
                 value: 'Editable value',
                 onSubmit: function cb() {
                     return new Promise(resolve => {
@@ -93,7 +94,7 @@ descriptionItems: [
             },
             {
                 type: DetailDescriptionItemFieldType.CHIPS,
-                name: 'LIST OF CUSTOMISED CHIPS',
+                name: 'List of customised chips',
                 value: [
                     {
                         onClick: action('on click'),
@@ -121,18 +122,19 @@ descriptionItems: [
 - default field
     - formatDate
     - url - for links
-    - icon - component with MUI icon or an array of icon components
+    - icon - an icon component or an array of icon components; a bare icon takes 20px, a wrapped one (e.g. a `CopyIconButton`) keeps its own size
+    - truncate: 'middle' - keeps a long value on one line and elides its middle; the full value is in a tooltip
     - subValue - object with label and value properties
 - description field
-    - type: 'DESCRIPTION'
+    - type: `DetailDescriptionItemFieldType.DESCRIPTION`
     - maxLength - maximum number of characters to show (optional)
     - showMoreLabel - label for show more button
     - showLessLabel - label for show less button
 - chips field
-    - type: 'CHIPS'
+    - type: `DetailDescriptionItemFieldType.CHIPS`
     - value - array of strings or objects with value, badgeColor, and onClick properties
 - editable field
-    - type: 'EDITABLE'
+    - type: `DetailDescriptionItemFieldType.EDITABLE`
     - onSubmit - function that returns a promise with boolean result
 
 ### bottomActions
@@ -140,21 +142,21 @@ descriptionItems: [
 ```
     bottomActions: [
         {
-            name: 'ACTION WITH URL',
+            name: 'Action with URL',
             url: 'url',
-            icon: <Web />
+            icon: <Globe />
         },
         {
-            name: 'ACTION WITH ON CLICK',
+            name: 'Action with on click',
             onClick: () => null,
-            icon: <Download />
+                icon: <Download />
         },
         {
-            name: 'ACTION WITHOUT ICON',
+            name: 'Action without icon',
             onClick: () => null
         }
     ],
 ```
 
 - url, onClick and icon are all optional
-- bottomActions have only one change - icon can be passed (component with MUI icon)
+- bottomActions have only one change - an icon component can be passed

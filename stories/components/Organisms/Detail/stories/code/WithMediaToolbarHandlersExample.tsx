@@ -34,7 +34,7 @@ export default function WithMediaToolbarHandlersExample(): React.JSX.Element {
                             imageFullScreenPreview: true,
                             image: {
                                 src: getImagePath(TestImage.CAR, ImageSize.LARGE),
-                                title: TestImage.CAR,
+                                title: 'The rear of an orange vintage car parked under a wooden carport',
                             },
                             enableDownloadIcon: showDownload,
                             handleImageDownload,

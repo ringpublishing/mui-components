@@ -8,33 +8,31 @@ import {
     useGridRootProps,
 } from '@mui/x-data-grid-pro';
 import { GridRowId } from '@mui/x-data-grid';
+import { X, ListFilter, RotateCw, ArrowUpDown, Repeat, RepeatOff } from 'lucide-react';
+import { ListFilterOff } from '../../../icons/ListFilterOff.js';
 import {
-    Close,
-    FilterList,
-    FilterListOff,
-    KeyboardArrowDown,
-    Refresh,
-    Sort,
-    Sync,
-    SyncDisabled,
-} from '@mui/icons-material';
-import {
+    alpha,
+    Divider,
     IconButton,
     MenuItem,
-    Select,
     SelectChangeEvent,
     Stack,
+    Theme,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
 } from '@mui/material';
 
-import { basicGrey100 } from '../../../theme/theme.js';
-import { BulkOperationAction, RingDataGridProps, RingDataGridToolbarSortField } from './RingDataGrid.js';
+import { getLucideSizeFromFontSize } from '../../../helpers/lucideSize.js';
+import { RingDataGridProps, RingDataGridToolbarSortField } from './RingDataGrid.js';
+import { BulkOperationAction } from '../MultimediaGrid/DataToolbar.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { Action } from '../../../types.js';
-import { useDataViewContext } from '../../Templates/DataView/DataViewContext.js';
+import { useDataViewContext } from '../../internal/DataViewContext.js';
+import { SelectChevronDown } from '../../internal/SelectChevronDown.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
 type headerSelectionCheckboxChangeCustomParams = { value: boolean };
 declare module '@mui/x-data-grid' {
@@ -68,6 +66,7 @@ export interface RingDataGridToolbarProps
             | 'totalRowCount'
             | 'onBulkActionsClose'
             | 'autoRefreshCallback'
+            | 'dataTestIdSuffix'
         > {
     allSelected: boolean;
     deselectedRowIds: Set<GridRowId>;
@@ -101,7 +100,10 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
         allSelected,
         deselectedRowIds,
         excludedRowIds,
+        dataTestIdSuffix,
     } = props;
+
+    const dataTestId = useRingDataTestId('DataToolbar', dataTestIdSuffix);
 
     // Remove warnings in future release
     if ((props as { fetchItems?: () => void }).fetchItems !== undefined) {
@@ -310,6 +312,11 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                             }}
                         >
                             <IconButton
+                                data-testid={resolveItemDataTestId({
+                                    rootId: `${dataTestId}-bulk`,
+                                    index: i,
+                                    item: action,
+                                })}
                                 onClick={(event): void => handleActionClick(action, event)}
                                 style={{ cursor: 'pointer' }}
                                 disabled={!apiRef.current.getSelectedRows().size || selectedRowsCount > maxRowsCount}
@@ -326,8 +333,12 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 <Stack direction={'row'} alignItems={'baseline'} gap={3}>
                     <Stack direction={'row'} alignItems={'center'} gap={2}>
                         <RowSelectionSummary selectedRowsCount={selectedRowsCount} maxRowsCount={maxRowsCount} />
-                        <IconButton onClick={(e): void => onBulkActionsClose?.(e)} aria-label="Close bulk actions">
-                            <Close />
+                        <IconButton
+                            onClick={(e): void => onBulkActionsClose?.(e)}
+                            aria-label="Close bulk actions"
+                            data-testid={`${dataTestId}-bulk-close`}
+                        >
+                            <X size={getLucideSizeFromFontSize('small')} />
                         </IconButton>
                     </Stack>
                 </Stack>
@@ -339,10 +350,16 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
         if (isMobile) {
             return (
                 <>
-                    <IconButton ref={sortIconRef} aria-label="Sort" sx={{ marginLeft: 'auto' }}>
-                        <Sort />
+                    <IconButton
+                        ref={sortIconRef}
+                        aria-label="Sort"
+                        data-testid={`${dataTestId}-sort`}
+                        sx={{ marginLeft: 'auto' }}
+                    >
+                        <ArrowUpDown size={getLucideSizeFromFontSize('small')} />
                     </IconButton>
                     <ActionBox
+                        dataTestId={`${dataTestId}-sort-menu`}
                         actions={
                             sortableFields?.map(
                                 (field: RingDataGridToolbarSortField) =>
@@ -362,33 +379,18 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
             );
         } else {
             return (
-                <Select
-                    inputProps={{ 'aria-label': 'Sort by' }}
-                    sx={{
-                        '&::before': {
-                            display: 'none',
-                        },
-                        '&::after': {
-                            display: 'none',
-                        },
-                        '& > .MuiSelect-select': {
-                            padding: 0,
-                        },
-                        fontSize: theme.typography.caption.fontSize,
-                    }}
-                    variant={'standard'}
+                <SelectChevronDown
+                    data-testid={`${dataTestId}-sort-select`}
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     value={sortField!}
                     onChange={handleChangeSort}
-                    size={'small'}
-                    IconComponent={KeyboardArrowDown}
                 >
                     {sortableFields?.map((field) => (
                         <MenuItem key={field.key} value={field.key}>
                             {field.name}
                         </MenuItem>
                     ))}
-                </Select>
+                </SelectChevronDown>
             );
         }
     };
@@ -399,21 +401,33 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
     };
 
     const renderToolbar = (): React.JSX.Element => {
-        const autoRefreshIcon = autoRefreshManualEnabled ? (
+        // One control in two states: `aria-pressed` makes assistive tech announce the state change
+        // rather than a different button. MUI's `ToggleButton` is sized by the theme for a
+        // `ToggleButtonGroup`, so an `IconButton` with a computed pressed tint is used instead.
+        const autoRefreshIcon = (
             <IconButton
-                title={labels?.disableAutoRefresh}
-                aria-label={labels?.disableAutoRefresh || 'Disable auto refresh'}
-                onClick={(): void => handleAutoRefreshIconClick(false)}
+                aria-pressed={autoRefreshManualEnabled}
+                data-testid={`${dataTestId}-auto-refresh`}
+                title={autoRefreshManualEnabled ? labels?.disableAutoRefresh : labels?.enableAutoRefresh}
+                aria-label={
+                    autoRefreshManualEnabled
+                        ? labels?.disableAutoRefresh || 'Disable auto refresh'
+                        : labels?.enableAutoRefresh || 'Enable auto refresh'
+                }
+                onClick={(): void => handleAutoRefreshIconClick(!autoRefreshManualEnabled)}
+                sx={{
+                    '&[aria-pressed="true"]': {
+                        color: (t: Theme): string => t.palette.primary.main,
+                        backgroundColor: (t: Theme): string =>
+                            alpha(t.palette.primary.main, t.palette.action.selectedOpacity),
+                    },
+                }}
             >
-                <Sync />
-            </IconButton>
-        ) : (
-            <IconButton
-                title={labels?.enableAutoRefresh}
-                aria-label={labels?.enableAutoRefresh || 'Enable auto refresh'}
-                onClick={(): void => handleAutoRefreshIconClick(true)}
-            >
-                <SyncDisabled />
+                {autoRefreshManualEnabled ? (
+                    <Repeat size={getLucideSizeFromFontSize('small')} />
+                ) : (
+                    <RepeatOff size={getLucideSizeFromFontSize('small')} />
+                )}
             </IconButton>
         );
 
@@ -422,11 +436,15 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 <Stack direction={'row'} alignItems={'center'} gap={1}>
                     {!dataViewState.isMobile && dataViewState.hasLeftSlot && dataViewState.showLeftSlotToggleButton && (
                         <IconButton
-                            data-testid="toggle-left-slot-button"
+                            data-testid={`${dataTestId}-toggle-left-slot`}
                             aria-label={dataViewState.isLeftSlotOpen ? 'Close filters' : 'Open filters'}
                             onClick={(): void => dataViewState.setLeftSlotOpen?.(!dataViewState.isLeftSlotOpen)}
                         >
-                            {dataViewState.isLeftSlotOpen ? <FilterListOff /> : <FilterList />}
+                            {dataViewState.isLeftSlotOpen ? (
+                                <ListFilterOff size={getLucideSizeFromFontSize('small')} />
+                            ) : (
+                                <ListFilter size={getLucideSizeFromFontSize('small')} />
+                            )}
                         </IconButton>
                     )}
                     <Typography variant={'caption'}>
@@ -436,13 +454,15 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 {sortableFields?.length && renderSortableFields()}
                 <Stack direction={'row'} gap={1}>
                     {autoRefresh && autoRefreshIcon}
+                    {autoRefresh && refreshItems && <Divider orientation="vertical" flexItem={true} />}
                     {refreshItems && (
                         <IconButton
+                            data-testid={`${dataTestId}-refresh`}
                             title={labels?.refresh}
                             aria-label={labels?.refresh || 'Refresh'}
                             onClick={handleClickRefresh}
                         >
-                            <Refresh />
+                            <RotateCw size={getLucideSizeFromFontSize('small')} />
                         </IconButton>
                     )}
                     {additionalComponent}
@@ -454,7 +474,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
     return (
         <div
             style={{
-                borderBottom: `1px solid ${basicGrey100}`,
+                borderBottom: `1px solid ${theme.palette.divider}`,
                 display: 'flex',
                 flexWrap: 'nowrap',
                 alignContent: 'center',
@@ -462,6 +482,7 @@ export const RingDataGridToolbar: React.FC<RingDataGridToolbarProps> = (props): 
                 alignItems: 'center',
                 flexDirection: 'row',
                 height: '40px',
+                flexShrink: 0,
                 padding: theme.spacing(0, 1, 0, 1),
                 ...(enableBulkActions ? { backgroundColor: theme.palette.components.appBar.defaultFill } : {}),
             }}

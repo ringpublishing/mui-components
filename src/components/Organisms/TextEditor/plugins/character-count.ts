@@ -1,5 +1,5 @@
 /**
- * This plugin is copy from original sources, and modified to fit the needs of the project.
+ * This plugin is copied from the original source and modified to fit the needs of the project.
  * https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/src/character-count.ts#L121
  * Licence is MIT: https://github.com/ueberdosis/tiptap/blob/main/packages/extension-character-count/package.json#L10
  */
@@ -10,7 +10,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 
 export interface CharacterCountOptions {
     /**
-     * The maximum number of characters that should be allowed. Defaults to `0`.
+     * The maximum number of characters; `null`, `undefined` or `0` means no limit.
      * @default null
      * @example 180
      */
@@ -22,8 +22,8 @@ export interface CharacterCountOptions {
     allowExceedLimit: boolean;
 
     /**
-     * The mode by which the size is calculated. If set to `textSize`, the textContent of the document is used.
-     * If set to `nodeSize`, the nodeSize of the document is used.
+     * How the size is calculated: the document's `textContent` length for `textSize`, its
+     * `nodeSize` for `nodeSize`.
      * @default 'textSize'
      * @example 'textSize'
      */
@@ -188,14 +188,12 @@ export const CharacterCount = Extension.create<CharacterCountOptions, CharacterC
                     const from = pos - over;
                     const to = pos;
 
-                    // It’s probably a bad idea to mutate transactions within `filterTransaction`
-                    // but for now this is working fine.
+                    // `filterTransaction` is documented only for cancelling a transaction; this one is
+                    // trimmed in place instead, so the paste applies cut to the limit.
                     transaction.deleteRange(from, to);
 
-                    // In some situations, the limit will continue to be exceeded after trimming.
-                    // This happens e.g. when truncating within a complex node (e.g. table)
-                    // and ProseMirror has to close this node again.
-                    // If this is the case, we prevent the transaction completely.
+                    // The limit may still be exceeded after trimming, e.g. when truncating inside a
+                    // complex node such as a table; the transaction is then blocked entirely.
                     const updatedSize = this.storage.characters({ node: transaction.doc });
 
                     if (updatedSize > limit) {

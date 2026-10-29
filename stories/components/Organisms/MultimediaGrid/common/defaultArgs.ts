@@ -1,6 +1,6 @@
 import { action } from 'storybook/actions';
 import { MultimediaGridProps } from '../../../../../src/index.js';
-import { sortableFields } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { sortableFields } from '../../../../helpers/ringDemoData.js';
 
 const DEFAULT_COLUMNS = { xs: 2, sm: 3, md: 4, lg: 5 };
 const DEFAULT_CELL_RATIO = '3/4';

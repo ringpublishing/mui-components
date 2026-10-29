@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 import { SimpleTree } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithSearch } from './stories/WithSearch.js';
-import { WithDynamicLoading } from './stories/WithDynamicLoading.js';
-import { WithCustomElements } from './stories/WithCustomElements.js';
-import { ControlledSelection } from './stories/ControlledSelection.js';
-import { WithPersistence } from './stories/WithPersistence.js';
-import { WithExternalQueryClient } from './stories/WithExternalQueryClient.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithSearch as WithSearchStory } from './stories/WithSearch.js';
+import { WithDynamicLoading as WithDynamicLoadingStory } from './stories/WithDynamicLoading.js';
+import { WithCustomElements as WithCustomElementsStory } from './stories/WithCustomElements.js';
+import { WithPersistence as WithPersistenceStory } from './stories/WithPersistence.js';
+import { ControlledSelection as ControlledSelectionStory } from './stories/ControlledSelection.js';
+import { WithExternalQueryClient as WithExternalQueryClientStory } from './stories/WithExternalQueryClient.js';
 import defaultArgs from './common/defaultArgs.js';
 import SimpleTreeMdx from './SimpleTree.mdx';
 
@@ -126,20 +126,19 @@ const meta: Meta<typeof SimpleTree> = {
         },
         queryClient: {
             control: false,
-            description: 'Optional app `QueryClient` so tree queries use your cache / DevTools.',
-            table: { category: 'behavior', type: { summary: 'QueryClient' } },
+            description:
+                'Your TanStack Query client for `loadItems`. Needs the dynamic loading setup; ignored without `loadItems`.',
+            table: { category: 'behavior', type: { summary: 'TreeQueryClient' } },
         },
     },
 };
 
 export default meta;
 
-export {
-    Default,
-    WithSearch,
-    WithDynamicLoading,
-    WithCustomElements,
-    ControlledSelection,
-    WithPersistence,
-    WithExternalQueryClient,
-};
+export const Default = DefaultStory;
+export const WithSearch = { ...WithSearchStory, name: 'Search' };
+export const WithDynamicLoading = { ...WithDynamicLoadingStory, name: 'Dynamic loading' };
+export const WithCustomElements = { ...WithCustomElementsStory, name: 'Custom elements' };
+export const WithPersistence = { ...WithPersistenceStory, name: 'Persistence' };
+export const ControlledSelection = { ...ControlledSelectionStory, name: 'Controlled selection' };
+export const WithExternalQueryClient = { ...WithExternalQueryClientStory, name: 'External QueryClient' };

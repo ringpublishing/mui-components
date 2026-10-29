@@ -1,4 +1,5 @@
-import { CommentsProps, defaultValues } from '../../../../../src/index.js';
+import { CommentsProps } from '../../../../../src/index.js';
+import { defaultValues } from '../../../../../src/components/Organisms/Comments/Comments.js';
 
 const defaultArgs: Partial<CommentsProps> = {
     labels: {

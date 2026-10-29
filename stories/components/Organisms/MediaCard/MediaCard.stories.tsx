@@ -1,16 +1,17 @@
 import type { LooseArgTypesMeta } from '../../../helpers.js';
 import { MediaCard } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { AspectRatio } from './stories/AspectRatio.js';
-import { Placeholder } from './stories/Placeholder.js';
-import { Actions } from './stories/Actions.js';
-import { StatusLabels } from './stories/StatusLabels.js';
-import { Hoverable } from './stories/Hoverable.js';
-import { Checkbox } from './stories/Checkbox.js';
-import { Slots } from './stories/Slots.js';
-import { CardEvents } from './stories/CardEvents.js';
-import { AdvancedExample } from './stories/AdvancedExample.js';
-import { CustomTooltips } from './stories/CustomTooltips.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { AspectRatio as AspectRatioStory } from './stories/AspectRatio.js';
+import { StatusLabels as StatusLabelsStory } from './stories/StatusLabels.js';
+import { Hoverable as HoverableStory } from './stories/Hoverable.js';
+import { Checkbox as CheckboxStory } from './stories/Checkbox.js';
+import { Actions as ActionsStory } from './stories/Actions.js';
+import { CustomTooltips as CustomTooltipsStory } from './stories/CustomTooltips.js';
+import { CardEvents as CardEventsStory } from './stories/CardEvents.js';
+import { Slots as SlotsStory } from './stories/Slots.js';
+import { Placeholder as PlaceholderStory } from './stories/Placeholder.js';
+import { ImageLoadError as ImageLoadErrorStory } from './stories/ImageLoadError.js';
+import { AdvancedExample as AdvancedExampleStory } from './stories/AdvancedExample.js';
 import defaultArgs from './common/defaultArgs.js';
 import MediaCardMdx from './MediaCard.mdx';
 
@@ -36,7 +37,7 @@ const meta = {
         },
         image: {
             control: 'text',
-            description: 'URL of the image. When not provided, an empty image placeholder is displayed.',
+            description: 'URL of the image. Without it the frame shows `iconPlaceholder` on a `FeaturedIcon` plate.',
             table: {
                 category: 'content',
                 type: { summary: 'string' },
@@ -52,11 +53,12 @@ const meta = {
         },
         iconPlaceholder: {
             control: 'text',
-            description: 'Icon for the placeholder.',
+            description:
+                'Glyph on a `FeaturedIcon` plate sized from the frame; `null` or `false` leaves the frame empty. A failed image shows `ImageOff`.',
             table: {
                 category: 'content',
                 type: { summary: 'ReactNode' },
-                defaultValue: { summary: '<PhotoOutlined />' },
+                defaultValue: { summary: '<Image />' },
             },
         },
         actions: {
@@ -67,9 +69,16 @@ const meta = {
                 type: { summary: 'Action[]' },
             },
         },
+        actionsAriaLabel: {
+            control: 'text',
+            description:
+                'Accessible name of the icon button that opens the `actions` menu; a blank value falls back to the default.',
+            table: { category: 'content', defaultValue: { summary: "'More actions'" }, type: { summary: 'string' } },
+        },
         statusLabels: {
             control: 'object',
-            description: 'Collection of status labels displayed over the image in the left top corner.',
+            description:
+                'Status labels over the top-left corner of the image, rendered as tag chips; `default`, `primary` and `secondary` become the grey `stone` tag.',
             table: {
                 category: 'content',
                 type: { summary: 'StatusLabelProps[]' },
@@ -112,7 +121,7 @@ const meta = {
             table: {
                 category: 'appearance',
                 type: { summary: "'contain' | 'cover' | 'fill' | 'none' | 'scale-down'" },
-                defaultValue: { summary: 'cover' },
+                defaultValue: { summary: 'contain' },
             },
         },
 
@@ -202,10 +211,10 @@ const meta = {
         'slotProps.cardMedia': {
             name: 'slotProps.cardMedia',
             description:
-                'Props applied to the default `<CardMedia>`. Used only when `slots.mediaCard` is **not** provided. Lets you switch the underlying element (`component: "video" | "audio" | "img"`), tweak `src`, etc.',
+                'Props applied to the default `<img>`. Used only when `slots.mediaCard` is **not** provided. `component` is fixed; setting this slot skips the skeleton and the placeholder.',
             table: {
                 category: 'slotProps',
-                type: { summary: 'CardMediaProps' },
+                type: { summary: "Omit<CardMediaProps<'img'>, 'component'>" },
             },
             control: false,
         },
@@ -234,16 +243,15 @@ const meta = {
 
 export default meta;
 
-export {
-    Default,
-    AspectRatio,
-    Placeholder,
-    Actions,
-    StatusLabels,
-    Hoverable,
-    Checkbox,
-    Slots,
-    CardEvents,
-    AdvancedExample,
-    CustomTooltips,
-};
+export const Default = DefaultStory;
+export const AspectRatio = { ...AspectRatioStory, name: 'Aspect ratio' };
+export const StatusLabels = { ...StatusLabelsStory, name: 'Status labels' };
+export const Hoverable = HoverableStory;
+export const Checkbox = CheckboxStory;
+export const Actions = ActionsStory;
+export const CustomTooltips = { ...CustomTooltipsStory, name: 'Custom tooltips' };
+export const CardEvents = { ...CardEventsStory, name: 'Card events' };
+export const Slots = SlotsStory;
+export const Placeholder = PlaceholderStory;
+export const ImageLoadError = { ...ImageLoadErrorStory, name: 'Image load error' };
+export const AdvancedExample = { ...AdvancedExampleStory, name: 'Combined features' };

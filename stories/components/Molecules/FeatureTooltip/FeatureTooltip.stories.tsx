@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { FeatureTooltip } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithOneAction } from './stories/WithOneAction.js';
-import { WithNoActions } from './stories/WithNoActions.js';
-import { WithImage } from './stories/WithImage.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithImage as WithImageStory } from './stories/WithImage.js';
+import { WithOneAction as WithOneActionStory } from './stories/WithOneAction.js';
+import { WithNoActions as WithNoActionsStory } from './stories/WithNoActions.js';
 import defaultArgs from './common/defaultArgs.js';
 import FeatureTooltipMdx from './FeatureTooltip.mdx';
 
@@ -167,4 +167,7 @@ const meta: Meta<typeof FeatureTooltip> = {
 
 export default meta;
 
-export { Default, WithOneAction, WithNoActions, WithImage };
+export const Default = DefaultStory;
+export const WithImage = { ...WithImageStory, name: 'Image' };
+export const WithOneAction = { ...WithOneActionStory, name: 'One action' };
+export const WithNoActions = { ...WithNoActionsStory, name: 'No actions' };

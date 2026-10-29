@@ -1,9 +1,9 @@
 import type { Meta } from '@storybook/react-vite';
 import { SearchBar } from '../../../../src/index.js';
 import { searchBoxArgTypes } from '../SearchBox/common/argTypes.js';
-import { Default } from './stories/Default.js';
-import { ClassSelectorChildrenStack } from './stories/ClassSelectorChildrenStack.js';
-import { Controlled } from './stories/Controlled.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { ClassSelectorChildrenStack as ClassSelectorChildrenStackStory } from './stories/ClassSelectorChildrenStack.js';
+import { Controlled as ControlledStory } from './stories/Controlled.js';
 import defaultArgs from './common/defaultArgs.js';
 import SearchBarMdx from './SearchBar.mdx';
 
@@ -34,4 +34,6 @@ const meta: Meta<typeof SearchBar> = {
 
 export default meta;
 
-export { Default, ClassSelectorChildrenStack, Controlled };
+export const Default = DefaultStory;
+export const ClassSelectorChildrenStack = { ...ClassSelectorChildrenStackStory, name: 'Custom styling' };
+export const Controlled = ControlledStory;

@@ -2,9 +2,12 @@ import type { Meta } from '@storybook/react-vite';
 import { ActionBox } from '../../../../src/index.js';
 import ActionBoxMDX from './ActionBox.mdx';
 import defaultArgs from './common/defaultArgs.js';
-import { CustomStyling } from './stories/CustomStyling.js';
-import { PopperPlacement } from './stories/PopperPlacement.js';
-import { Default } from './stories/Default.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { PopperPlacement as PopperPlacementStory } from './stories/PopperPlacement.js';
+import { VisibleElements as VisibleElementsStory } from './stories/VisibleElements.js';
+import { FocusAfterAction as FocusAfterActionStory } from './stories/FocusAfterAction.js';
+import { LongLabels as LongLabelsStory } from './stories/LongLabels.js';
+import { CustomStyling as CustomStylingStory } from './stories/CustomStyling.js';
 
 const meta: Meta<typeof ActionBox> = {
     component: ActionBox,
@@ -20,23 +23,23 @@ const meta: Meta<typeof ActionBox> = {
     argTypes: {
         actions: {
             control: false,
-            description: 'Actions list shown in Action Box',
+            description: 'Actions shown in the menu',
             table: {
                 type: { summary: 'ActionBoxItem[]' },
-                defaultValue: { summary: '[]' },
                 category: 'data',
             },
         },
         placement: {
-            description: 'Placement of the Action Box relative to the anchor element',
+            description: 'Side of the trigger the menu opens on',
             table: {
                 type: { summary: 'PopperProps["placement"]' },
-                defaultValue: { summary: 'bottom-end' },
+                defaultValue: { summary: 'below the trigger, left-aligned' },
                 category: 'positioning',
             },
         },
         tooltipPlacement: {
-            description: 'Placement of the disabled reason for the action tooltip',
+            description:
+                "Side of an action's tooltip (its disabled reason or cut-off label). Moves above or below when there is no room beside the menu",
             table: {
                 type: { summary: 'TooltipProps["placement"]' },
                 defaultValue: { summary: 'right' },
@@ -44,7 +47,8 @@ const meta: Meta<typeof ActionBox> = {
             },
         },
         hasScroll: {
-            description: 'If true, Action Box will have a scroll if actions exceed visibleActionsCount',
+            description:
+                'Lets the actions beyond `visibleActionsCount` scroll; when false they are cut off. Without `visibleActionsCount` it has no effect',
             table: {
                 type: { summary: 'boolean' },
                 defaultValue: { summary: 'true' },
@@ -52,15 +56,16 @@ const meta: Meta<typeof ActionBox> = {
             },
         },
         visibleActionsCount: {
-            description: 'Number of actions visible without scrolling',
+            description:
+                'Number of actions the menu is tall enough for, counted as 36px items (48px on small screens), so taller items show fewer',
             table: {
                 type: { summary: 'number' },
-                defaultValue: { summary: 'actions.length' },
+                defaultValue: { summary: 'every action, up to the screen height' },
                 category: 'behavior',
             },
         },
         zIndex: {
-            description: 'Z-index of the Action Box',
+            description: 'Z-index of the menu',
             table: {
                 type: { summary: 'number' },
                 defaultValue: { summary: 'theme.zIndex.modal' },
@@ -69,15 +74,16 @@ const meta: Meta<typeof ActionBox> = {
         },
         anchorEl: {
             control: false,
-            description: 'Ref to the anchor element used to position the Action Box',
+            description:
+                'Ref to the trigger. A click on it opens and closes the menu. Pass the ref object, not `ref.current`',
             table: {
-                type: { summary: 'RefObject<HTMLElement>' },
+                type: { summary: 'RefObject<HTMLElement | null>' },
                 category: 'data',
             },
         },
         sx: {
             control: false,
-            description: 'Overrides the Paper styles for the Action Box',
+            description: 'Styles of the menu surface (the Paper)',
             table: {
                 type: { summary: 'SxProps<Theme>' },
                 category: 'customization',
@@ -102,4 +108,9 @@ const meta: Meta<typeof ActionBox> = {
 
 export default meta;
 
-export { Default, PopperPlacement, CustomStyling };
+export const Default = DefaultStory;
+export const PopperPlacement = { ...PopperPlacementStory, name: 'Placement' };
+export const VisibleElements = { ...VisibleElementsStory, name: 'Visible actions count' };
+export const FocusAfterAction = { ...FocusAfterActionStory, name: 'Focus after an action' };
+export const LongLabels = { ...LongLabelsStory, name: 'Long labels' };
+export const CustomStyling = { ...CustomStylingStory, name: 'Custom styling' };

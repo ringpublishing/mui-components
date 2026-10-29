@@ -5,7 +5,9 @@
         "lib": ["dom", "esnext"],
         "skipLibCheck": true,
         "paths": {
-            "@ringpublishing/mui-components": ["./src/index.ts"]
+            "@ringpublishing/mui-components": ["./src/index.ts"],
+            "@ringpublishing/mui-components/icons": ["./src/icons/index.ts"],
+            "@ringpublishing/mui-components/tree-dynamic-loading": ["./src/treeDynamicLoading.ts"]
         }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { EditOutlined } from '@mui/icons-material';
+import { Pencil } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import { DataTree, DataTreeItem } from '../../../../../src/index.js';
 import WithSearchExampleCode from './code/WithSearchExample.tsx?raw';
@@ -16,7 +16,7 @@ const exampleItems: DataTreeItem[] = [
         column1: 'Column1 0',
         column2: 'Column2 0',
         expanded: true,
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '0.0',
@@ -63,7 +63,7 @@ const exampleItems: DataTreeItem[] = [
         label: 'Item 1',
         column1: 'Column1 1',
         column2: 'Column2 1',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '1.0',
@@ -104,7 +104,7 @@ const exampleItems: DataTreeItem[] = [
         label: 'Item 3',
         column1: 'Column1 3',
         column2: 'Column2 3',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
     },
 ];
 

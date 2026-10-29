@@ -1,15 +1,23 @@
 import { ChipProps, Divider, Stack, Typography } from '@mui/material';
-import { basicGrey100 } from '@ringpublishing/mui-theme';
 import React, { useMemo, useState } from 'react';
 import { ChipsGroup } from '../Molecules/ChipsGroup/ChipsGroup.js';
 
+/**
+ * An active filter shown as a chip above a `RingDataGrid` or a `MultimediaGrid` (`filterChips.chips`).
+ */
 export interface FilterChip {
+    /**
+     * Name of the filter, rendered before the value.
+     */
     filter: string;
     /**
      * Value of the filter. When omitted (e.g. boolean filters where only the key is meaningful),
      * the chip renders just the `filter` key without the `:` separator.
      */
     value?: string;
+    /**
+     * Called when the chip's delete button is clicked.
+     */
     onDelete: () => void;
 }
 
@@ -39,7 +47,7 @@ export const FilterChipGroup = (props: FilterChipGroupProps): React.JSX.Element 
                     ({
                         label: chip.value ? (
                             <Stack direction="row" alignItems="center" display={'flex'} gap={'4px'}>
-                                <Typography color="secondary">{chip.filter}:</Typography>
+                                <Typography color="text.secondary">{chip.filter}:</Typography>
                                 <Typography noWrap={true}>{chip.value}</Typography>
                             </Stack>
                         ) : (
@@ -75,8 +83,9 @@ export const FilterChipGroup = (props: FilterChipGroupProps): React.JSX.Element 
     };
 
     return (
-        <Stack gap={1} sx={{ pt: 1 }}>
+        <Stack gap={1} sx={{ pt: 1 }} data-testid="ring-filterchipgroup">
             <ChipsGroup
+                dataTestIdSuffix="filters"
                 collapsable={true}
                 expandable={true}
                 chips={chipsGroupChips}
@@ -84,7 +93,7 @@ export const FilterChipGroup = (props: FilterChipGroupProps): React.JSX.Element 
                 customLabels={props.customLabels}
                 sx={{ px: 1 }}
             />
-            <Divider sx={{ borderColor: basicGrey100 }} />
+            <Divider />
         </Stack>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { action } from 'storybook/actions';
 
 import {
+    BottomBarSlotProps,
     DataView,
     DataViewProps,
     MultimediaGrid,
@@ -11,11 +12,10 @@ import {
     MediaGridItemProps,
     MediaGridItemsProps,
 } from '../../../../../src/index.js';
-import { sortableFields, useMultimediaGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { sortableFields, useMultimediaGridDemoData } from '../../../../helpers/ringDemoData.js';
 import { DEFAULT_COLUMNS } from '../../../../../src/components/Organisms/MultimediaGrid/useResolvedColumns.js';
 import { DEFAULT_CELL_RATIO } from '../../../../../src/components/Organisms/MultimediaGrid/useCellRatio.js';
 import { StoryRingDataGridWrapper } from '../../../Organisms/DataGrid/common/StoryRingDataGridWrapper.js';
-import { BottomBarSlotProps } from '../../../../../src/components/internal/BottomBar/BottomBarContainer.js';
 import { Filter, Detail, AdditionalComponent, searchBarChildren, searchBarMenuActions } from './defaultArgs.js';
 
 export interface DataViewWrapperProps {

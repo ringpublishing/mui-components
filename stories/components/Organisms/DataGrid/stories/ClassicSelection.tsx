@@ -1,16 +1,22 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
+import { Box } from '@mui/material';
 import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import ClassicSelectionExampleCode from './code/ClassicSelectionExample.tsx?raw';
 import { RingDataGrid as RingDataGridComponent, RingDataGridProps } from '../../../../../src/index.js';
 import { defaultFilterChips } from '../common/defaultArgs.js';
 import { columnsForDataGridRowsGenerator, dataGridRowsGenerator } from '../common/helpers.js';
+import { GRID_CONTAINER_SX } from '../common/gridContainer.js';
 
 type Story = StoryObj<typeof RingDataGridComponent>;
 
 const Example = (args: RingDataGridProps): React.JSX.Element => {
-    return <RingDataGridComponent {...args} />;
+    return (
+        <Box sx={GRID_CONTAINER_SX}>
+            <RingDataGridComponent {...args} />
+        </Box>
+    );
 };
 
 export const ClassicSelection: Story = {

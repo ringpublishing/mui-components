@@ -1,0 +1,1383 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Breaking Version Upgrades/2.0.0" />
+
+# Breaking version upgrades — 2.0.0
+
+2.0.0 renders the redesigned Ring design system by default, draws its icons with lucide, removes `ChipsInput` and
+re-namespaces the `data-testid` attributes. This page lists every breaking change between 1.19.0 and 2.0.0: for each
+one, where it shows in an application, what to change and a before/after example.
+
+The examples assume React 18 or 19, MUI 7, TypeScript 5, `@ringpublishing/mui-theme` 5, `lucide-react` 1.42 or later
+and `ThemeConfig` at the application root; the unit-test examples use Testing Library, the e2e ones
+Playwright.
+
+## Upgrade in this order
+
+1. Upgrade `@ringpublishing/mui-theme` to 5, then the components — [Theme and Emotion are peer dependencies](#200---theme-and-emotion-are-peer-dependencies), and check [the theme's own breaking changes](#200---theme-5-breaking-changes).
+2. Install `lucide-react`, drop `@mui/icons-material` — [Icons](#200---icons-muiicons-material--lucide-react).
+3. Load the Inter font — [Components render the redesign by default](#200---components-render-the-redesign-by-default).
+4. Call `enableTreeDynamicLoading()` if a tree uses `loadItems` — [Tree dynamic loading](#200---simpletree-and-datatree-dynamic-loading-is-opt-in).
+5. Fix what no longer compiles: [`ChipsInput`](#200---chipsinput--autocomplete-variantchipsinput), [`AutocompleteChangeReason`](#200---autocompletechangereason-is-a-local-union-with-reorder), [`AutocompleteProps`](#200---autocompleteprops-includes-the-chipsinput-variant), [`AutocompleteLabels.title`](#200---autocompletelabelstitle-is-a-reactnode), [`ActionBox` props](#200---actionbox-renders-a-mui-menu), [deep imports](#200---deep-imports-from-dist-no-longer-resolve), [`version`](#200---themeconfig-and-getcreatedtheme-take-no-version).
+6. Run the test suites: [`data-testid` audit](#200---data-testid-audit--renamed-and-re-namespaced-selectors), [chip delete glyph](#200---chip-delete-glyph-is-the-lucide-x), [icon test ids](#200---icons-muiicons-material--lucide-react), DOM snapshots.
+7. Review the screens: [Accordion](#200---accordion-summary-column-layout), [FiltersWrapper](#200---filterswrapper-input-variant), [date and time pickers](#200---date-and-time-picker-field-variant), [typography variants](#200---typography-variants-migrated-to-standard-ones), [Detail icons](#200---detail-field-icon-slot-owns-its-icon), [icon sizes](#200---plain-lucide-icons-take-the-design-systems-size-and-stroke).
+
+## On this page
+
+- [[2.0.0] - Theme and Emotion are peer dependencies](#200---theme-and-emotion-are-peer-dependencies)
+- [[2.0.0] - Theme 5 breaking changes](#200---theme-5-breaking-changes)
+- [[2.0.0] - Components render the redesign by default](#200---components-render-the-redesign-by-default)
+- [[2.0.0] - ThemeConfig and getCreatedTheme take no version](#200---themeconfig-and-getcreatedtheme-take-no-version)
+- [[2.0.0] - Typography variants migrated to standard ones](#200---typography-variants-migrated-to-standard-ones)
+- [[2.0.0] - Icons: @mui/icons-material → lucide-react](#200---icons-muiicons-material--lucide-react)
+- [[2.0.0] - Plain lucide icons take the design system's size and stroke](#200---plain-lucide-icons-take-the-design-systems-size-and-stroke)
+- [[2.0.0] - absoluteStrokeWidth on plain lucide icons](#200---absolutestrokewidth-on-plain-lucide-icons)
+- [[2.0.0] - ChipsInput → Autocomplete variant="chipsInput"](#200---chipsinput--autocomplete-variantchipsinput)
+- [[2.0.0] - AutocompleteChangeReason is a local union with reorder](#200---autocompletechangereason-is-a-local-union-with-reorder)
+- [[2.0.0] - AutocompleteProps includes the chipsInput variant](#200---autocompleteprops-includes-the-chipsinput-variant)
+- [[2.0.0] - AutocompleteLabels.title is a ReactNode](#200---autocompletelabelstitle-is-a-reactnode)
+- [[2.0.0] - Chip delete glyph is the lucide X](#200---chip-delete-glyph-is-the-lucide-x)
+- [[2.0.0] - Status labels render as tag chips](#200---status-labels-render-as-tag-chips)
+- [[2.0.0] - Accordion label typography](#200---accordion-label-typography)
+- [[2.0.0] - Accordion summary column layout](#200---accordion-summary-column-layout)
+- [[2.0.0] - FiltersWrapper input variant](#200---filterswrapper-input-variant)
+- [[2.0.0] - Date and time picker field variant](#200---date-and-time-picker-field-variant)
+- [[2.0.0] - ActionBox renders a MUI Menu](#200---actionbox-renders-a-mui-menu)
+- [[2.0.0] - Detail field icon slot owns its icon](#200---detail-field-icon-slot-owns-its-icon)
+- [[2.0.0] - Deep imports from dist no longer resolve](#200---deep-imports-from-dist-no-longer-resolve)
+- [[2.0.0] - Internal helpers are no longer exported](#200---internal-helpers-are-no-longer-exported)
+- [[2.0.0] - basicGrey100 and basicGrey200 are removed](#200---basicgrey100-and-basicgrey200-are-removed)
+- [[2.0.0] - SimpleTree and DataTree dynamic loading is opt-in](#200---simpletree-and-datatree-dynamic-loading-is-opt-in)
+- [[2.0.0] - data-testid audit — renamed and re-namespaced selectors](#200---data-testid-audit--renamed-and-re-namespaced-selectors)
+- [[2.0.0] - FileUploader passes on only the files it takes](#200---fileuploader-passes-on-only-the-files-it-takes)
+- [[2.0.0] - SearchBox is an outlined field](#200---searchbox-is-an-outlined-field)
+- [[2.0.0] - Other changes you may notice](#200---other-changes-you-may-notice)
+
+## [2.0.0] - Theme and Emotion are peer dependencies
+
+`@ringpublishing/mui-theme`, `@emotion/react` and `@emotion/styled` are peer dependencies instead of dependencies. The
+application installs one copy of each; the components, `ThemeConfig` and your own code share it.
+
+### Where to look
+
+- `package.json` lists `@ringpublishing/mui-theme` 4.x, or does not list it at all because 1.x installed it.
+- `npm install @ringpublishing/mui-components@^2` stops with `ERESOLVE`:
+
+```text
+npm error code ERESOLVE
+npm error ERESOLVE unable to resolve dependency tree
+npm error While resolving: my-app@1.0.0
+npm error Found: @ringpublishing/mui-theme@4.10.1
+npm error node_modules/@ringpublishing/mui-theme
+npm error   @ringpublishing/mui-theme@"^4.10.1" from the root project
+npm error Could not resolve dependency:
+npm error peer @ringpublishing/mui-theme@"^5…" from @ringpublishing/mui-components@2.0.0
+```
+
+### What to change
+
+Upgrade the theme to 5 before the components. The package manager resolves the new peer dependency against the copy
+that is already installed, so the order matters.
+
+**npm** (7 and later) — two commands, in this order. Both packages in one command stop with the same `ERESOLVE` while
+1.x is installed:
+
+```bash
+npm i @ringpublishing/mui-theme@^5
+npm i @ringpublishing/mui-components@^2
+```
+
+npm removes `@mui/icons-material` on its own when nothing else depends on it, and installs `lucide-react`.
+
+**pnpm** (8 and later) — both in one command. `pnpm add @ringpublishing/mui-components@^2` alone succeeds with a warning
+(`✕ unmet peer @ringpublishing/mui-theme@^5…: found 4.10.1`) and leaves the components on theme 4:
+
+```bash
+pnpm add @ringpublishing/mui-components@^2 @ringpublishing/mui-theme@^5
+```
+
+**yarn 1** does not install peer dependencies: it warns and keeps theme 4. Add the three packages yourself:
+
+```bash
+yarn add @ringpublishing/mui-components@^2 @ringpublishing/mui-theme@^5 @emotion/react @emotion/styled
+```
+
+Do not silence `ERESOLVE` with `--force` or `--legacy-peer-deps`: the application keeps theme 4, which 2.0.0 does not
+support, and `--legacy-peer-deps` skips every other peer dependency as well, `lucide-react` and Emotion included.
+
+### Before and after
+
+```diff
+ "dependencies": {
+-    "@ringpublishing/mui-components": "^1.19.0",
+-    "@ringpublishing/mui-theme": "^4.10.1"
++    "@emotion/react": "^11.14.0",
++    "@emotion/styled": "^11.14.0",
++    "@ringpublishing/mui-components": "^2.0.0",
++    "@ringpublishing/mui-theme": "^5.0.0",
++    "lucide-react": "^1.42.0"
+ }
+```
+
+Declare the theme even where the package manager would install it for you: every component renders with it, so its
+version should be one you chose.
+
+## [2.0.0] - Theme 5 breaking changes
+
+`@ringpublishing/mui-theme` 5 changes more than the components' look. The entries below break application code; the
+full list is in the `CHANGELOG.md` shipped with `@ringpublishing/mui-theme`.
+
+### Where to look
+
+```bash
+rg "::-webkit-scrollbar|scrollbar-bg|components\.detail\.close|components\.mediaImage|(contrast|primary|secondary|error|warning|info|success|text)\.(hover|selected|focus|focusVisible|outlinedBorder|contrast)\b|paper-elevation|elevation\.(outlined|Color)|avatar\.fill|slideFill|chip\.default(CloseFill|HoverFill|EnabledBorder|FocusFill)|skeleton\.border|externalComponentsTheme|styleOverrides|slotProps=\{\{\s*paper"
+```
+
+- `::-webkit-scrollbar*` rules, `display: none` included: the theme sets `scrollbar-width` on every element and
+  `scrollbar-color` on `html`, so Chromium 121+ and Safari 18.2+ ignore them.
+- `palette._native['scrollbar-bg']`, `palette.components.detail.close`, `palette.components.mediaImage` and the
+  `hover`, `selected`, `focus`, `focusVisible`, `outlinedBorder` and `contrast` slots of `palette.contrast`: withdrawn.
+  They read `undefined`, the theme's types do not declare them, and an `sx` path to one sets no colour.
+- Other palette keys of the 4.x theme that the redesign does not define: the `hover`, `selected`, `focus`,
+  `focusVisible`, `outlinedBorder` and `contrast` slots of `primary`, `secondary`, `error`, `warning`, `info`, `success`
+  and `text`, `background['paper-elevation-*']`, `elevation.outlined`, `elevation.Color`,
+  `palette.components.avatar.fill`, `switch.slideFill`, the `chip.default*` slots and `skeleton.border`. They read
+  `undefined` and an `sx` path to one, such as `bgcolor: 'primary.hover'`, sets no colour. TypeScript does not catch a
+  read: most were never declared and the rest are optional, so search for them; the theme's `CHANGELOG.md` lists them
+  exactly.
+- An entry in `externalComponentsTheme` for a component the theme now defines — `MuiButton`, `MuiIconButton`,
+  `MuiCheckbox`, `MuiSwitch`, the inputs (`MuiInputBase`, `MuiInput`, `MuiFilledInput`, `MuiInputAdornment`,
+  `MuiFormHelperText`), the date and time pickers and their fields, `MuiSimpleTreeView`, `MuiRichTreeView` and
+  `MuiDataGrid`: the theme's own entry replaces yours instead of merging with it, so what you set there, such as a
+  grid's `density`, no longer applies. The theme's `CHANGELOG.md` names every key.
+- An object in `themeOverrides.components` for a slot the theme styles with a function — `MuiButton.root`,
+  `MuiIconButton.root`, `MuiChip.root`, `MuiSwitch.root` and the input roots among them: it replaces the theme's style
+  instead of adding to it, so one `minWidth` on `MuiButton.root` brings back MUI's uppercase label and 4px corners, and
+  one margin on `MuiSwitch.root` brings back MUI's own switch. The theme's `README.md` lists every such slot.
+- An `Autocomplete` `slotProps.paper` passed as a function: ignored; the list opens on elevation 8.
+
+### What to change
+
+Style or hide scrollbars with `scrollbar-width` and `scrollbar-color`. Read `palette._native.scrollbarBackground` for
+the scrollbar thumb, use `color="overlay"` for controls over imagery and `palette.components.media.backgroundFill` for a
+media frame, and replace a `palette.contrast` state with `alpha(palette.contrast.main, palette.action.<state>Opacity)`.
+Derive the other state colours the same way from `palette.<colour>.main`, and use `palette.divider` for borders and
+`palette.background.paper` for surfaces. For a slot the theme styles with a function, pass a function that repeats the
+styles you keep, or style the element with `sx` where you render it.
+Move the entries for the components above to `themeOverrides.components`. Move a `MuiDataGrid` entry there too and spread
+`ringDataGridOverrides.MuiDataGrid` from `@ringpublishing/mui-theme/mui-x` into it: an entry of your own replaces the
+grid defaults `ThemeConfig` adds, so without them the grid shows its footer again and its column titles change colour.
+Typing `MuiDataGrid` in `themeOverrides.components` needs MUI X's theme augmentation. Pass `slotProps.paper` as an
+object.
+
+### Before and after
+
+```tsx
+// before
+<Box sx={{ overflowX: 'auto', '&::-webkit-scrollbar': { display: 'none' } }} />
+<Autocomplete slotProps={{ paper: () => ({ elevation: 2 }) }} … />
+
+// after
+<Box sx={{ overflowX: 'auto', scrollbarWidth: 'none' }} />
+<Autocomplete slotProps={{ paper: { elevation: 2 } }} … />
+```
+
+```tsx
+// before
+<ThemeConfig mode="light" externalComponentsTheme={{ MuiDataGrid: { defaultProps: { density: 'compact' } } }}>
+    <App />
+</ThemeConfig>;
+
+// after
+import type {} from '@mui/x-data-grid/themeAugmentation';
+import { ringDataGridOverrides } from '@ringpublishing/mui-theme/mui-x';
+
+<ThemeConfig
+    mode="light"
+    themeOverrides={{
+        components: {
+            MuiDataGrid: {
+                ...ringDataGridOverrides.MuiDataGrid,
+                defaultProps: { ...ringDataGridOverrides.MuiDataGrid.defaultProps, density: 'compact' },
+            },
+        },
+    }}
+>
+    <App />
+</ThemeConfig>;
+```
+
+## [2.0.0] - Components render the redesign by default
+
+`ThemeConfig` and `getCreatedTheme` build the redesigned Ring design system instead of the 1.x look: a new palette,
+typography set in Inter, a new spacing and border-radius scale and design-system shadows.
+
+### Where to look
+
+- Every screen changes look on upgrade, with no code change.
+- Text renders in the system font (Helvetica on macOS) instead of Inter: the theme names the font but does not load
+  it, and nothing had to until now because 1.x used Arial. The build and the console stay clean, so check
+  in DevTools: **Elements → Computed → Rendered Fonts** names Inter, and the **Network** panel filtered to **Font**
+  lists `inter-*.woff2` files.
+- The first render waits for Inter: `ThemeConfig` renders its children once the Inter files the page declares have
+  loaded, at most 2 seconds after it mounts. If they load slowly or fail, the page stays blank for up to 2 seconds.
+  Tests in jsdom render at once: jsdom loads no fonts.
+- `Typography` with `variant="headline1"`, `headline2`, `headline3` or `label`: the theme no longer defines them.
+  They still type-check and render unstyled — see
+  [Typography variants migrated to standard ones](#200---typography-variants-migrated-to-standard-ones).
+
+### What to change
+
+Install the font and import the weights the theme uses once, in the application entry file. Use `@fontsource/inter`,
+not `@fontsource-variable/inter`: the variable package registers the font as `Inter Variable`, a name the theme does not
+look for. To link the font from Google Fonts instead, see
+[Setup → Load the Inter font](?path=/docs/introduction-setup--docs#load-the-inter-font).
+
+```bash
+npm install @fontsource/inter
+```
+
+```javascript
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+```
+
+`waitForFonts={false}` on `ThemeConfig` renders the children at once; the text switches to Inter when the files arrive.
+
+Then review the places where the look changes most: palette (a slate-based scale), border radius
+(`theme.getBorderRadius()`), shadows (design-system elevations instead of MUI defaults) and typography.
+
+### Before and after
+
+```tsx
+// before — 1.x set the text in Arial, so the entry file loaded no font
+import { ThemeConfig } from '@ringpublishing/mui-components';
+
+<ThemeConfig mode="light">
+    <App />
+</ThemeConfig>;
+
+// after — the same ThemeConfig renders the redesign in Inter; load the weights it uses
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import { ThemeConfig } from '@ringpublishing/mui-components';
+
+<ThemeConfig mode="light">
+    <App />
+</ThemeConfig>;
+```
+
+## [2.0.0] - `ThemeConfig` and `getCreatedTheme` take no `version`
+
+`ThemeConfigProps` and `GetCreatedThemeOptions` no longer have a `version` field. `ThemeConfig` and `getCreatedTheme`
+render the redesigned Ring design system described in
+[Components render the redesign by default](#200---components-render-the-redesign-by-default).
+
+### Where to look
+
+A `version` written on `ThemeConfig` or in the options literal of `getCreatedTheme` stops compiling. TypeScript reports
+`TS2322` on `ThemeConfig` and `TS2353` on `getCreatedTheme` (`TS2345` on older TypeScript versions), with:
+
+```text
+Property 'version' does not exist on type 'IntrinsicAttributes & ThemeConfigProps'.
+Object literal may only specify known properties, and 'version' does not exist in type 'GetCreatedThemeOptions'.
+```
+
+TypeScript does not report a `version` that reaches them through a spread, or through an options object built
+beforehand together with other options, so search for it as well:
+
+```bash
+rg -n --hidden "\bversion\b[^\n]*['\"](next|reference)['\"]|\bThemeVersion\b" --glob '!node_modules' --glob '!.git'
+```
+
+### What to change
+
+Remove `version` from `ThemeConfig`, from the options of `getCreatedTheme`, and from the props or options objects
+spread or passed into them. Then review the screens against the redesign.
+
+### Before and after
+
+```tsx
+// before
+<ThemeConfig mode="light" version="reference">
+    <App />
+</ThemeConfig>;
+
+const theme = getCreatedTheme('light', { language: CommonLanguages.plPL, version: 'reference' });
+
+// after
+<ThemeConfig mode="light">
+    <App />
+</ThemeConfig>;
+
+const theme = getCreatedTheme('light', { language: CommonLanguages.plPL });
+```
+
+## [2.0.0] - Typography variants migrated to standard ones
+
+The theme no longer defines the `headline1`, `headline2`, `headline3` and `label` variants. The library stopped using
+them: `Detail` field names and the `Placeholder` footer render `caption`, `Detail` section titles and the `FileUploader`
+heading render `subtitle2`, the `FiltersWrapper` heading renders `subtitle1`. Font sizes are unchanged and the
+uppercase transform is gone.
+
+### Where to look
+
+- Your own `Typography` with one of the four variants. They type-check, because the augmentation is global, and render
+  unstyled, so grep for them:
+
+```bash
+rg -e "variant(=\{?| ?: ?)['\"](headline[123]|label)['\"]" -e "typography(\.|: ?['\"])(headline[123]|label)\b"
+```
+
+- CSS or tests keyed on `.MuiTypography-headline1`, `-headline2`, `-headline3` or `-label` inside `Detail`,
+  `Placeholder`, `FileUploader` and `FiltersWrapper`.
+
+### What to change
+
+Pick the standard variant with the size you need and state the weight or transform you want to keep, as the library
+did. In 1.x `headline2` was 14px / 24px, semibold, uppercase.
+
+### Before and after
+
+```tsx
+// before
+<Typography variant="headline2">Payment details</Typography>
+
+// after — subtitle2 is 14px and semibold
+<Typography variant="subtitle2" sx={{ textTransform: 'uppercase' }}>
+    Payment details
+</Typography>
+```
+
+## [2.0.0] - Icons: `@mui/icons-material` → `lucide-react`
+
+The library draws its icons with [lucide](https://lucide.dev/icons/). `lucide-react` (`^1.42.0`) is a peer dependency
+and `@mui/icons-material` is not.
+
+### Where to look
+
+- `@mui/icons-material` in `package.json` and in imports: `rg "@mui/icons-material"`.
+- Material icons passed into components as elements — an `icon` in `ActionBox` actions, a `startIcon`, an
+  `IconButton` child. They are ordinary React elements, so they keep rendering and type-checking; what changes is the
+  look, because the library's own icons are 20px lucide strokes and a filled 24px Material glyph next to them stands out.
+- Tests that find an icon the library draws by the `data-testid` MUI gives its icons outside production builds
+  (`MoreVertIcon`, `ExpandMoreIcon`, `CloseIcon`, …): lucide icons carry none.
+
+```bash
+rg "TestId\(['\"][A-Za-z]+Icon['\"]\)|data-testid=['\"]?[A-Za-z]+Icon\b"
+```
+
+### What to change
+
+Install `lucide-react`; drop `@mui/icons-material` once nothing else in the application needs it (npm removes it on its
+own when it was installed only as a peer of 1.x).
+
+```bash
+npm install lucide-react
+```
+
+Swap the icons screen by screen. The [Icon Map](?path=/docs/migration-faq-breaking-version-upgrades-2-0-0-icon-map--docs)
+lists replacements for the Material icons used in Ring Publishing modules, two of them Ring glyphs from
+`@ringpublishing/mui-components/icons`; for an icon not listed, find the equivalent on
+[lucide.dev](https://lucide.dev/icons/). The common names:
+
+| `@mui/icons-material`                 | `lucide-react`     |
+| ------------------------------------- | ------------------ |
+| `Delete`                              | `Trash2`           |
+| `Edit`                                | `Pencil`           |
+| `Close`                               | `X`                |
+| `Add`                                 | `Plus`             |
+| `MoreVert`                            | `EllipsisVertical` |
+| `ExpandMore`                          | `ChevronDown`      |
+| `Warning`                             | `TriangleAlert`    |
+| `Visibility`                          | `Eye`              |
+| `ContentCopy`                         | `Copy`             |
+| `Search`, `Check`, `Info`, `Settings` | same name          |
+
+Under `ThemeConfig` a plain lucide icon takes the same props a Material icon did, with one gap:
+
+| Prop                                        | Material icon (1.x) | lucide icon (2.0.0)                                                                                                                   |
+| ------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `color="error"` and the other palette names | works               | works                                                                                                                                 |
+| `fontSize="small" / "medium" / "large"`     | 20 / 24 / 32px      | 20 / 24 / 32px                                                                                                                        |
+| no size prop                                | 24px                | **20px** — the design system default                                                                                                  |
+| `sx`                                        | works               | **type error** (`Property 'sx' does not exist`); without TypeScript it styles nothing — use `<RingLucideIcon icon={Trash2} sx={…} />` |
+| glyph                                       | filled              | 1.5px stroke at every size                                                                                                            |
+
+`fontSize` wins over lucide's `size` when both are set. Everything a lucide icon gets under `ThemeConfig`, when to use
+`RingLucideIcon`, and the Ring glyphs are on the [Icons](?path=/docs/design-icons--docs) page.
+
+In tests, select the control the icon sat in by its role and accessible name: an actions menu button is `More actions`,
+an `Alert` close button `Close`, a `SortableList.DragHandle` `Drag to reorder`.
+
+### Before and after
+
+```tsx
+// before
+import DeleteIcon from '@mui/icons-material/Delete';
+<DeleteIcon color="error" fontSize="small" />;
+
+// after
+import { Trash2 } from 'lucide-react';
+<Trash2 color="error" fontSize="small" />;
+```
+
+```tsx
+// before
+fireEvent.click(screen.getByTestId('MoreVertIcon'));
+
+// after
+fireEvent.click(screen.getByRole('button', { name: 'More actions' }));
+```
+
+## [2.0.0] - Plain lucide icons take the design system's size and stroke
+
+`ThemeConfig` mounts `RingIconDefaults`, which hands every plain `lucide-react` icon under it the design system's 20px
+size and 1.5px stroke instead of lucide's 24px and 2px. Explicit props on an icon still win.
+
+### Where to look
+
+- An application that already used `lucide-react` with 1.x: its icons shrink by 4px and their strokes get thinner on
+  upgrade, with no code change.
+- Icons swapped one-to-one from Material without a size prop: 24px before, 20px now.
+- Strokes that still scale with the icon (1.25px at 20px instead of 1.5px): the application has a `lucide-react` older
+  than 1.42, which ignores the non-scaling stroke `RingIconDefaults` sets.
+- Icons at 24px with a 2px stroke — the default icons of `Alert` and the date pickers, and the components' own icons
+  among them: the application builds its theme with `getCreatedTheme` and its own `ThemeProvider`, so nothing mounts
+  `RingIconDefaults`.
+
+### What to change
+
+An application with its own `ThemeProvider` mounts `RingIconDefaults` inside it, as
+[Icons → Outside `ThemeConfig`](?path=/docs/design-icons--docs#outside-themeconfig-and-overriding-the-defaults) shows.
+Upgrade a `lucide-react` older than 1.42 (`npm i lucide-react@^1.42`). Take the design system's size where you can.
+Where a screen cannot move yet, `fontSize="medium"` restores 24px on one icon, and `size` / `strokeWidth` on an icon
+always win, but the stroke keeps the width you pass at every icon size. To keep lucide's own defaults for a subtree —
+24px and a 2px stroke that scales with the icon — wrap it in `lucide-react`'s `LucideProvider`: a nested provider
+overrides the one `ThemeConfig` mounted. It is a bridge for the migration, not a setting.
+
+### Before and after
+
+```tsx
+// before — lucide's own defaults: 24px with a 2px stroke, which grows with the icon at size={28}
+<Save />
+<Save size={28} />
+
+// after — under ThemeConfig the same elements render 20px and 28px, both with a 1.5px stroke; to keep lucide's defaults:
+import { LucideProvider } from 'lucide-react';
+
+<LucideProvider>
+    <Save />
+    <Save size={28} />
+</LucideProvider>;
+```
+
+## [2.0.0] - `absoluteStrokeWidth` on plain lucide icons
+
+`RingIconDefaults` renders every stroke at a fixed pixel width whatever the icon size. lucide's own
+`absoluteStrokeWidth` divides the stroke width first and hands the result to that non-scaling stroke, so the two
+compound: `<Save absoluteStrokeWidth size={32} />` drew a 2px stroke in an application without `RingIconDefaults` and
+draws 1.125px under `ThemeConfig`.
+
+### Where to look
+
+```bash
+rg "absoluteStrokeWidth"
+```
+
+### What to change
+
+Drop the prop from plain `lucide-react` icons: the stroke is 1.5px at every size without it. `RingLucideIcon` and the
+Ring glyphs (`AIPencilIcon`, `EarthOffIcon`, `ListFilterOffIcon`) switch the non-scaling stroke off when they are given
+the prop, so they keep working.
+
+### Before and after
+
+```tsx
+// before — 2px stroke at 32px
+<Save absoluteStrokeWidth size={32} />
+
+// after — 1.5px stroke at 32px
+<Save size={32} />
+```
+
+## [2.0.0] - `ChipsInput` → `Autocomplete variant="chipsInput"`
+
+`ChipsInput` is removed, together with `ChipsInputProps`, `ChipsInputLabels`, `AutocompleteChip`, `ChipColor` and
+`ChipsColorsType`. Its replacement is `<Autocomplete variant="chipsInput" />`.
+
+### Where to look
+
+```bash
+rg "\bChipsInput(Props|Labels)?\b|\bAutocompleteChip\b|\bChipColor\b|ChipsColorsType|ring-chipsinput"
+```
+
+The import fails to compile; e2e selectors on `ring-chipsinput[-<suffix>]…` find nothing.
+
+### What to change
+
+Move each field to `Autocomplete` with `variant="chipsInput"`. Typed entries are plain strings instead of
+`{ id, label, color }` objects, `onChange` receives `(event, value, reason, details)`, `chipsColors` has no equivalent
+(chips take theme colours; `renderChip` receives an `invalid` flag for a different pair), and the `data-testid`s become
+`ring-autocomplete[-<suffix>]…` with a `-textfield` element between the root and the `-input`.
+[Breaking Version Upgrades → 2.0.0 → ChipsInput Migration](?path=/docs/migration-faq-breaking-version-upgrades-2-0-0-chipsinput-migration--docs)
+maps every prop and walks through a tags field, an identifier filter and a `react-hook-form` field with live examples.
+
+### Before and after
+
+```tsx
+// before
+<ChipsInput
+    labels={{ title: 'Tags', inputPlaceholder: 'Insert value and press Enter', alreadyOnList: 'Already on list' }}
+    value={tags.map((tag) => ({ id: tag, label: tag }))}
+    onChange={(chips) => setTags(chips.map((chip) => chip.label))}
+/>
+
+// after
+<Autocomplete
+    variant="chipsInput"
+    labels={{ title: 'Tags', inputPlaceholder: 'Insert value and press Enter' }}
+    value={tags}
+    onChange={(event, value) => setTags(value)}
+/>
+```
+
+## [2.0.0] - `AutocompleteChangeReason` is a local union with `reorder`
+
+`AutocompleteChangeReason` was re-exported from `@mui/material`. It is now declared locally as MUI's union plus one
+member, `'reorder'`, which `sortableChips` reports after a drag.
+
+```ts
+export type AutocompleteChangeReason = MuiAutocompleteChangeReason | 'reorder';
+```
+
+### Where to look
+
+A handler whose `reason` is annotated with MUI's type stops compiling, whether or not `sortableChips` is on, because the
+component passes the wider type to every `onChange`. TypeScript reports `TS2322` on `onChange`, with:
+
+```text
+Types of parameters 'reason' and 'reason' are incompatible.
+```
+
+```bash
+rg -U "(import|export) (type )?\{[^}]*\bAutocompleteChangeReason\b[^}]*\} from ['\"]@mui/material"
+```
+
+### What to change
+
+Import the reason from `@ringpublishing/mui-components` and give an exhaustive `switch` a `reorder` case or a `default`.
+A reorder is not triggered by a React event, so the component passes a stand-in instead of `null`: `type` is
+`'reorder'`, `nativeEvent` is the pointer event that started the drag (or `{ type: 'reorder' }`),
+`target` and `currentTarget` are that event's target or `null` — not the input — and `preventDefault`,
+`stopPropagation` and `persist` are no-ops. Guard the `reorder` reason before reading `event.currentTarget`.
+
+### Before and after
+
+```tsx
+// before
+import { AutocompleteChangeReason } from '@mui/material';
+
+<Autocomplete
+    multiple
+    options={tags}
+    onChange={(event, value, reason: AutocompleteChangeReason) => {
+        if (reason === 'clear') {
+            return clearTags();
+        }
+        save(value as string[]);
+    }}
+    …
+/>;
+
+// after
+import { AutocompleteChangeReason } from '@ringpublishing/mui-components';
+
+<Autocomplete
+    multiple
+    options={tags}
+    onChange={(event, value, reason: AutocompleteChangeReason) => {
+        switch (reason) {
+            case 'clear':
+                return clearTags();
+            case 'reorder':
+                return saveOrder(value as string[]);
+            default:
+                return save(value as string[]);
+        }
+    }}
+    …
+/>;
+```
+
+## [2.0.0] - `AutocompleteProps` includes the `chipsInput` variant
+
+`AutocompleteProps<T>` is the union of the `Autocomplete` variants: `DefaultAutocompleteProps<T>`,
+`FilterAutocompleteProps<T>` and, new in 2.0.0, `ChipsInputAutocompleteProps<T>`. That member has no `actions`,
+`menuListActions`, `showRecentlyUsed`, `recentlyLocalStorageKey`, `recentlyUsedLimit`, `sortableChips`, `renderTags` or
+`renderValue`, its `options` are optional, and its `value` and `onChange` value are `Array<T | string>`.
+
+### Where to look
+
+```bash
+rg "\bAutocompleteProps\b"
+```
+
+A component that takes `AutocompleteProps` and reads those props, or spreads them into an `Autocomplete` with
+`multiple`, stops compiling:
+
+```text
+TS2339: Property 'recentlyLocalStorageKey' does not exist on type 'AutocompleteProps<Option>'.
+TS18048: 'props.options' is possibly 'undefined'.
+```
+
+### What to change
+
+Type the component with the variants it renders: `DefaultAutocompleteProps<T> | FilterAutocompleteProps<T>` is the 1.x
+`AutocompleteProps<T>`. A component that also renders `variant="chipsInput"` keeps `AutocompleteProps<T>` and checks
+`props.variant === 'chipsInput'` before it reads a prop that variant does not have.
+
+### Before and after
+
+```tsx
+// before
+import { Autocomplete, AutocompleteProps } from '@ringpublishing/mui-components';
+
+function PublicationsAutocomplete(props: AutocompleteProps<Option>) {
+    return <Autocomplete {...props} recentlyLocalStorageKey={props.recentlyLocalStorageKey ?? 'publications'} />;
+}
+
+// after
+import { Autocomplete, DefaultAutocompleteProps, FilterAutocompleteProps } from '@ringpublishing/mui-components';
+
+function PublicationsAutocomplete(props: DefaultAutocompleteProps<Option> | FilterAutocompleteProps<Option>) {
+    return <Autocomplete {...props} recentlyLocalStorageKey={props.recentlyLocalStorageKey ?? 'publications'} />;
+}
+```
+
+## [2.0.0] - `AutocompleteLabels.title` is a `ReactNode`
+
+`labels.title` of `Autocomplete` takes any React node, so `AutocompleteLabels['title']` (and
+`FilterAutocompleteLabels['title']`) is `React.ReactNode` instead of `string`. Passing a string is unchanged.
+
+### Where to look
+
+Code that reads the title where a string is required: `TS2322: Type 'ReactNode' is not assignable to type 'string'.`
+
+```bash
+rg "AutocompleteLabels"
+```
+
+### What to change
+
+Render the title as a node, or check `typeof labels.title === 'string'` where only a string fits, such as an
+`aria-label`.
+
+### Before and after
+
+```tsx
+// before
+const title: string = labels.title;
+
+// after
+const title = typeof labels.title === 'string' ? labels.title : '';
+```
+
+## [2.0.0] - Chip delete glyph is the lucide `X`
+
+Deletable chips show the lucide `X` instead of MUI's filled `CancelIcon`: the chips `Autocomplete` renders itself, with
+and without `sortableChips`, and — through the theme's `MuiChip` default — every other `Chip`, including the ones you
+render in `renderChip` or `DataGrid` combo cells. `ChipsGroup` and the `DataView` bottom bar chips, which drew MUI's
+`Close`, draw the same `X`.
+
+### Where to look
+
+Anything keyed on the old markup, because the delete element is no longer a MUI `SvgIcon`:
+
+| Before                                                                           | After                                                |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `<svg data-testid="CancelIcon" class="MuiSvgIcon-root …">`                       | `<svg class="lucide lucide-x MuiChip-deleteIcon …">` |
+| `getByTestId('CancelIcon')`, or `'CloseIcon'` in `ChipsGroup` and the bottom bar | `container.querySelector('.MuiChip-deleteIcon')`     |
+| CSS on `.MuiSvgIcon-root` inside a chip                                          | CSS on `.MuiChip-deleteIcon`                         |
+
+### What to change
+
+Key tests and CSS on `.MuiChip-deleteIcon`, which is on the element in both versions. `deleteIcon` still wins over the
+default on every chip; `size="1em"` makes a glyph follow the `.MuiChip-deleteIcon` font size (16px on a small chip,
+20px on a medium one) and `flexShrink: 0` keeps it from being squeezed next to a truncated label.
+
+### Before and after
+
+```tsx
+// before — a test keyed on MUI's glyph
+expect(screen.getByTestId('CancelIcon')).toBeInTheDocument();
+
+// after
+expect(container.querySelector('.MuiChip-deleteIcon')).not.toBeNull();
+```
+
+```tsx
+// a different glyph, on the chips Autocomplete renders and on your own
+import { Trash2 } from 'lucide-react';
+
+<Autocomplete multiple slotProps={{ chip: { deleteIcon: <Trash2 size="1em" style={{ flexShrink: 0 }} /> } }} … />;
+<Chip {...chipProps} label={label} deleteIcon={<Trash2 size="1em" style={{ flexShrink: 0 }} />} />;
+```
+
+## [2.0.0] - Status labels render as tag chips
+
+`MediaCard` and `Media` render `statusLabels` as `Chip variant="tag"`, the design system's tag chip, instead of a
+filled chip. `default`, `primary` and `secondary` labels become the grey `stone` tag; the ten tag
+colours are `stone`, `sky`, `azure`, `lavender`, `blush`, `coral`, `peach`, `lemon`, `sage` and `teal`.
+
+### Where to look
+
+- DOM snapshots and selectors on `MuiChip-filled` / `MuiChip-filled<Colour>` for a status label: the classes are
+  `MuiChip-tag`, `MuiChip-color<Colour>` and `MuiChip-tag<Colour>` now, for example `MuiChip-tag MuiChip-colorStone MuiChip-tagStone`.
+- A `MediaCard` `statusLabels` entry with `tip`: the label renders inside the library `Tooltip` instead of carrying a native
+  `title`, so `getByTitle(tip)` finds nothing.
+
+### What to change
+
+Regenerate the snapshots of `MediaCard` and `Media`. Query a label by its text, or hover it and read `role="tooltip"`;
+`MediaCard` labels without `tip` keep their text as the native `title`.
+
+### Before and after
+
+```tsx
+// before
+expect(screen.getByTitle('Published yesterday')).toBeInTheDocument();
+
+// after
+await userEvent.hover(screen.getByText('Published'));
+expect((await screen.findByRole('tooltip')).textContent).toBe('Published yesterday');
+```
+
+## [2.0.0] - `Accordion` label typography
+
+A string `label` renders as `body1` in a `span`; it rendered as `headline2`, which the theme no longer defines. The
+header is 16px instead of 14px and loses the semibold weight and the uppercase transform.
+
+### Where to look
+
+- Accordion headers with a string `label`: no longer semibold or uppercase.
+- Tests and CSS keyed on `.MuiTypography-headline2` inside `.MuiAccordionSummary-root`.
+
+### What to change
+
+Nothing, unless you want a semibold, uppercase header back: pass the label as a node and state the two properties.
+`label` accepts `React.ReactNode`.
+
+### Before and after
+
+```tsx
+// before — 1.x rendered this label semibold and uppercase
+<Accordion label="Payment details">
+    <PaymentForm />
+</Accordion>
+
+// after — semibold and uppercase, stated explicitly
+<Accordion
+    label={
+        <Typography variant="body1" component="span" sx={{ fontWeight: 600, textTransform: 'uppercase' }}>
+            Payment details
+        </Typography>
+    }
+>
+    <PaymentForm />
+</Accordion>
+```
+
+## [2.0.0] - `Accordion` summary column layout
+
+The summary content is a three-column grid: two equal columns of a third each and a third column for the action. A
+lone `label` spans the full width, so single-column accordions are unaffected.
+
+### Where to look
+
+Accordions with `buttonLabel`: the label occupies the first column, about a third of the summary, where it took all the
+room the action did not use. A label that no longer fits wraps and the row grows taller.
+
+### What to change
+
+Shorten long headers or move the action out of the summary. Do not set column widths at the call site; the summary lays
+the columns out itself. A second summary column is composed as part of `label`, the way MUI's own `AccordionSummary`
+takes children.
+
+### Before and after
+
+```tsx
+// before — one string label, the action took the rest of the row
+<Accordion label="Payment details" buttonLabel="Edit" buttonOnClick={edit}>
+    <PaymentForm />
+</Accordion>
+
+// after — the label stays a third wide; a second column is a second node
+<Accordion
+    label={
+        <>
+            <Typography variant="body1" component="span">
+                Payment details
+            </Typography>
+            <Typography variant="body1" component="span" color="text.secondary">
+                Credit card
+            </Typography>
+        </>
+    }
+    buttonLabel="Edit"
+    buttonOnClick={edit}
+>
+    <PaymentForm />
+</Accordion>
+```
+
+## [2.0.0] - `FiltersWrapper` input variant
+
+Inputs inside `FiltersWrapper` default to `variant="outlined"`; the default was `standard`. The variant also reaches MUI
+X date and time fields, which 1.x left out.
+
+### Where to look
+
+Every field in the filter sidebar gains a border.
+
+### What to change
+
+Nothing, to take the outlined inputs. To keep standard inputs, pass the variant; it is typed as an enum, so the string
+literal does not type-check.
+
+### Before and after
+
+```tsx
+// before — standard inputs by default
+<FiltersWrapper label="Filters">…</FiltersWrapper>;
+
+// after — the same code renders outlined inputs; this keeps standard ones
+import { FiltersWrapper, VariantEnum } from '@ringpublishing/mui-components';
+
+<FiltersWrapper label="Filters" variant={VariantEnum.STANDARD}>
+    …
+</FiltersWrapper>;
+```
+
+## [2.0.0] - Date and time picker field variant
+
+`DatePicker`, `TimePicker` and `DateTimePicker` no longer force `variant="standard"` on their field, so they render MUI
+X's default, `outlined`, and match the other inputs.
+
+### Where to look
+
+Picker fields without a `variant` in `slotProps.textField`: they gain a border and the floating label of an outlined
+field (`MuiPickersOutlinedInput-root` instead of `MuiPickersFilledInput-root`, the class MUI X gives a standard picker
+field).
+
+### What to change
+
+Nothing, to match the other inputs. Where a field has to stay standard, pass the variant through
+`slotProps.textField`; a callback form of `slotProps.textField` is honoured as well.
+
+### Before and after
+
+```tsx
+// before — standard by default
+<DatePicker label="Published" />
+
+// after — the same code renders outlined; this keeps standard
+<DatePicker label="Published" slotProps={{ textField: { variant: 'standard' } }} />
+```
+
+## [2.0.0] - `ActionBox` renders a MUI `Menu`
+
+`ActionBox` renders a MUI `Menu` instead of a `Popper`.
+
+### Where to look
+
+- `modifiers`, `popperOptions`, `popperRef` or `transition` on an `ActionBox`: they no longer type-check.
+- An `ActionBox` without `placement`: 1.x opened it at `bottom-end`; the menu now opens at MUI's default, below the
+  anchor and aligned to its left edge.
+- `placement="auto"`, `auto-start` or `auto-end`: the menu opens at MUI's default and logs
+  `Auto* placements uses default Menu placement`. The other twelve Popper values still type-check and are mapped.
+- The page behind an open menu: `Menu` renders a `Modal`, so page scrolling is locked and the rest of the application
+  is hidden from assistive technology while it is open.
+- `determineTransformOriginFromPopperPlacement`: no longer exported.
+
+### What to change
+
+Drop the Popper-only props (`disablePortal` and `keepMounted` keep working, `Menu` inherits them from `Modal`). Pass
+`placement="bottom-end"` where the menu must stay right-aligned. Pass `disableScrollLock` where the page has to keep
+scrolling behind the menu. A `popperRef` used to reposition the menu becomes `action`:
+`actionRef.current?.updatePosition()`.
+
+`determineTransformOriginFromPopperPlacement` has no replacement: `ActionBox` maps `placement` itself, and
+`anchorOrigin` / `transformOrigin` set the origins directly and win over `placement`. Code that called it for a `Popper`
+of its own keeps the mapping in the application:
+
+```tsx
+import type { PopperPlacementType } from '@mui/material';
+
+const TRANSFORM_ORIGIN: Partial<Record<PopperPlacementType, string>> = {
+    'bottom-start': 'top left',
+    'top-start': 'bottom left',
+    'top-end': 'bottom right',
+    'left-start': 'top left',
+    'right-start': 'top left',
+    'right-end': 'top left',
+};
+const transformOrigin = (placement?: PopperPlacementType): string =>
+    (placement && TRANSFORM_ORIGIN[placement]) ?? 'top right';
+```
+
+### Before and after
+
+```tsx
+// before
+<ActionBox actions={actions} anchorEl={ref} transition modifiers={[{ name: 'offset', options: { offset: [0, 8] } }]} />
+
+// after — the 1.x alignment, scrolling kept
+<ActionBox actions={actions} anchorEl={ref} placement="bottom-end" disableScrollLock />
+```
+
+## [2.0.0] - `Detail` field icon slot owns its icon
+
+A `Detail` field renders its value and its `icon` in one row. The icon slot is one line of the value tall and centres
+what it is given, so a long value wraps beside the icon instead of pushing it under the text. The slot sizes only a bare
+icon: an icon passed directly (`icon: <Globe />`) takes the field's 20px, an icon wrapped in another element
+(`icon: <Box><Globe /></Box>`) keeps its own size.
+
+### Where to look
+
+- Fields whose `icon` is wrapped in a `span`, `Box` or a component of your own: the wrapper was forced to 20px and is
+  not any more (a lucide icon under `ThemeConfig` is 20px anyway, a Material icon 24px).
+- CSS or tests keyed on `.MuiLink-root` as a direct child of the value container: the value and the icon sit in one
+  more wrapper.
+
+### What to change
+
+Pass the icon directly, or size a wrapped one yourself. Key on the link itself (`a[href]`), not on its depth. A copy
+icon with its own `onClick` can become a `CopyIconButton`, which brings the confirmation, tooltip and live region. A
+field with a long value can keep one line with `truncate: 'middle'`: the start and the last 12 characters stay visible,
+the full value is in a tooltip and the whole value stays in the DOM for selection, copying and screen readers.
+
+### Before and after
+
+```tsx
+// before
+{ name: 'Source', value: url, url, icon: <span className="source-icon"><Globe /></span> }
+
+// after
+{ name: 'Source', value: url, url, icon: <Globe /> }
+{ name: 'Open RSS', value: url, url, truncate: 'middle', icon: <CopyIconButton size="small" value={url} /> }
+```
+
+## [2.0.0] - Deep imports from `dist` no longer resolve
+
+The package declares `exports`, and only the paths it lists resolve:
+
+- `@ringpublishing/mui-components` — every component, hook, helper and type the library offers
+- `@ringpublishing/mui-components/icons` — the Ring glyphs and `createRingIcon`
+- `@ringpublishing/mui-components/tree-dynamic-loading` — `enableTreeDynamicLoading()` ([below](#200---simpletree-and-datatree-dynamic-loading-is-opt-in))
+- `@ringpublishing/mui-components/package.json`
+
+### Where to look
+
+```bash
+rg "@ringpublishing/mui-components/dist"
+```
+
+Vite and Vitest report `Missing "./dist/…" specifier in "@ringpublishing/mui-components" package`, Node
+`Package subpath './dist/…' is not defined by "exports"`. TypeScript reports `TS2307: Cannot find module` under
+`moduleResolution` `"bundler"`, `"node16"` and `"nodenext"`; under `"node"` it ignores `exports`, so the type check
+passes and only the build fails.
+
+### What to change
+
+Import from the package root. Every name below is exported there — the `rename-package` migration
+(`npx @ringpublishing/mui-components@latest run-migration rename-package .`) rewrites such imports and prints each one
+so you can check that its names are exported:
+
+| Deep import                                                                                 | From the package root                                                                          |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `…/dist/components/Atoms/TextField/TextField.js`                                            | `TextField`                                                                                    |
+| `…/dist/components/Molecules/Autocomplete/Autocomplete.js`                                  | `Autocomplete`                                                                                 |
+| `…/dist/components/Atoms/Typography/Typography.js`                                          | `Typography`                                                                                   |
+| `…/dist/helpers/commonTypes`                                                                | `CommonLanguages`                                                                              |
+| `…/dist/components/Templates/DataView/DataView.js` (type `TopSlotProps`)                    | `TopSlotProps`                                                                                 |
+| `…/dist/components/internal/FilterChipGroup` (type `FilterChip`)                            | `FilterChip`                                                                                   |
+| `…/dist/components/internal/BottomBar/BottomBarContext` (`BottomBarContextState['apiRef']`) | `BottomBarApiRef`, narrowed with `MediaGridApi` ([below](#narrowing-the-bottom-bars-grid-api)) |
+
+Whatever the package root does not export — the components and hooks under `internal/`, hooks such as
+`useDataViewContext` — is an implementation detail: it cannot be imported and can change in any release.
+
+### Before and after
+
+```tsx
+// before
+import { TextField } from '@ringpublishing/mui-components/dist/components/Atoms/TextField/TextField.js';
+import type { FilterChip } from '@ringpublishing/mui-components/dist/components/internal/FilterChipGroup';
+
+// after
+import { TextField, type FilterChip } from '@ringpublishing/mui-components';
+```
+
+### Narrowing the bottom bar's grid API
+
+`BottomBarApiRef` is what the `DataView` bottom bar passes to `slotProps.bottom.onClick` as the second argument: the
+API of the `RingDataGrid` or the `MultimediaGrid` whose selection the bar shows. `MediaGridApi` narrows it to the
+media grid:
+
+```tsx
+import type { GridRowId } from '@mui/x-data-grid-pro';
+import type { BottomBarApiRef, MediaGridApi } from '@ringpublishing/mui-components';
+
+function isMediaGridApi(apiRef: BottomBarApiRef): apiRef is MediaGridApi {
+    return (apiRef as MediaGridApi | undefined)?.current?.mode === 'media';
+}
+
+<DataView
+    slotProps={{
+        bottom: {
+            onClick: (item, apiRef) => {
+                if (isMediaGridApi(apiRef)) {
+                    apiRef.current?.setActiveCardId(item.id as GridRowId);
+                }
+            },
+        },
+    }}
+    …
+/>;
+```
+
+### Mocking the library in tests
+
+A `vi.mock` of a `dist/…` path fails with the same `Missing … specifier` error. Mock the package root instead, and
+spread the original module so that everything you do not replace keeps working:
+
+```ts
+vi.mock('@ringpublishing/mui-components', async (importOriginal) => ({
+    ...(await importOriginal()),
+    Autocomplete: () => null,
+}));
+```
+
+In TypeScript, type the original: `importOriginal<typeof import('@ringpublishing/mui-components')>()`. Jest takes the
+same shape with `jest.requireActual`:
+
+```ts
+jest.mock('@ringpublishing/mui-components', () => ({
+    ...jest.requireActual('@ringpublishing/mui-components'),
+    Autocomplete: () => null,
+}));
+```
+
+## [2.0.0] - Internal helpers are no longer exported
+
+Every name the package root exports is now listed in the `index.ts` of its component folder, and a few helpers that
+only existed for the library's own implementation left that list. Nothing a consumer renders changes; the types a
+consumer builds for public props (list items, labels, callback arguments, slots, API handles) are exported instead —
+`CommonComponentProps`, `AlertAction`, `MediaCardFieldsItem`, `FileUploaderLabels`, `MediaSlots`, `MediaSlotProps`,
+`DetailMediaBottomIcon`, `MediaGridApiInstance`, `AutocompleteOption`, `RangesOption` and the others named in the changelog.
+
+### Where to look
+
+```bash
+rg "globalDynamicItemsCache|getExpandedItemIds|filterItems|getAllItemIdsFromFilteredItems|getAllExpandedItemsFromCache|DataViewComponent|defaultValues|filterDataTreeItems|DescriptionField|EditableField|useSpacer|CustomGridRow|SEPARATOR_ROW_HEIGHT|UseSpacerProps|filtersWrapperComponents"
+```
+
+TypeScript reports `TS2305: Module '"@ringpublishing/mui-components"' has no exported member '…'` for each of them (`TS2724` when it has a similar name to suggest).
+
+### What to change
+
+| Removed export                                                                                                                   | What to use                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `globalDynamicItemsCache`, `getExpandedItemIds`, `filterItems`, `getAllItemIdsFromFilteredItems`, `getAllExpandedItemsFromCache` | internals of the deprecated `TreeView`; `SimpleTree` and `DataTree` filter and expand through their props |
+| `DataViewComponent`                                                                                                              | `DataView`                                                                                                |
+| `defaultValues`                                                                                                                  | pass `labels` to `Comments` yourself                                                                      |
+| `filterDataTreeItems`                                                                                                            | the `filter` prop of `DataTree`                                                                           |
+| `DescriptionField`, `EditableField`                                                                                              | rendered by `Detail` from `descriptionItems`; compose your own field from `Typography` and `EditableText` |
+| `useSpacer`, `CustomGridRow`, `SEPARATOR_ROW_HEIGHT`, `UseSpacerProps`                                                           | `createSpacerItem` rows in `RingDataGrid`, which renders the separator itself                             |
+| `filtersWrapperComponents`                                                                                                       | `FiltersWrapper` applies it; `VariantEnum` and `SizeEnum` stay exported                                   |
+
+`Option` and `Range` of `Ranges` and `MuiOption` of `Autocomplete` still resolve, as deprecated aliases of
+`RangesOption`, `RangesRange` and `AutocompleteOption`; switch to the new names, the aliases go away in 3.0.
+
+### Before and after
+
+```tsx
+// before
+import { Ranges, type Option, type Range } from '@ringpublishing/mui-components';
+
+const options: Option[] = [{ value: 1, label: 'One', order: 1 }];
+const range: Range = { order: 1, from: 1 };
+
+// after
+import { Ranges, type RangesOption, type RangesRange } from '@ringpublishing/mui-components';
+
+const options: RangesOption[] = [{ value: 1, label: 'One', order: 1 }];
+const range: RangesRange = { order: 1, from: 1 };
+```
+
+## [2.0.0] - `basicGrey100` and `basicGrey200` are removed
+
+The package no longer exports the two fixed greys, `basicGrey100` (`#D9D9D9`) and `basicGrey200` (`#7b7b7b`), and
+`@ringpublishing/mui-theme` 5 removes them as well. They do not follow the colour mode.
+
+### Where to look
+
+```bash
+rg "basicGrey100|basicGrey200"
+```
+
+TypeScript reports `TS2305: Module '"@ringpublishing/mui-components"' has no exported member 'basicGrey100'`.
+
+### What to change
+
+Read the colour from the theme: `palette.divider` for borders and dividers, `palette.text.secondary` for grey icons and
+text. In `sx` that is `borderColor: 'divider'` or `color: 'text.secondary'`; in a template string,
+`theme.palette.divider`.
+
+### Before and after
+
+```tsx
+// before
+import { basicGrey100 } from '@ringpublishing/mui-components';
+
+<Box sx={{ borderTop: `1px solid ${basicGrey100}` }} />;
+
+// after
+<Box sx={{ borderTop: 1, borderColor: 'divider' }} />;
+```
+
+## [2.0.0] - `SimpleTree` and `DataTree` dynamic loading is opt-in
+
+The package root no longer references `@tanstack/react-query`, so an application without it builds and starts under any
+bundler. Dynamic loading lives behind its own entry point: a tree whose items have `loadItems` needs
+`enableTreeDynamicLoading()` called once, and `@tanstack/react-query` (v4 or v5) installed.
+
+### Where to look
+
+```bash
+rg "loadItems"
+```
+
+Without the call, such a tree throws during render:
+
+```text
+SimpleTree: items with `loadItems` need dynamic loading enabled. Call `enableTreeDynamicLoading()` from '@ringpublishing/mui-components/tree-dynamic-loading' once in your app and install `@tanstack/react-query` (^4 || ^5).
+```
+
+Code that reads the type of the `queryClient` prop gets `TreeQueryClient` instead of TanStack Query's `QueryClient`;
+passing a `QueryClient` works as before.
+
+### What to change
+
+Call `enableTreeDynamicLoading()` once, in code that runs in the browser before such a tree renders: the application
+entry, the module that renders the tree, or a client module in a React Server Components app. Make the same call in the
+test setup file if tests render trees with `loadItems`. Without `@tanstack/react-query` installed the call breaks the
+app: webpack, Rspack and Vite 7 or older fail the build; Vite 8 only warns, and the app fails when a tree with
+`loadItems` loads, or at startup if a `manualChunks` rule puts the library in a vendor chunk. An application that installed `@tanstack/react-query`
+only to get past a startup error, and does not use `loadItems`, can remove it.
+
+### Before and after
+
+```tsx
+// before — loadItems worked with no setup
+<SimpleTree items={[{ itemId: 'root', label: 'Root', loadItems: fetchChildren }]} />;
+
+// after — once, in the application entry
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
+```
+
+## [2.0.0] - `data-testid` audit — renamed and re-namespaced selectors
+
+The `data-testid` attributes follow one convention: `ring-<component>[-<suffix>]` on the root, `-item-<id>` (or
+`-item-<index>` where items have no id) on repeated children, and `<owner-id>-…` for anything a component renders on
+another component's behalf. Several attributes moved or were renamed as a result.
+
+### Where to look
+
+An e2e suite that selects on the left-hand column:
+
+| Was                                                                          | Is now                                                                                                                                                                                                                          |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ring-autocomplete[-<suffix>]` on both the root and the inner text field     | `ring-autocomplete[-<suffix>]` on the root only; the field is `-textfield`, its input `-input`                                                                                                                                  |
+| `ring-actionbox[-<suffix>]-item-<localized label>`                           | `ring-actionbox[-<suffix>]-item-<index>` (ids no longer contain spaces or change with the UI language)                                                                                                                          |
+| `ring-actionbox[-<suffix>]-item-<label>` on a menu another component renders | `<owner-id>[-<control>]-menu-item-<index>`, e.g. `ring-textfield[-<suffix>]-menu-item-0`, `ring-datatoolbar[-<suffix>]-sort-menu-item-0`, `ring-autocomplete[-<suffix>]-menu-item-0`, `ring-splitbutton[-<suffix>]-menu-item-0` |
+| `ring-comments[-<suffix>]-<id>-…`                                            | `ring-comments[-<suffix>]-item-<id>-…` (create-panel selectors unchanged)                                                                                                                                                       |
+| `ring-ranges-item-<code>[-<suffix>]-…`                                       | `ring-ranges[-<suffix>]-item-<code>-…`; the nested range picker is `ring-autocomplete[-<suffix>][-<code>]-range-select`                                                                                                         |
+| `ring-placeholder-<variant>[-<suffix>]`                                      | `ring-placeholder[-<suffix>]-<variant>` (unsuffixed usage unchanged)                                                                                                                                                            |
+| `ring-textfield-ring-fileuploader[-<suffix>]-url-input`                      | `ring-fileuploader[-<suffix>]-url` for the field, `-url-input` for its input; `ring-fileuploader[-<suffix>]` is the root and `-dropzone` the dropzone                                                                           |
+| `image` (`LightBox`)                                                         | `ring-lightbox[-<suffix>]-image`; the root carries `ring-lightbox[-<suffix>]`                                                                                                                                                   |
+| `ring-splitbutton[-<suffix>]` on the main button                             | on the root; the main button is `-main`                                                                                                                                                                                         |
+| `ring-mediacard[-<suffix>]-item-<row>-<column>`                              | `ring-multimediagrid[-<suffix>]-item-<id>` (keyed by the item, not by grid position)                                                                                                                                            |
+| `toggle-left-slot-button`                                                    | `ring-datatoolbar[-<suffix>]-toggle-left-slot`                                                                                                                                                                                  |
+| `ring-media-icon-placeholder`, the empty `Ranges` row                        | now honour `dataTestIdSuffix`                                                                                                                                                                                                   |
+| `Detail` child field ids without the `detail` marker when a suffix was set   | the `detail` marker is always present                                                                                                                                                                                           |
+
+### What to change
+
+Replace the selectors in the right-hand column. [Writing E2E tests](?path=/docs/introduction-writing-e2e-tests--docs)
+lists every attribute per component.
+
+Lists, grids and trees generate `ring-<component>[-<suffix>]-item-<id>` for every item, keyed off the item's own id so
+the attribute survives sorting, filtering, paging and virtualization (`ContentList` items are `-item-<index>`,
+`Autocomplete` chips `-chip-<index>`). Every item takes `dataTestId` or `itemDataTestIdSuffix`; `SortableList`,
+`ContentList` and `MultimediaGrid` also take `getItemDataTestId`, and `RingDataGrid` takes `getRowDataTestId`:
+
+```tsx
+<SortableList
+    dataTestIdSuffix="order"
+    items={[
+        { id: 'a1' }, // ring-sortablelist-order-item-a1
+        { id: 'b2', dataTestId: 'hero' }, // hero — verbatim, no ring- prefix
+        { id: 'c3', itemDataTestIdSuffix: 'featured' }, // ring-sortablelist-order-featured
+    ]}
+    // last resort when the items cannot carry the fields themselves:
+    getItemDataTestId={(item, index) => undefined}
+    …
+/>
+```
+
+### Before and after
+
+```ts
+// before
+await page.getByTestId('ring-autocomplete').fill('Onet');
+await page.getByTestId('ring-actionbox-item-move to trash').click();
+await page.getByTestId('toggle-left-slot-button').click();
+
+// after
+await page.getByTestId('ring-autocomplete-input').fill('Onet');
+await page.getByTestId('ring-actionbox-item-0').click();
+await page.getByTestId('ring-datatoolbar-toggle-left-slot').click();
+```
+
+## [2.0.0] - `FileUploader` passes on only the files it takes
+
+`onFilesSelected` now receives only the files that match `accept`, fit `maxFileSize` and — with `multiple` off — the
+first acceptable file of a selection. This holds for picked files, dropped files and a file row's replacement. The
+others go to the new `onFilesRejected`, each with a `FileUploaderRejectionReason`.
+
+In 1.x a drop passed any type and any number of files, so an app could check the type in `onFilesSelected` and show
+its own message. That check never sees a wrong file any more, so the message never appears. Move it to
+`onFilesRejected`:
+
+```tsx
+// ✖ 1.x — the app checks what the uploader hands over
+<FileUploader
+    accept="audio/mpeg,.mp3"
+    onFilesSelected={([file]) => {
+        if (!file.name.toLowerCase().endsWith('.mp3')) {
+            setError(`${file.name} is not an MP3 file.`);
+
+            return;
+        }
+
+        upload(file);
+    }}
+/>
+
+// ✔ 2.0.0 — the uploader rejects the file and says why
+<FileUploader
+    accept="audio/mpeg,.mp3"
+    maxFileSize={500 * 1024 * 1024}
+    onFilesSelected={([file]) => upload(file)}
+    onFilesRejected={([{ file, reason }]) =>
+        setError(
+            reason === FileUploaderRejectionReason.FileTooLarge
+                ? `${file.name} is larger than 500 MB.`
+                : `${file.name} is not an MP3 file.`,
+        )
+    }
+/>
+```
+
+List extensions next to MIME types in `accept`. A MIME type is compared with the type the browser reports for the
+file, and browsers report different types for some formats — a `.wav` file is `audio/wav` in Chrome and `audio/x-wav`
+in Firefox and Safari, and some files have no type at all — so `accept="audio/wav"` alone rejects a valid file in
+some browsers, while `accept="audio/wav,.wav"` takes it everywhere.
+
+## [2.0.0] - `SearchBox` is an outlined field
+
+`SearchBox` is the field of `TextField`: an outlined input with the field border, fill and 8px corners, 40px tall, or
+32px with `size="small"`. Its root is the field root (`MuiOutlinedInput-root`), so `sx` and `className` style the field
+rather than a box around it. The clear X is an icon button named by `labels.clear` (default `Clear`).
+
+### Where to look
+
+- `<SearchBox` with an `sx` that sets `height`, `border`, `borderRadius` or vertical padding.
+- DOM snapshots and selectors that reach inside `.ring-search-box` (`.MuiStack-root`, `.MuiInput-root`). The
+  `ring-searchbox[-<suffix>]` ids stay; `-clear` is on the button now.
+
+### What to change
+
+- Set the height with `size` instead of `height` or padding in `sx`, and drop `borderRadius`.
+- To draw the search without a frame, inside a toolbar that has its own, hide the outline and the fill; `border: 'none'`
+  no longer reaches the frame.
+- Regenerate DOM snapshots. A test can find the clear button by its name, `getByRole('button', { name: 'Clear' })`.
+
+### Before and after
+
+```tsx
+// before — a box around the input
+<SearchBox
+    defaultValue=""
+    searchFunc={setQuery}
+    sx={{ height: '40px', borderRadius: '4px', border: 'none', paddingLeft: '8px' }}
+/>
+
+// after — the field itself: size sets the height, the outline and fill are hidden
+<SearchBox
+    defaultValue=""
+    searchFunc={setQuery}
+    size="medium"
+    sx={{
+        paddingLeft: 1,
+        backgroundColor: 'transparent',
+        '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+    }}
+/>
+```
+
+## [2.0.0] - Other changes you may notice
+
+| Change                                                                                                                             | Effect                                                                                                                                                                                                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Accordion` with `buttonLabel` renders the summary as a `div` with `role="button"`                                                 | The action button is no longer nested inside the summary button. Keyboard and screen-reader behaviour are unchanged; a test counting buttons or selecting the summary by tag needs updating                                                                                                                                               |
+| `Accordion` details padding comes from the theme                                                                                   | 8px top and 16px sides and bottom, where content ran edge to edge before. Overridable through `MuiAccordionDetails`                                                                                                                                                                                                                       |
+| `FiltersWrapper` neutralises the redesigned Accordion card                                                                         | Inside the filter sidebar the accordion has no card shadow and its content runs edge to edge                                                                                                                                                                                                                                              |
+| `SortableList` renders the redesigned drag affordance in every orientation                                                         | The dragged item follows the pointer as a lifted ghost and its slot becomes a dashed placeholder; the ghost flies onto the slot over 180ms on release. No API change                                                                                                                                                                      |
+| `SortableList` items are wrapped in a MUI `Box` instead of a `div` and sit in a flex container                                     | Each item wrapper gains `MuiBox-root css-0`, so DOM snapshots need regenerating; adjacent item margins no longer collapse, so items carrying `marginY` are spaced by the sum of the two. Move the spacing to `sx={{ gap }}` on the list                                                                                                   |
+| A drag released more than 32px outside the list is cancelled                                                                       | The order is restored and no `onChange` fires                                                                                                                                                                                                                                                                                             |
+| `SortableList.DragHandle` renders the lucide `GripVertical` with `aria-label="Drag to reorder"`                                    | Set `labels.dragHandle` on `SortableList` to localise it. A test selecting MUI's `DragHandleIcon` test id selects the handle by its name instead (`getByRole('button', { name: 'Drag to reorder' })`)                                                                                                                                     |
+| `SortableList` and `Autocomplete` `sortableChips` announce positions                                                               | The live region says "position 2 of 4" (on a chip "Onet, position 2 of 4") instead of dnd-kit's internal ids                                                                                                                                                                                                                              |
+| `Autocomplete` ignores `limitTags` while `sortableChips` is on                                                                     | Every chip renders and the console warns `Autocomplete: limitTags is ignored because sortableChips renders all chips.`                                                                                                                                                                                                                    |
+| The drag ghost duplicates the dragged chip's `data-testid` while it is in flight                                                   | For the length of the drag plus the 180ms drop animation that id matches two elements. An e2e assertion made mid-drag needs `.first()`                                                                                                                                                                                                    |
+| `Detail` chips field no longer resizes the chips' glyphs                                                                           | A chip's delete X and the group's expand chevron take the chip's own size instead of a forced 20px with an 8px margin                                                                                                                                                                                                                     |
+| Fields are 32px (`small`) / 40px (`medium`) tall                                                                                   | `TextField` medium grows from 32px; icon buttons inside a field are 28px / 24px and no longer change its height                                                                                                                                                                                                                           |
+| Missing-image placeholders and the `FileUploader` icon render through `FeaturedIcon`                                               | The glyph sits on a circular plate sized from its frame, inside two extra wrappers, so DOM snapshots of `Media`, `MediaCard`, combo cells, the `DataView` bottom bar and `FileUploader` need regenerating; the `FileUploader` dropzone height changes                                                                                     |
+| `Media` falls back to the placeholder even when `slotProps.media.onError` is set                                                   | Your `onError` still runs; if it swaps in a fallback `src`, call `event.preventDefault()` in it                                                                                                                                                                                                                                           |
+| `renderComboCell` renders the label as a `div` and wraps chips with an 8px gap                                                     | A `badge` chip is no longer nested in a `<p>`; combo-cell DOM snapshots need regenerating                                                                                                                                                                                                                                                 |
+| `ChipsGroup` `+N` is a `+` element followed by the count                                                                           | `getByText('+3')` no longer finds the label; query the chip and assert its `textContent`                                                                                                                                                                                                                                                  |
+| `Typography` with `enableOverflow` applies an `sx` callback or array                                                               | Its generated class name changes, so DOM snapshots containing a truncating `Typography` need regenerating                                                                                                                                                                                                                                 |
+| `DatePicker` and `DateTimePicker` with `actions` rename their buttons                                                              | The actions button is `More actions` instead of `More` (`actionsAriaLabel` sets another name); the clear button is named by the picker's `fieldClearLabel` translation instead of a fixed `Clear`, `Wyczyść` under `ThemeConfig language={CommonLanguages.plPL}`. A test that finds either button by its exact name needs the new one     |
+| The expand button of a `SimpleTree`, `DataTree` or `TreeView` row is hidden from assistive technology and is not a tab stop        | Rows expand with the arrow keys. `getByRole('button')` no longer finds it; select it by its `-expand` test id. The retry button after a failed load is still a button                                                                                                                                                                     |
+| A button that opens an `ActionBox` carries `aria-haspopup="menu"`, plus `aria-expanded` and `aria-controls` while the menu is open | DOM snapshots that contain one need regenerating: the actions buttons of `Media`, `MediaCard`, grid rows, fields, trees and toolbars, and a button of your own passed as `anchorEl`                                                                                                                                                       |
+| `Media` gives its image an `alt` and, with the full-screen preview on, makes it a button                                           | The `alt` is `image.title`, then `title`: put a description of the picture in `Image.title`, not its file name. With the preview on (the default) the image is a button named `Open full-screen preview` (`fullScreenPreviewAriaLabel`), so `getByRole('img', { name: title })` finds nothing; select it by `ring-media[-<suffix>]-image` |
+| `FileUploader` renders a file's name as a paragraph                                                                                | `getByRole('heading', { name: 'report.pdf' })` no longer finds it; query the name by text.                                                                                                                                                                                                                                                |
+| `FileUploader` renders `labels.uploadButton` and the URL `submitButton` as given                                                   | 1.19.0 upper-cased them in the DOM: a test that found `UPLOAD FROM DISK` finds the label as passed, `Upload from disk`.                                                                                                                                                                                                                   |
+| `FileUploader` URL clear button is named `Clear URL`                                                                               | `getByLabelText('Clear')` becomes `getByLabelText('Clear URL')`; `labels.clearUrl` localises it.                                                                                                                                                                                                                                          |
+| `FileUploader` shows a file that is not uploading with its size alone                                                              | A `Success`, `Completed` or idle row without `progress` reads `2 MB` where it read `0 Bytes / 2 MB`.                                                                                                                                                                                                                                      |
+| `FileUploader` counts a file without a `status` as uploaded                                                                        | With one status-less row among two, the files counter says `2 of 2 files uploaded` where it said `1 of 2`.                                                                                                                                                                                                                                |
+| `TextField`, `DatePicker`, `DateTimePicker` and `TimePicker` are documented under Molecules, `Media` under Organisms               | Storybook addresses change: `components-atoms-textfield--*` becomes `components-molecules-textfield--*`, `components-atoms-dates-*` becomes `components-molecules-dates-*`, `components-molecules-media--*` becomes `components-organisms-media--*`. Imports are unaffected                                                               |
+| Four `TextField` and `Media` stories also end differently                                                                          | `textfield--with-multiple-actions` → `--multiple-actions`, `media--audio-with-background` → `--audio-background`, `--with-max-height` → `--max-height`, `--with-editable-caption` → `--editable-caption`                                                                                                                                  |
+
+**Bundles get smaller with no code change.** The package declares `sideEffects` in its `package.json`, so a bundler
+leaves out the components an app does not import, together with their dependencies. A bundler rule that marked
+`dist/components/` as free of side effects can be removed.

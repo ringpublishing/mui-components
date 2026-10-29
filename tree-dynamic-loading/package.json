@@ -1,0 +1,4 @@
+{
+    "main": "../dist/treeDynamicLoading.js",
+    "types": "../dist/treeDynamicLoading.d.ts"
+}

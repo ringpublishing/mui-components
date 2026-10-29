@@ -5,21 +5,27 @@ import { SingleRange } from './SingleRange.js';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
-export interface Option {
+export interface RangesOption {
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any;
     label: string;
     order: number;
 }
 
-export interface Range {
+export interface RangesRange {
     order: number;
-    from?: number | Option['value'];
-    to?: number | Option['value'];
+    from?: number | RangesOption['value'];
+    to?: number | RangesOption['value'];
 }
 
+/** @deprecated Use `RangesOption`. */
+export type Option = RangesOption;
+
+/** @deprecated Use `RangesRange`. */
+export type Range = RangesRange;
+
 export interface Ranges {
-    [code: string]: Range;
+    [code: string]: RangesRange;
 }
 
 export interface RangeDefinition {
@@ -29,7 +35,7 @@ export interface RangeDefinition {
         min?: number;
         max?: number;
     };
-    rangeOptions?: Option[];
+    rangeOptions?: RangesOption[];
     required?: boolean;
 }
 
@@ -57,11 +63,9 @@ export interface RangesApiRef {
 }
 export interface RangesProps extends CommonComponentProps {
     /**
-     * The Range Definitions object composed of keys which act as codes for the ranges
-     * and attributes which define the range - label, order, rangeBounds and rangeOptions.
-     * Ranges can be defined and used as number fields with optional rangeBounds (min and max)
-     * or as select fields with rangeOptions (array of objects with value, label and order).
-     * Required attribute can be used to mark both from and to fields as required.
+     * Range definitions keyed by range code, each with a `label`, an optional `order` and either
+     * optional `rangeBounds` (number fields) or `rangeOptions` (select fields). `required` marks both
+     * the from and to fields as required.
      */
     rangeDefinitions: RangeDefinitions;
     /**
@@ -196,6 +200,7 @@ export function Ranges(props: RangesProps): React.JSX.Element {
             {showEmptyRange && (
                 <SingleRange
                     code={''}
+                    dataTestIdSuffix={dataTestIdSuffix}
                     range={undefined}
                     rangeDefinitions={rangeDefinitions}
                     appliedRanges={appliedRanges}

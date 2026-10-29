@@ -1,25 +1,19 @@
 import React from 'react';
 import { Box, Divider, ToggleButtonGroup } from '@mui/material';
-import {
-    FormatBoldOutlined,
-    FormatItalicOutlined,
-    FormatListBulletedOutlined,
-    FormatListNumberedOutlined,
-    Image,
-    Link as LinkIcon,
-} from '@mui/icons-material';
+import { Bold, Italic, List, ListOrdered, Image, Link2 } from 'lucide-react';
 
 import { useCurrentEditor } from '@tiptap/react';
 import { Editor } from '@tiptap/core';
 
 import { TextEditorMenuToggleButton } from './TextEditorMenuToggleButton.js';
 import { TextEditorImageAttributes, TextEditorLinkAttributes } from './TextEditor.js';
+import { TextEditorMenuTestIdProvider } from './textEditorMenuTestIdContext.js';
+import { WithOwnerDataTestId } from '../../../helpers/dataTestId.js';
 
-interface TextEditorMenuProps {
+interface TextEditorMenuProps extends WithOwnerDataTestId {
     onLinkClick?: (link: TextEditorLinkAttributes) => Promise<TextEditorLinkAttributes | null>;
     onImageClick?: () => Promise<TextEditorImageAttributes | null>;
     menuControls?: React.JSX.Element[];
-    dataTestId: string;
 }
 
 export function TextEditorMenu(props: TextEditorMenuProps): React.JSX.Element | null {
@@ -107,63 +101,67 @@ export function TextEditorMenu(props: TextEditorMenuProps): React.JSX.Element | 
     }
 
     return (
-        <Box>
-            <Box sx={{ paddingX: 1, paddingBottom: 1 }}>
-                <ToggleButtonGroup>
-                    <TextEditorMenuToggleButton
-                        icon={<FormatBoldOutlined />}
-                        onClick={(editor): boolean => editor.chain().focus().toggleBold().run()}
-                        active={(editor): boolean => editor.isActive('bold')}
-                        disabled={(editor): boolean =>
-                            !editor.can().chain().focus().toggleBold().run() ||
-                            editor.getAttributes('heading').level !== undefined
-                        }
-                        dataTestId={`${dataTestId}-menu-bold`}
-                    />
-                    <TextEditorMenuToggleButton
-                        icon={<FormatItalicOutlined />}
-                        onClick={(editor): boolean => editor.chain().focus().toggleItalic().run()}
-                        active={(editor): boolean => editor.isActive('italic')}
-                        disabled={(editor): boolean => !editor.can().chain().focus().toggleItalic().run()}
-                        dataTestId={`${dataTestId}-menu-italic`}
-                    />
-                    {onLinkClick && (
+        <TextEditorMenuTestIdProvider value={dataTestId}>
+            <Box>
+                <Box sx={{ paddingX: 1, paddingBottom: 1 }}>
+                    <ToggleButtonGroup>
                         <TextEditorMenuToggleButton
-                            icon={<LinkIcon />}
-                            onClick={handleLinkClick}
-                            active={(editor): boolean => editor.isActive('link')}
-                            disabled={(editor): boolean => !editor.can().chain().focus().toggleLink({ href: '' }).run()}
-                            dataTestId={`${dataTestId}-menu-link`}
+                            icon={<Bold size="1em" />}
+                            onClick={(editor): boolean => editor.chain().focus().toggleBold().run()}
+                            active={(editor): boolean => editor.isActive('bold')}
+                            disabled={(editor): boolean =>
+                                !editor.can().chain().focus().toggleBold().run() ||
+                                editor.getAttributes('heading').level !== undefined
+                            }
+                            dataTestId={`${dataTestId}-menu-bold`}
                         />
-                    )}
-                    <TextEditorMenuToggleButton
-                        icon={<FormatListBulletedOutlined />}
-                        onClick={(editor): boolean => editor.chain().focus().toggleBulletList().run()}
-                        active={(editor): boolean => editor.isActive('bulletList')}
-                        disabled={(editor): boolean => !editor.can().chain().focus().toggleBulletList().run()}
-                        dataTestId={`${dataTestId}-menu-bullet-list`}
-                    />
-                    <TextEditorMenuToggleButton
-                        icon={<FormatListNumberedOutlined />}
-                        onClick={(editor): boolean => editor.chain().focus().toggleOrderedList().run()}
-                        active={(editor): boolean => editor.isActive('orderedList')}
-                        disabled={(editor): boolean => !editor.can().chain().focus().toggleOrderedList().run()}
-                        dataTestId={`${dataTestId}-menu-numbered-list`}
-                    />
+                        <TextEditorMenuToggleButton
+                            icon={<Italic size="1em" />}
+                            onClick={(editor): boolean => editor.chain().focus().toggleItalic().run()}
+                            active={(editor): boolean => editor.isActive('italic')}
+                            disabled={(editor): boolean => !editor.can().chain().focus().toggleItalic().run()}
+                            dataTestId={`${dataTestId}-menu-italic`}
+                        />
+                        {onLinkClick && (
+                            <TextEditorMenuToggleButton
+                                icon={<Link2 size="1em" />}
+                                onClick={handleLinkClick}
+                                active={(editor): boolean => editor.isActive('link')}
+                                disabled={(editor): boolean =>
+                                    !editor.can().chain().focus().toggleLink({ href: '' }).run()
+                                }
+                                dataTestId={`${dataTestId}-menu-link`}
+                            />
+                        )}
+                        <TextEditorMenuToggleButton
+                            icon={<List size="1em" />}
+                            onClick={(editor): boolean => editor.chain().focus().toggleBulletList().run()}
+                            active={(editor): boolean => editor.isActive('bulletList')}
+                            disabled={(editor): boolean => !editor.can().chain().focus().toggleBulletList().run()}
+                            dataTestId={`${dataTestId}-menu-bullet-list`}
+                        />
+                        <TextEditorMenuToggleButton
+                            icon={<ListOrdered size="1em" />}
+                            onClick={(editor): boolean => editor.chain().focus().toggleOrderedList().run()}
+                            active={(editor): boolean => editor.isActive('orderedList')}
+                            disabled={(editor): boolean => !editor.can().chain().focus().toggleOrderedList().run()}
+                            dataTestId={`${dataTestId}-menu-numbered-list`}
+                        />
 
-                    {onImageClick && (
-                        <TextEditorMenuToggleButton
-                            icon={<Image />}
-                            onClick={handleImageClick}
-                            active={false}
-                            disabled={false}
-                            dataTestId={`${dataTestId}-menu-image`}
-                        />
-                    )}
-                    {menuControls}
-                </ToggleButtonGroup>
+                        {onImageClick && (
+                            <TextEditorMenuToggleButton
+                                icon={<Image size="1em" />}
+                                onClick={handleImageClick}
+                                active={false}
+                                disabled={false}
+                                dataTestId={`${dataTestId}-menu-image`}
+                            />
+                        )}
+                        {menuControls}
+                    </ToggleButtonGroup>
+                </Box>
+                <Divider />
             </Box>
-            <Divider />
-        </Box>
+        </TextEditorMenuTestIdProvider>
     );
 }

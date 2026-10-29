@@ -2,18 +2,19 @@ import type { Meta } from '@storybook/react-vite';
 import { RingDataGrid as RingDataGridComponent } from '../../../../src/index.js';
 import defaultArgs from './common/defaultArgs.js';
 
-import { CustomCells } from './stories/CustomCells.js';
-import { CustomToolbar } from './stories/CustomToolbar.js';
-import { BulkActions } from './stories/BulkActions.js';
-import { NoResults } from './stories/NoResults.js';
-import { NoResultsCustomLabels } from './stories/NoResultsCustomLabels.js';
-import { Error } from './stories/Error.js';
-import { ErrorCustomLabels } from './stories/ErrorCustomLabels.js';
-import { AutoRefreshActive } from './stories/AutoRefreshActive.js';
-import { AutoRefreshIgnoreInteraction } from './stories/AutoRefreshIgnoreInteraction.js';
-import { AutoRefreshInitiallyDisabled } from './stories/AutoRefreshInitiallyDisabled.js';
-import { AutoRefreshDisabled } from './stories/AutoRefreshDisabled.js';
-import { ClassicSelection } from './stories/ClassicSelection.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { CustomCells as CustomCellsStory } from './stories/CustomCells.js';
+import { CustomToolbar as CustomToolbarStory } from './stories/CustomToolbar.js';
+import { BulkActions as BulkActionsStory } from './stories/BulkActions.js';
+import { ClassicSelection as ClassicSelectionStory } from './stories/ClassicSelection.js';
+import { AutoRefreshActive as AutoRefreshActiveStory } from './stories/AutoRefreshActive.js';
+import { AutoRefreshIgnoreInteraction as AutoRefreshIgnoreInteractionStory } from './stories/AutoRefreshIgnoreInteraction.js';
+import { AutoRefreshInitiallyDisabled as AutoRefreshInitiallyDisabledStory } from './stories/AutoRefreshInitiallyDisabled.js';
+import { AutoRefreshDisabled as AutoRefreshDisabledStory } from './stories/AutoRefreshDisabled.js';
+import { NoResults as NoResultsStory } from './stories/NoResults.js';
+import { NoResultsCustomLabels as NoResultsCustomLabelsStory } from './stories/NoResultsCustomLabels.js';
+import { Error as ErrorStory } from './stories/Error.js';
+import { ErrorCustomLabels as ErrorCustomLabelsStory } from './stories/ErrorCustomLabels.js';
 
 import RingDataGridMdx from './DataGrid.mdx';
 
@@ -363,17 +364,22 @@ const meta: Meta<typeof RingDataGridComponent> = {
 
 export default meta;
 
-export {
-    CustomCells,
-    CustomToolbar,
-    BulkActions,
-    NoResults,
-    NoResultsCustomLabels,
-    Error,
-    ErrorCustomLabels,
-    AutoRefreshActive,
-    AutoRefreshIgnoreInteraction,
-    AutoRefreshInitiallyDisabled,
-    AutoRefreshDisabled,
-    ClassicSelection,
+export const Default = DefaultStory;
+export const CustomCells = { ...CustomCellsStory, name: 'Custom cells' };
+export const CustomToolbar = { ...CustomToolbarStory, name: 'Custom toolbar' };
+export const BulkActions = { ...BulkActionsStory, name: 'Bulk actions' };
+export const ClassicSelection = { ...ClassicSelectionStory, name: 'Classic selection' };
+export const AutoRefreshActive = { ...AutoRefreshActiveStory, name: 'Auto refresh — active' };
+export const AutoRefreshIgnoreInteraction = {
+    ...AutoRefreshIgnoreInteractionStory,
+    name: 'Auto refresh — never paused',
 };
+export const AutoRefreshInitiallyDisabled = {
+    ...AutoRefreshInitiallyDisabledStory,
+    name: 'Auto refresh — initially off',
+};
+export const AutoRefreshDisabled = { ...AutoRefreshDisabledStory, name: 'Auto refresh — disabled' };
+export const NoResults = { ...NoResultsStory, name: 'No results' };
+export const NoResultsCustomLabels = { ...NoResultsCustomLabelsStory, name: 'No results — custom labels' };
+export const Error = { ...ErrorStory, name: 'Error state' };
+export const ErrorCustomLabels = { ...ErrorCustomLabelsStory, name: 'Error state — custom labels' };

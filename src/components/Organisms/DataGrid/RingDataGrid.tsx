@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { LinearProgress, useTheme } from '@mui/material';
 import { RingDataGridToolbar } from './RingDataGridToolbar.js';
-import { useSpacer } from './spacer.js';
+import { CustomGridRow, useSpacer } from '../../internal/spacer.js';
+import { BulkOperationAction } from '../MultimediaGrid/DataToolbar.js';
 import { canSelectRow, CustomNoRowsOverlay, getSpacerAndNonSpacerRowIds } from './helpers.js';
 import { Placeholder, PlaceholderStateLabels, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
 import { CommonLanguages } from '../../../helpers/commonTypes.js';
@@ -12,7 +13,9 @@ import {
     GridApiPro,
     GridCallbackDetails,
     GridInitialState,
+    GridRowModel,
     GridRowParams,
+    GridRowProps,
     GridRowSelectionModel,
     MuiEvent,
     useGridApiRef,
@@ -21,8 +24,10 @@ import {
 } from '@mui/x-data-grid-pro';
 import { useBottomBarContext } from '../../internal/BottomBar/BottomBarContext.js';
 import { FilterChip, FilterChipGroup } from '../../internal/FilterChipGroup.js';
+import { DataGridTestIdProvider, useRowDataTestId } from './dataGridTestIdContext.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
-interface RingGridInitialState extends GridInitialState {
+export interface RingGridInitialState extends GridInitialState {
     autoRefreshEnabled?: boolean;
 }
 
@@ -91,23 +96,6 @@ export interface BulkOperationCallbackParams {
     excluded: GridRowId[];
 }
 
-export interface BulkOperationAction {
-    /**
-     * MUI icon component
-     */
-    icon: React.ReactNode;
-
-    /**
-     * Tooltip label for the icon
-     */
-    tooltip: string;
-
-    /**
-     * Callback function when the icon is selected
-     */
-    onClick: (params: BulkOperationCallbackParams, event: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
 export interface RingDataGridProps extends DataGridProProps {
     /**
      * Custom toolbar for the data grid with actions and filters
@@ -125,7 +113,8 @@ export interface RingDataGridProps extends DataGridProProps {
     sortableFields?: RingDataGridToolbarSortField[];
 
     /**
-     * The Key of the field that is currently sorted. By default, the component holds this value when selected. You can set it using this prop
+     * Key of the field the toolbar sorts by; the toolbar defaults to the first of `sortableFields`
+     * and follows this prop when set.
      */
     sortField?: string;
 
@@ -233,6 +222,19 @@ export interface RingDataGridProps extends DataGridProProps {
      * When omitted, the Placeholder component falls back to its default localized labels.
      */
     placeholderLabels?: PlaceholderStateLabels;
+
+    /**
+     * Optional suffix added to the grid's `data-testid` attributes. The grid root becomes
+     * `ring-datagrid[-<suffix>]` and each row `ring-datagrid[-<suffix>]-item-<rowId>`.
+     */
+    dataTestIdSuffix?: string;
+
+    /**
+     * Overrides the generated `data-testid` per row; return `undefined` to keep the default
+     * `ring-datagrid[-<suffix>]-item-<rowId>`. Rows may instead carry `dataTestId` or
+     * `itemDataTestIdSuffix`.
+     */
+    getRowDataTestId?: (row: GridRowModel, index: number) => string | undefined;
 }
 
 export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
@@ -250,8 +252,35 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
         disableSelectAllCheckbox = false,
         filterChips,
         placeholderLabels,
+        dataTestIdSuffix,
+        getRowDataTestId,
         ...restProps
     } = props;
+
+    const dataTestId = useRingDataTestId('DataGrid', dataTestIdSuffix);
+
+    /*
+     * Per-row test ids come from a `slots.row` wrapper, since `slotProps.row` is static and cannot
+     * read each row's id. It delegates to the consumer's own row slot or to `CustomGridRow`, never
+     * to MUI's `GridRow`, which would render spacer rows as ordinary rows.
+     */
+    const RowWithDataTestId = useMemo(() => {
+        const BaseRow = (slots?.row ?? CustomGridRow) as React.ComponentType<GridRowProps>;
+
+        // The ids come from context: closing over an inline callback would make a new row type and remount every row.
+        function RingDataGridRow(rowProps: GridRowProps): React.JSX.Element {
+            const rowDataTestId = useRowDataTestId(rowProps.row, rowProps.rowId, rowProps.index);
+
+            return <BaseRow {...rowProps} data-testid={rowDataTestId} />;
+        }
+
+        return RingDataGridRow;
+    }, [slots?.row]);
+
+    const testIdContext = useMemo(
+        () => ({ suffix: dataTestIdSuffix, getRowDataTestId }),
+        [dataTestIdSuffix, getRowDataTestId],
+    );
 
     const { setBottomBarState } = useBottomBarContext();
     const gridProps = { ...restProps, ...useSpacer({ slots, getEstimatedRowHeight, getRowHeight }) };
@@ -481,13 +510,12 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
     }, [disableSelectAllCheckbox, gridProps.columns]);
 
     return (
-        <>
+        <DataGridTestIdProvider value={testIdContext}>
             <FilterChipGroup chips={filterChips?.chips} onDeleteAll={filterChips?.onDeleteAll} />
             <DataGrid
                 {...gridProps}
                 columns={columns}
                 apiRef={apiRef}
-                // FIXME: Checkboxes should be immediately disabled when maxRowsCount limit is reached
                 isRowSelectable={canSelectRow({
                     allSelected,
                     enableBulkActions,
@@ -515,7 +543,7 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                     noRowsOverlay: () =>
                         CustomNoRowsOverlay(error, language, props?.refreshCallback, placeholderLabels),
                     loadingOverlay: () => (
-                        <GridOverlay>
+                        <GridOverlay sx={{ justifyContent: 'flex-start' }}>
                             <div role="row" style={{ width: '100%' }}>
                                 <div role="gridcell" style={{ width: '100%' }}>
                                     <LinearProgress aria-label="Loading" sx={{ width: '100%' }} />
@@ -524,12 +552,22 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                         </GridOverlay>
                     ),
                     ...(gridProps.slots || {}),
+                    row: RowWithDataTestId,
                     toolbar: showRingToolbar ? RingDataGridToolbar : undefined,
                 }}
                 slotProps={{
                     ...(gridProps.slotProps || {}),
+                    /*
+                     * DataGridPro does not forward unknown props to its root element, so the
+                     * grid's own test id has to go through the `root` slot.
+                     */
+                    root: {
+                        'data-testid': dataTestId,
+                        ...(gridProps.slotProps?.root || {}),
+                    },
                     toolbar: showRingToolbar
                         ? {
+                              dataTestIdSuffix,
                               refreshItems: props?.refreshItems,
                               labels: props?.labels,
                               sortableFields: props?.sortableFields,
@@ -557,6 +595,8 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                         : undefined,
                 }}
             />
-        </>
+        </DataGridTestIdProvider>
     );
 }
+
+export type { FilterChip } from '../../internal/FilterChipGroup.js';

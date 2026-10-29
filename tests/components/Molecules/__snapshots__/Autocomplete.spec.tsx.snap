@@ -6,6 +6,7 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
   class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-filledPrimary MuiAutocomplete-tag MuiAutocomplete-tagSizeMedium css-1vfgu64-MuiButtonBase-root-MuiChip-root"
   data-item-index="0"
   data-mui-internal-clone-element="true"
+  data-testid="ring-autocomplete-chip-0"
   role="button"
   tabindex="-1"
 >
@@ -16,13 +17,23 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
   </span>
   <svg
     aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconSmall MuiChip-deleteIconColorPrimary MuiChip-deleteIconFilledColorPrimary css-1umw9bq-MuiSvgIcon-root"
-    data-testid="CancelIcon"
-    focusable="false"
+    class="lucide lucide-x MuiChip-deleteIcon MuiChip-deleteIconSmall MuiChip-deleteIconColorPrimary MuiChip-deleteIconFilledColorPrimary"
+    fill="none"
+    height="1em"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    style="flex-shrink: 0;"
     viewBox="0 0 24 24"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+      d="M18 6 6 18"
+    />
+    <path
+      d="m6 6 12 12"
     />
   </svg>
 </div>
@@ -30,9 +41,9 @@ exports[`Autocomplete > should pass slotProps to native Autocomplete component 1
 
 exports[`Autocomplete > should render an option avatar image when the dropdown is open 1`] = `
 <ul
-  aria-labelledby="_r_s_-label"
+  aria-labelledby="_r_r_-label"
   class="MuiAutocomplete-listbox css-19166iz-MuiAutocomplete-listbox"
-  id="_r_s_-listbox"
+  id="_r_r_-listbox"
   role="listbox"
 >
   <li
@@ -40,7 +51,7 @@ exports[`Autocomplete > should render an option avatar image when the dropdown i
     aria-selected="false"
     class="MuiAutocomplete-option"
     data-option-index="0"
-    id="_r_s_-option-0"
+    id="_r_r_-option-0"
     role="option"
     tabindex="-1"
   >
@@ -60,7 +71,7 @@ exports[`Autocomplete > should render an option avatar image when the dropdown i
       class="MuiBox-root css-1kphdw3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-b0znet-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-o9zthg-MuiTypography-root"
       >
         Onet
       </p>
@@ -71,7 +82,7 @@ exports[`Autocomplete > should render an option avatar image when the dropdown i
     aria-selected="false"
     class="MuiAutocomplete-option"
     data-option-index="1"
-    id="_r_s_-option-1"
+    id="_r_r_-option-1"
     role="option"
     tabindex="-1"
   >
@@ -91,7 +102,7 @@ exports[`Autocomplete > should render an option avatar image when the dropdown i
       class="MuiBox-root css-1kphdw3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 css-b0znet-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 css-o9zthg-MuiTypography-root"
       >
         Fakt
       </p>
@@ -103,12 +114,12 @@ exports[`Autocomplete > should render an option avatar image when the dropdown i
 exports[`Autocomplete > should render correctly 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-      data-testid="ring-autocomplete"
+      data-testid="ring-autocomplete-textfield"
     >
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
@@ -128,6 +139,7 @@ exports[`Autocomplete > should render correctly 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          data-testid="ring-autocomplete-input"
           id="_r_0_"
           placeholder="Placeholder"
           role="combobox"
@@ -149,12 +161,12 @@ exports[`Autocomplete > should render correctly 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="KeyboardArrowDownIcon"
+              data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                d="M7 10l5 5 5-5z"
               />
             </svg>
           </button>
@@ -180,12 +192,12 @@ exports[`Autocomplete > should render correctly 1`] = `
 exports[`Autocomplete > should render correctly with dropdown action 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
+    class="MuiAutocomplete-root ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-      data-testid="ring-autocomplete"
+      data-testid="ring-autocomplete-textfield"
     >
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
@@ -205,6 +217,7 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          data-testid="ring-autocomplete-input"
           id="_r_3_"
           role="combobox"
           spellcheck="false"
@@ -217,7 +230,7 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
         >
           <button
             aria-label="Settings"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-gzo6rq-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             data-testid="ring-autocomplete-action"
             tabindex="0"
@@ -225,13 +238,24 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="ManageSearchIcon"
-              focusable="false"
+              class="lucide lucide-search"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M7 9H2V7h5zm0 3H2v2h5zm13.59 7-3.83-3.83c-.8.52-1.74.83-2.76.83-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L22 17.59zM17 11c0-1.65-1.35-3-3-3s-3 1.35-3 3 1.35 3 3 3 3-1.35 3-3M2 19h10v-2H2z"
+                d="m21 21-4.34-4.34"
+              />
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
               />
             </svg>
           </button>
@@ -257,12 +281,12 @@ exports[`Autocomplete > should render correctly with dropdown action 1`] = `
 exports[`Autocomplete > should render correctly with multiple actions 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
+    class="MuiAutocomplete-root ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-      data-testid="ring-autocomplete"
+      data-testid="ring-autocomplete-textfield"
     >
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
@@ -282,6 +306,7 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+          data-testid="ring-autocomplete-input"
           id="_r_7_"
           role="combobox"
           spellcheck="false"
@@ -293,20 +318,40 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
           style="align-items: center;"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-gzo6rq-MuiButtonBase-root-MuiIconButton-root"
+            aria-haspopup="menu"
+            aria-label="More actions"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-autocomplete-actions"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="MoreVertIcon"
-              focusable="false"
+              class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+              <circle
+                cx="12"
+                cy="12"
+                r="1"
+              />
+              <circle
+                cx="12"
+                cy="5"
+                r="1"
+              />
+              <circle
+                cx="12"
+                cy="19"
+                r="1"
               />
             </svg>
           </button>
@@ -332,18 +377,18 @@ exports[`Autocomplete > should render correctly with multiple actions 1`] = `
 exports[`Autocomplete > should render correctly with option caption 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-      data-testid="ring-autocomplete"
+      data-testid="ring-autocomplete-textfield"
     >
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_p_"
-        id="_r_p_-label"
+        for="_r_o_"
+        id="_r_o_-label"
       >
         search by
       </label>
@@ -357,7 +402,8 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_p_"
+          data-testid="ring-autocomplete-input"
+          id="_r_o_"
           role="combobox"
           spellcheck="false"
           type="text"
@@ -377,12 +423,12 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="KeyboardArrowDownIcon"
+              data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                d="M7 10l5 5 5-5z"
               />
             </svg>
           </button>
@@ -408,18 +454,18 @@ exports[`Autocomplete > should render correctly with option caption 1`] = `
 exports[`Autocomplete > should render correctly with recently used 1`] = `
 <div>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
     data-testid="ring-autocomplete"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-      data-testid="ring-autocomplete"
+      data-testid="ring-autocomplete-textfield"
     >
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for="_r_a_"
-        id="_r_a_-label"
+        for="_r_b_"
+        id="_r_b_-label"
       >
         search by
       </label>
@@ -433,7 +479,8 @@ exports[`Autocomplete > should render correctly with recently used 1`] = `
           autocapitalize="none"
           autocomplete="off"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-          id="_r_a_"
+          data-testid="ring-autocomplete-input"
+          id="_r_b_"
           role="combobox"
           spellcheck="false"
           type="text"
@@ -453,12 +500,12 @@ exports[`Autocomplete > should render correctly with recently used 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              data-testid="KeyboardArrowDownIcon"
+              data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                d="M7 10l5 5 5-5z"
               />
             </svg>
           </button>

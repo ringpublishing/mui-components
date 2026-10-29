@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TreeView, TreeViewItem } from '@ringpublishing/mui-components';
-import { EditOutlined } from '@mui/icons-material';
+import { Pencil } from 'lucide-react';
 
 const exampleItems: TreeViewItem[] = [
     {
@@ -9,7 +9,7 @@ const exampleItems: TreeViewItem[] = [
         column1: 'Column1 0',
         column2: 'Column2 0',
         expanded: true,
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '0.0',
@@ -56,7 +56,7 @@ const exampleItems: TreeViewItem[] = [
         label: 'Item 1',
         column1: 'Column1 1',
         column2: 'Column2 1',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '1.0',
@@ -97,7 +97,7 @@ const exampleItems: TreeViewItem[] = [
         label: 'Item 3',
         column1: 'Column1 3',
         column2: 'Column2 3',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
     },
 ];
 

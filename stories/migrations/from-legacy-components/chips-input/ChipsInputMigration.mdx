@@ -1,0 +1,246 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks';
+import { LiveExample, MigrationPair } from './MigrationPair.js';
+import { RECIPIENTS_FORM_AFTER } from './recipientsFormCode.js';
+import * as Stories from './ChipsInputMigration.stories.js';
+
+<Meta isTemplate />
+
+# Migrate ChipsInput to Autocomplete
+
+`ChipsInput` is removed in 2.0.0, together with `ChipsInputProps`, `ChipsInputLabels`,
+`AutocompleteChip`, `ChipColor` and `ChipsColorsType`. Its replacement is `<Autocomplete variant="chipsInput" />`: a
+free-text field that keeps every entry as a chip, with paste splitting, validation colouring, duplicate feedback and a
+chip width limit built in.
+
+The recipes follow the ways `ChipsInput` is used: a tags field, a filter that takes a list of identifiers, and a field
+in a `react-hook-form` form. Each shows the `ChipsInput` code on the left and its replacement on the right — live, with
+the callbacks it reports and its code in an editor you can change.
+
+## Quick navigation
+
+- [Props at a glance](#props-at-a-glance)
+- [A tags field](#a-tags-field)
+- [An identifier filter](#an-identifier-filter)
+- [A react-hook-form field](#a-react-hook-form-field)
+- [Keeping objects in state](#keeping-objects-in-state)
+- [Placeholder before focus](#placeholder-before-focus)
+- [Custom chip colours](#custom-chip-colours)
+- [What your users will notice](#what-your-users-will-notice)
+- [New: suggestions](#new-suggestions)
+
+## Props at a glance
+
+| `ChipsInput`                                      | `Autocomplete variant="chipsInput"`                                                                                                                                                                   |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `labels.title` — optional                         | `labels.title` — **required**                                                                                                                                                                         |
+| `labels.inputPlaceholder`                         | `labels.inputPlaceholder`                                                                                                                                                                             |
+| `labels.alreadyOnList` — required                 | `duplicateEntryMessage` — optional text, node or `(entry) => node`, for duplicates only; `onDuplicateEntry` for your own feedback                                                                     |
+| `validationFunction(chip)` — gets `{ id, label }` | `validateEntry(entry)` — gets the entry: a string, or your object for chips passed through `value`. It colours the chip; the entry is still added — see [An identifier filter](#an-identifier-filter) |
+| `chipsColors`                                     | removed — theme colours; a different pair through `renderChip` and its `invalid` flag                                                                                                                 |
+| `value: AutocompleteChip[]`                       | `value` — strings, or your own objects                                                                                                                                                                |
+| `onChange(chips)`                                 | `onChange(event, value, reason, details)`                                                                                                                                                             |
+| a paste becomes one chip                          | `createChipsOnPaste` splits it on `pasteSeparators`; off by default                                                                                                                                   |
+| chips capped at 150px                             | `chipMaxWidth`, default `150`                                                                                                                                                                         |
+| duplicates compared by `label`                    | `isOptionEqualToValue`, `===` by default                                                                                                                                                              |
+| `data-testid`: `ring-chipsinput[-suffix]…`        | `ring-autocomplete[-suffix]…` — see [What your users will notice](#what-your-users-will-notice)                                                                                                       |
+
+## A tags field
+
+Free text, no validation. `ChipsInput` needed `{ id, label }` objects even for plain strings, so the value was mapped
+both ways; `Autocomplete` takes the strings and reports them back. New entries arrive in `onChange` with
+`reason: 'createOption'` and the new entry in `details.option`.
+
+<MigrationPair after={<Canvas of={Stories.Tags} />}>
+
+```tsx
+const [tags, setTags] = useState<string[]>(['news']);
+
+<ChipsInput
+    labels={{ title: 'Tags', inputPlaceholder: 'Insert value and press Enter', alreadyOnList: 'Already on list' }}
+    value={tags.map((tag) => ({ id: tag, label: tag }))}
+    onChange={(chips) => setTags(chips.map((chip) => String(chip.id)))}
+/>;
+```
+
+</MigrationPair>
+
+## An identifier filter
+
+A filter that takes a list of article, media or other identifiers. Four things change.
+
+- **Rejecting invalid entries.** `validateEntry` colours an entry, it does not block it — the same as
+  `validationFunction`. To keep invalid entries off the list, control `value` and drop them in `onChange`: nothing
+  filtered out there becomes a chip, whether it was typed or pasted.
+- **Your own message.** `duplicateEntryMessage` speaks only for duplicates. A rejected format — or any other message —
+  goes through `slotProps.textField.error` and `helperText` from your own state; a duplicate message borrows that line
+  while it shows and hands it back on the next change. A paste holding both shows the duplicate message.
+- **Pasting.** Without `createChipsOnPaste` a pasted identifier lands in the field as text and needs Enter. With it, the
+  paste is split on `pasteSeparators` (`,` `;` new line and tab by default — add a space when identifiers cannot contain
+  one), fragments are trimmed, and entries already on the list and repeats within the paste are dropped. Text typed in
+  the field is replaced by the paste. If you intercepted `paste` yourself to split the text, remove that handler: it
+  stops the event before the field sees it, and `createChipsOnPaste` never runs.
+- **Long identifiers.** Chips are capped at `chipMaxWidth` (150px, as before); a longer label is truncated and its
+  tooltip shows it in full. Pass a different `chipMaxWidth` to change the cap.
+
+Copy a sample and paste it into the field on the right — the first is the usual case, a single identifier.
+
+<MigrationPair
+    after={<Canvas of={Stories.IdFilter} />}
+    samples={[
+        '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+        '6ba7b811-9dad-11d1-80b4-00c04fd430c8 6ba7b812-9dad-11d1-80b4-00c04fd430c8',
+        '6ba7b813-9dad-11d1-80b4-00c04fd430c8, not-an-id',
+        '3f2504e0-4f89-11d3-9a0c-0305e82c3301 6ba7b814-9dad-11d1-80b4-00c04fd430c8',
+    ]}
+>
+
+```tsx
+<ChipsInput
+    labels={{ title: 'Identifiers', inputPlaceholder: 'Insert id and press enter', alreadyOnList: 'Already on list' }}
+    validationFunction={(chip) => isUuid(chip.label)}
+    value={filters.ids}
+    onChange={(chips) => {
+        // a change that holds an invalid id is dropped as a whole
+        if (chips.every((chip) => isUuid(chip.label))) {
+            setFilter('ids', chips);
+        }
+    }}
+/>
+```
+
+A paste — any paste — became one chip holding the whole text.
+
+</MigrationPair>
+
+## A react-hook-form field
+
+Most forms render the field through `react-hook-form`'s `Controller`. The new `onChange` signature changes the wiring:
+
+- **Do not spread `{...field}` onto the component.** `field.onChange` then receives the event instead of the list: the
+  form stores the typed text, no chip appears, and validation fails. Pass `value` and
+  `onChange={(event, value) => field.onChange(value)}` instead.
+- **Give `field.ref` to `slotProps.textField.inputRef`**, so a validation error focuses the input. A ref on the
+  component itself points at its root, which cannot take focus.
+- **Show the field error through `slotProps.textField`** — `error` and `helperText` from `fieldState`.
+- `disabled={field.disabled}` now disables the chips too: they can no longer be removed in a disabled field.
+
+<MigrationPair live={false} after={<Source code={RECIPIENTS_FORM_AFTER} language="tsx" dark={true} />}>
+
+```tsx
+<Controller
+    name="recipients"
+    control={control}
+    render={({ field }) => (
+        <ChipsInput
+            labels={{
+                title: 'Recipients *',
+                inputPlaceholder: 'Enter email addresses and press enter.',
+                alreadyOnList: 'Already on list.',
+            }}
+            {...field}
+            value={field.value.map((value) => ({ id: value, label: value }))}
+            onChange={(chips) => field.onChange(chips.map((chip) => chip.id))}
+            validationFunction={(chip) => isEmail(String(chip.id))}
+        />
+    )}
+/>
+```
+
+</MigrationPair>
+
+## Keeping objects in state
+
+If your state or form values hold `{ id, label }` objects, keep them — and convert typed entries in `onChange`. Read
+the label wherever the component hands you an entry: `isOptionEqualToValue` and `validateEntry` receive your objects
+for chips already in `value` and plain strings for new entries, so `String(entry)` on an object would give
+`"[object Object]"`. `AutocompleteChip` goes away with `ChipsInput`, so declare the type yourself.
+
+<MigrationPair after={<Canvas of={Stories.Objects} />}>
+
+```tsx
+<ChipsInput
+    labels={{
+        title: 'Parameter values *',
+        inputPlaceholder: 'Enter value and press Enter (* for any value)',
+        alreadyOnList: 'Value already added',
+    }}
+    value={field.value}
+    onChange={(chips: AutocompleteChip[]) => field.onChange(chips)}
+    validationFunction={(chip) => isParameterValue(String(chip.id))}
+/>
+```
+
+</MigrationPair>
+
+## Placeholder before focus
+
+Neither `ChipsInput` nor `Autocomplete` shows the placeholder of an empty field until it is focused: MUI hides it while
+the label is not shrunk. To show it straight away, shrink the label through `slotProps.textField`. The same works on a
+`TextField`, with `slotProps={{ inputLabel: { shrink: true } }}`.
+
+<MigrationPair after={<Canvas of={Stories.Placeholder} />}>
+
+```tsx
+<ChipsInput
+    labels={{ title: 'Identifiers', inputPlaceholder: 'Insert id and press enter', alreadyOnList: 'Already on list' }}
+    onChange={setIds}
+/>
+```
+
+The placeholder appeared only after a click into the field.
+
+</MigrationPair>
+
+## Custom chip colours
+
+`chipsColors` is gone: chips take their colours from the theme, and an invalid entry uses the theme's error colour. For
+a different pair, render the chip yourself with `renderChip` — its context carries `invalid`. A chip you render
+yourself gets the lucide `X` from the theme but no label tooltip: wrap it in `<Tooltip title={label}>` if labels
+truncated at `chipMaxWidth` should still be readable in full.
+
+<MigrationPair after={<Canvas of={Stories.Colors} />}>
+
+```tsx
+<ChipsInput
+    labels={{ title: 'Email', inputPlaceholder: 'Enter email address', alreadyOnList: 'Email already added' }}
+    validationFunction={(chip) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(chip.label)}
+    chipsColors={{ default: ChipColor.SUCCESS, error: ChipColor.WARNING }}
+    onChange={(chips) => console.log(chips)}
+/>
+```
+
+</MigrationPair>
+
+## What your users will notice
+
+| When the user…                                          | `ChipsInput`                                                            | `Autocomplete variant="chipsInput"`                                                                                                                                                       |
+| ------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| types an entry that is already a chip and presses Enter | a tooltip above the field for about a second; the typed text is cleared | the `duplicateEntryMessage` under the field and the field in the error state until the text changes; the typed text stays. Without `duplicateEntryMessage` the entry is rejected silently |
+| types an entry that differs only in letter case         | it is added                                                             | it is added; to reject it pass `isOptionEqualToValue={(a, b) => a.toLowerCase() === b.toLowerCase()}`                                                                                     |
+| pastes text                                             | one chip with the whole text                                            | one chip per fragment with `createChipsOnPaste`, otherwise text in the field                                                                                                              |
+| pastes while text is typed                              | typed and pasted text joined into one chip                              | the typed text is replaced                                                                                                                                                                |
+| presses Backspace in an empty field                     | nothing                                                                 | the last chip is removed                                                                                                                                                                  |
+| tries to remove a chip in a disabled field              | the × on the chip still removed it                                      | chips are disabled together with the field                                                                                                                                                |
+
+For tests and code that read the component:
+
+| What                  | `ChipsInput`                                      | `Autocomplete variant="chipsInput"`                                            |
+| --------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `data-testid`         | `ring-chipsinput[-suffix]`, `-chip-<n>`, `-input` | `ring-autocomplete[-suffix]`, `-textfield`, `-chip-<n>`, `-input`              |
+| `value` in `onChange` | `{ id, label, color? }` objects                   | strings, plus `reason` and `details`                                           |
+| invalid colour        | stored on the chip object as `color: 'error'`     | computed from `validateEntry` on every render; nothing is written to the value |
+
+Try them here — the callbacks show what the field reports:
+
+<LiveExample samples={['6ba7b813-9dad-11d1-80b4-00c04fd430c8', '3f2504e0-4f89-11d3-9a0c-0305e82c3301']}>
+    <Canvas of={Stories.IdFilter} />
+</LiveExample>
+
+## New: suggestions
+
+`ChipsInput` had none. Pass `options` and the field suggests entries while the user types; free entry still works.
+Picking a suggestion that is already a chip removes that chip, as in any multiple-selection `Autocomplete`.
+
+<LiveExample>
+    <Canvas of={Stories.Suggestions} />
+</LiveExample>

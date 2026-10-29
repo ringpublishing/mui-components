@@ -1,10 +1,9 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, MockInstance, vi } from 'vitest';
 import { fireEvent, render, RenderOptions, RenderResult } from '@testing-library/react';
 import { Box, ThemeProvider } from '@mui/material';
-import { Public, Web } from '@mui/icons-material';
+import { Globe } from 'lucide-react';
 
 import {
-    DescriptionField,
     Detail,
     DetailDescriptionItemFieldDescription,
     DetailDescriptionItemFieldEditable,
@@ -12,10 +11,11 @@ import {
     DetailDescriptionItemFieldType,
     DetailMain,
     DetailProps,
-    EditableField,
     EditableFieldType,
     getCreatedTheme,
 } from '../../../src/index.js';
+import { DescriptionField, EditableField } from '../../../src/components/Organisms/Detail/Detail.js';
+import { formatDate } from '../../../src/helpers/formatDate.js';
 
 describe('Detail', () => {
     function renderDetail(mockProps: DetailProps, options: RenderOptions = {}): RenderResult {
@@ -64,7 +64,7 @@ describe('Detail', () => {
                         {
                             name: 'icons',
                             value: '',
-                            icon: [<Web key={'0'} />, <Public key={'1'} />],
+                            icon: [<Globe key={'0'} />, <Globe key={'1'} />],
                         },
                         {
                             name: 'Editable Field',
@@ -104,6 +104,147 @@ describe('Detail', () => {
 
         const { container } = renderDetail(mockProps);
         expect(container).toMatchSnapshot();
+    });
+
+    it('does not mutate descriptionItems — re-rendering with the same props object keeps values intact', () => {
+        const isoDate = '2023-07-27T09:32:09Z';
+        const mockProps: DetailProps = {
+            descriptionItems: [
+                {
+                    sectionTitle: 'Test Section',
+                    fields: [
+                        {
+                            name: 'Date formatted',
+                            value: isoDate,
+                            formatDate: true,
+                        },
+                        {
+                            name: 'List of strings',
+                            value: ['string 1', 'string 2'],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const theme = getCreatedTheme('light');
+        const { rerender, getByText, queryByText } = renderDetail(mockProps);
+
+        rerender(
+            <ThemeProvider theme={theme}>
+                <Detail {...mockProps} />
+            </ThemeProvider>,
+        );
+
+        expect(queryByText('Invalid Date')).toBeNull();
+        expect(getByText(formatDate(isoDate))).toBeDefined();
+        expect(getByText('string 1, string 2')).toBeDefined();
+        expect(mockProps.descriptionItems?.[0].fields[0].value).toBe(isoDate);
+        expect(mockProps.descriptionItems?.[0].fields[1].value).toEqual(['string 1', 'string 2']);
+    });
+
+    it('composes an array sx on the root and keeps the internal defaults underneath', () => {
+        const { getByTestId } = renderDetail({
+            sx: [
+                { padding: '8px' },
+                (theme): { color: string } => ({ color: theme.palette.primary.main }),
+                { width: '500px' },
+            ],
+        });
+
+        const root = getComputedStyle(getByTestId('ring-detail'));
+        expect(root.padding).toBe('8px');
+        expect(root.color).not.toBe('');
+        expect(root.width).toBe('500px');
+        expect(root.height).toBe('100%');
+        expect(root.overflow).toBe('auto');
+    });
+
+    it('applies a plain object sx on the root over the internal defaults', () => {
+        const { getByTestId } = renderDetail({ sx: { overflow: 'hidden' } });
+
+        const root = getComputedStyle(getByTestId('ring-detail'));
+        expect(root.overflow).toBe('hidden');
+        expect(root.width).toBe('340px');
+    });
+
+    describe('full-screen media props without a thumbnail', () => {
+        const fullScreenImageUrl = 'https://example.com/full.jpg';
+        const fullScreenWarnings = (warn: MockInstance<typeof console.warn>): unknown[][] =>
+            warn.mock.calls.filter(([message]: unknown[]) => String(message).includes('fullScreenImageUrl'));
+
+        afterEach(() => {
+            vi.restoreAllMocks();
+            vi.unstubAllEnvs();
+        });
+
+        it.each([
+            { name: 'fullScreenImageUrl', mediaProps: { fullScreenImageUrl } },
+            { name: 'imageFullScreenPreview', mediaProps: { imageFullScreenPreview: true } },
+        ])('warns in development when only $name is provided', ({ mediaProps }) => {
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+            renderDetail({ main: { mediaProps } });
+
+            expect(fullScreenWarnings(warn)).toHaveLength(1);
+            expect(fullScreenWarnings(warn)[0][0]).toContain('pass `main.mediaProps.image` too');
+        });
+
+        it.each([
+            { name: 'image', mediaProps: { image: 'https://example.com/thumb.jpg' } },
+            {
+                name: 'slotProps.media.src',
+                mediaProps: { slotProps: { media: { src: 'https://example.com/thumb.jpg' } } },
+            },
+            { name: 'slots.media', mediaProps: { slots: { media: <div /> } } },
+        ])('does not warn when $name is provided', ({ mediaProps }) => {
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+            renderDetail({ main: { mediaProps: { ...mediaProps, fullScreenImageUrl, imageFullScreenPreview: true } } });
+
+            expect(fullScreenWarnings(warn)).toHaveLength(0);
+        });
+
+        it('does not warn in production', () => {
+            vi.stubEnv('NODE_ENV', 'production');
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+            renderDetail({ main: { mediaProps: { fullScreenImageUrl } } });
+
+            expect(fullScreenWarnings(warn)).toHaveLength(0);
+        });
+    });
+
+    describe('bottom icons type warning', () => {
+        const image = 'https://example.com/thumb.jpg';
+        const icon = { icon: <Globe />, onClick: vi.fn(), tooltip: 'Globe' };
+        const chip = { type: 'chip' as const, chip: { label: 'Tag' } };
+
+        afterEach(() => {
+            vi.restoreAllMocks();
+        });
+
+        it.each([
+            { name: 'bottomIcons is not provided', bottomIcons: undefined },
+            { name: 'all bottomIcons are icons', bottomIcons: [icon, icon] },
+            { name: 'all bottomIcons are chips', bottomIcons: [chip, chip] },
+        ])('does not warn when $name', ({ bottomIcons }) => {
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+            renderDetail({ main: { mediaProps: { image, bottomIcons } } });
+
+            expect(warn).not.toHaveBeenCalled();
+        });
+
+        it('warns when bottomIcons mixes chip and icon types', () => {
+            const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+            renderDetail({ main: { mediaProps: { image, bottomIcons: [icon, chip] } } });
+
+            expect(warn).toHaveBeenCalledWith(
+                'DetailMainBottomIcons: bottomIcons should be either all of type "chip" or all of type "icon".',
+            );
+        });
     });
 
     it('should show placeholder when empty is true', () => {
@@ -414,5 +555,76 @@ describe('Detail', () => {
             closeButton.click();
             expect(onCloseClick).toHaveBeenCalled();
         });
+    });
+});
+
+describe('Detail: long values', () => {
+    const url = 'https://rss.example.com/0ebeedf7-aebc-4f09-8888-37715df857c0.3f2a9c1e5b7d4a6f8e0c2b4d6f8a1c3e.xml';
+
+    function renderField(field: Record<string, unknown>): RenderResult {
+        return render(
+            <ThemeProvider theme={getCreatedTheme('light')}>
+                <Detail
+                    descriptionItems={[
+                        { sectionTitle: 'Section', fields: [{ name: 'Open RSS', value: url, url, ...field } as never] },
+                    ]}
+                />
+            </ThemeProvider>,
+        );
+    }
+
+    it('keeps the icon beside the value in one row', () => {
+        const { getByRole, getByTestId } = renderField({ icon: <Globe data-testid="field-icon" /> });
+        const link = getByRole('link', { name: url });
+        const icon = getByTestId('field-icon');
+
+        // The value and the icon wrapper are siblings in one flex row.
+        expect(link.parentElement).toBe(icon.parentElement?.parentElement);
+        expect(link.textContent).toBe(url);
+    });
+
+    it('puts each icon of an array in its own slot in the same row', () => {
+        const { getByRole, getByTestId } = renderField({
+            icon: [<Globe key="a" data-testid="icon-a" />, <Globe key="b" data-testid="icon-b" />],
+        });
+        const link = getByRole('link', { name: url });
+        const slotA = getByTestId('icon-a').parentElement;
+        const slotB = getByTestId('icon-b').parentElement;
+
+        expect(slotA).not.toBe(slotB);
+        expect(slotA?.parentElement).toBe(slotB?.parentElement);
+        expect(link.parentElement).toBe(slotA?.parentElement?.parentElement);
+    });
+
+    it('renders an icon-only field without the empty-value dash', () => {
+        const { getByTestId, queryByText } = renderField({
+            value: undefined,
+            url: undefined,
+            icon: <Globe data-testid="field-icon" />,
+        });
+
+        expect(getByTestId('field-icon')).toBeTruthy();
+        expect(queryByText('-')).toBeNull();
+    });
+
+    it('elides the middle of a plain value too', () => {
+        const { getByText } = renderField({ url: undefined, truncate: 'middle' });
+        const head = getByText(url.slice(0, -12));
+        const tail = getByText(url.slice(-12));
+
+        expect(head.parentElement).toBe(tail.parentElement);
+        expect(head.parentElement?.getAttribute('aria-label')).toBe(url);
+    });
+
+    it('elides the middle of the value and keeps the full value for assistive technology', () => {
+        const { getByRole } = renderField({ truncate: 'middle' });
+        const link = getByRole('link', { name: url });
+        const spans = link.querySelectorAll('span > span');
+
+        expect(spans).toHaveLength(2);
+        expect(spans[0].textContent).toBe(url.slice(0, -12));
+        expect(spans[1].textContent).toBe(url.slice(-12));
+        // The tooltip carries the full value as the accessible name of the elided span.
+        expect(link.querySelector('[aria-label]')?.getAttribute('aria-label')).toBe(url);
     });
 });

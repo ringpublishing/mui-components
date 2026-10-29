@@ -12,35 +12,28 @@ A compact, lightweight tree component for displaying hierarchical data with mini
 - **Compact spacing**: 8px nesting indentation, 18px icons
 - **Single-item selection**: Click to select individual items
 - **Search filtering**: Filter items by label with matching text highlighted
-- **Dynamic child loading**: Load children on expand via TanStack Query
+- **Dynamic child loading**: Load children on expand with `loadItems` (opt-in, see [Dynamic loading](#dynamic-loading))
 - **Custom element rendering**: Render custom elements per item (badges, chips, etc.)
 - **localStorage persistence**: Cache dynamic items and restore last selection across sessions
 
 For a full-featured tree with checkboxes, columns, drag-and-drop, and row actions, use `DataTree`.
 
-## Optional peer dependency
-
-`@tanstack/react-query` (v4 or v5) is declared as an **optional** peer dependency. You only need to install it if you use `loadItems` on any tree item to fetch children dynamically:
-
-```bash
-# Only required if your tree uses loadItems
-npm install @tanstack/react-query
-```
-
-If your tree is fully static (`items` is the only source of children, no `loadItems`), you do **not** need to install `@tanstack/react-query` — the component will work without it. When dynamic loading is in use, the component manages its own internal `QueryClient` and `QueryClientProvider`, so you do not need to set up a provider in your app.
-
-If your app already runs TanStack Query, you can pass your existing client through the `queryClient` prop instead of letting the tree create its own — see [With External QueryClient](#with-external-queryclient). This keeps tree queries visible in React Query DevTools, lets you invalidate / prefetch them programmatically, and shares cache policies (retry, staleTime, error handlers) with the rest of your app.
-
 ## Quick Navigation
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Search](#with-search)
-- [With Dynamic Loading](#with-dynamic-loading)
-- [With External QueryClient](#with-external-queryclient)
-- [With Custom Elements](#with-custom-elements)
-- [Controlled Selection](#controlled-selection)
-- [With Persistence](#with-persistence)
+- [Search](#search)
+- [Dynamic loading](#dynamic-loading)
+    - [Setup](#setup)
+    - [Live demo](#live-demo)
+    - [How it works](#how-it-works)
+    - [Writing `loadItems`](#writing-loaditems)
+    - [Refreshing loaded children](#refreshing-loaded-children)
+    - [Testing trees with `loadItems`](#testing-trees-with-loaditems)
+- [Custom elements](#custom-elements)
+- [Persistence](#persistence)
+- [Controlled selection](#controlled-selection)
+- [External QueryClient](#external-queryclient)
 
 ## Default
 
@@ -52,43 +45,137 @@ Basic tree with static items and expand/collapse.
 
 <ArgTypes />
 
-## With Search
+## Search
 
 Enable search filtering with `withSearch`. Items are filtered by label with matching text highlighted.
 
 <Canvas of={Stories.WithSearch} />
 
-## With Dynamic Loading
+## Dynamic loading
 
-**Requires `@tanstack/react-query`** (v4 or v5) — this story, and any tree that uses `loadItems`, will fail to render if the package is not installed (`npm install @tanstack/react-query`).
+Give an item a `loadItems` function and its children are fetched the first time the user expands it, instead of being passed up front in `items`. Dynamic loading is built on [TanStack Query](https://tanstack.com/query) and is **opt-in**: a tree with only static `items` needs no extra package or import.
 
-Items with a `loadItems` function load children dynamically when expanded. Powered by TanStack Query for automatic caching and error handling. The component manages its own `QueryClient` internally.
+### Setup
+
+Only needed when at least one item in your app uses `loadItems`.
+
+1. Install TanStack Query (v4 or v5):
+
+    ```bash
+    npm install @tanstack/react-query
+    ```
+
+2. Call `enableTreeDynamicLoading()` once, in code that runs in the browser before a tree with `loadItems` renders: the app entry, or the module that renders the tree. Calling it again is harmless.
+
+    ```tsx
+    // main.tsx
+    import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+    enableTreeDynamicLoading();
+    ```
+
+    In a React Server Components app (Next.js App Router), call it from a client module, for example the `'use client'` component that renders your providers. A call in a server component or layout never runs in the browser, where the trees render.
+
+You do not need a `QueryClientProvider`: each tree creates its own `QueryClient` unless you [pass one in](#external-queryclient).
+
+**Why a separate entry?** The main `@ringpublishing/mui-components` entry never references `@tanstack/react-query`, in code or in types, not even through a lazy `import()`. Apps that don't use `loadItems` therefore build, type-check and run without the package, whatever the bundler (Vite, webpack, Rspack, Next.js) and however the app splits vendor chunks. Only apps that import `tree-dynamic-loading` pull it in. Enabling is a function call rather than a bare `import '…'`, so tree-shaking and lint rules cannot silently drop it.
+
+If a tree with `loadItems` renders before `enableTreeDynamicLoading()` ran, it throws during render:
+
+```text
+SimpleTree: items with `loadItems` need dynamic loading enabled. Call `enableTreeDynamicLoading()` from '@ringpublishing/mui-components/tree-dynamic-loading' once in your app and install `@tanstack/react-query` (^4 || ^5).
+```
+
+The error is not sticky: once `enableTreeDynamicLoading()` has run, the next render of the tree (for example after an error boundary resets) works without a page reload.
+
+**Enabling without the package installed breaks the app,** in a way that depends on the bundler: webpack, Rspack and Vite 7 or older fail the build (`Module not found` / `"useQuery" is not exported by …`); Vite 8 only warns (`IMPORT_IS_UNDEFINED`) and the app fails at runtime when a tree with `loadItems` loads, or at startup if a `manualChunks` rule puts the library in a vendor chunk. Install `@tanstack/react-query` whenever you call `enableTreeDynamicLoading()`.
+
+### Live demo
+
+Expand the folders to load their children. Each request is delayed by 600ms to make the loading state visible.
 
 <Canvas of={Stories.WithDynamicLoading} />
 
-## With External QueryClient
+### How it works
 
-**Requires `@tanstack/react-query`** (v4 or v5).
+1. **Static or dynamic.** On every render the tree checks `items` (nested static `items` included) for a `loadItems` function. With none, it renders the static implementation and TanStack Query is never loaded. With at least one, it renders the dynamic implementation instead, which needs [`enableTreeDynamicLoading()`](#setup) to have run.
+2. **Lazy implementation.** The dynamic implementation and TanStack Query are code-split and fetched the first time a tree with `loadItems` renders. Until they arrive the tree shows a loading skeleton. Later trees on the page reuse the loaded code.
+3. **Expand icon.** An item with `loadItems` shows the expand chevron before its children load.
+4. **First expand.** Nothing is fetched until the item is expanded. On the first expand, `loadItems(item)` is called with the item itself, `onExpand(itemId)` fires as usual, and the chevron turns into a spinner while the call is pending.
+5. **Children.** The returned items render as the item's children. They are full tree items: they can have their own `loadItems` (nested lazy branches), static `items`, `element`, `expanded`, and so on.
+6. **Caching.** The result is cached per item and never goes stale: collapsing and expanding again shows the cached children without calling `loadItems`. TanStack Query's garbage collection still applies to items that leave the tree, for example when their parent is collapsed for longer than `gcTime` (5 minutes by default); they load again on their next expand.
+7. **Errors.** If `loadItems` throws or its promise rejects, the chevron becomes a red refresh button (`data-testid` `ring-simpletree[-<suffix>]-item-<id>-refresh`). There is no automatic retry; clicking the button calls `loadItems` again.
+8. **Search.** `withSearch` filters static items and children that have already been loaded. Branches that were never expanded are not searched, and searching never triggers `loadItems`.
 
-Pass an external `QueryClient` via the `queryClient` prop to share the cache with the rest of your app, inspect tree queries in React Query DevTools, or apply custom retry / staleTime / error handlers globally. Combine with `queryKeyPrefix` when multiple tree instances on the same page share a single client to avoid query-key collisions.
+### Writing `loadItems`
 
-<Canvas of={Stories.WithExternalQueryClient} />
+```ts
+loadItems?: (item: SimpleTreeItem) => Promise<SimpleTreeItem[]> | SimpleTreeItem[];
+```
 
-## With Custom Elements
+- Return the children of `item`, as an array or a promise of one. To make the next level lazy too, put a `loadItems` on the returned items. The same function can be reused at every level:
+
+    ```tsx
+    const loadItems = async (item: SimpleTreeItem): Promise<SimpleTreeItem[]> => {
+        const children = await api.getChildren(item.itemId);
+
+        return children.map((child) => ({
+            itemId: child.id,
+            label: child.name,
+            ...(child.hasChildren ? { loadItems } : {}),
+        }));
+    };
+    ```
+
+- Return `[]` for an empty branch. The item then has no children and loses its expand icon, like an item without `items`.
+- `itemId` must be unique across the whole tree, loaded items included. Cached results are keyed by `itemId`.
+- Do not set both `items` and `loadItems` on the same item. Static `items` take precedence and the loaded result is never shown.
+- A new `loadItems` function reference does not refetch. Cached children stay until the tree remounts or you [refresh them](#refreshing-loaded-children).
+- Whether a tree is dynamic is decided from the current `items`. If `loadItems` first appears after mount (for example once your data arrives), the tree remounts with the dynamic implementation and loses uncontrolled expansion and selection state. Include `loadItems` from the first render, or control `selectedItems` and use `persistence`.
+
+### Refreshing loaded children
+
+Loaded children never go stale on their own. To reload them:
+
+- **Whole tree:** remount it, for example by changing its `key`. The internal `QueryClient` is created per mount, so the cache starts empty (unless `persistence.cacheKey` restores it from localStorage).
+- **One item:** pass your own [`queryClient`](#external-queryclient) with a `queryKeyPrefix` and invalidate that item's query. Its key is `['simpleTreeItem', queryKeyPrefix, itemId]`. An expanded item reloads immediately; a collapsed one reloads on its next expand.
+
+    ```tsx
+    <SimpleTree items={items} queryClient={queryClient} queryKeyPrefix="files" />;
+
+    queryClient.invalidateQueries({ queryKey: ['simpleTreeItem', 'files', 'documents'] });
+    ```
+
+### Testing trees with `loadItems`
+
+In unit tests (Vitest or Jest with Testing Library), enable dynamic loading once in your test setup file:
+
+```ts
+// vitest.setup.ts
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
+```
+
+Render the tree inside `ThemeConfig`, as in the app: the tree reads Ring theme tokens. The dynamic implementation loads asynchronously, so the first render of a tree with `loadItems` shows the skeleton. Wait for content with `findBy*` queries:
+
+```tsx
+render(
+    <ThemeConfig mode="light">
+        <SimpleTree items={[{ itemId: 'docs', label: 'Documents', expanded: true, loadItems }]} />
+    </ThemeConfig>,
+);
+
+expect(await screen.findByText('Q1 Report.pdf')).toBeInTheDocument();
+```
+
+## Custom elements
 
 Each item can render a custom `element` on the right side, such as badges or chips.
 
 <Canvas of={Stories.WithCustomElements} />
 
-## Controlled Selection
-
-Control selected items externally via `selectedItems` and `onSelectedItemsChange`.
-
-<Canvas of={Stories.ControlledSelection} />
-
-## With Persistence
-
-The cache-key half of persistence (caching of dynamically-loaded items) only does work when `loadItems` is used and therefore requires `@tanstack/react-query`. The `restoreExpandedItems` / `restoreSelectedItem` flags work without it.
+## Persistence
 
 Pass a `persistence` object with a `cacheKey` to enable localStorage caching of dynamically loaded items. Use `restoreExpandedItems` and `restoreSelectedItem` to restore the tree state across page reloads.
 
@@ -107,4 +194,24 @@ Pass a `persistence` object with a `cacheKey` to enable localStorage caching of 
 - **`restoreExpandedItems`** (optional): When `true`, the expanded items are persisted and restored on mount.
 - **`restoreSelectedItem`** (optional): When `true`, the selected item is persisted and restored on mount. Only applies in uncontrolled mode (when `selectedItems` prop is not provided).
 
+`restoreExpandedItems` and `restoreSelectedItem` work on static trees too. Caching loaded children only applies to trees with `loadItems`, and so needs the [dynamic loading setup](#setup). After a reload, restored children appear immediately. Functions can't be stored in localStorage, so `loadItems` runs again in the background for each restored expanded branch: this refreshes the data and makes deeper levels expandable again.
+
 <Canvas of={Stories.WithPersistence} />
+
+## Controlled selection
+
+Control selected items externally via `selectedItems` and `onSelectedItemsChange`.
+
+<Canvas of={Stories.ControlledSelection} />
+
+## External QueryClient
+
+**Requires the [dynamic loading setup](#setup).**
+
+If your app already runs TanStack Query, pass your existing client through the `queryClient` prop instead of letting the tree create its own. This keeps tree queries visible in React Query DevTools, lets you invalidate or prefetch them programmatically, and shares cache policies (retry, staleTime, error handlers) with the rest of your app. The prop is ignored for trees without `loadItems`.
+
+The prop is typed as `TreeQueryClient`, which any TanStack Query `QueryClient` (v4 or v5) satisfies. It describes the client by shape, so the package's types don't import `@tanstack/react-query`. Pass your `QueryClient` instance as is.
+
+Set `queryKeyPrefix` to keep the cache across remounts (for example in tabs) and to address an item's query. Give each tree that shares the client a prefix of its own: trees with the same prefix show each other's cached children.
+
+<Canvas of={Stories.WithExternalQueryClient} />

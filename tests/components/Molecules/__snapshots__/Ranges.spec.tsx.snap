@@ -13,13 +13,13 @@ exports[`Ranges > should render correctly 1`] = `
         class="MuiBox-root css-0"
       >
         <div
-          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
-          data-testid="ring-autocomplete-range1"
+          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
+          data-testid="ring-autocomplete-range1-range-select"
           title="Range"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-            data-testid="ring-autocomplete-range1"
+            data-testid="ring-autocomplete-range1-range-select-textfield"
           >
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
@@ -39,6 +39,7 @@ exports[`Ranges > should render correctly 1`] = `
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+                data-testid="ring-autocomplete-range1-range-select-input"
                 id="_r_0_"
                 placeholder="Select Range"
                 role="combobox"
@@ -60,12 +61,12 @@ exports[`Ranges > should render correctly 1`] = `
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                    data-testid="KeyboardArrowDownIcon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      d="M7 10l5 5 5-5z"
                     />
                   </svg>
                 </button>
@@ -199,13 +200,13 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
         class="MuiBox-root css-0"
       >
         <div
-          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1tlcqt-MuiAutocomplete-root"
-          data-testid="ring-autocomplete-range1"
+          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon ring-autocomplete css-1vmezwh-MuiAutocomplete-root"
+          data-testid="ring-autocomplete-range1-range-select"
           title="Range"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root ring-textfield css-cmpglg-MuiFormControl-root-MuiTextField-root"
-            data-testid="ring-autocomplete-range1"
+            data-testid="ring-autocomplete-range1-range-select-textfield"
           >
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
@@ -225,6 +226,7 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+                data-testid="ring-autocomplete-range1-range-select-input"
                 id="_r_27_"
                 placeholder="Select Range"
                 role="combobox"
@@ -246,12 +248,12 @@ exports[`Ranges > should show error if "from" value is greater than "to" value a
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                    data-testid="KeyboardArrowDownIcon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                      d="M7 10l5 5 5-5z"
                     />
                   </svg>
                 </button>

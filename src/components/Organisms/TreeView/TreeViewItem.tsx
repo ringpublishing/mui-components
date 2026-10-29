@@ -1,26 +1,50 @@
-import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Plus, ChevronDown, ChevronUp, EllipsisVertical, RotateCw, Minus } from 'lucide-react';
 import {
-    AddOutlined,
-    KeyboardArrowDown,
-    KeyboardArrowUp,
-    MoreVert,
-    Refresh,
-    RemoveOutlined,
-} from '@mui/icons-material';
-import { Box, Checkbox, CircularProgress, IconButton, PopperProps, Theme, Tooltip, useTheme } from '@mui/material';
+    alpha,
+    Box,
+    Checkbox,
+    CircularProgress,
+    IconButton,
+    PopperProps,
+    Theme,
+    Tooltip,
+    useTheme,
+} from '@mui/material';
 import { TreeItem } from '@mui/x-tree-view';
 import DOMPurify from 'dompurify';
 
 import { WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
+import { resolveMoreActionsAriaLabel } from '../../../helpers/moreActionsAriaLabel.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import { SortableItem } from '../../internal/SortableItem.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { useNonDraggableRef } from '../SortableList/SortableList.js';
 import { Column } from './DefaultTreeView.js';
 import { filterItems, TreeViewItem } from './TreeView.js';
+import { DECORATIVE_EXPAND_BUTTON_PROPS, getPlainLabel } from '../../internal/tree/treeShared.js';
 
-export const globalDynamicItemsCache = new Map<string, { items: TreeViewItem[]; expandedChildren: Set<string> }>();
+const TREE_VIEW_ICON_SIZE = 18;
+
+/** The children each dynamic row of one tree has loaded, and which of them are expanded, by the row's `itemId`. */
+export type TreeViewDynamicItemsCache = Map<string, { items: TreeViewItem[]; expandedChildren: Set<string> }>;
+
+/** Each tree provides a map of its own, so rows of two trees that share an `itemId` never share children. */
+export const TreeViewDynamicItemsCacheContext = createContext<TreeViewDynamicItemsCache>(new Map());
+
+/** The row the user has just expanded — with a click on its icon container or with the keyboard. */
+export interface TreeViewExpansionRequest {
+    itemId: string;
+}
+
+/**
+ * Set by the tree from MUI's `onItemExpansionToggle`, which fires for the user's own toggles and never
+ * for the rows search expands by itself — so a dynamic row loads when the user opens it, not whenever
+ * a query happens to match it.
+ */
+export const TreeViewExpansionRequestContext = createContext<TreeViewExpansionRequest | null>(null);
 
 interface CommonTreeViewItemProps extends TreeViewItem {
     order: number[];
@@ -38,6 +62,7 @@ interface CompactTreeViewItemProps extends CommonTreeViewItemProps {
     columns?: never;
     dragAndDropTooltipTitle?: never;
     dragAndDropTooltipPlacement?: never;
+    rowActionsAriaLabel?: never;
 }
 
 interface DefaultTreeViewItemProps extends CommonTreeViewItemProps {
@@ -47,6 +72,7 @@ interface DefaultTreeViewItemProps extends CommonTreeViewItemProps {
     columns?: Column[];
     dragAndDropTooltipTitle?: string;
     dragAndDropTooltipPlacement: PopperProps['placement'];
+    rowActionsAriaLabel?: string;
 }
 type LoadItemsFunction = () => Promise<TreeViewItem[]> | TreeViewItem[];
 type StaticOrDynamicTreeViewItems = TreeViewItem[] | LoadItemsFunction;
@@ -54,6 +80,8 @@ type StaticOrDynamicTreeViewItems = TreeViewItem[] | LoadItemsFunction;
 type ChildTreeViewItemProps = TreeViewItemComponentProps & {
     items?: StaticOrDynamicTreeViewItems;
     setExpandedItems: React.Dispatch<React.SetStateAction<string[]>>;
+    /** The `itemId`s of the rows above this one, nearest last. */
+    ancestorItemIds?: string[];
 } & WithDataTestIdSuffix;
 
 export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.Element {
@@ -75,6 +103,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
         expandedItems,
         dragAndDropTooltipTitle,
         dragAndDropTooltipPlacement,
+        rowActionsAriaLabel,
         isDragging,
         dropLineUnderId,
         dropInId,
@@ -83,19 +112,29 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
         loadItems,
         setExpandedItems,
         searchQuery = '',
+        ancestorItemIds = [],
         dataTestIdSuffix,
     } = props;
 
     const theme = useTheme();
+    const expansionRequest = useContext(TreeViewExpansionRequestContext);
+    const dynamicItemsCache = useContext(TreeViewDynamicItemsCacheContext);
+    // A row that mounts after its own request (search hid it and brought it back) has handled that request already.
+    const handledExpansionRequest = useRef<TreeViewExpansionRequest | null>(expansionRequest);
 
-    const dataTestId = useRingDataTestId('treeview', [dataTestIdSuffix, `item-${itemId}`].filter(Boolean).join('-'));
+    const dataTestId = resolveItemDataTestId({
+        componentName: 'TreeView',
+        listSuffix: dataTestIdSuffix,
+        itemId,
+        item: props,
+    });
 
     const isSearchActive = searchQuery.length > 0;
 
     const compactThemeColors = {
-        backgroundItemActive: theme.colors.blue[100],
-        secondBackgroundActive: theme.colors.blue[50],
-        fontColorSelected: theme.colors.grey[900],
+        backgroundItemActive: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+        secondBackgroundActive: alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        fontColorSelected: theme.palette.text.primary,
     };
 
     const compactExpandedStyles = {
@@ -105,7 +144,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
 
     const isDynamicItem = loadItems !== undefined;
     const cacheKey = itemId;
-    const cachedData = globalDynamicItemsCache.get(cacheKey);
+    const cachedData = dynamicItemsCache.get(cacheKey);
 
     const [dynamicItems, setDynamicItems] = useState<TreeViewItem[] | undefined>(
         isDynamicItem ? cachedData?.items : items,
@@ -115,7 +154,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
     let currentItems = items !== undefined ? items : isDynamicItem ? dynamicItems : undefined;
 
     if (isSearchActive && searchQuery && currentItems === dynamicItems && dynamicItems) {
-        currentItems = filterItems(dynamicItems, searchQuery, globalDynamicItemsCache);
+        currentItems = filterItems(dynamicItems, searchQuery, dynamicItemsCache);
     }
 
     const hasChildren = isDynamicItem || (currentItems !== undefined && currentItems.length > 0);
@@ -130,7 +169,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
 
     const leftPadding = hasChildrenPadding + checkboxPadding;
     const labelWidth = isCompact ? 'auto' : `${320 - leftPadding - nestLevelPadding}px`;
-    const hasChildrenAndIsExpanded = hasChildren && expandedItems.includes(itemId);
+    const isExpanded = expandedItems.includes(itemId);
+    const hasChildrenAndIsExpanded = hasChildren && isExpanded;
     const isSelected = itemId === currentSelectedItem;
 
     const actionBoxRef = useNonDraggableRef();
@@ -142,6 +182,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
     const [hasError, setHasError] = useState(false);
 
     const sanitizedLabel = useMemo(() => DOMPurify.sanitize(label, { ALLOWED_TAGS: ['span'] }), [label]);
+    const plainLabel = useMemo(() => getPlainLabel(label), [label]);
 
     const handleExpand = useCallback(async (): Promise<void> => {
         if (!isDynamicItem || !loadItems) {
@@ -157,10 +198,10 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
             setDynamicItems(loadedItems);
             setHasLoadedItems(true);
 
-            const cachedData = globalDynamicItemsCache.get(cacheKey);
+            const cachedData = dynamicItemsCache.get(cacheKey);
             const previouslyExpandedChildren = cachedData?.expandedChildren || new Set<string>();
 
-            globalDynamicItemsCache.set(cacheKey, {
+            dynamicItemsCache.set(cacheKey, {
                 items: loadedItems,
                 expandedChildren: previouslyExpandedChildren,
             });
@@ -185,7 +226,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
         } finally {
             setIsLoading(false);
         }
-    }, [expandedItems, isDynamicItem, itemId, loadItems, setExpandedItems, cacheKey, label, props]);
+    }, [expandedItems, isDynamicItem, itemId, loadItems, setExpandedItems, cacheKey, label, props, dynamicItemsCache]);
 
     const handleSetExpandedItems = useCallback(
         (updater: React.SetStateAction<string[]>): void => {
@@ -197,7 +238,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                         const childIds = currentItems.map((child) => child.itemId);
                         const expandedChildIds = newExpanded.filter((id) => childIds.includes(id));
 
-                        globalDynamicItemsCache.set(cacheKey, {
+                        dynamicItemsCache.set(cacheKey, {
                             ...cachedData,
                             expandedChildren: new Set(expandedChildIds),
                         });
@@ -207,8 +248,23 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                 return newExpanded;
             });
         },
-        [setExpandedItems, isDynamicItem, hasLoadedItems, currentItems, cachedData, cacheKey],
+        [setExpandedItems, isDynamicItem, hasLoadedItems, currentItems, cachedData, cacheKey, dynamicItemsCache],
     );
+
+    // A row expands through the tree item — a click on its icon container or the arrow keys — not
+    // through the icon button, so every expansion the user makes loads the children again. Each request is
+    // handled once: after a failed load the row collapses, and only expanding it again retries.
+    useEffect(() => {
+        if (expansionRequest?.itemId !== itemId || handledExpansionRequest.current === expansionRequest) {
+            return;
+        }
+
+        handledExpansionRequest.current = expansionRequest;
+
+        if (isDynamicItem && !isLoading) {
+            void handleExpand();
+        }
+    }, [expansionRequest, itemId, isDynamicItem, isLoading, handleExpand]);
 
     return (
         <SortableItem
@@ -219,6 +275,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
             <TreeItem
                 key={`${itemId}-loading:${isLoading}-error:${hasError}`}
                 itemId={itemId}
+                data-testid={dataTestId}
                 style={{
                     marginLeft: nestLevel > 0 ? (isCompact ? '8px' : '32px') : '0px',
                 }}
@@ -232,7 +289,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                             borderColor:
                                 dropInId === itemId
                                     ? (theme: Theme): string => theme.palette.primary.main
-                                    : (theme: Theme): string => theme.palette.components.datagrid.border,
+                                    : (theme: Theme): string => theme.palette.divider,
                         }),
                         borderRadius: '4px',
                         padding: dropInId === itemId ? '0px' : '1px',
@@ -242,8 +299,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                         '&:hover': {
                             backgroundColor: isDragging
                                 ? 'inherit'
-                                : // @ts-expect-error - mui theme type missing
-                                  (theme: Theme): string => theme.palette.primary.focusVisible,
+                                : (theme: Theme): string =>
+                                      alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
                         },
                         '&.Mui-focused': {
                             zIndex: 0,
@@ -261,7 +318,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                         : compactThemeColors.fontColorSelected,
                             },
                             '& .RingTreeView-itemRowActionButton': {
-                                fill: (theme: Theme) => theme.palette.common.white,
+                                color: (theme: Theme) => theme.palette.common.white,
                             },
                             '& .MuiTreeItem-iconContainer': {
                                 '&:has(*)': {
@@ -290,7 +347,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                         borderBottomLeftRadius: '4px',
                         borderTopLeftRadius: '4px',
                         '&:has(*)': {
-                            borderRightColor: (theme: Theme) => theme.palette.components.datagrid.border,
+                            borderRightColor: (theme: Theme) => theme.palette.divider,
                             borderRightWidth: variant === 'default' ? '1px' : '0px',
                             borderRightStyle: 'solid',
                         },
@@ -313,6 +370,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                 slots={{
                     expandIcon: () => (
                         <IconButton
+                            // In the error state this is the retry control, a real action for every user.
+                            {...(hasError ? {} : DECORATIVE_EXPAND_BUTTON_PROPS)}
                             ref={expandRef.setRef}
                             disabled={isLoading}
                             color="inherit"
@@ -321,11 +380,11 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                     ? (e): void => {
                                           e.stopPropagation();
                                           setHasLoadedItems(false);
-                                          globalDynamicItemsCache.delete(cacheKey);
+                                          dynamicItemsCache.delete(cacheKey);
                                           setExpandedItems((prev) => [...prev, itemId]);
                                           handleExpand();
                                       }
-                                    : handleExpand
+                                    : undefined
                             }
                             sx={{
                                 width: hasChildren ? (isCompact ? '18px' : '32px') : '0px',
@@ -337,11 +396,11 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                             data-testid={`${dataTestId}-expand`}
                         >
                             {hasError ? (
-                                <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" />
+                                <RingLucideIcon icon={RotateCw} color="error" />
                             ) : variant === 'default' ? (
-                                <AddOutlined />
+                                <Plus size={TREE_VIEW_ICON_SIZE} style={{ flexShrink: 0 }} />
                             ) : (
-                                <KeyboardArrowDown />
+                                <ChevronDown size={TREE_VIEW_ICON_SIZE} style={{ flexShrink: 0 }} />
                             )}
                         </IconButton>
                     ),
@@ -354,7 +413,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                 onClick={(e): void => {
                                     e.stopPropagation();
                                     setHasLoadedItems(false);
-                                    globalDynamicItemsCache.delete(cacheKey);
+                                    dynamicItemsCache.delete(cacheKey);
                                     setExpandedItems((prev) => [...prev, itemId]);
                                     handleExpand();
                                 }}
@@ -367,7 +426,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                 }}
                                 data-testid={`${dataTestId}-refresh`}
                             >
-                                <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" />
+                                <RingLucideIcon icon={RotateCw} color="error" />
                             </IconButton>
                         ) : (
                             <Box
@@ -383,9 +442,9 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                 {isLoading ? (
                                     <CircularProgress color="secondary" thickness={5} size={14} />
                                 ) : variant === 'default' ? (
-                                    <RemoveOutlined />
+                                    <Minus size={TREE_VIEW_ICON_SIZE} style={{ flexShrink: 0 }} />
                                 ) : (
-                                    <KeyboardArrowUp />
+                                    <ChevronUp size={TREE_VIEW_ICON_SIZE} style={{ flexShrink: 0 }} />
                                 )}
                             </Box>
                         ),
@@ -465,16 +524,20 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                                     <IconButton
                                                         ref={actionBoxRef.setRef}
                                                         size={'small'}
+                                                        aria-label={resolveMoreActionsAriaLabel(rowActionsAriaLabel)}
                                                         onClick={(e): void => {
                                                             e.stopPropagation();
                                                         }}
                                                         data-testid={`${dataTestId}-actions`}
                                                     >
-                                                        <MoreVert className={'RingTreeView-itemRowActionButton'} />
+                                                        <EllipsisVertical
+                                                            className={'RingTreeView-itemRowActionButton'}
+                                                            size={TREE_VIEW_ICON_SIZE}
+                                                        />
                                                         <ActionBox
                                                             actions={rowActions}
                                                             anchorEl={actionBoxRef}
-                                                            dataTestIdSuffix={dataTestIdSuffix}
+                                                            dataTestId={`${dataTestId}-menu`}
                                                         />
                                                     </IconButton>
                                                 )}
@@ -500,8 +563,8 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                     ),
 
                     checkbox: ((): React.FC => {
-                        //  Tutaj zawsze musi być forward ref bo treeview podaje ref do tego slota.
-                        //  Nawet jeżeli zrobimy na to odzielny komponent w tym slocie musie być forward ref albo będą errory w konsoli
+                        // MUI passes a ref to this slot (`getCheckboxProps`) to tell checkbox clicks from row clicks,
+                        // so any component rendered here has to forward it to the checkbox.
                         const CheckboxComponent = forwardRef((props, ref) =>
                             hasCheckbox ? (
                                 <Box ref={checkboxRef.setRef} component="span" sx={{ display: 'inline-flex' }}>
@@ -509,6 +572,9 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                                         ref={ref as React.RefObject<HTMLButtonElement>}
                                         checked={checked}
                                         disabled={checkboxDisabled}
+                                        // The tree item's own `aria-checked` follows MUI's selection, not `checked`,
+                                        // so the checkbox stays exposed and is named after the row.
+                                        slotProps={{ input: { 'aria-label': plainLabel } }}
                                         sx={{ padding: '0px' }}
                                         onChange={(): void => onCheckboxChange(itemId, !checked)}
                                         onClick={(e): void => {
@@ -525,10 +591,17 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                 }}
             >
                 {isDynamicItem && !currentItems ? (
-                    // to jest placeholder aby pokazać przycisk ładowania dla dynamicznych elementów
+                    // MUI shows the expand icon only for an item with children, so a dynamic item gets a hidden
+                    // child until its own children load.
                     <div style={{ display: 'none' }} />
                 ) : null}
                 {currentItems?.map((child, index) => {
+                    // A child with the itemId of this row or of a row above it (a loadItems that returned the row
+                    // inside itself) would render the same rows inside each other forever, so it is left out.
+                    if (child.itemId === itemId || ancestorItemIds.includes(child.itemId)) {
+                        return null;
+                    }
+
                     const commonProps = {
                         currentSelectedItem,
                         ...child,
@@ -540,6 +613,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                         setExpandedItems: handleSetExpandedItems,
                         items: child.items,
                         searchQuery,
+                        ancestorItemIds: [...ancestorItemIds, itemId],
                     };
 
                     return variant === 'compact' ? (
@@ -559,6 +633,7 @@ export function TreeViewItemComponent(props: ChildTreeViewItemProps): React.JSX.
                             onCheckboxChange={onCheckboxChange}
                             dragAndDropTooltipTitle={dragAndDropTooltipTitle}
                             dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
+                            rowActionsAriaLabel={rowActionsAriaLabel}
                             dataTestIdSuffix={dataTestIdSuffix}
                         />
                     );

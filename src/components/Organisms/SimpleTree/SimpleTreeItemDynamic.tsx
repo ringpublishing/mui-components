@@ -1,17 +1,14 @@
-import { KeyboardArrowDown, KeyboardArrowUp, Refresh } from '@mui/icons-material';
-import { Box, CircularProgress, IconButton, Theme, useTheme } from '@mui/material';
+import { ChevronDown, ChevronUp, RotateCw } from 'lucide-react';
+import { alpha, Box, CircularProgress, IconButton, Theme, useTheme } from '@mui/material';
 import { TreeItem } from '@mui/x-tree-view';
-// Namespace import (`import * as`) so this file compiles against the
-// optional-peer-dep stub at the consumer's build time when
-// `@tanstack/react-query` isn't installed. See `treeQueryClient.ts` for
-// the full rationale.
-import * as ReactQuery from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import React, { useMemo } from 'react';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 import { WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
-import { STRIPPED_FN_MARKER, filterTreeItems } from '../treeShared.js';
+import { DECORATIVE_EXPAND_BUTTON_PROPS, STRIPPED_FN_MARKER, filterTreeItems } from '../../internal/tree/treeShared.js';
 import type { SimpleTreeItem } from './SimpleTree.js';
 
 export interface SimpleTreeItemDynamicComponentProps extends WithDataTestIdSuffix {
@@ -43,10 +40,12 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
     const { itemId, label, items: staticItems, element, loadItems, alwaysShowTooltip, tooltipTitle } = item;
 
     const theme = useTheme();
-    const dataTestId = useRingDataTestId(
-        'simpletree',
-        dataTestIdSuffix ? `${dataTestIdSuffix}-item-${itemId}` : `item-${itemId}`,
-    );
+    const dataTestId = resolveItemDataTestId({
+        componentName: 'SimpleTree',
+        listSuffix: dataTestIdSuffix,
+        itemId,
+        item,
+    });
 
     const isSearchActive = searchQuery.length > 0;
     const isExpanded = expandedItems.includes(itemId);
@@ -58,14 +57,14 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
     const hasLiveLoadItems = typeof loadItems === 'function';
     const isDynamicItem = hasLiveLoadItems || (loadItems as unknown) === STRIPPED_FN_MARKER;
 
-    const queryClient = ReactQuery.useQueryClient();
+    const queryClient = useQueryClient();
 
     const {
         data: dynamicItems,
         isFetching,
         isError,
         refetch,
-    } = ReactQuery.useQuery<SimpleTreeItem[]>({
+    } = useQuery<SimpleTreeItem[]>({
         queryKey: ['simpleTreeItem', instanceId, itemId],
         queryFn: () => {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- query is enabled only when loadItems exists
@@ -101,9 +100,9 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
     const isSelected = itemId === currentSelectedItem;
 
     const compactThemeColors = {
-        backgroundItemActive: theme.colors.blue[100],
-        secondBackgroundActive: theme.colors.blue[50],
-        fontColorSelected: theme.colors.grey[900],
+        backgroundItemActive: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+        secondBackgroundActive: alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        fontColorSelected: theme.palette.text.primary,
     };
 
     const compactExpandedStyles = {
@@ -121,6 +120,7 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
         <TreeItem
             key={itemId}
             itemId={itemId}
+            data-testid={dataTestId}
             style={{
                 marginLeft: nestLevel > 0 ? `${NEST_INDENT}px` : '0px',
             }}
@@ -133,8 +133,8 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                     paddingY: '0px',
                     zIndex: 0,
                     '&:hover': {
-                        // @ts-expect-error - mui theme type missing
-                        backgroundColor: (theme: Theme): string => theme.palette.primary.focusVisible,
+                        backgroundColor: (theme: Theme): string =>
+                            alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity),
                     },
                     '&.Mui-focused': {
                         zIndex: 0,
@@ -156,7 +156,7 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                     borderBottomLeftRadius: BORDER_RADIUS,
                     borderTopLeftRadius: BORDER_RADIUS,
                     '&:has(*)': {
-                        borderRightColor: (theme: Theme) => theme.palette.components.datagrid.border,
+                        borderRightColor: (theme: Theme) => theme.palette.divider,
                         borderRightWidth: '0px',
                         borderRightStyle: 'solid',
                     },
@@ -179,6 +179,8 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
             slots={{
                 expandIcon: () => (
                     <IconButton
+                        // In the error state this is the retry control, a real action for every user.
+                        {...(isError ? {} : DECORATIVE_EXPAND_BUTTON_PROPS)}
                         disabled={isFetching}
                         color="inherit"
                         onClick={isError ? handleRefresh : undefined}
@@ -191,7 +193,11 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                         }}
                         data-testid={`${dataTestId}-expand`}
                     >
-                        {isError ? <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" /> : <KeyboardArrowDown />}
+                        {isError ? (
+                            <RingLucideIcon icon={RotateCw} color="error" />
+                        ) : (
+                            <ChevronDown size={ICON_SIZE} style={{ flexShrink: 0 }} />
+                        )}
                     </IconButton>
                 ),
                 collapseIcon: () =>
@@ -209,7 +215,7 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                             }}
                             data-testid={`${dataTestId}-refresh`}
                         >
-                            <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" />
+                            <RingLucideIcon icon={RotateCw} color="error" />
                         </IconButton>
                     ) : (
                         <Box
@@ -225,7 +231,7 @@ export function SimpleTreeItemDynamicComponent(props: SimpleTreeItemDynamicCompo
                             {isFetching ? (
                                 <CircularProgress color="secondary" thickness={SPINNER_THICKNESS} size={SPINNER_SIZE} />
                             ) : (
-                                <KeyboardArrowUp />
+                                <ChevronUp size={ICON_SIZE} style={{ flexShrink: 0 }} />
                             )}
                         </Box>
                     ),

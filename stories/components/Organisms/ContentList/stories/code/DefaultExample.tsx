@@ -1,20 +1,14 @@
 import React from 'react';
-import {
-    IconButton,
-    Box,
-    Alert,
-    TextField,
-    Tooltip,
-    Typography,
-    Switch,
-    FormHelperText,
-    Stack,
-    Button,
-} from '@mui/material';
-import { RocketLaunch, RemoveDone, Delete, Crop, Add, PeopleAltOutlined, PhotoOutlined } from '@mui/icons-material';
-import { ContentList, Media } from '@ringpublishing/mui-components';
+import { IconButton, Box, Alert, TextField, Tooltip, Typography, FormHelperText, Stack, Button } from '@mui/material';
+import { Rocket, Undo2, Trash2, Crop, Plus, Users, Image } from 'lucide-react';
+import { ContentList, Media, RingLucideIcon, Switch } from '@ringpublishing/mui-components';
 
-const BasicInfoComponent = () => {
+// The row action sits beside the field, so `alignItems: 'center'` would centre it on the whole
+// FormControl — label and helper included — and drift with the helper's line count. The label is in
+// flow (20px) above a 40px input, so a 36px button meets the input's centre 22px down.
+const FIELD_ACTION_OFFSET = '22px';
+
+const BasicInfoComponent = (): React.JSX.Element => {
     return (
         <Stack spacing={1}>
             <Box>
@@ -24,15 +18,15 @@ const BasicInfoComponent = () => {
                     helperText="This name will be visible on author's pages and articles."
                 />
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 1 }}>
                 <TextField
                     label="Disambiguation"
                     fullWidth={true}
                     helperText="Use this field when the author name is already taken. This will help you easily distinguish similarly named authors."
                 />
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <RemoveDone />
+                <Tooltip title="Undo">
+                    <IconButton sx={{ marginTop: FIELD_ACTION_OFFSET }}>
+                        <Undo2 />
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -47,7 +41,7 @@ const BasicInfoComponent = () => {
     );
 };
 
-const ImageComponent = () => {
+const ImageComponent = (): React.JSX.Element => {
     return (
         <Stack spacing={1}>
             <Typography>Here you can change your image</Typography>
@@ -59,13 +53,13 @@ const ImageComponent = () => {
                 actions={[
                     {
                         label: 'Crop',
-                        onClick: () => console.log('Crop clicked'),
+                        onClick: (): void => undefined,
                         icon: <Crop />,
                     },
                     {
                         label: 'Delete',
-                        onClick: () => console.log('Delete clicked'),
-                        icon: <Delete />,
+                        onClick: (): void => undefined,
+                        icon: <Trash2 />,
                     },
                 ]}
             />
@@ -73,22 +67,22 @@ const ImageComponent = () => {
     );
 };
 
-const SocialProfilesComponent = () => {
+const SocialProfilesComponent = (): React.JSX.Element => {
     return (
         <Stack spacing={2}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TextField fullWidth={true} label="Facebook" onChange={() => console.log('Facebook changed')} />
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                <TextField fullWidth={true} label="Facebook" onChange={(): void => undefined} />
                 <Tooltip title="Delete profile">
-                    <IconButton onClick={() => console.log('Delete Facebook')}>
-                        <Delete />
+                    <IconButton sx={{ marginTop: FIELD_ACTION_OFFSET }} onClick={(): void => undefined}>
+                        <Trash2 />
                     </IconButton>
                 </Tooltip>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TextField fullWidth={true} label="Instagram" onChange={() => console.log('Instagram changed')} />
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                <TextField fullWidth={true} label="Instagram" onChange={(): void => undefined} />
                 <Tooltip title="Delete profile">
-                    <IconButton onClick={() => console.log('Delete Instagram')}>
-                        <Delete />
+                    <IconButton sx={{ marginTop: FIELD_ACTION_OFFSET }} onClick={(): void => undefined}>
+                        <Trash2 />
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -101,7 +95,7 @@ export default function DefaultExample(): React.JSX.Element {
         <ContentList
             listHeader={
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    <RocketLaunch sx={{ mr: 2 }} />
+                    <RingLucideIcon icon={Rocket} sx={{ mr: 2 }} />
                     <Typography variant="h6">List header slot example</Typography>
                 </Box>
             }
@@ -113,12 +107,12 @@ export default function DefaultExample(): React.JSX.Element {
                             <Alert severity="info">There are unpublished changes</Alert>
                         </Box>
                     ),
-                    additionalHeaderData: <PeopleAltOutlined />,
+                    additionalHeaderData: <RingLucideIcon icon={Users} fontSize="small" />,
                     children: <BasicInfoComponent />,
                 },
                 {
                     header: 'Image',
-                    additionalHeaderData: <PhotoOutlined />,
+                    additionalHeaderData: <RingLucideIcon icon={Image} fontSize="small" />,
                     children: <ImageComponent />,
                 },
                 {
@@ -139,8 +133,8 @@ export default function DefaultExample(): React.JSX.Element {
                     children: <SocialProfilesComponent />,
                     additionalHeaderData: <span style={{ width: '24px' }}>2</span>,
                     contentHeaderAction: (
-                        <Button onClick={() => console.log('Add profile clicked')} variant="text">
-                            <Add />
+                        <Button onClick={(): void => undefined} variant="text">
+                            <Plus />
                             Add profile
                         </Button>
                     ),

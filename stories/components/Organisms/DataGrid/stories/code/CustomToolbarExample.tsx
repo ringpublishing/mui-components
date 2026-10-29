@@ -1,6 +1,6 @@
 import React from 'react';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { MoreVertOutlined } from '@mui/icons-material';
+import { EllipsisVertical } from 'lucide-react';
 import { IconButton } from '@mui/material';
 import { RingDataGrid } from '@ringpublishing/mui-components';
 
@@ -54,7 +54,7 @@ export default function CustomToolbarExample(): React.JSX.Element {
                 refreshItems={(): void => undefined}
                 additionalComponent={
                     <IconButton onClick={(): void => undefined}>
-                        <MoreVertOutlined />
+                        <EllipsisVertical />
                     </IconButton>
                 }
                 rowHeight={35}

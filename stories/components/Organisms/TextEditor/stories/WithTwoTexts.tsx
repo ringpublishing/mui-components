@@ -3,14 +3,14 @@ import type { StoryObj } from '@storybook/react-vite';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Editor, Extension, Mark } from '@tiptap/react';
 import { createCodeStory } from '../../../../helpers.js';
-import DefaultExampleCode from './code/DefaultExample.tsx?raw';
+import WithTwoTextsExampleCode from './code/WithTwoTextsExample.tsx?raw';
 import {
     TextEditor,
     TextEditorImageAttributes,
     TextEditorLinkAttributes,
     TextField,
 } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof TextEditor>;
 
@@ -209,14 +209,14 @@ export const WithTwoTexts: Story = {
     render: (args, context) =>
         createCodeStory({
             context,
-            customCode: DefaultExampleCode,
+            customCode: WithTwoTextsExampleCode,
             example: <TextEditorWrapper content={sampleTextBasic} extensions={[]} menuControls={[]} />,
         }),
     parameters: {
         customButtons: [
             <Button
                 key={'text 1'}
-                onClick={() => {
+                onClick={(): void => {
                     window.postMessage('text 1', '*');
                 }}
             >
@@ -224,7 +224,7 @@ export const WithTwoTexts: Story = {
             </Button>,
             <Button
                 key={'text 2'}
-                onClick={() => {
+                onClick={(): void => {
                     window.postMessage('text 2', '*');
                 }}
             >

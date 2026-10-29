@@ -1,11 +1,16 @@
-import { List, MoreTime, RocketLaunch } from '@mui/icons-material';
+import React from 'react';
 import { MenuItem, IconButton, Select } from '@mui/material';
+import { List, AlarmClockPlus, ChevronDown, Rocket } from 'lucide-react';
+
 import { SplitButton, SearchBar } from '../../../../../src/index.js';
 import { createCodeStory } from '../../../../helpers.js';
 import defaultArgs from '../common/defaultArgs.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
 import type { StoryObj } from '@storybook/react-vite';
-import React from 'react';
+
+function SelectChevronDown(props: React.SVGProps<SVGSVGElement>): React.JSX.Element {
+    return <ChevronDown size={20} style={{ top: 'calc(50% - 10px)', ...props.style }} {...props} />;
+}
 
 function SelectExample(): React.JSX.Element {
     return (
@@ -17,6 +22,7 @@ function SelectExample(): React.JSX.Element {
             label="Age"
             variant="standard"
             disableUnderline={true}
+            IconComponent={SelectChevronDown}
         >
             <MenuItem value={1}>Newest</MenuItem>
             <MenuItem value={2}>Oldest</MenuItem>
@@ -40,12 +46,12 @@ const Example = (args: React.ComponentProps<typeof SearchBar>): React.JSX.Elemen
                     {
                         label: 'Additional Action 1',
                         onClick: () => null,
-                        icon: <RocketLaunch />,
+                        icon: <Rocket />,
                     },
                     {
                         label: 'Additional Action 2',
                         onClick: () => null,
-                        icon: <MoreTime />,
+                        icon: <AlarmClockPlus />,
                     },
                 ]}
                 sx={{ height: '36px' }}
@@ -62,7 +68,7 @@ export const Default: Story = {
         ...defaultArgs,
         searchFunc: () => null,
         className: 'custom-class-name',
-        sx: { border: '1px solid #d9d9d9' },
+        sx: { border: 1, borderColor: 'divider' },
     },
     render: (args, context) =>
         createCodeStory({

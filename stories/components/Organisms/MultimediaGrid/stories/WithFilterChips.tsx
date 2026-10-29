@@ -5,7 +5,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import WithFilterChipsExampleCode from './code/WithFilterChipsExample.tsx?raw';
 import { MultimediaGrid } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { useMultimediaGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { useMultimediaGridDemoData } from '../../../../helpers/ringDemoData.js';
 
 type Story = StoryObj<typeof MultimediaGrid>;
 
@@ -20,7 +20,6 @@ const Example = (args: Omit<React.ComponentProps<typeof MultimediaGrid>, 'items'
 };
 
 export const WithFilterChips: Story = {
-    name: 'With Filter Chips',
     args: {
         ...defaultArgs,
         filterChips: {

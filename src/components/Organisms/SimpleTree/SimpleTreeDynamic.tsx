@@ -1,27 +1,22 @@
 import { SimpleTreeView } from '@mui/x-tree-view';
-// Namespace import (`import * as`) so this file compiles against Vite /
-// Rollup's optional-peer-dep stub at the consumer's build time when
-// `@tanstack/react-query` isn't installed. See `treeQueryClient.ts` for the
-// full rationale. Type imports stay separate so we keep proper typing.
-import * as ReactQuery from '@tanstack/react-query';
-import type { QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import React, { useId, useMemo, useState } from 'react';
-import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
-import { useTreePersistence } from '../treeQueryClient.js';
-import { filterTreeItems, readLocalStorage, useTreeExpansion, useWriteTreeState } from '../treeShared.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { SearchBoxField } from '../../Molecules/SearchBox/SearchBox.js';
+import { useTreePersistence } from '../../internal/tree/treeQueryClient.js';
+import {
+    filterTreeItems,
+    readLocalStorage,
+    useTreeExpansion,
+    useWriteTreeState,
+} from '../../internal/tree/treeShared.js';
 import type { SimpleTreeItem, SimpleTreeProps } from './SimpleTree.js';
 import { SimpleTreeItemDynamicComponent } from './SimpleTreeItemDynamic.js';
 
 /**
- * Full SimpleTree implementation with TanStack Query–driven dynamic loading.
- * This module is the only file in `SimpleTree/` that imports
- * `@tanstack/react-query`; it is loaded via `React.lazy(...)` from
- * `SimpleTree.tsx` and only when at least one tree item exposes `loadItems`.
- *
- * The component owns its `QueryClientProvider` (or threads through an external
- * one), the per-instance query-key prefixing, the optional localStorage cache
- * persistence, and the per-item `useQuery` rendering via
- * `SimpleTreeItemDynamicComponent`.
+ * Full SimpleTree implementation with TanStack Query dynamic loading, registered by
+ * `enableTreeDynamicLoading()` and loaded lazily from `SimpleTree.tsx` when an item exposes `loadItems`.
+ * It owns the `QueryClientProvider`, the query-key prefixing and the optional localStorage cache persistence.
  */
 
 function filterItems(items: SimpleTreeItem[], query: string): SimpleTreeItem[] {
@@ -33,7 +28,7 @@ interface PersistedTreeState {
     expandedItems?: string[];
 }
 
-const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient }): React.JSX.Element => {
+const SimpleTreeDynamic = (props: SimpleTreeProps): React.JSX.Element => {
     const {
         items,
         withSearch,
@@ -51,6 +46,8 @@ const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient 
         dataTestIdSuffix,
     } = props;
 
+    const dataTestId = useRingDataTestId('SimpleTree', dataTestIdSuffix);
+
     const generatedId = useId();
     const instanceId = queryClientFromProps !== undefined ? (queryKeyPrefix ?? generatedId) : '';
 
@@ -61,6 +58,8 @@ const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient 
     const { queryClient, stateStorageKey } = useTreePersistence({
         cacheKey: persistence?.cacheKey,
         queryClientFromProps,
+        queryKeyRoot: 'simpleTreeItem',
+        instanceId,
     });
 
     const [search, setSearch] = useState('');
@@ -107,8 +106,9 @@ const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient 
     );
 
     return (
-        <ReactQuery.QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
             <SimpleTreeView
+                data-testid={dataTestId}
                 expansionTrigger="iconContainer"
                 expandedItems={expandedItems}
                 selectedItems={effectiveSelectedItem}
@@ -122,15 +122,13 @@ const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient 
                 className={className}
             >
                 {withSearch && (
-                    <SearchBox
+                    <SearchBoxField
                         defaultValue=""
                         searchFunc={setSearch}
                         debounceTime={searchDebounceTime}
+                        isBorderless={true}
                         sx={{
-                            height: '40px',
-                            borderRadius: '4px',
                             marginY: 1,
-                            border: 'none',
                             paddingLeft: '8px',
                         }}
                         labels={{ placeholder: searchPlaceholder }}
@@ -150,7 +148,7 @@ const SimpleTreeDynamic = (props: SimpleTreeProps & { queryClient?: QueryClient 
                     />
                 ))}
             </SimpleTreeView>
-        </ReactQuery.QueryClientProvider>
+        </QueryClientProvider>
     );
 };
 

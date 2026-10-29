@@ -1,6 +1,7 @@
 import { styled } from '@mui/material';
 import React from 'react';
 import { CommonComponentProps } from '../../helpers/commonTypes.js';
+import { mediaFrameFill } from '../../helpers/mediaFrameFill.js';
 
 export interface AspectRatioOwnerStateProps {
     /**
@@ -9,8 +10,7 @@ export interface AspectRatioOwnerStateProps {
      */
     objectFit?: React.CSSProperties['objectFit'];
     /**
-     * The aspect-ratio of the element. The current implementation uses padding instead of the CSS aspect-ratio due to browser support.
-     * https://caniuse.com/?search=aspect-ratio
+     * The aspect ratio of the element, implemented with padding rather than CSS `aspect-ratio`.
      * @default '4/3'
      */
     ratio?: number | string;
@@ -21,7 +21,6 @@ interface AspectRatioProps extends AspectRatioOwnerStateProps, CommonComponentPr
 }
 
 const AspectRatioRoot = styled('div')<{ ownerState: AspectRatioOwnerStateProps }>(({ theme, ownerState }) => {
-    // TU NIE DZIALA
     return {
         '--AspectRatio-paddingBottom': `clamp(var(--AspectRatio-minHeight), calc(100% / (${ownerState.ratio})), var(--AspectRatio-maxHeight))`,
         '--AspectRatio-maxHeight': '9999px',
@@ -32,7 +31,7 @@ const AspectRatioRoot = styled('div')<{ ownerState: AspectRatioOwnerStateProps }
         flex: 'initial',
         flexDirection: 'column',
         margin: 'var(--AspectRatio-margin)',
-        backgroundColor: theme.palette.components.appBar.defaultFill,
+        backgroundColor: mediaFrameFill(theme),
     };
 });
 

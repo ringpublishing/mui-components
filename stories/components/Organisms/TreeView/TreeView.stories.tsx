@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 import { TreeView } from '../../../../src/components/Organisms/TreeView/TreeView.js';
-import { CompactViewVariant } from './stories/CompactViewVariant.js';
-import { ControlledSelection } from './stories/ControlledSelection.js';
-import { Default } from './stories/Default.js';
-import { WithDragAndDrop } from './stories/WithDragAndDrop.js';
-import { WithDropIn } from './stories/WithDropIn.js';
-import { WithDynamicLoading } from './stories/WithDynamicLoading.js';
-import { WithSearch } from './stories/WithSearch.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { CompactViewVariant as CompactViewVariantStory } from './stories/CompactViewVariant.js';
+import { WithSearch as WithSearchStory } from './stories/WithSearch.js';
+import { WithDragAndDrop as WithDragAndDropStory } from './stories/WithDragAndDrop.js';
+import { WithDropIn as WithDropInStory } from './stories/WithDropIn.js';
+import { WithDynamicLoading as WithDynamicLoadingStory } from './stories/WithDynamicLoading.js';
+import { ControlledSelection as ControlledSelectionStory } from './stories/ControlledSelection.js';
 import TreeViewMdx from './TreeView.mdx';
 
 /**
@@ -33,7 +33,7 @@ const meta: Meta<typeof TreeView> = {
         items: {
             control: 'object',
             description:
-                'Tree items: itemId, label, items (children), expanded, rowActions, withCheckbox, checked, columns, loadItems, etc.',
+                'Tree items: itemId, label, items (children), expanded, rowActions, withCheckbox, checked, loadItems, etc. Column values are keyed by `column.name`.',
             table: { category: 'content', type: { summary: 'TreeViewItem[]' } },
         },
         withSearch: {
@@ -115,6 +115,12 @@ const meta: Meta<typeof TreeView> = {
                 defaultValue: { summary: 'top' },
             },
         },
+        rowActionsAriaLabel: {
+            control: 'text',
+            description:
+                "Accessible name of the icon button that opens an item's `rowActions` menu; a blank value falls back to the default.",
+            table: { category: 'content', defaultValue: { summary: "'More actions'" }, type: { summary: 'string' } },
+        },
         dataTestIdSuffix: {
             control: 'text',
             description: 'Optional suffix for data-testid attributes.',
@@ -135,12 +141,10 @@ const meta: Meta<typeof TreeView> = {
 
 export default meta;
 
-export {
-    Default,
-    CompactViewVariant,
-    WithSearch,
-    WithDragAndDrop,
-    WithDropIn,
-    WithDynamicLoading,
-    ControlledSelection,
-};
+export const Default = DefaultStory;
+export const CompactViewVariant = { ...CompactViewVariantStory, name: 'Compact view' };
+export const WithSearch = { ...WithSearchStory, name: 'Search' };
+export const WithDragAndDrop = { ...WithDragAndDropStory, name: 'Drag and drop' };
+export const WithDropIn = { ...WithDropInStory, name: 'Drag and drop — drop in' };
+export const WithDynamicLoading = { ...WithDynamicLoadingStory, name: 'Dynamic loading' };
+export const ControlledSelection = { ...ControlledSelectionStory, name: 'Controlled selection' };

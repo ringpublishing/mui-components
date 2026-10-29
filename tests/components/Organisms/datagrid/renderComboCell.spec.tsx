@@ -1,5 +1,6 @@
+import React from 'react';
 import { describe, expect, it } from 'vitest';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { DataGrid, GridRowsProp, GridColDef, GridRowHeightReturnValue } from '@mui/x-data-grid';
 import { renderComboCell } from '../../../../src/index.js';
 
@@ -81,7 +82,7 @@ describe('DataGrid - renderComboCell', () => {
     });
 
     it('should show placeholder when imageUrl is undefined and showPlaceholder is true', () => {
-        const { container, getByTestId } = render(
+        const { container } = render(
             <DataGrid
                 rows={[
                     {
@@ -99,6 +100,42 @@ describe('DataGrid - renderComboCell', () => {
             />,
         );
         expect(container).toMatchSnapshot();
-        expect(getByTestId('PhotoOutlinedIcon')).toBeTruthy();
+        expect(container.querySelector('svg.lucide-image')).toBeTruthy();
+    });
+
+    it('shows ImageOff when the image fails to load, unlike a missing image', () => {
+        const { container } = render(
+            <DataGrid
+                rows={[{ id: 1, combo: { label: 'Broken image', imageUrl: 'https://example.invalid/broken.jpg' } }]}
+                columns={comboColumns}
+                getRowHeight={(): GridRowHeightReturnValue => 'auto'}
+            />,
+        );
+
+        fireEvent.error(container.querySelector('img') as HTMLImageElement);
+
+        expect(container.querySelector('svg.lucide-image-off')).toBeTruthy();
+        expect(container.querySelector('svg.lucide-image')).toBeNull();
+    });
+
+    it('leaves the error state when the row gets another url or loses it', () => {
+        const grid = (combo: Record<string, unknown>): React.JSX.Element => (
+            <DataGrid
+                rows={[{ id: 1, combo: { label: 'Changing image', ...combo } }]}
+                columns={comboColumns}
+                getRowHeight={(): GridRowHeightReturnValue => 'auto'}
+            />
+        );
+        const { container, rerender } = render(grid({ imageUrl: 'https://example.invalid/broken.jpg' }));
+
+        fireEvent.error(container.querySelector('img') as HTMLImageElement);
+        expect(container.querySelector('svg.lucide-image-off')).toBeTruthy();
+
+        rerender(grid({ imageUrl: 'https://example.invalid/fixed.jpg' }));
+        expect(container.querySelector('img')?.getAttribute('src')).toBe('https://example.invalid/fixed.jpg');
+
+        rerender(grid({ showPlaceholder: true }));
+        expect(container.querySelector('svg.lucide-image')).toBeTruthy();
+        expect(container.querySelector('svg.lucide-image-off')).toBeNull();
     });
 });

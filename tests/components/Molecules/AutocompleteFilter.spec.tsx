@@ -304,4 +304,32 @@ describe('Autocomplete filter variant', () => {
         expect(JSON.parse(localStorage.getItem(storageKey) || '[]')).toEqual([{ id: 1, label: 'Onet' }]);
         localStorage.removeItem(storageKey);
     });
+
+    it.each([
+        {
+            source: 'MuiAutocomplete slot props',
+            components: { MuiAutocomplete: { defaultProps: { slotProps: { paper: { elevation: 8 } } } } },
+        },
+        { source: 'MuiPaper default props', components: { MuiPaper: { defaultProps: { elevation: 8 } } } },
+    ])('should take the dropdown elevation from the theme ($source) like the default variant', ({ components }) => {
+        const theme = getCreatedTheme('light', { themeOverrides: { components } });
+
+        const getPaperClassName = (variant: 'default' | 'filter'): string | undefined => {
+            const { getByRole, unmount } = testingLibraryRender(
+                <ThemeProvider theme={theme}>
+                    <Autocomplete variant={variant} labels={labels} options={options} getOptionLabel={getOptionLabel} />
+                </ThemeProvider>,
+            );
+
+            fireEvent.mouseDown(getByRole('combobox', { name: 'Publications' }));
+            const className = getByRole('listbox').closest('.MuiPaper-root')?.className;
+
+            unmount();
+
+            return className;
+        };
+
+        expect(getPaperClassName('default')).toContain('MuiPaper-elevation8');
+        expect(getPaperClassName('filter')).toContain('MuiPaper-elevation8');
+    });
 });

@@ -1,13 +1,13 @@
 import type { Meta } from '@storybook/react-vite';
 import { DataTree } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithSearch } from './stories/WithSearch.js';
-import { WithDragAndDrop } from './stories/WithDragAndDrop.js';
-import { WithDropIn } from './stories/WithDropIn.js';
-import { WithDynamicLoading } from './stories/WithDynamicLoading.js';
-import { ControlledSelection } from './stories/ControlledSelection.js';
-import { WithPersistence } from './stories/WithPersistence.js';
-import { WithExternalQueryClient } from './stories/WithExternalQueryClient.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithSearch as WithSearchStory } from './stories/WithSearch.js';
+import { WithDragAndDrop as WithDragAndDropStory } from './stories/WithDragAndDrop.js';
+import { WithDropIn as WithDropInStory } from './stories/WithDropIn.js';
+import { WithDynamicLoading as WithDynamicLoadingStory } from './stories/WithDynamicLoading.js';
+import { WithPersistence as WithPersistenceStory } from './stories/WithPersistence.js';
+import { ControlledSelection as ControlledSelectionStory } from './stories/ControlledSelection.js';
+import { WithExternalQueryClient as WithExternalQueryClientStory } from './stories/WithExternalQueryClient.js';
 import defaultArgs from './common/defaultArgs.js';
 import DataTreeMdx from './DataTree.mdx';
 
@@ -123,10 +123,16 @@ const meta: Meta<typeof DataTree> = {
                 type: { summary: "PopperProps['placement']" },
             },
         },
+        rowActionsAriaLabel: {
+            control: 'text',
+            description:
+                "Accessible name of the icon button that opens an item's `rowActions` menu; a blank value falls back to the default.",
+            table: { category: 'content', defaultValue: { summary: "'More actions'" }, type: { summary: 'string' } },
+        },
         persistence: {
             control: 'object',
             description:
-                'Enable localStorage persistence. Provide `cacheKey` to cache dynamic items, `restoreExpandedItems` to restore expanded state, and `restoreSelectedItem` to restore the last selected item.',
+                'Enable localStorage persistence. Provide `cacheKey` to cache dynamic items, `restoreExpandedItems` to restore expanded state, and `restoreSelectedItem` to restore the selected items.',
             table: {
                 category: 'behavior',
                 type: {
@@ -136,20 +142,20 @@ const meta: Meta<typeof DataTree> = {
         },
         queryClient: {
             control: false,
-            description: 'Optional app `QueryClient` so tree queries use your cache / DevTools.',
-            table: { category: 'behavior', type: { summary: 'QueryClient' } },
+            description:
+                'Your TanStack Query client for `loadItems`. Needs the dynamic loading setup; ignored without `loadItems`.',
+            table: { category: 'behavior', type: { summary: 'TreeQueryClient' } },
         },
     },
 };
 
 export default meta;
-export {
-    Default,
-    WithSearch,
-    WithDragAndDrop,
-    WithDropIn,
-    WithDynamicLoading,
-    ControlledSelection,
-    WithPersistence,
-    WithExternalQueryClient,
-};
+
+export const Default = DefaultStory;
+export const WithSearch = { ...WithSearchStory, name: 'Search' };
+export const WithDragAndDrop = { ...WithDragAndDropStory, name: 'Drag and drop' };
+export const WithDropIn = { ...WithDropInStory, name: 'Drag and drop — drop in' };
+export const WithDynamicLoading = { ...WithDynamicLoadingStory, name: 'Dynamic loading' };
+export const WithPersistence = { ...WithPersistenceStory, name: 'Persistence' };
+export const ControlledSelection = { ...ControlledSelectionStory, name: 'Controlled selection' };
+export const WithExternalQueryClient = { ...WithExternalQueryClientStory, name: 'External QueryClient' };

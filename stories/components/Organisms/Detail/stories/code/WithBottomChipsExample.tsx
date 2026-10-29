@@ -62,7 +62,7 @@ export default function WithBottomChipsExample(): React.JSX.Element {
 
     const descriptionItems = [
         {
-            sectionTitle: 'INFORMATION',
+            sectionTitle: 'Information',
             fields: [
                 {
                     name: 'Description',

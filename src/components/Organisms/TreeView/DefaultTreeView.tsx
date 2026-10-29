@@ -14,8 +14,16 @@ import {
     globalDynamicItemsCache,
     getExpandedItemIds,
 } from './TreeView.js';
-import { TreeViewItemComponent } from './TreeViewItem.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import {
+    TreeViewDynamicItemsCache,
+    TreeViewDynamicItemsCacheContext,
+    TreeViewExpansionRequest,
+    TreeViewExpansionRequestContext,
+    TreeViewItemComponent,
+} from './TreeViewItem.js';
 import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
+import { getDndAccessibilityContainer } from '../../internal/tree/treeShared.js';
 
 function getAllItemIds(items: TreeViewItem[]): string[] {
     const allItemIds: string[] = [];
@@ -138,13 +146,13 @@ export interface DefaultTreeViewProps extends CommonTreeViewProps {
      */
     onCheckboxChange?: (itemId: string, checked: boolean) => void;
     /**
-     * Callback fired when the drag and drop is finished. It receives the source and destination absolute positions.
-     * If callback is not provided, the drag and drop will not be enabled.
+     * Called when a drag ends, with the source and destination absolute positions; drag and drop is
+     * enabled only when this callback is provided.
      */
     onDragAndDropEnd?: (sourceAbsolutePosition: number[], destinationAbsolutePosition: number[]) => void;
     /**
-     * Callback fired when the item is dropped in another item. It receives the itemId and dropInItemId.
-     * If callback is not provided, the drag and drop will not be able to drop in another item and consequently create new nest levels.
+     * Called with the dragged item id and the target item id when an item is dropped into another;
+     * without it an item cannot be dropped into another to create a new nesting level.
      */
     onDropIn?: (itemId: string, dropInItemId: string) => void;
     /**
@@ -156,6 +164,11 @@ export interface DefaultTreeViewProps extends CommonTreeViewProps {
      * @default 'top'
      */
     dragAndDropTooltipPlacement?: PopperProps['placement'];
+    /**
+     * Accessible name of the icon button that opens an item's `rowActions` menu. A blank value counts as not provided.
+     * @default 'More actions'
+     */
+    rowActionsAriaLabel?: string;
 
     /**
      * TreeView variant
@@ -177,6 +190,7 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
         onDropIn,
         dragAndDropTooltipTitle,
         dragAndDropTooltipPlacement = 'top',
+        rowActionsAriaLabel,
         withSearch = false,
         searchDebounceTime = 500,
         sx,
@@ -188,10 +202,14 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
         dataTestIdSuffix,
     } = props;
 
+    const dataTestId = useRingDataTestId('TreeView', dataTestIdSuffix);
+
     const [query, setQuery] = useState('');
     const [expandedItems, setExpandedItems] = useState<string[]>(getExpandedItemIds(items));
     const [itemsExpandedBeforeSearch, setItemsExpandedBeforeSearch] = useState(expandedItems);
     const [internalSelectedItems, setInternalSelectedItems] = useState<string | string[]>([]);
+    const [expansionRequest, setExpansionRequest] = useState<TreeViewExpansionRequest | null>(null);
+    const [dynamicItemsCache] = useState<TreeViewDynamicItemsCache>(() => new Map());
 
     const isMultiSelect = onCheckboxChange !== undefined;
 
@@ -341,6 +359,7 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
 
     return (
         <SimpleTreeView
+            data-testid={dataTestId}
             expansionTrigger="iconContainer"
             expandedItems={expandedItems}
             checkboxSelection={onCheckboxChange !== undefined}
@@ -348,7 +367,13 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
             disableSelection={onClickRow === undefined}
             selectedItems={effectiveSelectedItems}
             onSelectedItemsChange={(e, itemIds): void => handleSelectionChange(itemIds)}
-            onItemExpansionToggle={(e, itemId): void => handleExpandToggle(itemId)}
+            onItemExpansionToggle={(e, itemId, isExpanded): void => {
+                if (isExpanded) {
+                    setExpansionRequest({ itemId });
+                }
+
+                handleExpandToggle(itemId);
+            }}
             onItemClick={(e, itemId): void => {
                 e.preventDefault();
                 onClickRow?.(itemId);
@@ -390,9 +415,10 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
                     searchFunc={(q): void => setQuery(q)}
                     debounceTime={searchDebounceTime}
                     sx={{
-                        height: '40px',
-                        borderRadius: '4px',
                         marginY: 1,
+                        '& .ring-lucide-icon': {
+                            fontSize: '18px',
+                        },
                     }}
                     labels={{ placeholder: searchPlaceholder }}
                 />
@@ -427,6 +453,7 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
                 </Box>
             )}
             <DndContext
+                accessibility={{ container: getDndAccessibilityContainer() }}
                 sensors={sensors}
                 onDragMove={(e): void => {
                     setIsDragging(true);
@@ -482,30 +509,35 @@ export function DefaultTreeView(props: DefaultTreeViewProps): React.JSX.Element 
                 }}
             >
                 <SortableContext items={itemsIds}>
-                    {filteredItems.map((item, index) => {
-                        return (
-                            <TreeViewItemComponent
-                                setExpandedItems={setExpandedItems}
-                                currentSelectedItem={''}
-                                order={[index]}
-                                key={item.itemId}
-                                {...item}
-                                expandedItems={expandedItems}
-                                onDragAndDropEnd={onDragAndDropEnd}
-                                onCheckboxChange={onCheckboxChange}
-                                columns={columns}
-                                dragAndDropTooltipTitle={dragAndDropTooltipTitle}
-                                isSearchActive={query !== ''}
-                                searchQuery={query}
-                                dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
-                                isDragging={isDragging}
-                                dropLineUnderId={dropLineUnderId}
-                                dropInId={dropInId}
-                                variant={variant}
-                                dataTestIdSuffix={dataTestIdSuffix}
-                            />
-                        );
-                    })}
+                    <TreeViewDynamicItemsCacheContext.Provider value={dynamicItemsCache}>
+                        <TreeViewExpansionRequestContext.Provider value={expansionRequest}>
+                            {filteredItems.map((item, index) => {
+                                return (
+                                    <TreeViewItemComponent
+                                        setExpandedItems={setExpandedItems}
+                                        currentSelectedItem={''}
+                                        order={[index]}
+                                        key={item.itemId}
+                                        {...item}
+                                        expandedItems={expandedItems}
+                                        onDragAndDropEnd={onDragAndDropEnd}
+                                        onCheckboxChange={onCheckboxChange}
+                                        columns={columns}
+                                        dragAndDropTooltipTitle={dragAndDropTooltipTitle}
+                                        isSearchActive={query !== ''}
+                                        searchQuery={query}
+                                        dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
+                                        rowActionsAriaLabel={rowActionsAriaLabel}
+                                        isDragging={isDragging}
+                                        dropLineUnderId={dropLineUnderId}
+                                        dropInId={dropInId}
+                                        variant={variant}
+                                        dataTestIdSuffix={dataTestIdSuffix}
+                                    />
+                                );
+                            })}
+                        </TreeViewExpansionRequestContext.Provider>
+                    </TreeViewDynamicItemsCacheContext.Provider>
                 </SortableContext>
             </DndContext>
         </SimpleTreeView>

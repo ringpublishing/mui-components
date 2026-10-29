@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Switch Component > should render correctly 1`] = `
+<div>
+  <span
+    class="MuiSwitch-root MuiSwitch-sizeMedium ring-switch css-1ag8jat-MuiSwitch-root"
+    data-testid="ring-switch"
+  >
+    <span
+      class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-677ftc-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
+    >
+      <input
+        class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
+        data-testid="ring-switch-input"
+        role="switch"
+        type="checkbox"
+      />
+      <span
+        class="MuiSwitch-thumb css-5kny53-MuiSwitch-thumb"
+      />
+    </span>
+    <span
+      class="MuiSwitch-track css-1la77xl-MuiSwitch-track"
+    />
+  </span>
+</div>
+`;

@@ -9,14 +9,16 @@ import {
     RadioGroup,
     Select,
     Slider,
+    Stack,
     Switch,
     TextField,
+    Typography,
     SelectChangeEvent,
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { action } from 'storybook/actions';
-import { Settings } from '@mui/icons-material';
+import { Settings } from 'lucide-react';
 import { createCodeStory } from '../../../../../helpers.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
 import {
@@ -142,21 +144,23 @@ function FiltersWrapperHandler(args: FiltersWrapperProps): ReactElement {
             </Accordion>
 
             <Accordion label="Select">
-                <FormControlLabel
-                    control={
-                        <Select
-                            onChange={(event: SelectChangeEvent<typeof filters.select>): void =>
-                                onChange('select', event.target.value)
-                            }
-                            value={filters.select}
-                        >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    }
-                    label="units"
-                />
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <Select
+                        fullWidth={true}
+                        value={filters.select}
+                        onChange={(event: SelectChangeEvent<typeof filters.select>): void =>
+                            onChange('select', event.target.value)
+                        }
+                        inputProps={{ 'aria-label': 'Units' }}
+                    >
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                    </Select>
+                    <Typography variant="body2" color="text.secondary">
+                        units
+                    </Typography>
+                </Stack>
             </Accordion>
 
             <Accordion label="Slider">

@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react-vite';
 import { FiltersWrapper, SizeEnum, VariantEnum } from '../../../../../src/index.js';
-import { Default } from './stories/Default.js';
+import { Default as DefaultStory } from './stories/Default.js';
 import defaultArgs from './common/defaultArgs.js';
 import FiltersWrapperMDX from './FiltersWrapper.mdx';
 
@@ -56,8 +56,8 @@ const meta = {
                 'Variant of child input elements. Applied via MUI ThemeProvider to override default props for TextField, Select, Autocomplete, and other child components.',
             table: {
                 category: 'appearance',
-                defaultValue: { summary: `'${VariantEnum.STANDARD}'` },
-                type: { summary: "'outlined' | 'standard'" },
+                defaultValue: { summary: 'VariantEnum.OUTLINE', detail: `'${VariantEnum.OUTLINE}'` },
+                type: { summary: 'VariantEnum', detail: "'outlined' | 'filled' | 'standard'" },
             },
         },
         size: {
@@ -67,8 +67,8 @@ const meta = {
                 'Size of child elements. Applied via MUI ThemeProvider to override default props for child components.',
             table: {
                 category: 'appearance',
-                defaultValue: { summary: `'${SizeEnum.SMALL}'` },
-                type: { summary: "'small' | 'medium'" },
+                defaultValue: { summary: 'SizeEnum.SMALL', detail: `'${SizeEnum.SMALL}'` },
+                type: { summary: 'SizeEnum', detail: "'small' | 'medium'" },
             },
         },
         buttonStyle: {
@@ -107,7 +107,7 @@ const meta = {
         },
         dataTestIdSuffix: {
             control: false,
-            description: 'Inherited from CommonComponentProps. Not yet implemented in FiltersWrapper.',
+            description: 'Suffix for `ring-filterswrapper[-<suffix>]` and its `-clear` button.',
             table: {
                 category: 'customization',
                 type: { summary: 'string' },
@@ -118,4 +118,4 @@ const meta = {
 
 export default meta;
 
-export { Default };
+export const Default = DefaultStory;

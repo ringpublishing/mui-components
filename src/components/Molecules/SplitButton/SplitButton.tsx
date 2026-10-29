@@ -2,12 +2,13 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 
 import { Box, Button, ButtonGroup, ButtonGroupOwnProps, Tooltip } from '@mui/material';
-import { ArrowDropDown } from '@mui/icons-material';
+import { ChevronDown } from 'lucide-react';
 
 import { Action } from '../../../types.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { getLucideSizeFromComponentSize } from '../../../helpers/lucideSize.js';
 
 export interface SplitButtonProps extends CommonComponentProps, ButtonGroupOwnProps {
     /**
@@ -29,16 +30,21 @@ export function SplitButton(props: SplitButtonProps): React.JSX.Element {
 
     const mainAction = actions[0];
     const extraActions = actions.slice(1);
+    const dropdownIconSize = getLucideSizeFromComponentSize(size);
 
     const anchorRef = useRef<HTMLButtonElement>(null);
 
     return (
-        <Box className={classNames('ring-split-button', className)} sx={{ textWrap: 'nowrap', ...sx }}>
+        <Box
+            className={classNames('ring-split-button', className)}
+            data-testid={dataTestId}
+            sx={{ textWrap: 'nowrap', ...sx }}
+        >
             <ButtonGroup variant="outlined" color="primary" aria-label="split button" size={size} {...buttonGroupProps}>
                 <Tooltip title={mainAction.disabled && mainAction.disabledReason} placement="bottom">
                     <Box>
                         <Button
-                            data-testid={dataTestId}
+                            data-testid={`${dataTestId}-main`}
                             onClick={mainAction.onClick}
                             disabled={mainAction.disabled || false}
                         >
@@ -51,14 +57,19 @@ export function SplitButton(props: SplitButtonProps): React.JSX.Element {
                         data-testid={`${dataTestId}-dropdown`}
                         size="small"
                         aria-label="split button dropdown"
-                        aria-haspopup="menu"
                         ref={anchorRef}
                     >
-                        <ArrowDropDown fontSize={size} />
+                        <ChevronDown size={dropdownIconSize} style={{ flexShrink: 0 }} />
                     </Button>
                 )}
             </ButtonGroup>
-            <ActionBox actions={extraActions} anchorEl={anchorRef} placement="bottom-end" tooltipPlacement="right" />
+            <ActionBox
+                actions={extraActions}
+                anchorEl={anchorRef}
+                placement="bottom-end"
+                tooltipPlacement="right"
+                dataTestId={`${dataTestId}-menu`}
+            />
         </Box>
     );
 }

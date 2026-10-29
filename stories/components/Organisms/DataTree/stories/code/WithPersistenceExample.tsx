@@ -1,5 +1,8 @@
 import React from 'react';
 import { DataTree, DataTreeItem } from '@ringpublishing/mui-components';
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
 
 const dynamicItems: DataTreeItem[] = [
     {

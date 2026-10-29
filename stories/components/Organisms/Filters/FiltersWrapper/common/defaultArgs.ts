@@ -4,7 +4,7 @@ const defaultArgs: Partial<FiltersWrapperProps> = {
     label: 'Filters',
     withClearButton: true,
     clearButtonLabel: 'Clear',
-    variant: VariantEnum.STANDARD,
+    variant: VariantEnum.OUTLINE,
     size: SizeEnum.SMALL,
 };
 

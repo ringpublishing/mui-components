@@ -1,6 +1,7 @@
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
+import { WithItemDataTestId } from '../../../helpers/dataTestId.js';
 import { Action } from '../../../types.js';
-import { escapeRegExp } from '../treeShared.js';
+import { escapeRegExp } from '../../internal/tree/treeShared.js';
 import { DefaultTreeView, DefaultTreeViewProps } from './DefaultTreeView.js';
 import { CompactTreeView, CompactTreeViewProps } from './CompactTreeView.js';
 
@@ -10,7 +11,7 @@ import { CompactTreeView, CompactTreeViewProps } from './CompactTreeView.js';
 export type VariantType = 'default' | 'compact';
 
 /**
- * @deprecated Use `SimpleTree` or `DataTree` instead. Dynamic item caching is now handled by TanStack Query internally.
+ * @deprecated Use `SimpleTree` or `DataTree` instead; they cache dynamic items internally.
  */
 export const globalDynamicItemsCache = new Map<string, { items: TreeViewItem[]; expandedChildren: Set<string> }>();
 
@@ -59,7 +60,7 @@ export interface CommonTreeViewProps extends CommonComponentProps {
 /**
  * @deprecated Use `SimpleTreeItem` or `DataTreeItem` instead.
  */
-export interface TreeViewItem {
+export interface TreeViewItem extends WithItemDataTestId {
     /**
      * Unique identifier of the item.
      */
@@ -77,13 +78,12 @@ export interface TreeViewItem {
      */
     expanded?: boolean;
     /**
-     * Actions to be shown on the right side of the item.
-     * supported only in default variant
+     * Actions shown on the right side of the item; supported only in the default variant.
      */
     rowActions?: Action[];
-    /** If true, a checkbox will be shown next to the item.
-     * supported only in default variant
-     * @default false
+    /**
+     * Shows a checkbox next to the item when the tree has `onCheckboxChange`; supported only in the default variant.
+     * @default true
      */
     withCheckbox?: boolean;
     /**
@@ -100,9 +100,9 @@ export interface TreeViewItem {
      */
     element?: React.JSX.Element;
     /**
-     * Function to load dynamic items when the item is expanded.
-     * When this is provided, items will be loaded dynamically.
-     * The function receives the current TreeViewItem as a parameter.
+     * Loads the item's children when it is expanded, receiving the item itself; an item with this
+     * function is treated as dynamic. A child it returns gets this function unless it has its own, and a child
+     * with the `itemId` of the item or of an item above it is left out.
      */
     loadItems?: (item: TreeViewItem) => Promise<TreeViewItem[]> | TreeViewItem[];
     /**
@@ -126,7 +126,6 @@ export type TreeViewProps = DefaultTreeViewProps | CompactTreeViewProps;
 
 /**
  * @deprecated Use `SimpleTree` (compact variant) or `DataTree` (default variant) instead.
- * This component is kept for backwards compatibility and will be removed in a future major version.
  */
 export const TreeView = (props: TreeViewProps): React.JSX.Element => {
     switch (props.variant) {

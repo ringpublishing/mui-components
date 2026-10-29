@@ -12,7 +12,7 @@ import {
     SxProps,
     IconOwnProps,
 } from '@mui/material';
-import { CommentOutlined, PhotoOutlined } from '@mui/icons-material';
+import { MessageSquare, Image, ImageOff } from 'lucide-react';
 import {
     useGridRootProps,
     GridRowHeightParams,
@@ -23,8 +23,11 @@ import {
     GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
+import { FeaturedIcon } from '../../Atoms/FeaturedIcon/FeaturedIcon.js';
+import { mediaFrameFill } from '../../../helpers/mediaFrameFill.js';
+import { useCellDataTestId } from './dataGridTestIdContext.js';
 import { getCellViewMode, prepareChips } from './helpers.js';
-import { tv } from '../../../helpers/typographyMode.js';
 
 export type ComboCellChips = string | string[] | Omit<ChipProps, 'size'>[];
 export interface ComboCellProps {
@@ -88,7 +91,9 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
         model: { standard: 1 } as GridValidRowModel,
     };
 
-    const [errorLoadingImage, setErrorLoadingImage] = useState(false);
+    // Keyed to the url that failed, so a row that gets another url, or loses it, leaves the error state.
+    const [failedImageUrl, setFailedImageUrl] = useState<string>();
+    const errorLoadingImage = Boolean(imageUrl) && failedImageUrl === imageUrl;
 
     const getRowHeight = rootProps?.getRowHeight ? rootProps.getRowHeight(getRowHeightParams) : null;
 
@@ -96,8 +101,10 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
 
     const theme = useTheme();
     const ref = useRef<HTMLDivElement>(null);
+    const dataTestId = useCellDataTestId(params.id as string | number, params.field);
 
     const preparedChips = prepareChips(chips);
+    const thumbnailFill = mediaFrameFill(theme);
 
     const renderBadge = (): React.ReactElement => {
         return (
@@ -128,6 +135,7 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
     return (
         <>
             <Card
+                data-testid={dataTestId}
                 elevation={0}
                 sx={{
                     display: 'flex',
@@ -145,7 +153,7 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                         sx={{
                             width: 75,
                             height: viewMode === 'full' ? 48 : 40,
-                            background: theme.palette.common.grey,
+                            background: thumbnailFill,
                             marginRight: 2,
                             display: 'flex',
                             alignItems: 'center',
@@ -153,27 +161,28 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                             borderRadius: 1,
                         }}
                     >
-                        <PhotoOutlined
-                            sx={{
-                                fontSize: tv('2rem'),
-                                color: theme.palette.action.active,
-                            }}
+                        <FeaturedIcon
+                            size="inherit"
+                            icon={errorLoadingImage ? ImageOff : Image}
+                            dataTestId={`${dataTestId}-placeholder-icon`}
                         />
                     </Box>
                 ) : (
                     <CardMedia
                         component="img"
+                        // The thumbnail illustrates the label beside it, so it is decorative.
+                        alt=""
                         sx={{
                             width: 75,
                             height: viewMode === 'full' ? 48 : 40,
                             marginRight: 2,
                             objectFit: 'scale-down',
-                            background: theme.palette.common.grey,
+                            background: thumbnailFill,
                             borderRadius: 1,
                         }}
                         image={imageUrl}
                         onError={() => {
-                            setErrorLoadingImage(true);
+                            setFailedImageUrl(imageUrl);
                         }}
                     />
                 )}
@@ -189,13 +198,15 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                 >
                     <Box sx={{ alignItems: 'start', display: 'flex', width: '100%' }}>
                         {withComment && (
-                            <CommentOutlined
+                            <RingLucideIcon
+                                icon={MessageSquare}
                                 fontSize="small"
                                 sx={{ marginRight: 1 }}
                                 {...(commentIconColor ? { color: commentIconColor } : {})}
                             />
                         )}
-                        <Typography variant="body2" color="text.primary" sx={createLabelSx()}>
+                        {/* A div, not body2's <p>: in full view the badge Chip (a div) flows inline inside the label. */}
+                        <Typography component="div" variant="body2" color="text.primary" sx={createLabelSx()}>
                             {label}
                             {badge && viewMode === 'full' && renderBadge()}
                         </Typography>
@@ -212,13 +223,14 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                                     </Tooltip>
                                 </Box>
                             )}
-                            {/* FIXME: wymiana mechanizmu do pokazywania wiecej elementow jak powstanie dedykowany komponent */}
+                            {/* The first three chips render inline; the `+N` chip opens the rest as a menu,
+                                which lists only chips with a string label. */}
                             {Boolean(preparedChips.chips.length) && viewMode === 'full' && (
                                 <Box
                                     sx={{
-                                        '.MuiChip-root:not(:first-child)': {
-                                            marginLeft: 1,
-                                        },
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: 1,
                                         marginTop: '5px',
                                     }}
                                 >
@@ -230,8 +242,13 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                                                 size="small"
                                                 label={`+${preparedChips.additionalChips.length}`}
                                                 ref={ref}
+                                                data-testid={`${dataTestId}-more`}
                                             />
-                                            <ActionBox actions={preparedChips.additionalChips} anchorEl={ref} />
+                                            <ActionBox
+                                                actions={preparedChips.additionalChips}
+                                                anchorEl={ref}
+                                                dataTestId={`${dataTestId}-more-menu`}
+                                            />
                                         </>
                                     )}
                                 </Box>

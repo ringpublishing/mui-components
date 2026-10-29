@@ -22,12 +22,19 @@ You can use any branch name, but it is RECOMMENDED to include JIRA task ID in at
 
 ## Code
 
-1. Every exported component MUST have its own directory in `src/components/*/`.
-2. Components MUST follow the atomic design principles and be placed in proper directories.
+1. Every exported component MUST have its own directory in `src/components/*/` with an `index.ts` that names every export of the folder (`export { … } from`, `export type { … } from`; no `export *`). That file is the folder's public interface: a name missing from it is internal, even when the implementing file exports it. `src/components/index.ts` only composes those files with `export * from './<Level>/<Component>/index.js'`, and `tests/package/exports.snapshot.json` records the result — run `npm run test:update:exports` after changing the public API, together with a changelog entry.
+2. Components MUST follow the atomic design principles and be placed in proper directories. The level is decided by
+   what a component is composed of, not by how it looks: an atom is built from MUI and helpers only, a molecule from
+   atoms and other molecules, an organism from molecules and atoms, a template from organisms. Imports go down the
+   hierarchy only: `Atoms` ← `Molecules` ← `Organisms` ← `Templates`. `src/components/internal/` holds unexported
+   building blocks and MAY import at most molecules; `helpers/`, `theme/`, `icons/` and `types.ts` MUST NOT import
+   components. A lower level MAY describe a higher one with `import type`. Package entries (`src/index.ts`,
+   `src/icons/index.ts`, `src/treeDynamicLoading.ts`) are exempt. ESLint reports a violation in the editor and
+   `tests/package/importGraph.spec.ts` checks the whole graph.
 3. Main root component MUST have named class.
 4. Every component SHOULD have properties [sx](https://mui.com/system/getting-started/the-sx-prop/) and _className_.
 5. If your component has labels object property, it SHOULD merge defaults with given props.
-6. Type definitions SHOULD be annotated with doc-strings, they will be visible in storybook.
+6. Type definitions SHOULD be annotated with doc-strings: they are rendered in Storybook and shipped in the package's type declarations, so write them for a consumer and keep anything that is not for a consumer (tracker keys, internal names, notes about unfinished work) out of them.
 7. Unit tests are required (at least 60% coverage).
 8. You MUST add a storybook's story for your component. Refer to guide in [Writing Stories](https://design.ringpublishing.com/?path=/docs/introduction-writing-stories--docs).
 9. Exported components MUST be defined using named function declaration, and MUST NOT be an arrow function nor variable.

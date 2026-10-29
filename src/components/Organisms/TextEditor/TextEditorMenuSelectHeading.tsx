@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { MenuItem, Select } from '@mui/material';
 import { Level } from '@tiptap/extension-heading';
 import { useCurrentEditor } from '@tiptap/react';
+import { useMenuControlDataTestId } from './textEditorMenuTestIdContext.js';
 
 export interface TextEditorMenuSelectHeadingProps {
     levels: number[];
+    /**
+     * `data-testid` for the heading select. Matches `TextEditorMenuToggleButton`'s API so
+     * every menu control is tagged the same way.
+     * @default 'ring-texteditor-menu-heading'
+     */
+    dataTestId?: string;
 }
 
 export function TextEditorMenuSelectHeading(props: TextEditorMenuSelectHeadingProps): React.JSX.Element | null {
-    const { levels } = props;
+    const { levels, dataTestId: explicitDataTestId } = props;
+    const dataTestId = useMenuControlDataTestId(explicitDataTestId, 'heading');
     const { editor } = useCurrentEditor();
     const [currentLevel, setCurrentLevel] = useState<number | 'p'>('p');
 
@@ -41,6 +49,7 @@ export function TextEditorMenuSelectHeading(props: TextEditorMenuSelectHeadingPr
 
     return (
         <Select
+            data-testid={dataTestId}
             value={currentLevel}
             onChange={(event): void => {
                 if (event.target.value === 'p') {
@@ -62,13 +71,11 @@ export function TextEditorMenuSelectHeading(props: TextEditorMenuSelectHeadingPr
             }}
             variant={'standard'}
         >
-            {levels.map(
-                (level): React.JSX.Element => (
-                    <MenuItem key={level} value={level}>
-                        Heading {level}
-                    </MenuItem>
-                ),
-            )}
+            {levels.map((level): React.JSX.Element => (
+                <MenuItem key={level} value={level}>
+                    Heading {level}
+                </MenuItem>
+            ))}
             <MenuItem value={'p'}>Paragraph</MenuItem>
         </Select>
     );

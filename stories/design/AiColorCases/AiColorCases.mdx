@@ -1,0 +1,117 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './AiColorCases.stories.js';
+
+<Meta isTemplate />
+
+# AI color
+
+The AI motif marks AI-powered features: a pink, purple and blue gradient used as a text fill,
+a tinted chip surface, and an animated outline. It is a **palette capability, not a
+component**. You use it through the components you already have.
+
+## Theme extension, not a Ring component
+
+This page documents an extension of the MUI theme rather than a new Ring component.
+`Button`, `Chip` and `IconButton` remain standard components imported from `@mui/material`;
+the Ring theme adds the `ai` palette color and its visual states to their existing API.
+
+Ring components such as `MediaCard` and `Media` can also use this capability through
+their status-label APIs.
+
+The entire API surface:
+
+| You need                     | Use                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| An AI action button          | `<Button variant="outlined" color="ai">`                                           |
+| An icon-only AI button       | `<IconButton color="ai">`                                                          |
+| An AI Lucide icon            | `<RingLucideIcon color="ai">`, which applies the AI gradient automatically         |
+| An "AI" flag                 | `<Chip variant="tag" color="ai">` (what `MediaCard`/`Media` status labels render)  |
+| An AI chip in an input       | `<Chip color="ai">` — an interactive chip, e.g. a selected value in `Autocomplete` |
+| An "(AI)" marker inside text | a `span` styled with `theme.gradientText('ai')`                                    |
+| A flat AI purple             | `theme.palette.ai.main`                                                            |
+| The raw gradient / stops     | `theme.palette.gradients.ai`                                                       |
+
+The outline animation stops under `prefers-reduced-motion`.
+
+Everything below is a design case - one per situation the design covers. **Each sample is
+editable**: change it and the preview re-renders, so a case can be checked against the
+design before anything is built on it.
+
+## AI flag on a card
+
+The flag is a status label — the chip's `tag` variant in the AI colour — not a chip laid on
+top of the image. `MediaCard` draws it 16px tall with a 4px radius.
+
+<Canvas of={Stories.MediaCardFlag} />
+
+## The same flag through Media
+
+`Media` renders the same status label at the tag's native 24px. Pick the component whose
+geometry you want.
+
+<Canvas of={Stories.MediaFlag} />
+
+## Backing on plain status labels
+
+The AI surface is the gradient tint layered over the theme's paper colour, ringed by the
+same gradient at outline strength. The opaque paper base is what keeps the label legible
+over imagery; in dark mode the same tint reads over dark paper.
+
+Every other status label is a tag too: the semantic colours on their alert surfaces,
+`secondary` and `default` as the grey `stone` tag. Every plate is opaque, so each label stays
+legible over a photo.
+
+<Canvas of={Stories.StatusLabelBacking} />
+
+## AI flag on its own
+
+The flag is `<Chip variant="tag" color="ai">`: the AI surface in the tag's box, with an
+icon, a delete glyph or a tooltip like any other tag. A plain `<Chip color="ai">` stays the
+interactive pill for inputs.
+
+<Canvas of={Stories.Chips} />
+
+## AI chips in an Autocomplete
+
+Options carry no colour of their own. To paint every selected chip, pass the colour through
+`slotProps.chip`. To flag a single option, render the chips yourself with `renderValue` - it
+replaces the default renderer, so keep `getItemProps` (it carries the delete handler) and the
+tooltip; `renderOption` does the same for the dropdown list.
+
+<Canvas of={Stories.Autocomplete} />
+
+## AI icon button
+
+AI icons use a small implementation shortcut: when `RingLucideIcon` receives `color="ai"`, it automatically applies the AI gradient to the Lucide stroke. Other colours keep their normal solid stroke. This is intentional - the AI colour is the signal that enables the gradient treatment.
+
+The AI gradient is read from `theme.palette.gradients.ai`. If that theme extension is missing, the icon falls back to a solid AI colour and emits a warning in development.
+
+<Canvas of={Stories.IconButtons} />
+
+## AI button
+
+Outlined only. The outline flows continuously - one 3s cycle at constant velocity, and stops under
+`prefers-reduced-motion`. The `color="ai"` icon uses the AI gradient automatically, as shown below.
+
+<Canvas of={Stories.Buttons} />
+
+## Gradient text
+
+<Canvas of={Stories.GradientText} />
+
+## Inline "(AI)" marker
+
+The editor marks AI-powered fields and options with an "(AI)" suffix inside another
+element's text - a section heading, a radio option label. That is a `span` with
+`theme.gradientText('ai')`, not a Chip: the marker inherits the host's typography and
+only the fill changes.
+
+<Canvas of={Stories.InlineAiMarker} />
+
+## AI markers in control labels
+
+AI-powered controls can mark their label directly with the same inline gradient marker. Keep
+`(AI)` inside a `span` so it inherits the control label's typography while only the marker gets
+the AI treatment.
+
+<Canvas of={Stories.FieldLabels} />

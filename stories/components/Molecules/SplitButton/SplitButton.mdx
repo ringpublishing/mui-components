@@ -17,9 +17,9 @@ SplitButton is a specialized button component that combines a primary action wit
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Customization from ButtonGroup API](#customization-from-buttongroup-api)
-- [Main Action Disabled](#main-action-disabled)
-- [With One Action](#with-one-action)
+- [One action](#one-action)
+- [Main action disabled](#main-action-disabled)
+- [ButtonGroup props](#buttongroup-props)
 
 ## Default
 
@@ -31,20 +31,20 @@ The standard SplitButton configuration featuring a main action button with multi
 
 <ArgTypes />
 
-## Customization from ButtonGroup API
+## One action
 
-SplitButton inherits all styling and layout properties from the MUI ButtonGroup API, allowing for flexible customization of appearance, size, variant, color, and orientation. This example shows how to apply ButtonGroup customizations to achieve different visual styles.
+A simplified SplitButton variant containing only a single main action. In this configuration, the dropdown toggle button is not displayed, resulting in a standard button appearance.
 
-<Canvas of={Stories.CustomizationFromButtonGroupAPI} />
+<Canvas of={Stories.WithOneAction} />
 
-## Main Action Disabled
+## Main action disabled
 
 Demonstrates a SplitButton where the primary action is disabled with a disabled reason tooltip. The additional actions in the dropdown remain functional, allowing users to access alternative actions when the main action is unavailable.
 
 <Canvas of={Stories.MainActionDisabled} />
 
-## With One Action
+## ButtonGroup props
 
-A simplified SplitButton variant containing only a single main action. In this configuration, the dropdown toggle button is not displayed, resulting in a standard button appearance.
+SplitButton inherits all styling and layout properties from the MUI ButtonGroup API, allowing for flexible customization of appearance, size, variant, color, and orientation. This example shows how to apply ButtonGroup customizations to achieve different visual styles.
 
-<Canvas of={Stories.WithOneAction} />
+<Canvas of={Stories.CustomizationFromButtonGroupAPI} />

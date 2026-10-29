@@ -1,21 +1,25 @@
 import React, { useCallback, useMemo } from 'react';
-import { AddOutlined, MoreVert, Refresh, RemoveOutlined } from '@mui/icons-material';
-import { Box, CircularProgress, IconButton, PopperProps, Theme, Tooltip } from '@mui/material';
+import { Plus, EllipsisVertical, RotateCw, Minus } from 'lucide-react';
+import { alpha, Box, CircularProgress, IconButton, PopperProps, Theme, Tooltip } from '@mui/material';
 import { TreeItem } from '@mui/x-tree-view';
-// Namespace import (`import * as`) so this file compiles against the
-// optional-peer-dep stub at the consumer's build time when
-// `@tanstack/react-query` isn't installed. See `treeQueryClient.ts` for
-// the full rationale.
-import * as ReactQuery from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 
 import { WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
-import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { resolveItemDataTestId } from '../../../helpers/dataTestId.js';
+import { resolveMoreActionsAriaLabel } from '../../../helpers/moreActionsAriaLabel.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
+import { getLucideSizeFromFontSize } from '../../../helpers/lucideSize.js';
 import { Typography } from '../../Atoms/Typography/Typography.js';
 import { SortableItem } from '../../internal/SortableItem.js';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
 import { useNonDraggableRef } from '../SortableList/SortableList.js';
-import { STRIPPED_FN_MARKER, filterTreeItems } from '../treeShared.js';
+import {
+    DECORATIVE_EXPAND_BUTTON_PROPS,
+    STRIPPED_FN_MARKER,
+    filterTreeItems,
+    getPlainLabel,
+} from '../../internal/tree/treeShared.js';
 import { DataTreeCheckboxSlot } from './DataTreeCheckboxSlot.js';
 import { DataTreeColumn, DataTreeItem } from './DataTree.js';
 
@@ -34,6 +38,7 @@ interface DataTreeItemProps extends DataTreeItem {
     columns?: DataTreeColumn[];
     dragAndDropTooltipTitle?: string;
     dragAndDropTooltipPlacement?: PopperProps['placement'];
+    rowActionsAriaLabel?: string;
     isDragging?: boolean;
     dropLineUnderId?: string | null;
     dropInId?: string | null;
@@ -80,6 +85,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
         expandedItems,
         dragAndDropTooltipTitle,
         dragAndDropTooltipPlacement = 'top',
+        rowActionsAriaLabel,
         isDragging,
         dropLineUnderId,
         dropInId,
@@ -91,10 +97,12 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
         dataTestIdSuffix,
     } = props;
 
-    const dataTestId = useRingDataTestId(
-        'datatree',
-        dataTestIdSuffix ? `${dataTestIdSuffix}-item-${itemId}` : `item-${itemId}`,
-    );
+    const dataTestId = resolveItemDataTestId({
+        componentName: 'DataTree',
+        listSuffix: dataTestIdSuffix,
+        itemId,
+        item: props,
+    });
 
     const isSearchActive = searchQuery.length > 0;
     // `loadItems` may be a real function, undefined, or — for cache-rehydrated
@@ -107,6 +115,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
     const isExpanded = expandedItems.includes(itemId);
 
     const sanitizedLabel = useMemo(() => DOMPurify.sanitize(label, { ALLOWED_TAGS: ['span'] }), [label]);
+    const plainLabel = useMemo(() => getPlainLabel(label), [label]);
 
     // ── TanStack Query for dynamic items ─────────────────────────────────
 
@@ -117,7 +126,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
         isFetching,
         isError: hasError,
         refetch,
-    } = ReactQuery.useQuery<DataTreeItem[]>({
+    } = useQuery<DataTreeItem[]>({
         queryKey: ['dataTreeItem', instanceId, itemId],
         queryFn: async () => {
             if (!stableLoadItems) {
@@ -199,6 +208,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
             <TreeItem
                 key={itemId}
                 itemId={itemId}
+                data-testid={dataTestId}
                 style={{
                     marginLeft: nestLevel > 0 ? `${NEST_INDENT}px` : '0px',
                 }}
@@ -212,7 +222,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                         borderColor:
                             enableDropIn && dropInId === itemId
                                 ? (t: Theme): string => t.palette.primary.main
-                                : (t: Theme): string => t.palette.components.datagrid.border,
+                                : (t: Theme): string => t.palette.divider,
                         borderRadius: BORDER_RADIUS,
                         padding: enableDropIn && dropInId === itemId ? '0px' : BORDER_WIDTH_DEFAULT,
                         marginBottom: ROW_MARGIN_BOTTOM,
@@ -221,8 +231,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                         '&:hover': {
                             backgroundColor: isDragging
                                 ? 'inherit'
-                                : // @ts-expect-error - augmented theme palette key
-                                  (t: Theme): string => t.palette.primary.focusVisible,
+                                : (t: Theme): string => alpha(t.palette.primary.main, t.palette.action.hoverOpacity),
                         },
                         '&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused, &.Mui-selected:hover': {
                             zIndex: 0,
@@ -232,7 +241,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                                 color: (t: Theme) => t.palette.common.white,
                             },
                             '& .RingDataTree-itemRowActionButton': {
-                                fill: (t: Theme) => t.palette.common.white,
+                                color: (t: Theme) => t.palette.common.white,
                             },
                             '& .MuiTreeItem-iconContainer': {
                                 '&:has(*)': {
@@ -255,7 +264,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                         borderBottomLeftRadius: BORDER_RADIUS,
                         borderTopLeftRadius: BORDER_RADIUS,
                         '&:has(*)': {
-                            borderRightColor: (t: Theme) => t.palette.components.datagrid.border,
+                            borderRightColor: (t: Theme) => t.palette.divider,
                             borderRightWidth: BORDER_WIDTH_DEFAULT,
                             borderRightStyle: 'solid',
                         },
@@ -280,6 +289,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                         checked,
                         checkboxDisabled,
                         itemId,
+                        ariaLabel: plainLabel,
                         onCheckboxChange,
                         checkboxSetRef: checkboxRef.setRef,
                     } as unknown as Record<string, unknown>,
@@ -287,6 +297,8 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                 slots={{
                     expandIcon: () => (
                         <IconButton
+                            // In the error state this is the retry control, a real action for every user.
+                            {...(hasError ? {} : DECORATIVE_EXPAND_BUTTON_PROPS)}
                             ref={expandRef.setRef}
                             disabled={isFetching}
                             color="inherit"
@@ -300,7 +312,11 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                             }}
                             data-testid={`${dataTestId}-expand`}
                         >
-                            {hasError ? <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" /> : <AddOutlined />}
+                            {hasError ? (
+                                <RingLucideIcon icon={RotateCw} color="error" />
+                            ) : (
+                                <Plus size={18} style={{ flexShrink: 0 }} />
+                            )}
                         </IconButton>
                     ),
                     collapseIcon: () =>
@@ -319,7 +335,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                                 }}
                                 data-testid={`${dataTestId}-refresh`}
                             >
-                                <Refresh sx={{ transform: 'scale(-1, 1)' }} color="error" />
+                                <RingLucideIcon icon={RotateCw} color="error" />
                             </IconButton>
                         ) : (
                             <Box
@@ -339,7 +355,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                                         size={SPINNER_SIZE}
                                     />
                                 ) : (
-                                    <RemoveOutlined />
+                                    <Minus size={18} style={{ flexShrink: 0 }} />
                                 )}
                             </Box>
                         ),
@@ -410,16 +426,20 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                                                 <IconButton
                                                     ref={actionBoxRef.setRef}
                                                     size={'small'}
+                                                    aria-label={resolveMoreActionsAriaLabel(rowActionsAriaLabel)}
                                                     onClick={(e): void => {
                                                         e.stopPropagation();
                                                     }}
                                                     data-testid={`${dataTestId}-actions`}
                                                 >
-                                                    <MoreVert className={'RingDataTree-itemRowActionButton'} />
+                                                    <EllipsisVertical
+                                                        size={getLucideSizeFromFontSize('small')}
+                                                        className={'RingDataTree-itemRowActionButton'}
+                                                    />
                                                     <ActionBox
                                                         actions={rowActions}
                                                         anchorEl={actionBoxRef}
-                                                        dataTestIdSuffix={dataTestIdSuffix}
+                                                        dataTestId={`${dataTestId}-menu`}
                                                     />
                                                 </IconButton>
                                             )}
@@ -470,6 +490,7 @@ export function DataTreeItemDynamicComponent(props: DataTreeItemDynamicComponent
                             onCheckboxChange={onCheckboxChange}
                             dragAndDropTooltipTitle={dragAndDropTooltipTitle}
                             dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
+                            rowActionsAriaLabel={rowActionsAriaLabel}
                             dataTestIdSuffix={dataTestIdSuffix}
                         />
                     );

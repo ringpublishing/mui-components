@@ -19,7 +19,7 @@ const Example = (args: DefaultTreeViewProps): React.JSX.Element => {
             items={items}
             onDragAndDropEnd={(sourceAbsolutePosition, destinationAbsolutePosition): void => {
                 action('drag and drop end')(sourceAbsolutePosition, destinationAbsolutePosition);
-                setItems(moveItems(items, sourceAbsolutePosition, destinationAbsolutePosition));
+                setItems((prevItems) => moveItems(prevItems, sourceAbsolutePosition, destinationAbsolutePosition));
             }}
             onDropIn={(itemId, dropInItemId): void => {
                 action('drop in')(itemId, dropInItemId);
@@ -44,7 +44,7 @@ export const WithDropIn: Story = {
         showColumnHeaders: true,
         itemsLabelColumnHeader: 'Name',
         columns: defaultColumns,
-        dragAndDropTooltipTitle: 'To drag and drop collapse the item first',
+        dragAndDropTooltipTitle: 'Collapse the item to drag it.',
     } as DefaultTreeViewProps,
     render: (args, context) =>
         createCodeStory({

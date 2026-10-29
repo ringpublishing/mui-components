@@ -11,11 +11,12 @@ exports[`FeatureTooltip > should render correctly 1`] = `
   style="position: absolute; top: 0px; left: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 0px);"
 >
   <div
-    class="MuiTooltip-tooltip MuiTooltip-tooltipArrow MuiTooltip-tooltipPlacementBottom css-15yjayn-MuiTooltip-tooltip"
-    style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    class="MuiTooltip-tooltip MuiTooltip-tooltipArrow MuiTooltip-tooltipPlacementBottom css-1b8dyxd-MuiTooltip-tooltip"
+    style="opacity: 1; transform: none; transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
-      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-4cn0u0-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-citr7g-MuiPaper-root-MuiCard-root"
+      data-testid="ring-featuretooltip-content"
     >
       <div
         class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
@@ -24,31 +25,42 @@ exports[`FeatureTooltip > should render correctly 1`] = `
           class="MuiBox-root css-d8tqyz"
         >
           <span
-            class="MuiTypography-root MuiTypography-subtitle2 css-ub9ezd-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-subtitle2 css-19067an-MuiTypography-root"
           >
             Standard tooltip
           </span>
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorContrast MuiIconButton-sizeMedium css-1h1r1hl-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorContrast MuiIconButton-sizeMedium css-11y9mx9-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-featuretooltip-close"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-              data-testid="CloseIcon"
-              focusable="false"
+              class="lucide lucide-x"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
               viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                d="M18 6 6 18"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="m6 6 12 12"
+                vector-effect="non-scaling-stroke"
               />
             </svg>
           </button>
         </div>
         <div
-          class="MuiTypography-root MuiTypography-caption css-c4yjwx-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-caption css-1cc7w6t-MuiTypography-root"
         >
           Test1
         </div>
@@ -57,7 +69,7 @@ exports[`FeatureTooltip > should render correctly 1`] = `
         class="MuiCardActions-root MuiCardActions-spacing css-etctwq-MuiCardActions-root"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textContrast MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorContrast css-1k8eq1n-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textContrast MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorContrast css-c44pu-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-featuretooltip-button-secondary"
           label="Secondary action"
           tabindex="0"
@@ -67,7 +79,7 @@ exports[`FeatureTooltip > should render correctly 1`] = `
           Secondary action
         </button>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedContrast MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorContrast css-1p7eunq-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedContrast MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorContrast css-f4q8rv-MuiButtonBase-root-MuiButton-root"
           data-testid="ring-featuretooltip-button-primary"
           href="https://ringpublishing.com/?utm_source=inapp&utm_medium=bubble"
           label="Default action"
@@ -80,7 +92,7 @@ exports[`FeatureTooltip > should render correctly 1`] = `
       </div>
     </div>
     <span
-      class="MuiTooltip-arrow css-1hpiz2-MuiTooltip-arrow"
+      class="MuiTooltip-arrow css-tsz298-MuiTooltip-arrow"
       style="position: absolute; left: 0px; transform: translate(4px, 0px);"
     />
   </div>

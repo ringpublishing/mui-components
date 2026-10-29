@@ -1,41 +1,41 @@
-import React, { useContext } from 'react';
-import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-
-declare module '@dnd-kit/core' {
-    interface PointerSensorOptions {
-        boundaryRef?: React.RefObject<HTMLElement | null>;
-    }
-}
-
-class SortablePointerSensor extends PointerSensor {
-    public static readonly activators = [
-        {
-            eventName: 'onPointerDown' as const,
-            handler: (
-                { nativeEvent }: React.PointerEvent,
-                options: { boundaryRef?: React.RefObject<HTMLElement | null> },
-            ): boolean => {
-                const target = nativeEvent.target;
-
-                if (!(target instanceof Element)) {
-                    return true;
-                }
-
-                const boundary = options?.boundaryRef?.current;
-
-                return !boundary || boundary.contains(target);
-            },
-        },
-    ];
-}
-
-import { arrayMove, SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Box, IconButton } from '@mui/material';
-import { DragHandle as DragHandleIcon } from '@mui/icons-material';
+import React, { createContext, useContext, useMemo } from 'react';
+import { IconButton } from '@mui/material';
+import { GripVertical } from 'lucide-react';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
-import { SORTABLE_ITEM_CONTEXT, SortableItem, SortableItemData } from '../../internal/SortableItem.js';
+import { GetItemDataTestId, resolveItemDataTestId } from '../../../helpers/dataTestId.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { SORTABLE_ITEM_CONTEXT, SortableItemData } from '../../internal/SortableItem.js';
+import { SortableChips } from '../../internal/SortableChips.js';
+import { useNonDraggableRef } from '../../../helpers/hooks/useNonDraggableRef.js';
+import { DEFAULT_LUCIDE_ICON_SIZE } from '../../../helpers/lucideSize.js';
 
 export type { SortableItemData };
+
+export type SortableListOrientation = 'vertical' | 'horizontal' | 'wrap';
+
+export interface SortableListLabels {
+    /**
+     * Accessible name of `SortableList.DragHandle`. The handle is an icon-only button, so without a
+     * name a screen reader announces nothing but "button" (axe `button-name`).
+     * @defaultValue 'Drag to reorder'
+     */
+    dragHandle?: string;
+}
+
+const DEFAULT_LABELS: Required<SortableListLabels> = {
+    dragHandle: 'Drag to reorder',
+};
+
+/**
+ * Hands the resolved labels to `SortableList.DragHandle`, which the consumer renders inside
+ * `renderItem` and the list cannot pass props to. A handle rendered outside a `SortableList` gets
+ * the English defaults.
+ */
+const SORTABLE_LIST_LABELS_CONTEXT = createContext<Required<SortableListLabels>>(DEFAULT_LABELS);
+
+// Re-exported so the hook stays importable from here; it lives in helpers/hooks to be shared
+// with molecules such as Autocomplete.
+export { useNonDraggableRef };
 
 export interface SortableListProps<T extends SortableItemData> extends CommonComponentProps {
     /**
@@ -45,9 +45,11 @@ export interface SortableListProps<T extends SortableItemData> extends CommonCom
 
     /**
      * Function that renders an element of the list.
+     * `index` is the item's current position; `isDragActive` is true for every item while any drag
+     * is in progress — use it to suppress hover affordances (e.g. tooltips).
      * @param item
      */
-    renderItem: (item: T) => React.ReactNode;
+    renderItem: (item: T, index?: number, isDragActive?: boolean) => React.ReactNode;
 
     /**
      * Function that is called when the order of items changes. It receives a new list of items.
@@ -56,134 +58,78 @@ export interface SortableListProps<T extends SortableItemData> extends CommonCom
     onChange(items: T[]): void;
 
     /**
-     * If true, items can be grabbed only by the drag handles. Developers need to incorporate `SortableList.DragHandle` component in their item's children.
+     * If true, items can be grabbed only by a `SortableList.DragHandle` rendered inside them. Not
+     * supported in the `wrap` orientation, where the whole item is always the handle.
      * @defaultValue false
      */
     grabByDragHandle?: boolean;
-}
 
-/**
- * Returns a ref that can be used to prevent the default drag behavior on the element.
- * This is useful when you want to prevent the drag behavior on an element that is not a drag handle like a button, context menu, etc.
- *
- * This hook returns a union of `RefObject` and `setRef` function of type `RefCallback`. The `RefObject` is a readonly
- * `ref` container that can be used to access a DOM element. The `setRef` is a function that can passed to `ref` prop of a JSX element.
- *
- * @example Make element (button) not draggable
- *  ```tsx
- *  function SortableListItem(props: { item: Item; }): React.JSX.Element {
- *      const ref = useNonDraggableRef<HTMLButtonElement>();
- *
- *      return (
- *          <div>
- *              <p>This fragment is draggable but the button is not</p>
- *              <button ref={ref.setRef} onClick={(event): void => console.log(event)}>CLICK</button>
- *          </div>
- *      );
- *  }
- *  ```
- *
- * @example Make element not draggable and pass ref to another component (e.g. ActionBox)
- * ```tsx
- *  function SortableListItem(props: { item: Item; }): React.JSX.Element {
- *      const ref = useNonDraggableRef<HTMLButtonElement>();
- *
- *      return (
- *          <div>
- *              <p>This fragment is draggable but the button is not</p>
- *              <button ref={ref.setRef} onClick={(event): void => foo(event)}>CLICK</button>
- *               <ActionBox
- *                   actions={[{
- *                      label: 'Option 1',
- *                       onClick: action('ActionBox -> Option 1')
- *                   }]}
- *                   anchorEl={ref}
- *               />
- *          </div>
- *      );
- *  }
- * ```
- */
-export function useNonDraggableRef<T extends HTMLElement = HTMLElement>(): React.RefObject<T | null> & {
-    setRef: React.RefCallback<T>;
-} {
-    const ref = React.useRef<T | null>(null);
+    /**
+     * Overrides the generated `data-testid` per item; return `undefined` to keep the default
+     * `ring-sortablelist[-<suffix>]-item-<id>`. Items may instead carry `dataTestId` or
+     * `itemDataTestIdSuffix`.
+     */
+    getItemDataTestId?: GetItemDataTestId<T>;
 
-    const handler = React.useCallback((event: HTMLElementEventMap['pointerdown'] | HTMLElementEventMap['keydown']) => {
-        event.stopPropagation();
-    }, []);
+    /**
+     * Layout and drag axis: `vertical` (a column), `horizontal` (a single row) or `wrap` (a wrapping
+     * row, e.g. of chips, draggable freely in two dimensions). `wrap` is pointer-only and ignores
+     * `grabByDragHandle`.
+     * @defaultValue 'vertical'
+     */
+    orientation?: SortableListOrientation;
 
-    const setRef = React.useCallback(
-        (node: T | null) => {
-            if (ref.current) {
-                // Cleanup event listeners from the previous element
-                ref.current.removeEventListener('pointerdown', handler);
-                ref.current.removeEventListener('keydown', handler);
-            }
-
-            if (node) {
-                // Attach event listeners to the new element
-                node.addEventListener('pointerdown', handler);
-                node.addEventListener('keydown', handler);
-            }
-
-            ref.current = node;
-        },
-        [handler],
-    );
-
-    return React.useMemo(
-        () => ({
-            get current(): T | null {
-                return ref.current;
-            },
-            setRef,
-        }),
-        [setRef],
-    );
+    /**
+     * User-facing strings the list renders itself. Every member is optional and falls back to the
+     * English default.
+     */
+    labels?: SortableListLabels;
 }
 
 export function SortableList<T extends SortableItemData>(props: SortableListProps<T>): React.JSX.Element {
-    const { items, renderItem, onChange, grabByDragHandle, sx, className } = props;
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const {
+        items,
+        renderItem,
+        onChange,
+        grabByDragHandle,
+        orientation = 'vertical',
+        labels,
+        dataTestIdSuffix,
+        getItemDataTestId,
+        sx,
+        className,
+    } = props;
 
-    const sensors = useSensors(
-        useSensor(SortablePointerSensor, {
-            activationConstraint: {
-                distance: 5,
-            },
-            boundaryRef: containerRef,
-        }),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        }),
-    );
+    const dataTestId = useRingDataTestId('SortableList', dataTestIdSuffix);
+
+    const isWrap = orientation === 'wrap';
+    const resolvedLabels = useMemo((): Required<SortableListLabels> => ({ ...DEFAULT_LABELS, ...labels }), [labels]);
 
     return (
-        <Box sx={sx} className={className} ref={containerRef}>
-            <DndContext
-                sensors={sensors}
-                onDragEnd={(event: DragEndEvent): void => {
-                    const { active, over } = event;
-                    const hasOrderChanged = over !== null && active.id !== over.id;
-
-                    if (hasOrderChanged) {
-                        const activeIndex = items.findIndex(({ id }) => id === active.id);
-                        const overIndex = items.findIndex(({ id }) => id === over.id);
-
-                        onChange(arrayMove(items, activeIndex, overIndex));
-                    }
-                }}
-            >
-                <SortableContext items={items}>
-                    {items.map((item) => (
-                        <SortableItem id={item.id} key={item.id} grabByDragHandle={grabByDragHandle}>
-                            {renderItem(item)}
-                        </SortableItem>
-                    ))}
-                </SortableContext>
-            </DndContext>
-        </Box>
+        <SORTABLE_LIST_LABELS_CONTEXT.Provider value={resolvedLabels}>
+            <SortableChips
+                sx={sx}
+                className={className}
+                dataTestId={dataTestId}
+                items={items}
+                onChange={onChange}
+                renderChip={renderItem}
+                direction={orientation}
+                keyboardSorting={!isWrap}
+                ghost={isWrap ? 'plain' : 'card'}
+                grabByDragHandle={isWrap ? false : grabByDragHandle}
+                getItemDataTestId={(item, index): string =>
+                    resolveItemDataTestId({
+                        componentName: 'SortableList',
+                        listSuffix: dataTestIdSuffix,
+                        itemId: item.id as string | number,
+                        index,
+                        item,
+                        override: getItemDataTestId?.(item, index),
+                    })
+                }
+            />
+        </SORTABLE_LIST_LABELS_CONTEXT.Provider>
     );
 }
 
@@ -191,19 +137,28 @@ export function SortableList<T extends SortableItemData>(props: SortableListProp
  * Drag handle component that should be used inside children of SortableList when SortableList's grabByDragHandle is true.
  */
 SortableList.DragHandle = function DragHandle(): React.JSX.Element {
-    const { attributes, listeners, ref, isDragging } = useContext(SORTABLE_ITEM_CONTEXT);
+    const { attributes, listeners, ref, isDragging, isPlaceholder } = useContext(SORTABLE_ITEM_CONTEXT);
+    const { dragHandle } = useContext(SORTABLE_LIST_LABELS_CONTEXT);
 
     return (
         <IconButton
             {...attributes}
             {...listeners}
+            // After `attributes`, which carry dnd-kit's `aria-roledescription` / `aria-describedby`
+            // but no name of any kind. An icon-only button without one is announced as "button".
+            aria-label={dragHandle}
             ref={ref}
             disableRipple={false}
             disableTouchRipple={true}
             disableFocusRipple={false}
-            sx={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+            sx={{
+                cursor: isDragging ? 'grabbing' : 'grab',
+                // The drop slot hides its content with `visibility: hidden`, and a hidden element
+                // cannot hold or regain keyboard focus; the handle stays rendered but transparent.
+                ...(isPlaceholder ? { visibility: 'visible', opacity: 0 } : {}),
+            }}
         >
-            <DragHandleIcon />
+            <GripVertical size={DEFAULT_LUCIDE_ICON_SIZE} />
         </IconButton>
     );
 };

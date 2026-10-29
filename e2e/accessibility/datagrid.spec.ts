@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { gotoStory } from '../storybook.js';
 
 const STORY_ID = 'components-organisms-datagrid--custom-cells';
 
@@ -11,14 +12,12 @@ const STORY_ID = 'components-organisms-datagrid--custom-cells';
  * in the component source code and then removed from this list.
  *
  * TODO: Fix each violation and remove the corresponding rule from KNOWN_VIOLATIONS:
- * - image-alt:              images in renderComboCell are missing alt text
  * - aria-required-children: spacer rows use role="separator" inside role="grid" (not allowed by ARIA spec)
  * - aria-input-field-name:  MUI Select in toolbar lacks an accessible label
  * - button-name:            some icon buttons are missing accessible names
  * - color-contrast:         some elements do not meet contrast ratio requirements
  */
 const KNOWN_VIOLATIONS = [
-    'image-alt',
     'aria-required-children',
     'aria-input-field-name',
     'button-name',
@@ -27,13 +26,7 @@ const KNOWN_VIOLATIONS = [
 
 test.describe('DataGrid - Custom Cells accessibility', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(`/iframe.html?id=${STORY_ID}&viewMode=story`, { waitUntil: 'networkidle' });
-        // Wait for Storybook to finish preparing the story (cold Vite start may add
-        // `sb-show-preparing-story` to body and keep content hidden for >30 s).
-        await page.waitForFunction(() => !document.body.classList.contains('sb-show-preparing-story'), {
-            timeout: 60_000,
-        });
-        await page.locator('.MuiDataGrid-root').first().waitFor({ state: 'visible' });
+        await gotoStory(page, STORY_ID, '.MuiDataGrid-root');
     });
 
     test('should have no WCAG 2.1 AA violations', async ({ page }) => {

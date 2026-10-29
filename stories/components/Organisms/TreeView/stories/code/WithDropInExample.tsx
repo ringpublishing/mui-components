@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TreeView, TreeViewItem } from '@ringpublishing/mui-components';
-import { EditOutlined } from '@mui/icons-material';
+import { Pencil } from 'lucide-react';
 
 const exampleItems: TreeViewItem[] = [
     {
@@ -9,7 +9,7 @@ const exampleItems: TreeViewItem[] = [
         column1: 'Column1 0',
         column2: 'Column2 0',
         expanded: true,
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         checkboxDisabled: true,
         items: [
             {
@@ -62,7 +62,7 @@ const exampleItems: TreeViewItem[] = [
         label: 'Item 1',
         column1: 'Column1 1',
         column2: 'Column2 1',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         items: [
             {
                 itemId: '1.0',
@@ -103,7 +103,7 @@ const exampleItems: TreeViewItem[] = [
         label: 'Item 3',
         column1: 'Column1 3',
         column2: 'Column2 3',
-        rowActions: [{ label: 'Edit', icon: <EditOutlined /> }],
+        rowActions: [{ label: 'Edit', icon: <Pencil /> }],
         checked: true,
     },
 ];
@@ -113,42 +113,80 @@ function moveItems(
     sourceAbsolutePosition: number[],
     destinationAbsolutePosition: number[],
 ): TreeViewItem[] {
-    const newItems = [...items];
+    // Immutable on purpose: the result goes into React state, so every array and
+    // object along the source/destination paths must be a fresh copy — splicing
+    // nested arrays in place corrupts the previous state object.
+    let movedItem: TreeViewItem | undefined;
 
-    function getArrayAndIndex(path: number[]): { array: TreeViewItem[] | undefined; index: number } {
-        let array: TreeViewItem[] | undefined = newItems;
-        let index = path[0];
+    function removeAtPath(arr: TreeViewItem[], path: number[], depth: number): TreeViewItem[] {
+        const index = path[depth];
 
-        for (let i = 0; i < path.length - 1; i++) {
-            const currentIndex = path[i];
+        if (depth === path.length - 1) {
+            movedItem = arr[index];
 
-            if (!array?.[currentIndex]?.items) {
-                return { array: undefined, index: -1 };
-            }
-
-            array = array[currentIndex].items;
-            index = path[i + 1];
+            return arr.filter((item, i) => i !== index);
         }
 
-        return { array, index };
+        return arr.map((item, i) =>
+            i === index && item.items ? { ...item, items: removeAtPath(item.items, path, depth + 1) } : item,
+        );
     }
 
-    const { array: sourceArray, index: sourceIndex } = getArrayAndIndex(sourceAbsolutePosition);
-    const { array: destinationArray, index: destinationIndex } = getArrayAndIndex(destinationAbsolutePosition);
+    function insertAtPath(arr: TreeViewItem[], path: number[], depth: number): TreeViewItem[] {
+        const index = path[depth];
 
-    if (!sourceArray || sourceIndex === -1 || !sourceArray[sourceIndex]) {
+        if (depth === path.length - 1) {
+            const next = [...arr];
+            next.splice(index, 0, movedItem as TreeViewItem);
+
+            return next;
+        }
+
+        if (!arr[index]?.items) {
+            throw new Error('Invalid destination position');
+        }
+
+        return arr.map((item, i) =>
+            i === index ? { ...item, items: insertAtPath(item.items as TreeViewItem[], path, depth + 1) } : item,
+        );
+    }
+
+    // The caller computes both paths against the tree BEFORE removal. Removing
+    // the source shifts its later siblings down by one, so a destination path
+    // that descends THROUGH such a sibling must be shifted too. A destination
+    // ending in the source's parent array is left as-is: insertion happens
+    // after removal, matching the previous splice-based semantics.
+    function adjustDestinationPath(source: number[], destination: number[]): number[] {
+        const parentDepth = source.length - 1;
+        const descendsDeeper = destination.length > source.length;
+        const sharesParentPath = source.slice(0, parentDepth).every((segment, i) => segment === destination[i]);
+
+        if (!descendsDeeper || !sharesParentPath) {
+            return destination;
+        }
+
+        if (destination[parentDepth] === source[parentDepth]) {
+            // The destination lies inside the moved subtree itself.
+            throw new Error('Invalid destination position');
+        }
+
+        if (destination[parentDepth] > source[parentDepth]) {
+            const adjusted = [...destination];
+            adjusted[parentDepth] -= 1;
+
+            return adjusted;
+        }
+
+        return destination;
+    }
+
+    const withoutItem = removeAtPath(items, sourceAbsolutePosition, 0);
+
+    if (!movedItem) {
         throw new Error('Invalid source position');
     }
 
-    const [movedItem] = sourceArray.splice(sourceIndex, 1);
-
-    if (!destinationArray) {
-        throw new Error('Invalid destination position');
-    }
-
-    destinationArray.splice(destinationIndex, 0, movedItem);
-
-    return newItems;
+    return insertAtPath(withoutItem, adjustDestinationPath(sourceAbsolutePosition, destinationAbsolutePosition), 0);
 }
 
 function dropInItem(items: TreeViewItem[], itemId: string, dropInItemId: string): TreeViewItem[] {
@@ -239,7 +277,7 @@ export default function WithDropInExample(): React.JSX.Element {
                 { name: 'column1', width: 100, header: 'First Column' },
                 { name: 'column2', width: 100, header: 'Second Column' },
             ]}
-            dragAndDropTooltipTitle={'To drag and drop collapse the item first'}
+            dragAndDropTooltipTitle={'Collapse the item to drag it.'}
             onCheckboxChange={(itemId, checked): void => {
                 setItems(checkItem(items, itemId, checked));
             }}

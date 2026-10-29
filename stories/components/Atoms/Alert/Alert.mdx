@@ -19,12 +19,13 @@ Alert is a structured wrapper over MUI Alert. It uses explicit `title` and `desc
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Content Variants](#content-variants)
 - [Severities](#severities)
-- [With Action](#with-action)
-- [With Close](#with-close)
-- [With Action And Close](#with-action-and-close)
-- [Layout Variants](#layout-variants)
+- [Content](#content)
+- [Layout](#layout)
+- [Action](#action)
+- [Action — link](#action--link)
+- [Close button](#close-button)
+- [Action and close button](#action-and-close-button)
 
 ## Default
 
@@ -34,26 +35,32 @@ Alert is a structured wrapper over MUI Alert. It uses explicit `title` and `desc
 
 <ArgTypes />
 
-## Content Variants
-
-<Canvas of={Stories.ContentVariants} />
-
 ## Severities
 
 <Canvas of={Stories.Severities} />
 
-## With Action
+## Content
+
+<Canvas of={Stories.ContentVariants} />
+
+## Layout
+
+<Canvas of={Stories.LayoutVariants} />
+
+## Action
 
 <Canvas of={Stories.WithAction} />
 
-## With Close
+## Action — link
+
+Give `action` an `href` instead of `onClick` and the action renders as a link, so the alert can point to documentation or a related page. Use `buttonProps` to open it in a new tab (`target`, `rel`).
+
+<Canvas of={Stories.WithLinkAction} />
+
+## Close button
 
 <Canvas of={Stories.WithClose} />
 
-## With Action And Close
+## Action and close button
 
 <Canvas of={Stories.WithActionAndClose} />
-
-## Layout Variants
-
-<Canvas of={Stories.LayoutVariants} />

@@ -1,10 +1,10 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { createCodeStory } from '../../../../helpers.js';
-import CheckboxSelectionExampleCode from './code/CheckboxSelectionExample.tsx?raw';
+import SelectionExampleCode from './code/SelectionExample.tsx?raw';
 import { MultimediaGrid } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { useMultimediaGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { useMultimediaGridDemoData } from '../../../../helpers/ringDemoData.js';
 
 import { GridRowSelectionModel } from '@mui/x-data-grid';
 import { action } from 'storybook/actions';
@@ -51,7 +51,7 @@ export const Selection: Story = {
         return createCodeStory({
             context,
             customProps: {},
-            customCode: CheckboxSelectionExampleCode,
+            customCode: SelectionExampleCode,
             example: <Example {...args} />,
         });
     },

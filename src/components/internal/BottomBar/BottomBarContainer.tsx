@@ -1,28 +1,48 @@
 import React, { FunctionComponent, useEffect, useMemo } from 'react';
 import { Box, Collapse, Typography } from '@mui/material';
-import { KeyboardArrowUp } from '@mui/icons-material';
+import { ChevronUp } from 'lucide-react';
 import { GridRowId } from '@mui/x-data-grid';
 
-import { MediaGridApi, MediaGridItemProps } from '../../Organisms/MultimediaGrid/gridApi.js';
-import { useBottomBarContext, BottomBarContextState } from './BottomBarContext.js';
+import type { MediaGridApi, MediaGridItemProps } from '../gridApi.types.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
+import { useBottomBarContext, BottomBarApiRef, BottomBarContextState } from './BottomBarContext.js';
 import BottomBar from './BottomBar.js';
 
+/**
+ * Props of the `DataView` bottom bar (`slotProps.bottom`), which lists the rows selected in the grid.
+ */
 export interface BottomBarSlotProps {
+    /**
+     * Texts of the toggle above the bar: `hide` while the bar is expanded, `show` while it is collapsed. When neither
+     * a custom bar nor a custom `show` is given, the toggle reads `<count> <selected>` in both states.
+     */
     labels?: {
         show?: string;
         hide?: string;
         selected?: string;
     };
+    /**
+     * Paths (lodash `get` syntax) in a selected row to the item's label and image. By default the label comes from
+     * the first visible column of a `RingDataGrid` and from `title` on a `MultimediaGrid`, the image from `image`.
+     */
     fieldMap?: {
         id?: string;
         name?: string;
         image?: string;
     };
-    showVisibilityToggle?: boolean;
-    onClick?: (item: Record<string, unknown>, apiRef: BottomBarContextState['apiRef']) => void;
     /**
-     * Returns custom tooltip content shown on hover for a bottom-bar item. May return any
-     * ReactNode (e.g. multiline JSX). When omitted, the item's name/label is used.
+     * Renders the toggle that collapses and expands the bar.
+     * @default true
+     */
+    showVisibilityToggle?: boolean;
+    /**
+     * Called when an item in the bar is clicked, with the item's row and the API of the grid that owns the
+     * selection. Items are clickable only when it is set.
+     */
+    onClick?: (item: Record<string, unknown>, apiRef: BottomBarApiRef) => void;
+    /**
+     * Returns the tooltip content shown on hover for a bottom-bar item, as any ReactNode; when
+     * omitted, the item's label is used.
      */
     getTooltip?: (row: Record<string, unknown>) => React.ReactNode;
     [key: string]: any;
@@ -31,6 +51,11 @@ export interface BottomBarSlotProps {
 interface BottomBarContainerProps {
     bottomBar?: FunctionComponent<BottomBarSlotProps>;
     slotProps?: BottomBarSlotProps;
+    /**
+     * Prefix for the test ids inside the default bar, which renders none of its own; each item adds
+     * `-item-<rowId>`.
+     */
+    dataTestId?: string;
 }
 
 const defaultSlotProps: BottomBarSlotProps = {
@@ -54,7 +79,7 @@ function mergeSlotProps(defaults: BottomBarSlotProps, overrides?: BottomBarSlotP
     };
 }
 
-function BottomBarContainer({ bottomBar, slotProps }: BottomBarContainerProps): React.JSX.Element | null {
+function BottomBarContainer({ bottomBar, slotProps, dataTestId }: BottomBarContainerProps): React.JSX.Element | null {
     const [isHidden, setIsHidden] = React.useState(true);
     const { bottomBarState, setBottomBarState } = useBottomBarContext();
 
@@ -89,15 +114,15 @@ function BottomBarContainer({ bottomBar, slotProps }: BottomBarContainerProps): 
                     top: '-25px',
                     height: '25px',
                     zIndex: 100,
-                    borderRight: (theme) => `1px solid ${theme.palette.components.dataview.border}`,
-                    borderTop: (theme) => `1px solid ${theme.palette.components.dataview.border}`,
+                    borderRight: (theme) => `1px solid ${theme.palette.divider}`,
+                    borderTop: (theme) => `1px solid ${theme.palette.divider}`,
                     backgroundColor: (theme) => theme.palette.background.default,
                     paddingX: 1,
                     paddingY: '2px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: (theme) => theme.palette.secondary.main,
+                    color: (theme) => theme.palette.text.secondary,
                     textAlign: 'center',
                     boxShadow: '0 -2px 4px rgba(0, 0, 0, 0.1)',
                     cursor: 'pointer',
@@ -106,7 +131,8 @@ function BottomBarContainer({ bottomBar, slotProps }: BottomBarContainerProps): 
                 borderRadius={'0 4px 0 0'}
             >
                 {label}
-                <KeyboardArrowUp
+                <RingLucideIcon
+                    icon={ChevronUp}
                     sx={{
                         transform: isHidden ? 'rotate(180deg)' : 'rotate(0deg)',
                         transition: 'transform 0.3s ease-in-out',
@@ -119,7 +145,7 @@ function BottomBarContainer({ bottomBar, slotProps }: BottomBarContainerProps): 
     return (
         <Box
             sx={{
-                borderTop: (theme) => `1px solid ${theme.palette.components.dataview.border}`,
+                borderTop: (theme) => `1px solid ${theme.palette.divider}`,
                 backgroundColor: (theme) => theme.palette.background.default,
                 position: 'relative',
                 boxShadow: '0 -2px 4px rgba(0, 0, 0, 0.1)',
@@ -130,7 +156,7 @@ function BottomBarContainer({ bottomBar, slotProps }: BottomBarContainerProps): 
                 {bottomBar ? (
                     React.createElement(bottomBar, mergedSlotProps)
                 ) : (
-                    <BottomBar slotProps={mergedSlotProps} />
+                    <BottomBar slotProps={mergedSlotProps} dataTestId={dataTestId} />
                 )}
             </Collapse>
         </Box>

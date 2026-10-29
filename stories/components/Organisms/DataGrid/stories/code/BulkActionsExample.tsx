@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
-import { Delete, Edit } from '@mui/icons-material';
+import { Trash2, Pencil } from 'lucide-react';
 import { RingDataGrid } from '@ringpublishing/mui-components';
 import { dataGridRowsGenerator } from 'RingDataGridHelpers';
 
@@ -46,14 +46,14 @@ export default function BulkActionsExample(): React.JSX.Element {
                         onClick: (params): void => {
                             void params;
                         },
-                        icon: <Delete />,
+                        icon: <Trash2 />,
                     },
                     {
                         tooltip: 'Edit',
                         onClick: (params): void => {
                             void params;
                         },
-                        icon: <Edit />,
+                        icon: <Pencil />,
                     },
                 ]}
                 additionalComponent={

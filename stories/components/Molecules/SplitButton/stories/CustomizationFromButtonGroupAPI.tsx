@@ -4,7 +4,7 @@ import { action } from 'storybook/actions';
 import { SplitButton } from '../../../../../src/index.js';
 import { createCodeStory } from '../../../../helpers.js';
 import defaultArgs from '../common/defaultArgs.js';
-import CustomizationExampleCode from './code/CustomizationExample.tsx?raw';
+import CustomizationFromButtonGroupAPIExampleCode from './code/CustomizationFromButtonGroupAPIExample.tsx?raw';
 
 type Story = StoryObj<typeof SplitButton>;
 
@@ -40,6 +40,6 @@ export const CustomizationFromButtonGroupAPI: Story = {
             context,
             example: <Example {...args} />,
             customProps: {},
-            customCode: CustomizationExampleCode,
+            customCode: CustomizationFromButtonGroupAPIExampleCode,
         }),
 };

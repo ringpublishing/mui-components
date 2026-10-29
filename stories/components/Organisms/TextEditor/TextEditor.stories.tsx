@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
 import { TextEditor } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithAdditionalExtensions } from './stories/WithAdditionalExtensions.js';
-import { WithTwoTexts } from './stories/WithTwoTexts.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithTwoTexts as WithTwoTextsStory } from './stories/WithTwoTexts.js';
+import { WithAdditionalExtensions as WithAdditionalExtensionsStory } from './stories/WithAdditionalExtensions.js';
 import TextEditorMDX from './TextEditor.mdx';
 
 const meta: Meta<typeof TextEditor> = {
@@ -136,4 +136,6 @@ const meta: Meta<typeof TextEditor> = {
 
 export default meta;
 
-export { Default, WithAdditionalExtensions, WithTwoTexts };
+export const Default = DefaultStory;
+export const WithTwoTexts = { ...WithTwoTextsStory, name: 'Switching content' };
+export const WithAdditionalExtensions = { ...WithAdditionalExtensionsStory, name: 'Additional extensions' };

@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Writing E2E tests
 
-UI testing ensures that the front-facing aspect of an application works as intended. They are great tool for catching any regressions.
+UI testing ensures that the front-facing aspect of an application works as intended. UI tests are a great tool for catching regressions.
 
 Ring Publishing uses [Playwright](https://playwright.dev/) as the primary framework for end-to-end UI testing. In recent years,
 it has become the de facto standard for UI testing in the JavaScript ecosystem.
@@ -14,7 +14,7 @@ Playwright allows you to write tests that simulate user interactions with your a
 
 Ring UI Components are meant to provide a coherent set of common building blocks for Ring Publishing developers.
 Therefore, we include a range of `data-testid` attributes in our components to facilitate easier selection of elements during testing.
-Not every component includes `data-testid` attributes. In most cases they are added to components that have some kind of input of other user interaction elements
+Not every component includes `data-testid` attributes. In most cases they are added to components that have inputs or other interactive elements
 that may be hard to locate by other means than `data-testid`.
 
 When writing tests, you should not rely on `data-testid` attributes unless necessary. **When creating locators in your tests,
@@ -24,91 +24,135 @@ We acknowledge that there are cases when using `data-testid` attributes is unavo
 
 ## How are `data-testid` attributes named?
 
-When adding a `data-testid` attribute to a Ring UI Component, we follow a consistent naming convention to ensure clarity and ease of use.
-The general format for naming is as follows:
+When adding a `data-testid` attribute to a Ring UI Component, we follow a consistent naming convention:
+`ring-<component>[-<suffix>]` on the root, `-item-<id>` (or `-item-<index>` where items have no id) on repeated children, and `<owner-id>-…` for anything a component renders on another component's behalf.
+
+An id is built from these parts:
 
 - `ring` - a common prefix for all Ring UI Components
-- `<component-name>` - the name of the component in kebab-case (e.g., `editabletext`, `media`)
-- `<suffix>` - an optional provided by a developer through a common `dataTestIdSuffix` prop.
+- `<component>` - the component name, lower-cased (`editabletext`, `datatoolbar`)
+- `<suffix>` - an optional value set through the common `dataTestIdSuffix` prop.
 - `<element>` - a specific part of the component that a developer may want to locate (e.g., `input`, `button`)
 
 Which in combination results in the following format:
 
 ```
-data-testid="ring-<component-name>[-<suffix>][-<element>]"
+data-testid="ring-<component>[-<suffix>][-<element>]"
 ```
 
-For example, let's consider the `ChipsInput` component may have the following `data-testid` attributes:
+Generated segments, suffix and item ids included, are lower-cased; verbatim overrides are not.
+
+For example, an `Autocomplete` in its `chipsInput` variant renders the following attributes:
 
 ```jsx
-import { ChipsInput } from '@ringpublishing/mui-components';
+import { Autocomplete } from '@ringpublishing/mui-components';
 import { Box } from '@mui/material';
 
 function ExampleComponent() {
     return (
         <Box>
-            <ChipsInput
+            <Autocomplete
+                variant="chipsInput"
                 dataTestIdSuffix="custom-suffix"
                 labels={{
                     title: 'Chips input',
                     inputPlaceholder: 'Insert value and press enter',
-                    alreadyOnList: 'Already on list',
                 }}
-                validationFunction={(value) => {
-                    return !isNaN(parseInt(value.label));
+                validateEntry={(value) => {
+                    return !isNaN(parseInt(value));
                 }}
-                onChange={(value) => console.log(value)}
+                onChange={(event, value) => console.log(value)}
             />
         </Box>
     );
 }
 ```
 
-When rendered and when an element is added the rendered HTML would look like this:
+With one chip added, it renders as follows (classes, styles and icon paths left out):
 
 ```html
-<div data-testid="ring-chipsinput-custom-suffix" aria-label="Already on list">
-    <div>
+<div data-testid="ring-autocomplete-custom-suffix">
+    <div data-testid="ring-autocomplete-custom-suffix-textfield">
         <label data-shrink="true" for=":r5f:" id=":r5f:-label">Chips input</label>
         <div>
-            <div>
-                <div>
-                    <div tabindex="0" role="button" data-testid="ring-chipsinput-custom-suffix-chip-0" aria-label="abc" data-mui-internal-clone-element="true">
-                        <span>abc</span>
-                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CancelIcon">
-                            <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"></path>
-                        </svg>
-                    </div>
-                </div>
+            <div
+                tabindex="-1"
+                role="button"
+                data-item-index="0"
+                data-testid="ring-autocomplete-custom-suffix-chip-0"
+                aria-label="abc"
+                data-mui-internal-clone-element="true"
+            >
+                <span>abc</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="…"></path></svg>
             </div>
-            <input aria-invalid="false" autocomplete="off" id=":r5f:" placeholder="" type="text" aria-autocomplete="list" aria-expanded="false" autocapitalize="none" spellcheck="false" role="combobox" data-testid="ring-chipsinput-custom-suffix-input" value="">
-                <div>
-                    <button tabindex="-1" type="button" aria-label="Clear" title="Clear">
-                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                        </svg>
-                    </button>
-                </div>
-                <fieldset aria-hidden="true">
-                    <legend>
-                        <span>Chips input</span>
-                    </legend>
-                </fieldset>
+            <input
+                aria-invalid="false"
+                autocomplete="off"
+                id=":r5f:"
+                data-testid="ring-autocomplete-custom-suffix-input"
+                aria-autocomplete="list"
+                aria-expanded="false"
+                autocapitalize="none"
+                spellcheck="false"
+                role="combobox"
+                type="text"
+                value=""
+            />
+            <div>
+                <button tabindex="-1" type="button" aria-label="Clear" title="Clear">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="…"></path></svg>
+                </button>
+            </div>
+            <fieldset aria-hidden="true">
+                <legend>
+                    <span>Chips input</span>
+                </legend>
+            </fieldset>
         </div>
     </div>
 </div>
-</div>
 ```
 
-You can notice the following `data-testid` attributes:
+Note the following `data-testid` attributes:
 
-- `data-testid="ring-chipsinput-custom-suffix"` on the root element of the `ChipsInput` component,
-- `data-testid="ring-chipsinput-custom-suffix-chip-0"` on the first chip element within the `ChipsInput`,
-- `data-testid="ring-chipsinput-custom-suffix-input"` on the input element within the `ChipsInput`.
+- `data-testid="ring-autocomplete-custom-suffix"` on the root element of the `Autocomplete` component,
+- `data-testid="ring-autocomplete-custom-suffix-textfield"` on the text field inside it,
+- `data-testid="ring-autocomplete-custom-suffix-chip-0"` on the first chip element within the `Autocomplete`,
+- `data-testid="ring-autocomplete-custom-suffix-input"` on the input element within the `Autocomplete`.
 
-Note that the `dataTestIdSuffix` is optional. If not provided, the `data-testid` attributes would be named without the suffix part, e.g., `data-testid="ring-chipsinput"`.
+Note that the `dataTestIdSuffix` is optional. If not provided, the `data-testid` attributes would be named without the suffix part, e.g., `data-testid="ring-autocomplete"`.
 
-Some Ring UI Component rely on other Ring UI Components internally. In such cases, the `dataTestIdSuffix` prop is passed down to the child components to ensure consistency in naming.
+Ids of components rendered inside another hang off the owner's id (`<owner-id>-menu-item-0`) or reuse its `dataTestIdSuffix` (`SearchBar` → `ring-searchbox[-<suffix>]`).
+
+## Targeting items in list components
+
+`DataGrid`, `MultimediaGrid`, `SimpleTree`, `DataTree`, `TreeView`, `ContentList` and
+`SortableList` expose three levels of `data-testid`:
+
+1. **The component** — `ring-<component>[-<suffix>]`, from the list's own `dataTestIdSuffix`.
+2. **Every item** — `ring-<component>[-<suffix>]-item-<id>`, generated automatically.
+3. **One specific item** — set `dataTestId` on that item to replace its attribute verbatim, or
+   `itemDataTestIdSuffix` to replace only the `item-<id>` segment.
+
+```typescript
+<MultimediaGrid
+    dataTestIdSuffix="gallery"
+    items={[
+        { id: 'a1', title: 'A' }, // ring-multimediagrid-gallery-item-a1
+        { id: 'b2', title: 'B', dataTestId: 'hero-card' }, // hero-card
+        { id: 'c3', title: 'C', itemDataTestIdSuffix: 'featured' }, // ring-multimediagrid-gallery-featured
+    ]}
+/>
+```
+
+When the item objects cannot carry those fields, pass `getItemDataTestId(item, index)` to
+`ContentList`, `MultimediaGrid` or `SortableList` instead (`getRowDataTestId(row, index)` on
+`DataGrid`; the trees have neither) and return `undefined` for any item that should keep its
+default. `index` is the item's position in the flat list — in a grid it counts items, not rows.
+
+Item ids are keyed off each item's own identifier rather than its position, so they survive
+sorting, filtering, paging and virtualization.
 
 ## `data-testid`s available in Ring UI Components
 
@@ -122,7 +166,17 @@ Below is a list of Ring UI Components that include `data-testid` attributes, alo
 - `ring-alert[-<suffix>]-close` - The close button.
 - `ring-alert[-<suffix>]-action` - The action button.
 
+#### `CopyIconButton`
+
+- `ring-copyiconbutton[-<suffix>]` - The button. It also carries `data-copied`: `true` for `copiedForMs` after a
+  successful copy, `false` otherwise.
+
 #### `DatePicker`, `DateTimePicker`, `TimePicker`
+
+- `ring-datepicker[-<suffix>]` / `ring-datetimepicker[-<suffix>]` / `ring-timepicker[-<suffix>]` - The field root.
+- `…[-<suffix>]-clear` - The clear button (when `actions` are provided; `DatePicker`, `DateTimePicker` only).
+- `…[-<suffix>]-actions` - The actions button (when `actions` are provided; `DatePicker`, `DateTimePicker` only).
+- `…[-<suffix>]-menu-item-<index>` - Each item in the actions menu (`DatePicker`, `DateTimePicker` only).
 
 You can use the `data-testid` attribute to locate the component and focus it in order to enter the date/time.
 An example of how it can be implemented is presented in the following code snippet:
@@ -141,11 +195,22 @@ test('Should find and fill DatePicker component', async ({ page }) => {
 });
 ```
 
+#### `FeaturedIcon`
+
+- `ring-featuredicon[-<suffix>]` - The root element of the `FeaturedIcon` component; `dataTestId` (or `data-testid`)
+  replaces it verbatim.
+
 #### `EditableText`
 
+- `ring-editabletext[-<suffix>]` - The root element of the `EditableText` component.
 - `ring-editabletext[-<suffix>]-text` - The displayed text element.
 - `ring-editabletext[-<suffix>]-edit` - The edit button.
 - `ring-editabletext[-<suffix>]-input` - The input element (rendered in edit mode).
+
+#### `Switch`
+
+- `ring-switch[-<suffix>]` - The root element of the `Switch` component.
+- `ring-switch[-<suffix>]-input` - The input element.
 
 #### `TextField`
 
@@ -153,6 +218,10 @@ test('Should find and fill DatePicker component', async ({ page }) => {
 - `ring-textfield[-<suffix>]-input` - The input element within the `TextField` component.
 - `ring-textfield[-<suffix>]-action` - The single action button.
 - `ring-textfield[-<suffix>]-actions` - The actions button.
+- `ring-textfield[-<suffix>]-menu-item-<index>` - Each item in the actions menu.
+
+Passing `dataTestId` (or `data-testid`) to a `TextField` replaces the root id **and** prefixes the input,
+action and menu ids with it, so two fields told apart only by a custom id do not collide.
 
 #### `Tooltip`
 
@@ -168,50 +237,73 @@ test('Should find and fill DatePicker component', async ({ page }) => {
 
 #### `ActionBox`
 
-- `ring-actionbox[-<suffix>]` - The root element of the `ActionBox` component.
-- `ring-actionbox[-<suffix>]-item-<actions-label>` - Each action item within the `ActionBox` component, where `<actions-label>` is derived from the action's label.
+- `ring-actionbox[-<suffix>]` - The root element of a standalone `ActionBox`.
+- `ring-actionbox[-<suffix>]-item-<index>` - Each action item, where `<index>` is the zero-based index of the action.
+
+`dataTestId` (or `data-testid`) replaces the root id verbatim; the items then read `<that id>-item-<index>`.
+
+Each action may override its own attribute with `dataTestId` (used verbatim) or
+`itemDataTestIdSuffix` (replaces the `item-<index>` segment).
+
+**When an `ActionBox` is nested inside another component** (`TextField`, `Autocomplete`, the date
+pickers, `SplitButton`, `MediaCard`, `Media`, `ChipsGroup`, the trees, DataGrid action and combo
+cells, the toolbars, `DataView`), it is namespaced to its owner instead — the ids read
+`<owner-id>[-<control>]-menu` and `<owner-id>[-<control>]-menu-item-<index>`, e.g.
+`ring-splitbutton[-<suffix>]-menu-item-0`. `<control>` is `show-more` on `ChipsGroup`, `sort` on the
+toolbars, `actions` on `DataView` and `more` in a combo cell; the other owners have none. This keeps two
+menus on one page distinct.
 
 #### `Autocomplete`
 
-- `ring-autocomplete[-<suffix>]` - The root element of the `Autocomplete` component. Note that the same `data-testid` is also present on the inner text field, so prefer scoping with `.first()` (or an element selector) when a single match is required.
+- `ring-autocomplete[-<suffix>]` - The root element of the `Autocomplete` component.
+- `ring-autocomplete[-<suffix>]-textfield` - The inner `TextField` wrapper (not rendered in the `filter` variant).
+- `ring-autocomplete[-<suffix>]-input` - The input element.
+- `ring-autocomplete[-<suffix>]-chip-<index>` - Each selected chip of a `multiple` field, keyed by its position in the
+  committed order. Present with and without `sortableChips`, unless `slotProps.chip` sets its own attribute.
+  While a chip is dragged the `DragOverlay` renders it a second time, so for the length of the drag (plus the 180ms
+  drop animation) that id matches two elements — a mid-drag assertion needs `.first()`.
 - `ring-autocomplete[-<suffix>]-action` - The action button (when a single action is provided).
 - `ring-autocomplete[-<suffix>]-actions` - The button that opens the `ActionBox` (when multiple actions are provided).
 - `ring-autocomplete[-<suffix>]-circular-progress` - The loading indicator (when `loading` is set).
-
-The input element does not have its own `data-testid` at the moment.
+- `ring-autocomplete[-<suffix>]-menu-item-<index>` - Each item in the actions menu.
+- `ring-autocomplete[-<suffix>]-menu-list-action-<index>` - Each `menuListActions` button in the list heading.
+- `ring-autocomplete[-<suffix>]-clear` - The clear button (`filter` variant only).
+- `ring-autocomplete[-<suffix>]-popup` - The open/close button (`filter` variant only).
+- `ring-autocomplete[-<suffix>]-search-input` - The search input in the popup (`filter` variant only).
 
 #### `ChipsGroup`
 
 - `ring-chipsgroup[-<suffix>]` - The root element of the `ChipsGroup` component.
 - `ring-chipsgroup[-<suffix>]-show-more` - The "show more" chip.
+- `ring-chipsgroup[-<suffix>]-show-more-menu-item-<index>` - Each chip in the overflow menu.
 - `ring-chipsgroup[-<suffix>]-delete-all` - The "delete all" button.
 - `ring-chipsgroup[-<suffix>]-expandable` - The "expandable" button.
 - `ring-chipsgroup[-<suffix>]-chip-<index>-<position>` - Each chip within the `ChipsGroup` component, where `<index>` is the zero-based index of the chip and `<position>` is either _static_ or _fixed_.
-
-#### `ChipsInput`
-
-- `ring-chipsinput[-<suffix>]` - The root element of the `ChipsInput` component.
-- `ring-chipsinput[-<suffix>]-input` - The input element within the `ChipsInput` component.
-- `ring-chipsinput[-<suffix>]-chip-<index>` - Each chip within the `ChipsInput` component, where `<index>` is the zero-based index of the chip.
 
 #### `Media`
 
 - `ring-media[-<suffix>]` - The root element of the `Media` component.
 - `ring-media[-<suffix>]-actions` - The actions button within the `Media` component.
-- `ring-media[-<suffix>]-icon-placeholder` - The icon placeholder within the `Media` component.
+- `ring-media[-<suffix>]-menu-item-<index>` - Each item in the actions menu.
+- `ring-media[-<suffix>]-icon-placeholder` - The icon placeholder within the `Media` component (a `FeaturedIcon`).
+- `ring-media[-<suffix>]-image` - The image; a button that opens the full-screen preview when `image` is set and `disableFullScreenPreview` is not.
+- `ring-editabletext[-<suffix>]-title` / `ring-editabletext[-<suffix>]-description` - The editable title and
+  description (when `onTitleSubmit` / `onDescriptionSubmit` is set); their parts follow `EditableText`.
+- `ring-lightbox[-<suffix>]` - The full-screen preview; its parts follow `LightBox`.
 
 #### `Placeholder`
 
-- `ring-placeholder-<variant>-[-<suffix>]` - The root element of the `Placeholder` component.
-- `ring-placeholder-<variant>-[-<suffix>]-button-<index>` - Each button within the `Placeholder` component, where `<index>` is the zero-based index of the button.
+- `ring-placeholder[-<suffix>]-<variant>` - The root element of the `Placeholder` component.
+- `ring-placeholder[-<suffix>]-<variant>-button-<index>` - Each button, where `<index>` is the zero-based index of the button.
 
 #### `Ranges`
 
 - `ring-ranges[-<suffix>]` - The root element of the `Ranges` component.
-- `ring-ranges-item-<code>-[-<suffix>]-from` - The "from" input of a specific range item, where `<code>` is the code of the range.
-- `ring-ranges-item-<code>-[-<suffix>]-to` - The "to" input of a specific range item, where `<code>` is the code of the range.
-- `ring-ranges-item-<code>-[-<suffix>]-select-from` - The "from" select of a specific range item, where `<code>` is the code of the range.
-- `ring-ranges-item-<code>-[-<suffix>]-select-to` - The "to" select of a specific range item, where `<code>` is the code of the range.
+- `ring-ranges[-<suffix>]-item-<code>-from` - The "from" input of a range row, where `<code>` is the code of the range.
+- `ring-ranges[-<suffix>]-item-<code>-to` - The "to" input of a range row.
+- `ring-ranges[-<suffix>]-item-<code>-select-from` - The "from" select of a range row.
+- `ring-ranges[-<suffix>]-item-<code>-select-to` - The "to" select of a range row.
+- `ring-autocomplete[-<suffix>][-<code>]-range-select` - The range-picker `Autocomplete` of a range row (`<code>` is absent on the not-yet-chosen row).
 
 Note that the `data-testid` attributes for select inputs are attached to `div` elements that wrap the actual select inputs,
 so when writing tests, you will need to locate the inner element.
@@ -220,8 +312,8 @@ so when writing tests, you will need to locate the inner element.
 
 - `ring-searchbox[-<suffix>]` - The root element of the `SearchBox` component.
 - `ring-searchbox[-<suffix>]-input` - The input element within the `SearchBox` component.
-- `ring-searchbox[-<suffix>]-search` - The search button within the `SearchBox` component.
-- `ring-searchbox[-<suffix>]-clear` - The clear button within the `SearchBox` component.
+- `ring-searchbox[-<suffix>]-search` - The search icon.
+- `ring-searchbox[-<suffix>]-clear` - The clear button.
 
 #### `SearchBar`
 
@@ -229,11 +321,18 @@ so when writing tests, you will need to locate the inner element.
 
 #### `SplitButton`
 
-- `ring-splitbutton[-<suffix>]` - The main button.
+- `ring-splitbutton[-<suffix>]` - The root element of the `SplitButton` component.
+- `ring-splitbutton[-<suffix>]-main` - The main action button.
 - `ring-splitbutton[-<suffix>]-dropdown` - The dropdown button.
+- `ring-splitbutton[-<suffix>]-menu-item-<index>` - Each item in the dropdown menu.
 
 #### `FeatureTooltip`
 
+- `ring-featuretooltip[-<suffix>]` - The anchor element the tooltip is attached to. MUI `Tooltip`
+  clones its child and the child's own props win, so this id is **not** applied when the child
+  carries its own `data-testid`. The content and close ids below are always present — prefer them
+  for asserting that a tooltip opened.
+- `ring-featuretooltip[-<suffix>]-content` - The floating tooltip card.
 - `ring-featuretooltip[-<suffix>]-close` - The close button of the tooltip.
 - `ring-featuretooltip[-<suffix>]-button-primary` - The primary action button of the tooltip.
 - `ring-featuretooltip[-<suffix>]-button-secondary` - The secondary action button of the tooltip.
@@ -242,81 +341,174 @@ so when writing tests, you will need to locate the inner element.
 
 #### `Comments`
 
-- `ring-comments[-<suffix>]-<id>` - The comment element, where `<id>` is the unique identifier of the comment or _new_.
-- `ring-comments[-<suffix>]-<id>-edit` - The edit icon button.
-- `ring-comments[-<suffix>]-<id>-delete` - The delete button.
-- `ring-comments[-<suffix>]-<id>-cancel` - The cancel button.
-- `ring-comments[-<suffix>]-<id>-add` - The cancel button.
-- `ring-comments[-<suffix>]-<id>-text` - The comment's textfield.
+- `ring-comments[-<suffix>]` - The root element of the `Comments` component.
+- `ring-comments[-<suffix>]-item-<id>` - The comment element, where `<id>` is the unique identifier of the comment.
+- `ring-comments[-<suffix>]-item-<id>-edit` - The edit icon button.
+- `ring-comments[-<suffix>]-item-<id>-delete` - The delete button.
+- `ring-comments[-<suffix>]-item-<id>-text` - The edit textarea (in edit mode).
+- `ring-comments[-<suffix>]-item-<id>-edit-actions-add` - The update button (in edit mode).
+- `ring-comments[-<suffix>]-item-<id>-edit-actions-cancel` - The cancel button (in edit mode).
+- `ring-comments[-<suffix>]-text` - The textarea of the create panel.
+- `ring-comments[-<suffix>]-new-add` - The add button of the create panel.
+- `ring-comments[-<suffix>]-new-cancel` - The cancel button of the create panel.
 
-### `ContentList`
+#### `ContentList`
 
 - `ring-contentlist[-<suffix>]` - The root element of the `ContentList` component.
+- `ring-contentlist[-<suffix>]-item-<index>` - Each content section.
+- `ring-contentlist[-<suffix>]-item-<index>-nav` - The matching navigation link in the left column.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<index>` segment.
+- `getItemDataTestId(item, index)` on the list — overrides every item; return `undefined` to keep the default.
 
 #### `DataGrid`
 
+- `ring-datagrid[-<suffix>]` - The root element of the grid.
+- `ring-datagrid[-<suffix>]-item-<rowId>` - Each row, keyed by the row's `id`.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
+- `getRowDataTestId(row, index)` on the grid — overrides every row; return `undefined` to keep the default.
+
+- `ring-datagrid[-<suffix>]-item-<rowId>-<field>` - The contents of a cell rendered by
+  `renderLinkCell`, `renderComboCell` or `renderActionCell`, scoped to its row and column.
+- `ring-datagrid[-<suffix>]-item-<rowId>-<field>-menu-item-<index>` - Each item in an action
+  cell's menu.
+- `ring-datagrid[-<suffix>]-item-<rowId>-<field>-more` - The `+N` overflow chip in a combo cell.
+- `ring-datagrid[-<suffix>]-item-<rowId>-<field>-more-menu-item-<index>` - Each chip in that overflow menu.
+- `ring-datagrid[-<suffix>]-item-<rowId>-<field>-placeholder-icon` - The placeholder of a combo cell without an image
+  (a `FeaturedIcon`).
+
+Row ids are keyed off `row.id`, so they stay stable across sorting, filtering and paging.
+
+The Ring toolbar rendered by `showRingToolbar` is documented under **Toolbar** below.
+
 We do not inject `data-testid` attributes into the DataGrid's column menus. They are well described by ARIA labels which should be preferred when writing tests.
+
+#### Toolbar
+
+The toolbar of `DataGrid` and `MultimediaGrid` (`showRingToolbar`); it inherits the grid's `dataTestIdSuffix`.
+
+- `ring-datatoolbar[-<suffix>]-refresh` - The refresh button.
+- `ring-datatoolbar[-<suffix>]-auto-refresh` - The auto-refresh toggle (`aria-pressed` reflects state).
+- `ring-datatoolbar[-<suffix>]-sort` - The sort button.
+- `ring-datatoolbar[-<suffix>]-sort-select` - The sort-by select.
+- `ring-datatoolbar[-<suffix>]-sort-menu-item-<index>` - Each item in the sort menu.
+- `ring-datatoolbar[-<suffix>]-toggle-left-slot` - The filters toggle.
+- `ring-datatoolbar[-<suffix>]-bulk-item-<index>` - Each bulk-operation button.
+- `ring-datatoolbar[-<suffix>]-bulk-close` - The close-bulk-actions button.
+
+Bulk actions accept `dataTestId` / `itemDataTestIdSuffix` per action, like list items.
 
 #### `Detail`
 
 - `ring-detail[-<suffix>]` - The root element of the `Detail` component.
-- `ring-detail[-<suffix>]-close` - The close button.
-- `ring-detail[-<suffix>]-download-image` - The download image button.
-- `ring-detail[-<suffix>]-zoom-in-image` - The zoom-in image button.
-- `ring-detail[-<suffix>]-bottom-icon-<index>` - Each bottom icon button within the `Detail` component, where `<index>` is the zero-based index of the button.
+- `ring-detail[-<main suffix>]-close` - The close button; takes `main.dataTestIdSuffix`.
+- `ring-detail[-<media suffix>]-download-image` - The download image button; takes `main.mediaProps.dataTestIdSuffix`.
+- `ring-detail[-<media suffix>]-zoom-in-image` - The zoom-in image button; takes `main.mediaProps.dataTestIdSuffix`.
+- `ring-detail[-<media suffix>]-bottom-icon-<index>` - Each bottom icon button, where `<index>` is the zero-based index
+  of the button; takes `main.mediaProps.dataTestIdSuffix`.
 - `ring-detail[-<suffix>]-bottom-action-<index>` - Each bottom action button within the `Detail` component, where `<index>` is the zero-based index of the button.
+
+Children carry the `detail` marker: `ring-editabletext[-<suffix>]-detail-<index>`,
+`ring-editableselect[-<suffix>]-detail-<index>` (+`-edit`), `ring-chipsgroup[-<suffix>]-detail-<index>[-…]`,
+`ring-placeholder[-<suffix>]-detail-empty`. `<index>` counts fields within a section. An editable field's own
+`dataTestIdSuffix` replaces `[-<suffix>]-detail-<index>`.
 
 #### `FileUploader`
 
-- `ring-fileuploader[-<suffix>]` - The root dropzone element of the `FileUploader` component.
+- `ring-fileuploader[-<suffix>]` - The root element of the `FileUploader` component (always present).
+- `ring-fileuploader[-<suffix>]-dropzone` - The dropzone element (rendered when files can still be added).
 - `ring-fileuploader[-<suffix>]-input` - The hidden file input element.
+- `ring-fileuploader[-<suffix>]-placeholder-icon` - The upload icon in the dropzone (a `FeaturedIcon`).
 - `ring-fileuploader[-<suffix>]-browse` - The "Browse" button.
-- `ring-textfield-ring-fileuploader[-<suffix>]-url-input` - The URL input field (when URL upload is enabled). Note: This uses the `TextField` component internally, so the `data-testid` includes the `ring-textfield` prefix.
+- `ring-fileuploader[-<suffix>]-url` - The URL field (when URL upload is enabled).
+- `ring-fileuploader[-<suffix>]-url-input` - The `input` inside it.
+- `ring-fileuploader[-<suffix>]-url-action` - The clear button, shown once a URL is typed.
 - `ring-fileuploader[-<suffix>]-url-submit` - The URL submit button (when URL upload is enabled).
 - `ring-fileuploader[-<suffix>]-expand` - The expand/collapse button for the file list (in multiple file mode).
-- `ring-fileuploader[-<suffix>]-file-<id>` - The container for an individual file item, where `<id>` is the unique identifier of the file.
+- `ring-fileuploader[-<suffix>]-file-<id>` - The container for an individual file item, where `<id>` is the unique identifier of the file, case kept.
 - `ring-fileuploader[-<suffix>]-file-<id>-action` - The custom action button for a specific file (when `action` prop is provided).
 - `ring-fileuploader[-<suffix>]-file-<id>-retry` - The retry button for a failed file upload.
 - `ring-fileuploader[-<suffix>]-file-<id>-remove` - The remove (trash) button for a specific file.
-- `ring-fileuploader[-<suffix>]-file-<id>-input` - The hidden file input for replacing a file (in action mode without custom `onClick`).
+- `ring-fileuploader[-<suffix>]-file-<id>-input` - The hidden file input for replacing a file (when the file has an `action`).
 
-### `Filters`
+#### `Filters`
 
-No `data-testid` attributes are provided for this component.
+- `ring-filterswrapper[-<suffix>]` - The root element of `FiltersWrapper`.
+- `ring-filterswrapper[-<suffix>]-clear` - The clear button (when `withClearButton` and `onClear` are set).
+- `ring-filterchipgroup` - The applied-filter chip strip rendered above `DataGrid` and
+  `MultimediaGrid`; its chips follow the `ChipsGroup` pattern under the `filters` suffix.
 
 #### `LightBox`
 
+- `ring-lightbox[-<suffix>]` - The root element of the `LightBox` component.
+- `ring-lightbox[-<suffix>]-image` - The currently displayed image.
 - `ring-lightbox[-<suffix>]-close` - The close button.
 - `ring-lightbox[-<suffix>]-fullscreen` - The fullscreen button.
-- `ring-lightbox[-<suffix>]-refresh` - The refresh button.
 - `ring-lightbox[-<suffix>]-download` - The download button.
+- `ring-lightbox[-<suffix>]-toggle-detail` - The detail-panel toggle.
 - `ring-lightbox[-<suffix>]-zoom-in` - The zoom-in button.
 - `ring-lightbox[-<suffix>]-zoom-out` - The zoom-out button.
 - `ring-lightbox[-<suffix>]-previous` - The previous button.
 - `ring-lightbox[-<suffix>]-next` - The next button.
-- `ring-lightbox[-<suffix>]-previous-carousel` - The previous carousel button.
-- `ring-lightbox[-<suffix>]-next-carousel` - The next carousel button.
 
 #### `MediaCard`
 
 - `ring-mediacard[-<suffix>]` - The root element of the `MediaCard` component.
 - `ring-mediacard[-<suffix>]-checkbox` - The selection checkbox.
 - `ring-mediacard[-<suffix>]-footer` - The footer section wrapper.
-- `ring-mediacard[-<suffix>]-actions` - The button that opens the `ActionBox`.
+- `ring-mediacard[-<suffix>]-actions` - The button that opens the actions menu.
+- `ring-mediacard[-<suffix>]-menu-item-<index>` - Each item in the actions menu.
+- `ring-mediacard[-<suffix>]-placeholder-icon` - The placeholder shown when the card has no image or its image fails
+  to load (a `FeaturedIcon`).
+
+`dataTestId` (or `data-testid`) replaces the root and prefixes the ids above.
 
 #### `MultimediaGrid`
 
-This component does not include any `data-testid` attributes of its own. However, it adds the `dataTestIdSuffix`
-prop to each `MediaCard` it renders with additional data to identify the index of the card. For example, if the `dataTestIdSuffix` prop is set to `gallery`,
-the `data-testid` attribute next to the actions button of the first element in the first row will be `ring-mediacard-gallery-item-0-1-actions`
+- `ring-multimediagrid[-<suffix>]` - The root element of the grid.
+- `ring-multimediagrid[-<suffix>]-item-<id>` - Each card, keyed by the item's `id`.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
+- `getItemDataTestId(item, index)` on the grid — overrides every card; return `undefined` to keep the default.
+
+Card ids are keyed off `item.id` rather than the card's grid position, so they stay stable
+as the grid virtualizes and reflows.
+
+A card's controls hang off its id: `…-item-<id>-checkbox`, `-footer`, `-actions`, `-menu-item-<index>`,
+`-placeholder-icon`.
 
 #### `SortableList`
 
-No `data-testid` attributes are provided for this component.
+- `ring-sortablelist[-<suffix>]` - The root element of the list.
+- `ring-sortablelist[-<suffix>]-item-<id>` - Each sortable item, keyed by the item's `id`.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
+- `getItemDataTestId(item, index)` on the list — overrides every item; return `undefined` to keep the default.
+
+Item ids follow the item through reordering rather than tracking its position.
 
 #### `TextEditor`
 
-Every toggle button in editor's menu has a `data-testid` attribute.
+- `ring-texteditor[-<suffix>]` - The root element of the editor.
+- `ring-texteditor[-<suffix>]-content` - The editable content area (type into this one).
+- `ring-texteditor[-<suffix>]-menu-heading` - The heading select, overridable via its `dataTestId` prop.
+- `ring-image-node` - The wrapper of an inserted image; it renders an unsuffixed `ring-media`.
+
+Every built-in toggle button in the editor's menu has a `data-testid` attribute. Custom `menuControls` toggles get
+one only through their own `dataTestId`.
 
 - `ring-texteditor[-<suffix>]-menu-bold`
 - `ring-texteditor[-<suffix>]-menu-italic`
@@ -329,32 +521,69 @@ Every toggle button in editor's menu has a `data-testid` attribute.
 
 > Deprecated — prefer `SimpleTree` or `DataTree`.
 
-Items in the `TreeView` have the following `data-testid` attributes:
+The `TreeView` and its items have the following `data-testid` attributes:
 
+- `ring-treeview[-<suffix>]` - The root element of the tree.
+- `ring-treeview[-<suffix>]-item-<id>` - Each item row, keyed by the item's `itemId`.
 - `ring-treeview[-<suffix>]-item-<id>-expand` - The expand button.
 - `ring-treeview[-<suffix>]-item-<id>-collapse` - The collapse button.
 - `ring-treeview[-<suffix>]-item-<id>-refresh` - The refresh button.
-- `ring-treeview[-<suffix>]-item-<id>-actions` - The actions button that opens `ActionBox`.
+- `ring-treeview[-<suffix>]-item-<id>-actions` - The row's actions button.
+- `ring-treeview[-<suffix>]-item-<id>-menu-item-<index>` - Each item in that row's actions menu.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
 
 #### `SimpleTree`
 
-Items in the `SimpleTree` have the following `data-testid` attributes:
+The `SimpleTree` and its items have the following `data-testid` attributes:
 
+- `ring-simpletree[-<suffix>]` - The root element of the tree.
+- `ring-simpletree[-<suffix>]-item-<id>` - Each item row, keyed by the item's `itemId`.
 - `ring-simpletree[-<suffix>]-item-<id>-expand` - The expand button.
 - `ring-simpletree[-<suffix>]-item-<id>-collapse` - The collapse button.
 - `ring-simpletree[-<suffix>]-item-<id>-refresh` - The refresh button (only rendered when a dynamic `loadItems` query fails).
 
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
+
 #### `DataTree`
 
-Items in the `DataTree` have the following `data-testid` attributes:
+The `DataTree` and its items have the following `data-testid` attributes:
 
+- `ring-datatree[-<suffix>]` - The root element of the tree.
+- `ring-datatree[-<suffix>]-item-<id>` - Each item row, keyed by the item's `itemId`.
 - `ring-datatree[-<suffix>]-item-<id>-expand` - The expand button.
 - `ring-datatree[-<suffix>]-item-<id>-collapse` - The collapse button.
 - `ring-datatree[-<suffix>]-item-<id>-refresh` - The refresh button (only rendered when a dynamic `loadItems` query fails).
-- `ring-datatree[-<suffix>]-item-<id>-actions` - The actions button that opens `ActionBox`.
+- `ring-datatree[-<suffix>]-item-<id>-actions` - The row's actions button.
+- `ring-datatree[-<suffix>]-item-<id>-menu-item-<index>` - Each item in that row's actions menu.
+
+Any single item can override its own attribute:
+
+- `dataTestId` on the item — used verbatim, with no `ring-` prefix.
+- `itemDataTestIdSuffix` on the item — replaces only the `item-<id>` segment.
 
 ### Templates
 
 #### `DataView`
 
-No `data-testid` attributes are provided for this component.
+- `ring-dataview[-<suffix>]` - The root element of the template.
+- `ring-dataview[-<suffix>]-actions` - The "more actions" button (when `menuActions` are set).
+- `ring-dataview[-<suffix>]-actions-menu-item-<index>` - Each item in that menu.
+- `ring-dataview[-<suffix>]-toggle-right-slot` - The details-panel toggle.
+- `ring-dataview[-<suffix>]-bottom-bar-item-<rowId>-placeholder-icon` - The placeholder of a selected item without an
+  image in the bottom bar (a `FeaturedIcon`); the row id is lower-cased.
+
+The filters toggle is the grid toolbar's `ring-datatoolbar[-<grid suffix>]-toggle-left-slot` — see **Toolbar** above.
+
+# Auditing stories against the docs
+
+`npm run test:stories:audit` statically checks that every story file is re-exported, rendered with `<Canvas>` in the
+component's MDX, listed in Quick Navigation and paired with its own `stories/code/<Story>Example.tsx`, and it flags
+examples whose props or rendered elements drift from the story. Pass a component name to narrow the scan
+(`npm run test:stories:audit -- Autocomplete`); `--summary` prints only the counts.

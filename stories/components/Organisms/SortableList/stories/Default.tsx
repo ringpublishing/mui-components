@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { Card, CardContent, GridLegacy as Grid, IconButton, Paper, useTheme } from '@mui/material';
-import { MoreVert, LocalCafe } from '@mui/icons-material';
+import { EllipsisVertical, Coffee } from 'lucide-react';
 import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import DefaultExampleCode from './code/DefaultExample.tsx?raw';
@@ -36,22 +36,24 @@ function CustomListItem(props: { item: Item }): React.JSX.Element {
                         </Grid>
                         <Grid item={true} xs={1}>
                             <IconButton
+                                aria-label="Order a coffee"
                                 ref={cafeBtnRef.setRef}
                                 onClick={(event): void => {
                                     action('Cafe button action')(event);
                                 }}
                             >
-                                <LocalCafe />
+                                <Coffee />
                             </IconButton>
                         </Grid>
                         <Grid item={true} xs={2}>
                             <IconButton
+                                aria-label="Item actions"
                                 ref={iconBtnRef.setRef}
                                 onClick={(): void => {
                                     /* noop */
                                 }}
                             >
-                                <MoreVert />
+                                <EllipsisVertical />
                             </IconButton>
                             <ActionBox
                                 actions={[

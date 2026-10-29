@@ -15,7 +15,7 @@ A vertical navigation layout component that displays a list of section headers o
 - **Action support**: Place action buttons or menus in section headers
 - **Alert banners**: Show notifications or warnings above specific sections
 - **Custom styling**: Full control over container and item styles via `sx` props
-- **Keyboard accessible**: Navigate sections via click or programmatic control
+- **Keyboard accessible**: Headers are buttons; Tab to reach, Enter or Space to jump
 
 ## Quick Navigation
 
@@ -35,33 +35,34 @@ The default example demonstrates a complete content list with various section ty
 ## Usage Example
 
 ```typescript
+import { useState } from 'react';
 import { ContentList } from '@ringpublishing/mui-components';
 import { Box, Typography } from '@mui/material';
-import { Settings, Profile, Security } from '@mui/icons-material';
+import { Settings, User, Shield } from 'lucide-react';
 
 function SettingsPage() {
-  const [selectedSection, setSelectedSection] = React.useState(0);
+  const [selectedSection, setSelectedSection] = useState(0);
 
   return (
     <ContentList
       selectedItemIndex={selectedSection}
       onHeaderClick={(item, index) => setSelectedSection(index)}
       listHeader={
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Settings sx={{ mr: 1 }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Settings />
           <Typography variant="h6">Settings</Typography>
         </Box>
       }
       inputData={[
         {
-          header: 'Profile',
-          additionalHeaderData: <Profile />,
-          children: <div>Profile settings content</div>
+          header: 'User',
+          additionalHeaderData: <User />,
+          children: <div>User settings content</div>
         },
         {
-          header: 'Security',
-          additionalHeaderData: <Security />,
-          children: <div>Security settings content</div>
+          header: 'Shield',
+          additionalHeaderData: <Shield />,
+          children: <div>Shield settings content</div>
         }
       ]}
     />
@@ -73,21 +74,22 @@ function SettingsPage() {
 
 The `inputData` prop accepts an array of objects with the following structure:
 
-| Property               | Type        | Description                                                 |
-| ---------------------- | ----------- | ----------------------------------------------------------- |
-| `header`               | `string`    | Section header text (required)                              |
-| `children`             | `ReactNode` | Content displayed in the right panel (required)             |
-| `additionalHeaderData` | `ReactNode` | Icon, badge, or element shown next to header in left nav    |
-| `contentHeaderAction`  | `ReactNode` | Action button or menu shown in section header on right side |
-| `beforeHeaderContent`  | `ReactNode` | Alert or banner shown above the section content             |
-| `itemSx`               | `SxProps`   | Custom styles for the content box                           |
+| Property               | Type        | Description                                                                                                       |
+| ---------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
+| `header`               | `string`    | Section header text (required)                                                                                    |
+| `children`             | `ReactNode` | Content displayed in the right panel (required)                                                                   |
+| `additionalHeaderData` | `ReactNode` | Icon, badge, or element shown next to header in left nav                                                          |
+| `contentHeaderAction`  | `ReactNode` | Action button or menu shown in section header on right side                                                       |
+| `beforeHeaderContent`  | `ReactNode` | Alert or banner shown above the section header in the right panel                                                 |
+| `itemSx`               | `SxProps`   | Custom styles for the content box                                                                                 |
+| `dataTestId`           | `string`    | Replaces the section's `data-testid` (default `ring-contentlist[-<suffix>]-item-<index>`); its header gets `-nav` |
+| `itemDataTestIdSuffix` | `string`    | Replaces the `item-<index>` part of that id                                                                       |
 
 ### Navigation Behavior
 
-- The component automatically scrolls the selected section into view
-- Clicking a header in the left nav selects that section and scrolls to it
+- Clicking a header scrolls its section into view
 - The left nav highlights the currently visible section as you scroll
-- Use `selectedItemIndex` prop to control section selection programmatically
+- `selectedItemIndex` sets the highlighted header; it does not scroll
 - Use `onHeaderClick` callback to respond to section changes
 
 ### Styling Options

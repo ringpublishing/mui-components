@@ -1,9 +1,13 @@
 import type { Meta } from '@storybook/react-vite';
 import { FileUploader, FileUploaderSize } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { UploadFileStates } from './stories/UploadFileStates.js';
-import { UrlUpload } from './stories/UrlUpload.js';
-import { CustomAction } from './stories/CustomAction.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { UploadFileStates as UploadFileStatesStory } from './stories/UploadFileStates.js';
+import { UrlUpload as UrlUploadStory } from './stories/UrlUpload.js';
+import { CustomAction as CustomActionStory } from './stories/CustomAction.js';
+import { CompactLayout as CompactLayoutStory } from './stories/CompactLayout.js';
+import { PodcastEpisode as PodcastEpisodeStory } from './stories/PodcastEpisode.js';
+import { ArticlePhotos as ArticlePhotosStory } from './stories/ArticlePhotos.js';
+import { HowToWireIt as HowToWireItStory } from './stories/HowToWireIt.js';
 import defaultArgs from './common/defaultArgs.js';
 import FileUploaderMdx from './FileUploader.mdx';
 
@@ -51,7 +55,7 @@ const meta = {
                 category: 'content',
                 type: {
                     summary:
-                        '{ dropzone: string; hint?: string; uploadButton: string; description?: string; filesUploaded?: string }',
+                        '{ dropzone: string; hint?: string; uploadButton: string; description?: string; filesUploaded?: string; removeFile?: string; retryFile?: string; clearUrl?: string }',
                 },
             },
         },
@@ -119,6 +123,16 @@ const meta = {
                 type: { summary: '(files: File[]) => void' },
             },
         },
+        onFilesRejected: {
+            description:
+                'Callback fired with the files that were selected or dropped but not taken, each with its reason: ' +
+                'larger than `maxFileSize`, not matching `accept`, or a second file while `multiple` is off. ' +
+                'The accepted files of the same selection still go to `onFilesSelected`.',
+            table: {
+                category: 'callbacks',
+                type: { summary: '(rejections: { file: File; reason: FileUploaderRejectionReason }[]) => void' },
+            },
+        },
         onRemove: {
             description: 'Callback fired when a file is removed from the list',
             table: {
@@ -167,7 +181,7 @@ const meta = {
         },
         dataTestIdSuffix: {
             control: 'text',
-            description: 'Optional suffix for generated test id (base: ring-file-uploader).',
+            description: 'Appended to `ring-fileuploader`; the dropzone is `-dropzone`, the URL field `-url`.',
             table: {
                 category: 'customization',
                 type: { summary: 'string' },
@@ -178,4 +192,11 @@ const meta = {
 
 export default meta;
 
-export { Default, UploadFileStates, UrlUpload, CustomAction };
+export const Default = DefaultStory;
+export const UploadFileStates = { ...UploadFileStatesStory, name: 'Upload file states' };
+export const UrlUpload = { ...UrlUploadStory, name: 'URL upload' };
+export const CustomAction = { ...CustomActionStory, name: 'Custom action' };
+export const CompactLayout = { ...CompactLayoutStory, name: 'Compact layout' };
+export const PodcastEpisode = { ...PodcastEpisodeStory, name: 'In Ring — podcast episode' };
+export const ArticlePhotos = { ...ArticlePhotosStory, name: 'In Ring — article photos' };
+export const HowToWireIt = { ...HowToWireItStory, name: 'How to wire it' };

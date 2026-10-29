@@ -1,7 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
-import { Comments, defaultValues } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { ErrorHandling } from './stories/ErrorHandling.js';
+import { Comments } from '../../../../src/index.js';
+import { defaultValues } from '../../../../src/components/Organisms/Comments/Comments.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { ErrorHandling as ErrorHandlingStory } from './stories/ErrorHandling.js';
 import defaultArgs from './common/defaultArgs.js';
 import CommentsMDX from './Comments.mdx';
 
@@ -171,4 +172,5 @@ const meta = {
 
 export default meta;
 
-export { Default, ErrorHandling };
+export const Default = DefaultStory;
+export const ErrorHandling = { ...ErrorHandlingStory, name: 'Error handling' };

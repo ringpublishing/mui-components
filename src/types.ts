@@ -6,7 +6,7 @@ export interface Action {
      */
     label: string;
     /**
-     * The icon of the action (MUI icon component)
+     * Called when the action is clicked.
      */
     onClick?: ((e?: React.MouseEvent<Element, MouseEvent>) => void) | React.MouseEventHandler;
     /**
@@ -18,7 +18,7 @@ export interface Action {
      */
     disabledReason?: string;
     /**
-     * The icon of the action (MUI icon component)
+     * Icon shown before the label.
      */
     icon?: ReactNode;
 }
@@ -26,5 +26,9 @@ export interface Action {
 export interface Image {
     src: string;
     thumbnailSrc?: string;
+    /**
+     * Text alternative of the image: its `alt` in `Media` and `LightBox`. Describe what the picture shows,
+     * not its file name.
+     */
     title?: string;
 }

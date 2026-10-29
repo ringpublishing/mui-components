@@ -100,12 +100,12 @@ export default function WithCustomMediaSlotExample(): React.JSX.Element {
                 }}
                 descriptionItems={[
                     {
-                        sectionTitle: 'METADATA',
+                        sectionTitle: 'Metadata',
                         fields: [
-                            { name: 'DURATION', value: '00:10' },
-                            { name: 'FORMAT', value: '1080p · H.264' },
+                            { name: 'Duration', value: '00:10' },
+                            { name: 'Format', value: '1080p · H.264' },
                             {
-                                name: 'TAGS',
+                                name: 'Tags',
                                 type: DetailDescriptionItemFieldType.CHIPS,
                                 value: ['preview', 'sample', 'animated'],
                             },

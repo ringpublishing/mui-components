@@ -24,9 +24,9 @@ An inline editable text component that renders as plain text with an edit button
 ## Quick Navigation
 
 - [Default](#default)
-- [With Label](#with-label)
-- [With Submit Failure](#with-submit-failure)
 - [Component API](#component-api)
+- [Label](#label)
+- [Submit failure](#submit-failure)
 
 ## Default
 
@@ -38,13 +38,13 @@ Basic usage: click the edit icon to enter edit mode, modify the text, then click
 
 <ArgTypes />
 
-## With Label
+## Label
 
 The optional `label` prop adds a floating label to the input field in edit mode, providing additional context to the user.
 
 <Canvas of={Stories.WithLabel} />
 
-## With Submit Failure
+## Submit failure
 
 When `onSubmit` returns `false`, the component automatically reverts the text to its previous value. This demonstrates how the component handles API errors or validation failures.
 

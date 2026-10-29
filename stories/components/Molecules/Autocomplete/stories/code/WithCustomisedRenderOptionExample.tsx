@@ -1,7 +1,7 @@
 import React from 'react';
 import { Autocomplete } from '@ringpublishing/mui-components';
 import { Box, Typography } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
+import { Info } from 'lucide-react';
 
 interface Option {
     label: string;
@@ -39,7 +39,7 @@ export default function WithCustomisedRenderOptionExample(): React.JSX.Element {
                             }}
                         >
                             <Typography>{typedOption.label}</Typography>
-                            <InfoOutlined />
+                            <Info />
                         </Box>
                     </li>
                 );

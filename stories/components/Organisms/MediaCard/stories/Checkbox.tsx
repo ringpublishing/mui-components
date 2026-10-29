@@ -5,7 +5,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import CheckboxExampleCode from './code/CheckboxExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof MediaCard>;
 

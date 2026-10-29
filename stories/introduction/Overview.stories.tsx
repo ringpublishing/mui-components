@@ -8,7 +8,8 @@ const meta: Meta<typeof OverviewComponent> = {
     tags: ['!autodocs'],
     parameters: {
         layout: 'fullscreen',
-        // Disable addon tabs — the panel itself is auto-hidden by manager.ts (STORIES_WITHOUT_PANEL).
+        // The panel itself is hidden by manager.ts; the tabs are disabled for any other way in.
+        hidePanel: true,
         controls: { disable: true },
         actions: { disable: true },
         interactions: { disable: true },

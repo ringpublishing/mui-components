@@ -3,7 +3,8 @@
 exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-2491758308 css-z7cjhj-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-1nz0ye8-MuiDataGrid-root"
+    data-testid="ring-datagrid"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 400px; --DataGrid-columnsTotalWidth: 400px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -11,7 +12,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
       role="presentation"
     >
       <div
-        style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px;"
+        style="border-bottom: 1px solid rgb(203, 213, 225); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; flex-shrink: 0; padding: 0px 8px 0px 8px;"
       >
         <div
           class="MuiStack-root css-tmsmf9-MuiStack-root"
@@ -20,7 +21,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
             class="MuiStack-root css-1rlitzi-MuiStack-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-obqxx6-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-gnd3hy-MuiTypography-root"
             >
               Results
               : 
@@ -28,13 +29,14 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
             </span>
           </div>
           <div
-            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-sizeSmall MuiSelect-root css-1tya4ni-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-sizeSmall MuiSelect-root css-1fpngt9-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+            data-testid="ring-datatoolbar-sort-select"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-label="Sort by"
-              class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-14zuiwb-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+              class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-qxthio-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
               role="combobox"
               tabindex="0"
             >
@@ -49,13 +51,21 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-1wdd23g-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
-              data-testid="KeyboardArrowDownIcon"
-              focusable="false"
+              class="lucide lucide-chevron-down MuiSelect-icon MuiSelect-iconStandard css-1wy7mck-MuiNativeSelect-root-MuiSelect-icon"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              style="top: calc(50% - 10px); right: 2px;"
               viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                d="m6 9 6 6 6-6"
+                vector-effect="non-scaling-stroke"
               />
             </svg>
           </div>
@@ -64,51 +74,104 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
           >
             <button
               aria-label="Disable auto refresh"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+              aria-pressed="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1virgtk-MuiButtonBase-root-MuiIconButton-root"
+              data-testid="ring-datatoolbar-auto-refresh"
               tabindex="0"
               title="Disable auto refresh"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="SyncIcon"
-                focusable="false"
+                class="lucide lucide-repeat"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
+                  d="m17 2 4 4-4 4"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M3 11v-1a4 4 0 0 1 4-4h14"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="m7 22-4-4 4-4"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M21 13v1a4 4 0 0 1-4 4H3"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </button>
+            <div
+              aria-orientation="vertical"
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1irngtd-MuiDivider-root"
+              role="separator"
+            />
             <button
               aria-label="Refresh"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+              data-testid="ring-datatoolbar-refresh"
               tabindex="0"
               title="Refresh"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="RefreshIcon"
-                focusable="false"
+                class="lucide lucide-rotate-cw"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
+                  d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M21 3v5h-5"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </button>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-              data-testid="FilterListIcon"
-              focusable="false"
+              class="lucide lucide-list-filter"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
               viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"
+                d="M2 5h20"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M6 12h12"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M9 19h6"
+                vector-effect="non-scaling-stroke"
               />
             </svg>
           </div>
@@ -188,20 +251,32 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="title"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -215,7 +290,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Title column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_m_"
                         tabindex="-1"
@@ -223,13 +298,35 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -293,20 +390,32 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="publicationDate"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -320,7 +429,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Publication date column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_t_"
                         tabindex="-1"
@@ -328,13 +437,35 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -390,6 +521,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                 class="MuiDataGrid-row MuiDataGrid-row--firstVisible"
                 data-id="0"
                 data-rowindex="0"
+                data-testid="ring-datagrid-item-0"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -437,6 +569,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
                 class="MuiDataGrid-row MuiDataGrid-row--lastVisible"
                 data-id="1"
                 data-rowindex="1"
+                data-testid="ring-datagrid-item-1"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -486,7 +619,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-1v1ckry-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-exhgka-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -500,7 +633,7 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-1xl5cpl-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-c0hta5-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -525,9 +658,9 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
       </div>
     </div>
     <style
-      href="/MuiDataGridVariables-2491758308"
+      href="/MuiDataGridVariables-1575782458"
     >
-      .MuiDataGridVariables-2491758308{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(224, 224, 224, 1);--DataGrid-t-color-background-base:#fff;--DataGrid-t-color-background-overlay:#fff;--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(38, 38, 38, 1);--DataGrid-t-color-foreground-muted:rgba(123, 123, 123, 1);--DataGrid-t-color-foreground-accent:rgba(0, 134, 204, 1);--DataGrid-t-color-foreground-disabled:rgba(157, 157, 157, 1);--DataGrid-t-color-foreground-error:rgba(188, 24, 40, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(0, 167, 238, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(196, 196, 196, 1) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:#fff;--DataGrid-t-cell-background-pinned:#fff;--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Arial, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.8125rem / 1.25rem Arial, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1.125rem Arial, sans-serif;--DataGrid-t-typography-font-large:400 0.875rem / 1.5rem Arial, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+      .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
     </style>
   </div>
 </div>
@@ -536,7 +669,8 @@ exports[`RingDataGrid > should render correctly data grid with auto refresh 1`] 
 exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-2491758308 css-z7cjhj-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-1nz0ye8-MuiDataGrid-root"
+    data-testid="ring-datagrid"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 450px; --DataGrid-columnsTotalWidth: 450px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -544,7 +678,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
       role="presentation"
     >
       <div
-        style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px; background-color: rgb(233, 233, 233);"
+        style="border-bottom: 1px solid rgb(203, 213, 225); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; flex-shrink: 0; padding: 0px 8px 0px 8px; background-color: rgb(241, 245, 249);"
       >
         <div
           class="MuiStack-root css-tmsmf9-MuiStack-root"
@@ -554,8 +688,9 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
           >
             <button
               aria-label="Delete"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-18c0wpr-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-7xhm8m-MuiButtonBase-root-MuiIconButton-root"
               data-mui-internal-clone-element="true"
+              data-testid="ring-datatoolbar-bulk-item-0"
               disabled=""
               style="cursor: pointer;"
               tabindex="-1"
@@ -563,20 +698,44 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="DeleteIcon"
-                focusable="false"
+                class="lucide lucide-trash lucide-trash-2"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
+                  d="M10 11v6"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M14 11v6"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M3 6h18"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </button>
             <button
               aria-label="Edit"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-18c0wpr-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-7xhm8m-MuiButtonBase-root-MuiIconButton-root"
               data-mui-internal-clone-element="true"
+              data-testid="ring-datatoolbar-bulk-item-1"
               disabled=""
               style="cursor: pointer;"
               tabindex="-1"
@@ -584,13 +743,24 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="EditIcon"
-                focusable="false"
+                class="lucide lucide-pencil"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="m15 5 4 4"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </button>
@@ -602,7 +772,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
               class="MuiStack-root css-1kq5d21-MuiStack-root"
             >
               <span
-                class="MuiTypography-root MuiTypography-caption css-obqxx6-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-caption css-gnd3hy-MuiTypography-root"
               >
                 0
                 /
@@ -610,19 +780,31 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
               </span>
               <button
                 aria-label="Close bulk actions"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+                data-testid="ring-datatoolbar-bulk-close"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                  data-testid="CloseIcon"
-                  focusable="false"
+                  class="lucide lucide-x"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
                   viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                    d="M18 6 6 18"
+                    vector-effect="non-scaling-stroke"
+                  />
+                  <path
+                    d="m6 6 12 12"
+                    vector-effect="non-scaling-stroke"
                   />
                 </svg>
               </button>
@@ -688,7 +870,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                         class="MuiDataGrid-columnHeaderTitleContainerContent"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-g2rt04-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-hqz3iu-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="Select all rows"
@@ -771,20 +953,32 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="title"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -798,7 +992,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Title column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_1c_"
                         tabindex="-1"
@@ -806,13 +1000,35 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -876,20 +1092,32 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="publicationDate"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -903,7 +1131,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Publication date column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_1j_"
                         tabindex="-1"
@@ -911,13 +1139,35 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -973,6 +1223,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                 class="MuiDataGrid-row MuiDataGrid-row--firstVisible"
                 data-id="0"
                 data-rowindex="0"
+                data-testid="ring-datagrid-item-0"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -993,7 +1244,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                   tabindex="-1"
                 >
                   <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-g2rt04-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-hqz3iu-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                   >
                     <input
                       aria-label="Select row"
@@ -1056,6 +1307,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                 class="MuiDataGrid-row MuiDataGrid-row--lastVisible"
                 data-id="1"
                 data-rowindex="1"
+                data-testid="ring-datagrid-item-1"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -1076,7 +1328,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
                   tabindex="-1"
                 >
                   <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-g2rt04-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiDataGrid-checkboxInput css-hqz3iu-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                   >
                     <input
                       aria-label="Select row"
@@ -1141,7 +1393,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-1v1ckry-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-exhgka-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -1155,7 +1407,7 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-1xl5cpl-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-c0hta5-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -1180,9 +1432,9 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
       </div>
     </div>
     <style
-      href="/MuiDataGridVariables-2491758308"
+      href="/MuiDataGridVariables-1575782458"
     >
-      .MuiDataGridVariables-2491758308{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(224, 224, 224, 1);--DataGrid-t-color-background-base:#fff;--DataGrid-t-color-background-overlay:#fff;--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(38, 38, 38, 1);--DataGrid-t-color-foreground-muted:rgba(123, 123, 123, 1);--DataGrid-t-color-foreground-accent:rgba(0, 134, 204, 1);--DataGrid-t-color-foreground-disabled:rgba(157, 157, 157, 1);--DataGrid-t-color-foreground-error:rgba(188, 24, 40, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(0, 167, 238, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(196, 196, 196, 1) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:#fff;--DataGrid-t-cell-background-pinned:#fff;--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Arial, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.8125rem / 1.25rem Arial, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1.125rem Arial, sans-serif;--DataGrid-t-typography-font-large:400 0.875rem / 1.5rem Arial, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+      .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
     </style>
   </div>
 </div>
@@ -1191,7 +1443,8 @@ exports[`RingDataGrid > should render correctly data grid with bulk actions 1`] 
 exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-2491758308 css-z7cjhj-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-1nz0ye8-MuiDataGrid-root"
+    data-testid="ring-datagrid"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 400px; --DataGrid-columnsTotalWidth: 400px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -1199,7 +1452,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
       role="presentation"
     >
       <div
-        style="border-bottom: 1px solid rgb(217, 217, 217); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; padding: 0px 8px 0px 8px;"
+        style="border-bottom: 1px solid rgb(203, 213, 225); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; flex-shrink: 0; padding: 0px 8px 0px 8px;"
       >
         <div
           class="MuiStack-root css-tmsmf9-MuiStack-root"
@@ -1208,7 +1461,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
             class="MuiStack-root css-1rlitzi-MuiStack-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-obqxx6-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-gnd3hy-MuiTypography-root"
             >
               Results
               : 
@@ -1216,13 +1469,14 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
             </span>
           </div>
           <div
-            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-sizeSmall MuiSelect-root css-1tya4ni-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-sizeSmall MuiSelect-root css-1fpngt9-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+            data-testid="ring-datatoolbar-sort-select"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-label="Sort by"
-              class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-14zuiwb-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+              class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input MuiInputBase-inputSizeSmall css-qxthio-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiInput-input"
               role="combobox"
               tabindex="0"
             >
@@ -1237,13 +1491,21 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-1wdd23g-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
-              data-testid="KeyboardArrowDownIcon"
-              focusable="false"
+              class="lucide lucide-chevron-down MuiSelect-icon MuiSelect-iconStandard css-1wy7mck-MuiNativeSelect-root-MuiSelect-icon"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              style="top: calc(50% - 10px); right: 2px;"
               viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                d="m6 9 6 6 6-6"
+                vector-effect="non-scaling-stroke"
               />
             </svg>
           </div>
@@ -1252,32 +1514,59 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
           >
             <button
               aria-label="Refresh"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+              data-testid="ring-datatoolbar-refresh"
               tabindex="0"
               title="Refresh"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="RefreshIcon"
-                focusable="false"
+                class="lucide lucide-rotate-cw"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
+                  d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M21 3v5h-5"
+                  vector-effect="non-scaling-stroke"
                 />
               </svg>
             </button>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-              data-testid="FilterListIcon"
-              focusable="false"
+              class="lucide lucide-list-filter"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
               viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"
+                d="M2 5h20"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M6 12h12"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M9 19h6"
+                vector-effect="non-scaling-stroke"
               />
             </svg>
           </div>
@@ -1357,20 +1646,32 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="title"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -1384,7 +1685,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Title column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_4_"
                         tabindex="-1"
@@ -1392,13 +1693,35 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -1462,20 +1785,32 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="publicationDate"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -1489,7 +1824,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Publication date column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_b_"
                         tabindex="-1"
@@ -1497,13 +1832,35 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -1559,6 +1916,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                 class="MuiDataGrid-row MuiDataGrid-row--firstVisible"
                 data-id="0"
                 data-rowindex="0"
+                data-testid="ring-datagrid-item-0"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -1606,6 +1964,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
                 class="MuiDataGrid-row MuiDataGrid-row--lastVisible"
                 data-id="1"
                 data-rowindex="1"
+                data-testid="ring-datagrid-item-1"
                 role="row"
                 style="max-height: 52px; min-height: 52px; --height: 52px;"
               >
@@ -1655,7 +2014,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-1v1ckry-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--horizontal css-exhgka-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -1669,7 +2028,7 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
           />
         </div>
         <div
-          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-1xl5cpl-MuiDataGrid-scrollShadow"
+          class="MuiDataGrid-scrollShadow MuiDataGrid-scrollShadow--vertical css-c0hta5-MuiDataGrid-scrollShadow"
           style="--hasScrollStart: 0; --hasScrollEnd: 0;"
         />
         <div
@@ -1694,9 +2053,9 @@ exports[`RingDataGrid > should render correctly data grid with custom toolbar 1`
       </div>
     </div>
     <style
-      href="/MuiDataGridVariables-2491758308"
+      href="/MuiDataGridVariables-1575782458"
     >
-      .MuiDataGridVariables-2491758308{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(224, 224, 224, 1);--DataGrid-t-color-background-base:#fff;--DataGrid-t-color-background-overlay:#fff;--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(38, 38, 38, 1);--DataGrid-t-color-foreground-muted:rgba(123, 123, 123, 1);--DataGrid-t-color-foreground-accent:rgba(0, 134, 204, 1);--DataGrid-t-color-foreground-disabled:rgba(157, 157, 157, 1);--DataGrid-t-color-foreground-error:rgba(188, 24, 40, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(0, 167, 238, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(196, 196, 196, 1) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:#fff;--DataGrid-t-cell-background-pinned:#fff;--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Arial, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.8125rem / 1.25rem Arial, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1.125rem Arial, sans-serif;--DataGrid-t-typography-font-large:400 0.875rem / 1.5rem Arial, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+      .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
     </style>
   </div>
 </div>

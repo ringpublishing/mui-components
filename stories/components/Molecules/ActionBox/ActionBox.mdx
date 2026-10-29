@@ -15,18 +15,25 @@ It supports icons, separators, disabled state handling, and tooltips for disable
 - Conditional actions with disabled state and reasons
 - Organizing functions with separators
 
-ActionBox extends [Popper](https://mui.com/material-ui/react-popper/), so all Popper props are supported.
+ActionBox renders a MUI [Menu](https://mui.com/material-ui/react-menu/) and takes its props, the Popover ones included.
+A click on `anchorEl` opens and closes it, `sx` styles the menu surface and `onClose` gets no arguments.
 
 ## Quick Navigation
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Popper Placement](#popper-placement)
-- [Custom Styling](#custom-styling)
+- [Placement](#placement)
+- [Visible actions count](#visible-actions-count)
+- [Focus after an action](#focus-after-an-action)
+- [Long labels](#long-labels)
+- [Custom styling](#custom-styling)
+- [Accessibility](#accessibility)
 
 ## Default
 
-A basic ActionBox anchored to a button with multiple actions, icons, and separators.
+A basic ActionBox anchored to a button with multiple actions, icons, and separators. Every action is visible;
+the menu scrolls when it is taller than the screen or when `visibleActionsCount` is lower than the number of actions —
+see [Visible actions count](#visible-actions-count).
 
 <Canvas of={Stories.Default} />
 
@@ -34,14 +41,62 @@ A basic ActionBox anchored to a button with multiple actions, icons, and separat
 
 <ArgTypes />
 
-## Popper Placement
+## Placement
 
-Customize the position and portal behavior of the ActionBox using Popper API props.
+The eight `-start` / `-end` values of `placement` open the menu on that side of the trigger, aligned to its start or
+end edge; `top`, `bottom`, `left` and `right` centre it. `auto`, `auto-start` and `auto-end` fall back to the default
+and log a warning. Without `placement` the menu opens below the trigger, aligned to its left edge. `anchorOrigin` and
+`transformOrigin` override `placement`. Open each button below to compare the `-start` / `-end` values.
 
 <Canvas of={Stories.PopperPlacement} />
 
-## Custom Styling
+## Visible actions count
 
-Apply custom colors and background using the `sx` prop for theme-aware styling.
+`visibleActionsCount` sets how many actions fit before the menu scrolls. The height is counted in 36px items (48px on
+small screens), so taller items, at a larger font size or with bigger icons, show fewer of them.
+
+<Canvas of={Stories.VisibleElements} />
+
+## Focus after an action
+
+The menu closes before an action runs and hands focus back to its trigger first, so an action that moves focus keeps
+it. Here a photo placed in an article cannot be published without alt text: **Write alt text** and **Edit caption** in
+the photo's menu put the caret in that field, and the editor types right away. An action that does not move focus
+leaves it on the trigger.
+
+<Canvas of={Stories.FocusAfterAction} />
+
+## Long labels
+
+The menu is at most 320px wide (less on a narrow screen). A longer label ends with an ellipsis and shows in full in a
+tooltip on hover and keyboard focus; a disabled action with a `disabledReason` shows the reason instead. Pass a
+`maxWidth` in `sx` to change the limit.
+
+<Canvas of={Stories.LongLabels} />
+
+## Custom styling
+
+An action's `sx` styles that one item; the ActionBox `sx` styles the menu surface and anything inside it. Three menus
+fitted to where they open:
+
+- **Article card** — the destructive action takes the error colour, and a minimum width keeps a short menu from
+  looking cramped.
+- **Video player** — the whole menu takes the player's dark chrome: surface, text, icons, separator and hover tint.
+- **Table row** — compact `body2` items to match a dense grid, the main action in the accent colour.
+
+Every colour comes from the theme, so light and dark mode need no extra code.
 
 <Canvas of={Stories.CustomStyling} />
+
+## Accessibility
+
+- **Trigger.** When `anchorEl` points at a button (`<button>` or `role="button"`), ActionBox marks it as a menu
+  button: `aria-haspopup="menu"`, plus `aria-expanded="true"` and `aria-controls` (the menu list's id) while the
+  menu is open. The accessible name stays yours — give an icon-only trigger an `aria-label`.
+- **Keyboard.** The menu opens with focus on the first enabled action; arrow keys move between actions,
+  `Enter` / `Space` run the focused one, `Escape` closes the menu and returns focus to the trigger.
+- **Closing.** The menu is modal: a click beside it only closes it and does not reach the element underneath or the
+  card, row or list item the menu belongs to. While it is open the page does not scroll; `disableScrollLock` keeps it
+  scrolling.
+- **Disabled actions** are announced as disabled and cannot be run by click or keyboard. Arrow keys still stop on
+  them, so the `disabledReason` — shown as a tooltip on hover and focus — is read out as the action's description.

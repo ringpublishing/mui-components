@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
 import { Typography } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
-import { WithOverflowAndTooltip } from './stories/WithOverflowAndTooltip.js';
-import { WithCustomTooltip } from './stories/WithCustomTooltip.js';
+import { Default as DefaultStory } from './stories/Default.js';
+import { WithOverflowAndTooltip as WithOverflowAndTooltipStory } from './stories/WithOverflowAndTooltip.js';
+import { WithCustomTooltip as WithCustomTooltipStory } from './stories/WithCustomTooltip.js';
 import TypographyMDX from './Typography.mdx';
 
 const meta: Meta<typeof Typography> = {
@@ -47,4 +47,6 @@ const meta: Meta<typeof Typography> = {
 
 export default meta;
 
-export { Default, WithOverflowAndTooltip, WithCustomTooltip };
+export const Default = DefaultStory;
+export const WithOverflowAndTooltip = { ...WithOverflowAndTooltipStory, name: 'Overflow tooltip' };
+export const WithCustomTooltip = { ...WithCustomTooltipStory, name: 'Overflow tooltip — custom' };

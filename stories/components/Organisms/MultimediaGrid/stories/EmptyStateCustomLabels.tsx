@@ -1,8 +1,13 @@
+import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
+import { createCodeStory } from '../../../../helpers.js';
+import EmptyStateCustomLabelsExampleCode from './code/EmptyStateCustomLabelsExample.tsx?raw';
 import { MultimediaGrid } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
 
 type Story = StoryObj<typeof MultimediaGrid>;
+
+const Example = (args: React.ComponentProps<typeof MultimediaGrid>): React.JSX.Element => <MultimediaGrid {...args} />;
 
 export const EmptyStateCustomLabels: Story = {
     args: {
@@ -18,8 +23,13 @@ export const EmptyStateCustomLabels: Story = {
             },
         },
     },
-    render: (args) => {
-        return <MultimediaGrid {...args} />;
+    render: (args, context) => {
+        return createCodeStory({
+            context,
+            customProps: {},
+            customCode: EmptyStateCustomLabelsExampleCode,
+            example: <Example {...args} />,
+        });
     },
     parameters: {
         withLanguageSupport: true,

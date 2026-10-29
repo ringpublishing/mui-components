@@ -1,4 +1,4 @@
-import { SEPARATOR_ROW_HEIGHT } from '../DataGrid/spacer.js';
+import { SEPARATOR_ROW_HEIGHT, SpacerItem } from '../../internal/spacer.js';
 import { MediaGridItemProps } from './gridApi.js';
 
 export const pixelsToNumber = (pixels: string | number): number => {
@@ -15,15 +15,6 @@ export const pixelsToNumber = (pixels: string | number): number => {
 
     return pixelNumber;
 };
-
-export interface SpacerItem {
-    id: string;
-    separator: {
-        title: string;
-        color: string;
-        icon: React.ReactNode;
-    };
-}
 
 export interface GridLayoutItem {
     type: 'item' | 'spacer';

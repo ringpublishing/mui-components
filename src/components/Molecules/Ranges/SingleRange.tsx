@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
-import { Option, Range, RangeDefinitions, Ranges, RangesLabels } from './Ranges.js';
+import { RangesOption, RangesRange, RangeDefinitions, Ranges, RangesLabels } from './Ranges.js';
 import { Autocomplete } from '../Autocomplete/Autocomplete.js';
 import { WithDataTestIdSuffix } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 
 interface RangeProps extends WithDataTestIdSuffix {
-    range: Range | undefined;
+    range: RangesRange | undefined;
     code: string;
     rangeDefinitions: RangeDefinitions;
     appliedRanges: Ranges;
-    onChangeRange: (key: string, range: Range, isError?: boolean) => void;
+    onChangeRange: (key: string, range: RangesRange, isError?: boolean) => void;
     labels: RangesLabels;
 }
 
@@ -24,8 +24,8 @@ interface RangeDefinitionOption {
 export function SingleRange(props: RangeProps): React.JSX.Element {
     const { range, code, rangeDefinitions, appliedRanges, onChangeRange, labels, dataTestIdSuffix } = props;
 
-    const dataTestIdPrefixWithCode = dataTestIdSuffix ? `${code}-${dataTestIdSuffix}` : code;
-    const dataTestId = useRingDataTestId('ranges-item', dataTestIdPrefixWithCode);
+    const rangeSuffix = [dataTestIdSuffix, code].filter(Boolean).join('-');
+    const dataTestId = useRingDataTestId('Ranges', dataTestIdSuffix, 'item', code);
 
     const maxValue = rangeDefinitions[code]?.rangeBounds?.max;
     const minValue = rangeDefinitions[code]?.rangeBounds?.min;
@@ -41,9 +41,9 @@ export function SingleRange(props: RangeProps): React.JSX.Element {
         required: labels.valueRequiredError,
     };
 
-    const rangeOptions: Option[] | null = rangeDefinitions[code]?.rangeOptions || null;
+    const rangeOptions: RangesOption[] | null = rangeDefinitions[code]?.rangeOptions || null;
 
-    const handleChangeRange = (range: Range, changed?: 'from' | 'to'): void => {
+    const handleChangeRange = (range: RangesRange, changed?: 'from' | 'to'): void => {
         let fromError: ValueError = null;
         let toError: ValueError = null;
 
@@ -91,7 +91,11 @@ export function SingleRange(props: RangeProps): React.JSX.Element {
     return (
         <Box>
             <Autocomplete
-                dataTestIdSuffix={dataTestIdPrefixWithCode}
+                /*
+                 * Namespaced with `range-select` so this nested Autocomplete cannot collide with
+                 * a sibling Autocomplete that happens to share the same suffix.
+                 */
+                dataTestIdSuffix={[rangeSuffix, 'range-select'].filter(Boolean).join('-')}
                 options={Object.keys(rangeDefinitions)
                     .sort((a, b) => (rangeDefinitions[a].order ?? 0) - (rangeDefinitions[b].order ?? 0))
                     .map((key) => ({ label: rangeDefinitions[key].label, code: key }))}

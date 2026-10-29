@@ -1,6 +1,6 @@
 import React from 'react';
 import { MediaCard } from '@ringpublishing/mui-components';
-import { DeleteOutlined, LockOpenOutlined } from '@mui/icons-material';
+import { Trash2, LockOpen } from 'lucide-react';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 export default function StatusLabelsExample(): React.JSX.Element {
@@ -8,7 +8,7 @@ export default function StatusLabelsExample(): React.JSX.Element {
         {
             label: 'Deleted',
             color: 'error' as const,
-            icon: <DeleteOutlined />,
+            icon: <Trash2 />,
             key: 'test-deleted',
         },
         {
@@ -19,13 +19,13 @@ export default function StatusLabelsExample(): React.JSX.Element {
         {
             label: 'J. Zatrzymałowski',
             color: 'error' as const,
-            icon: <LockOpenOutlined />,
+            icon: <LockOpen />,
             tip: 'This resource is locked by J. Zatrzymałowski',
         },
         {
             label: 'New',
             color: 'primary' as const,
-            icon: <LockOpenOutlined />,
+            icon: <LockOpen />,
             showOnHover: true,
         },
     ];

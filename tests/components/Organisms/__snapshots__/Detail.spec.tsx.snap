@@ -6,7 +6,7 @@ exports[`Detail > DescriptionField > should render correctly 1`] = `
     class="MuiBox-root css-2imjyh"
   >
     <span
-      class="MuiTypography-root MuiTypography-label css-cqjkmn-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-caption css-alzxi6-MuiTypography-root"
     >
       Test Field
     </span>
@@ -33,20 +33,29 @@ exports[`Detail > DetailMain > should have a close button if onCloseClick is set
     >
       <button
         aria-label="Close"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-j2qt72-MuiButtonBase-root-MuiIconButton-root"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-7pm78n-MuiButtonBase-root-MuiIconButton-root"
         data-testid="ring-detail-close"
         tabindex="0"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-          data-testid="CloseOutlinedIcon"
-          focusable="false"
+          class="lucide lucide-x"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
           viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            d="M18 6 6 18"
+          />
+          <path
+            d="m6 6 12 12"
           />
         </svg>
       </button>
@@ -75,15 +84,16 @@ exports[`Detail > EditableField > should render correctly 1`] = `
     class="MuiStack-root css-1hls35x-MuiStack-root"
   >
     <span
-      class="MuiTypography-root MuiTypography-label css-cqjkmn-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-caption css-alzxi6-MuiTypography-root"
     >
       Test Field
     </span>
     <div
-      class="MuiBox-root css-81vj86"
+      class="MuiBox-root css-u7hsj1"
     >
       <div
         class="ring-editabletext MuiBox-root css-ejgtp3"
+        data-testid="ring-editabletext"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 css-1pzu09r-MuiTypography-root"
@@ -93,23 +103,35 @@ exports[`Detail > EditableField > should render correctly 1`] = `
         </p>
         <button
           aria-label="Edit"
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-2mkcbt-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e0mpnn-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-            data-testid="EditOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-94kk3y"
           >
-            <path
-              d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
-            />
-          </svg>
-           
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-pencil"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+              />
+              <path
+                d="m15 5 4 4"
+              />
+            </svg>
+          </span>
         </button>
       </div>
     </div>
@@ -120,14 +142,14 @@ exports[`Detail > EditableField > should render correctly 1`] = `
 exports[`Detail > should render correctly 1`] = `
 <div>
   <div
-    class="ring-detail MuiBox-root css-cpuq89"
+    class="ring-detail MuiBox-root css-186v5rg"
     data-testid="ring-detail"
   >
     <div
       class="MuiBox-root css-1yvzp6t"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-en36hu-MuiPaper-root-MuiCard-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1dmagg0-MuiPaper-root-MuiCard-root"
         data-testid="ring-media"
         style="--Paper-shadow: none;"
       >
@@ -138,14 +160,16 @@ exports[`Detail > should render correctly 1`] = `
             class="MuiBox-root css-79elbk"
           >
             <div
-              class="css-yb3dvp"
+              class="css-oe6yyn"
             >
               <div
                 class="css-l9y6au"
               >
                 <img
-                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-p029uz-MuiCardMedia-root"
+                  alt=""
+                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-3kxxk8-MuiCardMedia-root"
                   data-first-child=""
+                  data-testid="ring-media-image"
                   draggable="false"
                   src="url"
                 />
@@ -165,7 +189,7 @@ exports[`Detail > should render correctly 1`] = `
         >
           <button
             aria-label="Test Tooltip"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             data-testid="ring-detail-bottom-icon-0"
             tabindex="0"
@@ -181,39 +205,77 @@ exports[`Detail > should render correctly 1`] = `
         >
           <button
             aria-label="Download image"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-download-image"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-              data-testid="DownloadOutlinedIcon"
-              focusable="false"
+              class="lucide lucide-download"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M19 9h-4V3H9v6H5l7 7zm-8 2V5h2v6h1.17L12 13.17 9.83 11zm-6 7h14v2H5z"
+                d="M12 15V3"
+              />
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              />
+              <path
+                d="m7 10 5 5 5-5"
               />
             </svg>
           </button>
           <button
             aria-label="Zoom in"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-13grmf1-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-zoom-in-image"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-              data-testid="ZoomInOutlinedIcon"
-              focusable="false"
+              class="lucide lucide-zoom-in"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14m.5-7H9v2H7v1h2v2h1v-2h2V9h-2z"
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+              />
+              <line
+                x1="21"
+                x2="16.65"
+                y1="21"
+                y2="16.65"
+              />
+              <line
+                x1="11"
+                x2="11"
+                y1="8"
+                y2="14"
+              />
+              <line
+                x1="8"
+                x2="14"
+                y1="11"
+                y2="11"
               />
             </svg>
           </button>
@@ -224,52 +286,74 @@ exports[`Detail > should render correctly 1`] = `
       >
         <button
           aria-label="Close"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-j2qt72-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-7pm78n-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-detail-close"
           tabindex="0"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-            data-testid="CloseOutlinedIcon"
-            focusable="false"
+            class="lucide lucide-x"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
             viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              d="M18 6 6 18"
+            />
+            <path
+              d="m6 6 12 12"
             />
           </svg>
         </button>
       </div>
       <div
         class="ring-editabletext MuiBox-root css-g9pmgs"
+        data-testid="ring-editabletext"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-1c4rqv6-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-hw3vvs-MuiTypography-root"
           data-testid="ring-editabletext-text"
         >
           Test Title
         </p>
         <button
           aria-label="Edit"
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e4yi6w-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
-            data-testid="EditOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <span
+            class="ring-lucide-icon MuiBox-root css-94kk3y"
           >
-            <path
-              d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
-            />
-          </svg>
-           
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-pencil"
+              fill="none"
+              height="1em"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+              />
+              <path
+                d="m15 5 4 4"
+              />
+            </svg>
+          </span>
         </button>
       </div>
     </div>
@@ -289,7 +373,7 @@ exports[`Detail > should render correctly 1`] = `
         class="MuiStack-root css-axwy7e-MuiStack-root"
       >
         <span
-          class="MuiTypography-root MuiTypography-headline2 css-txclab-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle2 css-5lyjhh-MuiTypography-root"
         >
           Test Section
         </span>
@@ -297,66 +381,102 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-fmfw5r-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-label css-1xwmkm9-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
           >
             Test Field
           </span>
           <div
-            class="MuiBox-root css-k5fx5e"
+            class="MuiBox-root css-111rbps"
           >
-            <span
-              class="MuiTypography-root MuiTypography-caption css-1upf77x-MuiTypography-root"
+            <div
+              class="MuiBox-root css-1mznq4u"
             >
-              Test Value
-            </span>
+              <span
+                class="MuiTypography-root MuiTypography-caption css-8yuths-MuiTypography-root"
+              >
+                Test Value
+              </span>
+            </div>
           </div>
         </div>
         <div
           class="MuiStack-root css-fmfw5r-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-label css-1xwmkm9-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
           >
             icons
           </span>
           <div
-            class="MuiBox-root css-k5fx5e"
+            class="MuiBox-root css-111rbps"
           >
-            <span
-              class="MuiTypography-root MuiTypography-caption css-1upf77x-MuiTypography-root"
-            />
             <div
-              class="MuiBox-root css-ke5m7n"
+              class="MuiBox-root css-1mznq4u"
             >
+              <span
+                class="MuiTypography-root MuiTypography-caption css-8yuths-MuiTypography-root"
+              />
               <div
-                class="MuiBox-root css-1pg8bi"
+                class="MuiBox-root css-1c4cdoc"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                  data-testid="WebIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <div
+                  class="MuiBox-root css-ttufee"
                 >
-                  <path
-                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m-5 14H4v-4h11zm0-5H4V9h11zm5 5h-4V9h4z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="MuiBox-root css-1pg8bi"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                  data-testid="PublicIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-globe"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                    />
+                    <path
+                      d="M2 12h20"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-ttufee"
                 >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39"
-                  />
-                </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-globe"
+                    fill="none"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path
+                      d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                    />
+                    <path
+                      d="M2 12h20"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
@@ -365,41 +485,54 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-1hls35x-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-label css-1pcf49l-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-1ptdqxw-MuiTypography-root"
           >
             Editable Field
           </span>
           <div
-            class="MuiBox-root css-81vj86"
+            class="MuiBox-root css-u7hsj1"
           >
             <div
               class="ring-editabletext MuiBox-root css-ejgtp3"
+              data-testid="ring-editabletext-detail-2"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1c4rqv6-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-hw3vvs-MuiTypography-root"
                 data-testid="ring-editabletext-detail-2-text"
               >
                 Editable value
               </p>
               <button
                 aria-label="Edit"
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-56hrob-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e4yi6w-MuiButtonBase-root-MuiIconButton-root"
                 data-testid="ring-editabletext-detail-2-edit"
                 tabindex="0"
                 type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
-                  data-testid="EditOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <span
+                  class="ring-lucide-icon MuiBox-root css-94kk3y"
                 >
-                  <path
-                    d="m14.06 9.02.92.92L5.92 19H5v-.92zM17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z"
-                  />
-                </svg>
-                 
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-pencil"
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                    />
+                    <path
+                      d="m15 5 4 4"
+                    />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
@@ -408,7 +541,7 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiBox-root css-2imjyh"
         >
           <span
-            class="MuiTypography-root MuiTypography-label css-1pcf49l-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-1ptdqxw-MuiTypography-root"
           >
             Description Field
           </span>
@@ -416,7 +549,7 @@ exports[`Detail > should render correctly 1`] = `
             class="MuiBox-root css-tcarxj"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-1upf77x-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-dbt03u-MuiTypography-root"
             >
               Description value
             </span>
@@ -426,12 +559,12 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-fmfw5r-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-label css-1xwmkm9-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
           >
             Chips Field
           </span>
           <div
-            class="MuiBox-root css-k5fx5e"
+            class="MuiBox-root css-111rbps"
           >
             <div
               class="MuiBox-root css-1jf6i0q"
@@ -441,37 +574,42 @@ exports[`Detail > should render correctly 1`] = `
                 data-testid="ring-chipsgroup-detail-4"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1gi5unu-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-cm73d9-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-chip-0-fixed"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-4motx5-MuiChip-label"
                   >
                     chip1
                   </span>
                 </div>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1gi5unu-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-cm73d9-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-chip-1-fixed"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-4motx5-MuiChip-label"
                   >
                     chip2
                   </span>
                 </div>
                 <div
                   aria-haspopup="true"
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-es21o7-MuiButtonBase-root-MuiChip-root"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-outlinedDefault css-jntt0s-MuiButtonBase-root-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-expandable"
                   id="chips-button"
                   role="button"
                   tabindex="0"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-9a66fp-MuiChip-label"
                   >
-                    +2
+                    <span
+                      class="MuiBox-root css-16ttdq5"
+                    >
+                      +
+                    </span>
+                    2
                   </span>
                 </div>
               </div>
@@ -495,13 +633,13 @@ exports[`Detail > should render correctly 1`] = `
           class="MuiStack-root css-1gi1ppv-MuiStack-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1s71c2p-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-obgi88-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-detail-bottom-action-0"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1v1j2p3-MuiButton-startIcon"
             >
               <div>
                 Test Icon
@@ -532,7 +670,7 @@ exports[`Detail > should show placeholder when empty is true 1`] = `
   >
     <div
       class="MuiStack-root css-f3a0ab-MuiStack-root"
-      data-testid="ring-placeholder-empty-detail"
+      data-testid="ring-placeholder-detail-empty"
     >
       <div
         class="MuiBox-root css-co4xce"
@@ -546,7 +684,7 @@ exports[`Detail > should show placeholder when empty is true 1`] = `
         class="MuiStack-root css-t66xbi-MuiStack-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-mwjvzk-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-14q3lz5-MuiTypography-root"
         >
           Select an item to view its details
         </p>

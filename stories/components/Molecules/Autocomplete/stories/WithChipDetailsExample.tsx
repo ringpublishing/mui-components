@@ -1,5 +1,5 @@
-import { Article, CalendarMonth, OpenInNew, People, Verified } from '@mui/icons-material';
 import { Box, Button, Chip, ClickAwayListener, Divider, Paper, Popper, Stack, Typography } from '@mui/material';
+import { BadgeCheck, CalendarDays, ExternalLink, FileText, Users } from 'lucide-react';
 import { Autocomplete } from '../../../../../src/index.js';
 import React from 'react';
 
@@ -71,10 +71,14 @@ function OptionChip({ option, label, chipProps }: OptionChipProps): React.JSX.El
                                         </Typography>
                                     </Box>
                                     <Stack direction="row" spacing={1} alignItems="center">
-                                        <Verified
-                                            color={option.status === 'Active' ? 'success' : 'warning'}
-                                            fontSize="small"
-                                        />
+                                        <Box
+                                            sx={{
+                                                color: option.status === 'Active' ? 'success.main' : 'warning.main',
+                                                display: 'inline-flex',
+                                            }}
+                                        >
+                                            <BadgeCheck />
+                                        </Box>
                                         <Typography variant="caption">{option.status}</Typography>
                                     </Stack>
                                 </Stack>
@@ -87,7 +91,9 @@ function OptionChip({ option, label, chipProps }: OptionChipProps): React.JSX.El
 
                             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <People color="action" fontSize="small" />
+                                    <Box sx={{ color: 'text.secondary', display: 'inline-flex' }}>
+                                        <Users />
+                                    </Box>
                                     <Box>
                                         <Typography color="text.secondary" variant="caption">
                                             Monthly readers
@@ -96,7 +102,9 @@ function OptionChip({ option, label, chipProps }: OptionChipProps): React.JSX.El
                                     </Box>
                                 </Stack>
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <Article color="action" fontSize="small" />
+                                    <Box sx={{ color: 'text.secondary', display: 'inline-flex' }}>
+                                        <FileText />
+                                    </Box>
                                     <Box>
                                         <Typography color="text.secondary" variant="caption">
                                             Content type
@@ -105,7 +113,9 @@ function OptionChip({ option, label, chipProps }: OptionChipProps): React.JSX.El
                                     </Box>
                                 </Stack>
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <CalendarMonth color="action" fontSize="small" />
+                                    <Box sx={{ color: 'text.secondary', display: 'inline-flex' }}>
+                                        <CalendarDays />
+                                    </Box>
                                     <Box>
                                         <Typography color="text.secondary" variant="caption">
                                             Last published
@@ -120,7 +130,7 @@ function OptionChip({ option, label, chipProps }: OptionChipProps): React.JSX.El
                                     Close
                                 </Button>
                                 <Button
-                                    endIcon={<OpenInNew />}
+                                    endIcon={<ExternalLink />}
                                     size="small"
                                     variant="contained"
                                     onClick={(): void => {

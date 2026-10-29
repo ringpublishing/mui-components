@@ -21,8 +21,8 @@ Key features:
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Initial State](#with-initial-state)
-- [With Api Ref](#with-api-ref)
+- [Initial state](#initial-state)
+- [Control via apiRef](#control-via-apiref)
 
 ## Default
 
@@ -34,13 +34,13 @@ The default Ranges configuration showing all three metric types: numeric ranges 
 
 <ArgTypes />
 
-## With Initial State
+## Initial state
 
 Ranges pre-populated with an initial state. In this example, the `imagesCount` range is pre-set to 10–50 and `charactersCount` starts from 1K. Use the `initialState` prop to restore previously saved filter configurations.
 
 <Canvas of={Stories.WithInitialState} />
 
-## With Api Ref
+## Control via apiRef
 
 Demonstrates programmatic control of the Ranges component via the `apiRef` prop. The `RangesApiRef` interface exposes three methods:
 

@@ -1,37 +1,33 @@
 import React, { useState, useCallback, useId, useMemo } from 'react';
 import classNames from 'classnames';
 import { SimpleTreeView } from '@mui/x-tree-view';
-// Namespace import (`import * as`) so this file compiles against the
-// optional-peer-dep stub at the consumer's build time when
-// `@tanstack/react-query` isn't installed. See `treeQueryClient.ts` for
-// the full rationale.
-import * as ReactQuery from '@tanstack/react-query';
-import type { QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Box, Theme, Typography } from '@mui/material';
 
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
-import { useTreePersistence } from '../treeQueryClient.js';
-import { filterTreeItems, readLocalStorage, useTreeExpansion, useWriteTreeState } from '../treeShared.js';
+import { useTreePersistence } from '../../internal/tree/treeQueryClient.js';
+import {
+    filterTreeItems,
+    getDndAccessibilityContainer,
+    readLocalStorage,
+    useTreeExpansion,
+    useWriteTreeState,
+} from '../../internal/tree/treeShared.js';
 import type { DataTreeItem, DataTreeProps } from './DataTree.js';
 import { DataTreeItemDynamicComponent } from './DataTreeItemDynamic.js';
 
 /**
- * Full DataTree implementation: TanStack Query–driven dynamic loading,
- * `QueryClientProvider`, optional cache hydration / persistence, plus the
- * existing DnD machinery for reorder + drop-in.
- *
- * This module is the only file in `DataTree/` that imports
- * `@tanstack/react-query`. It is loaded via `React.lazy(...)` from
- * `DataTree.tsx` and only when at least one tree item exposes `loadItems`.
+ * Full DataTree implementation: TanStack Query dynamic loading, `QueryClientProvider`, optional
+ * cache persistence and the drag&drop machinery for reorder and drop-in. Registered by
+ * `enableTreeDynamicLoading()` and loaded lazily from `DataTree.tsx` when an item exposes `loadItems`.
  */
 
 const DROP_LINE_TOP = '43px';
 const DROP_LINE_HEIGHT = '2px';
 const DROP_LINE_DOT_SIZE = '8px';
-const SEARCH_BOX_HEIGHT = '40px';
-const SEARCH_BOX_BORDER_RADIUS = '4px';
 const COLUMN_HEADERS_PADDING_LEFT = '42px';
 const LABEL_COLUMN_BASE_WIDTH = 320;
 const NEST_INDENT = 32;
@@ -144,7 +140,7 @@ interface Collision {
     };
 }
 
-function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): React.JSX.Element {
+function DataTreeDynamic(props: DataTreeProps): React.JSX.Element {
     const {
         items,
         columns,
@@ -157,6 +153,7 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
         onDropIn,
         dragAndDropTooltipTitle,
         dragAndDropTooltipPlacement = 'top',
+        rowActionsAriaLabel,
         withSearch = false,
         searchDebounceTime = 500,
         sx,
@@ -170,6 +167,8 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
         dataTestIdSuffix,
     } = props;
 
+    const dataTestId = useRingDataTestId('DataTree', dataTestIdSuffix);
+
     const generatedId = useId();
     const instanceId = queryClientFromProps !== undefined ? (queryKeyPrefix ?? generatedId) : '';
 
@@ -180,6 +179,8 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
     const { queryClient, stateStorageKey } = useTreePersistence({
         cacheKey: persistence?.cacheKey,
         queryClientFromProps,
+        queryKeyRoot: 'dataTreeItem',
+        instanceId,
     });
 
     const [query, setQuery] = useState('');
@@ -330,8 +331,9 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
     );
 
     return (
-        <ReactQuery.QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
             <SimpleTreeView
+                data-testid={dataTestId}
                 expansionTrigger="iconContainer"
                 expandedItems={expandedItems}
                 checkboxSelection={onCheckboxChange !== undefined}
@@ -380,11 +382,7 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
                         defaultValue={''}
                         searchFunc={(q): void => setQuery(q)}
                         debounceTime={searchDebounceTime}
-                        sx={{
-                            height: SEARCH_BOX_HEIGHT,
-                            borderRadius: SEARCH_BOX_BORDER_RADIUS,
-                            marginY: 1,
-                        }}
+                        sx={{ marginY: 1 }}
                         labels={{ placeholder: searchPlaceholder }}
                     />
                 )}
@@ -418,6 +416,7 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
                     </Box>
                 )}
                 <DndContext
+                    accessibility={{ container: getDndAccessibilityContainer() }}
                     sensors={onDragAndDropEnd === undefined ? [] : sensors}
                     onDragMove={(e): void => {
                         setIsDragging(true);
@@ -485,6 +484,7 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
                                 dragAndDropTooltipTitle={dragAndDropTooltipTitle}
                                 searchQuery={query}
                                 dragAndDropTooltipPlacement={dragAndDropTooltipPlacement}
+                                rowActionsAriaLabel={rowActionsAriaLabel}
                                 isDragging={isDragging}
                                 dropLineUnderId={dropLineUnderId}
                                 dropInId={dropInId}
@@ -495,7 +495,7 @@ function DataTreeDynamic(props: DataTreeProps & { queryClient?: QueryClient }): 
                     </SortableContext>
                 </DndContext>
             </SimpleTreeView>
-        </ReactQuery.QueryClientProvider>
+        </QueryClientProvider>
     );
 }
 

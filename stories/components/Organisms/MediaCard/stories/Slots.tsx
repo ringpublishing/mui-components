@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react-vite';
-import { VideocamOutlined } from '@mui/icons-material';
+import { Video } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import SlotsExampleCode from './code/SlotsExample.tsx?raw';
 import { MediaCard } from '../../../../../src/index.js';
@@ -25,7 +25,7 @@ export const Slots: Story = {
                 </video>
             ),
         },
-        iconPlaceholder: <VideocamOutlined />,
+        iconPlaceholder: <Video />,
         objectFit: 'cover',
         ratio: '3/2',
     },

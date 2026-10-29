@@ -8,9 +8,16 @@ import {
     globalDynamicItemsCache,
     getExpandedItemIds,
 } from './TreeView.js';
-import { TreeViewItemComponent } from './TreeViewItem.js';
+import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import {
+    TreeViewDynamicItemsCache,
+    TreeViewDynamicItemsCacheContext,
+    TreeViewExpansionRequest,
+    TreeViewExpansionRequestContext,
+    TreeViewItemComponent,
+} from './TreeViewItem.js';
 import { useMemo, useState, useEffect } from 'react';
-import { SearchBox } from '../../Molecules/SearchBox/SearchBox.js';
+import { SearchBoxField } from '../../Molecules/SearchBox/SearchBox.js';
 
 export interface CompactTreeViewProps extends CommonTreeViewProps {
     variant: 'compact';
@@ -28,6 +35,8 @@ export const CompactTreeView = (props: CompactTreeViewProps): React.JSX.Element 
         onSelectedItemsChange,
         dataTestIdSuffix,
     } = props;
+
+    const dataTestId = useRingDataTestId('TreeView', dataTestIdSuffix);
     const [search, setSearch] = useState('');
     const [expandedItems, setExpandedItems] = useState<string[]>(getExpandedItemIds(items));
     const filteredItems = useMemo(
@@ -36,6 +45,8 @@ export const CompactTreeView = (props: CompactTreeViewProps): React.JSX.Element 
     );
     const [itemsExpandedBeforeSearch, setItemsExpandedBeforeSearch] = useState(expandedItems);
     const [internalSelectedItem, setInternalSelectedItem] = useState<string | null>(null);
+    const [expansionRequest, setExpansionRequest] = useState<TreeViewExpansionRequest | null>(null);
+    const [dynamicItemsCache] = useState<TreeViewDynamicItemsCache>(() => new Map());
 
     const effectiveSelectedItem = selectedItems !== undefined ? selectedItems[0] || null : internalSelectedItem;
 
@@ -75,47 +86,59 @@ export const CompactTreeView = (props: CompactTreeViewProps): React.JSX.Element 
 
     return (
         <SimpleTreeView
+            data-testid={dataTestId}
             expansionTrigger="iconContainer"
             expandedItems={expandedItems}
             selectedItems={effectiveSelectedItem}
             onSelectedItemsChange={(e, itemId): void => handleSelectionChange(itemId)}
-            onItemExpansionToggle={(e, itemId): void => handleExpandToggle(itemId)}
+            onItemExpansionToggle={(e, itemId, isExpanded): void => {
+                if (isExpanded) {
+                    setExpansionRequest({ itemId });
+                }
+
+                handleExpandToggle(itemId);
+            }}
             onItemClick={(e, itemId): void => {
                 e.preventDefault();
                 onClickRow?.(itemId);
             }}
         >
             {withSearch && (
-                <SearchBox
+                <SearchBoxField
                     defaultValue={''}
                     searchFunc={setSearch}
                     debounceTime={searchDebounceTime}
+                    isBorderless={true}
                     sx={{
-                        height: '40px',
-                        borderRadius: '4px',
                         marginY: 1,
-                        border: 'none',
                         paddingLeft: '8px',
+                        '& .ring-lucide-icon': {
+                            fontSize: '18px',
+                        },
                     }}
                     labels={{ placeholder: searchPlaceholder }}
                     dataTestIdSuffix={dataTestIdSuffix}
                 />
             )}
-            {filteredItems.map((item, index) => (
-                <TreeViewItemComponent
-                    setExpandedItems={setExpandedItems}
-                    currentSelectedItem={effectiveSelectedItem || ''}
-                    dragAndDropTooltipPlacement={undefined}
-                    expandedItems={expandedItems}
-                    order={[index]}
-                    variant="compact"
-                    key={item.itemId}
-                    {...item}
-                    isSearchActive={search !== ''}
-                    searchQuery={search}
-                    dataTestIdSuffix={dataTestIdSuffix}
-                />
-            ))}
+            <TreeViewDynamicItemsCacheContext.Provider value={dynamicItemsCache}>
+                <TreeViewExpansionRequestContext.Provider value={expansionRequest}>
+                    {filteredItems.map((item, index) => (
+                        <TreeViewItemComponent
+                            setExpandedItems={setExpandedItems}
+                            currentSelectedItem={effectiveSelectedItem || ''}
+                            dragAndDropTooltipPlacement={undefined}
+                            expandedItems={expandedItems}
+                            order={[index]}
+                            variant="compact"
+                            key={item.itemId}
+                            {...item}
+                            isSearchActive={search !== ''}
+                            searchQuery={search}
+                            dataTestIdSuffix={dataTestIdSuffix}
+                        />
+                    ))}
+                </TreeViewExpansionRequestContext.Provider>
+            </TreeViewDynamicItemsCacheContext.Provider>
         </SimpleTreeView>
     );
 };

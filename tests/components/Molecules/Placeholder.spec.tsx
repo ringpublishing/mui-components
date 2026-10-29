@@ -128,8 +128,8 @@ describe('Component: Placeholder', () => {
         fireEvent.click(getByText('Retry'));
 
         expect(handleClick).toHaveBeenCalledTimes(1);
-        expect(getByTestId('ring-placeholder-error-actions-button-0')).toBeDefined();
-        expect(getByTestId('ring-placeholder-error-actions-button-1')).toBeDefined();
+        expect(getByTestId('ring-placeholder-actions-error-button-0')).toBeDefined();
+        expect(getByTestId('ring-placeholder-actions-error-button-1')).toBeDefined();
     });
 
     it('should fall back to enUS labels when language does not exist in defaults', () => {

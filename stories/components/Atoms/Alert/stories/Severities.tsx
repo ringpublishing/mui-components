@@ -55,7 +55,6 @@ export const Severities: Story = {
             disable: true,
         },
     },
-    tags: ['!dev'],
     render: (args, context) => {
         return createCodeStory({
             context,

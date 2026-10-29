@@ -10,7 +10,7 @@ import {
     TextEditorLinkAttributes,
     TextField,
 } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof TextEditor>;
 

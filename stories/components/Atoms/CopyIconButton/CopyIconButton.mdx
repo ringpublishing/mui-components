@@ -1,0 +1,37 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as Stories from './CopyIconButton.stories.js';
+
+<Meta isTemplate />
+
+# CopyIconButton
+
+An icon button that writes its `value` to the clipboard and confirms it: the glyph turns into a check, the tooltip reads the `copied` label and a live region announces it to assistive technology, for `copiedForMs` (1.5 s by default). Then the button returns to its copy state.
+
+**Key Features:**
+
+- One affordance for every place a value can be copied from: a field, a Detail row, a table cell
+- Confirmation that does not need a toast: glyph, tooltip and a polite live region
+- Clipboard API with a fallback for contexts where it is refused (iframes, older WebViews); `onCopyError` reports a failure
+- Inside a field it takes the field's button size, outside it is a regular `IconButton`
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [In TextField](#in-textfield)
+
+## Default
+
+Click the button: the glyph and the tooltip confirm the copy, then return after `copiedForMs`.
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## In TextField
+
+Placed in a field's end adornment, the button is sized by the field, like the field's other icons. Edit the field: the button copies whatever it holds at the click.
+
+<Canvas of={Stories.InTextField} />

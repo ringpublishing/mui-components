@@ -1,7 +1,10 @@
 /.env.local
 /.idea
 /.vscode
-/.claude
+/.claude/*
+!/.claude/rules/
+!/.claude/skills/
+!/.claude/settings.json
 /coverage
 /dist
 /node_modules
@@ -15,3 +18,5 @@
 
 /.agents
 AGENTS.md
+
+.DS_Store

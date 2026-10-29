@@ -20,6 +20,8 @@ const Example = (args: React.ComponentProps<typeof FileUploader>): React.JSX.Ele
 export const UploadFileStates: Story = {
     args: {
         ...defaultArgs,
+        // In Small the link continues the sentence of `labels.dropzone`.
+        labels: defaultArgs.labels && { ...defaultArgs.labels, uploadButton: 'upload from disk' },
         headline: 'File Upload - All States Demo',
         multiple: true,
         size: FileUploaderSize.Small,
@@ -101,7 +103,7 @@ export const UploadFileStates: Story = {
                 showProgressBar: false,
                 showRemove: false,
                 action: {
-                    label: 'CHANGE',
+                    label: 'Change',
                 },
             },
         ],

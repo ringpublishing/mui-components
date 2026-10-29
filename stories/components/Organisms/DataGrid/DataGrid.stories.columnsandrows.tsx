@@ -1,11 +1,10 @@
 import React from 'react';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Box, Chip, Typography } from '@mui/material';
-import { Public, PublicOff } from '@mui/icons-material';
+import { Box, Chip, ChipProps, Typography } from '@mui/material';
+import { Globe, Lock } from 'lucide-react';
 
-import { renderActionCell, renderComboCell } from '../../../../src/index.js';
-import { hexToRgb } from '../../../../src/helpers/colors.js';
-import { MetricsTypes } from '../../../../src/helpers/stories/storiesData.js';
+import { renderActionCell, renderComboCell, RingLucideIcon } from '../../../../src/index.js';
+import { MetricsTypes } from '../../../helpers/storiesData.js';
 
 function renderTypographyCell(params: GridRenderCellParams): React.JSX.Element {
     return (
@@ -18,11 +17,11 @@ function renderTypographyCell(params: GridRenderCellParams): React.JSX.Element {
     );
 }
 
-function getChipBackgroundColor(colorHex: string): string {
-    const rgb = hexToRgb(colorHex);
-
-    return `rgba(${rgb?.r}, ${rgb?.g}, ${rgb?.b}, 0.15)`;
-}
+// A workflow stage labels the row, so it is a tag. Stages are configured per space; unknown ones stay neutral.
+const STAGE_TAG_COLOR: Record<string, ChipProps['color']> = {
+    Ready: 'success',
+    Draft: 'error',
+};
 
 function getMetricHeader(metric: string): string {
     const divided = metric.split(/(?=[A-Z])/).join(' ');
@@ -47,11 +46,15 @@ export function getInitialColumnVisibilityModel(inCode = false): Record<string, 
     );
 }
 
+// Columns share the free width and the grid scrolls sideways only below their minimums.
+const STRETCH = { flex: 1, minWidth: 90 } as const;
+
 export const storiesColumns: GridColDef[] = [
     {
         field: 'title',
         headerName: 'Title',
-        width: 300,
+        flex: 2,
+        minWidth: 200,
         sortable: false,
         hideable: false,
         renderCell: renderComboCell,
@@ -59,25 +62,27 @@ export const storiesColumns: GridColDef[] = [
     {
         field: 'date',
         headerName: 'Modification date',
-        width: 140,
+        flex: 1,
+        minWidth: 120,
         sortable: true,
         display: 'flex',
     },
     {
         field: 'author',
         headerName: 'Author',
-
+        ...STRETCH,
         renderCell: renderTypographyCell,
     },
     {
         field: 'source',
         headerName: 'Source',
-
+        ...STRETCH,
         renderCell: renderTypographyCell,
     },
     {
         field: 'flags',
         headerName: 'Flags',
+        ...STRETCH,
         renderCell: (params: GridRenderCellParams) => (
             <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 {params.value.map((flag: string) => (
@@ -91,22 +96,17 @@ export const storiesColumns: GridColDef[] = [
     {
         field: 'stage',
         headerName: 'Stage',
+        ...STRETCH,
         renderCell: (params: GridRenderCellParams) => (
-            <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <Chip
-                    size="small"
-                    label={params.value.name}
-                    sx={{
-                        backgroundColor: getChipBackgroundColor(params.value.color),
-                        color: params.value.color,
-                    }}
-                />
+            <Box sx={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+                <Chip variant="tag" color={STAGE_TAG_COLOR[params.value.name] ?? 'neutral'} label={params.value.name} />
             </Box>
         ),
     },
     ...Object.values(MetricsTypes).map((metric) => ({
         field: metric,
         headerName: getMetricHeader(metric),
+        ...STRETCH,
         renderCell: renderTypographyCell,
     })),
     {
@@ -115,7 +115,11 @@ export const storiesColumns: GridColDef[] = [
         width: 60,
         renderCell: (params: GridRenderCellParams) => (
             <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {params.value === 'PUBLISHED' ? <Public /> : <PublicOff color="disabled" />}
+                {params.value === 'PUBLISHED' ? (
+                    <Globe />
+                ) : (
+                    <RingLucideIcon icon={Lock} fontSize="small" color="disabled" />
+                )}
             </Box>
         ),
     },

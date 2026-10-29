@@ -2,7 +2,8 @@ import { vi, describe, it, expect } from 'vitest';
 import { render, fireEvent, act } from '@testing-library/react';
 import EditableText from '../../../src/components/Atoms/EditableText/EditableText.js';
 
-const createMockedOnSubmit = () => vi.fn();
+const createMockedOnSubmit = (): ReturnType<typeof vi.fn<(value: string) => Promise<boolean>>> =>
+    vi.fn<(value: string) => Promise<boolean>>().mockResolvedValue(true);
 
 /* eslint-disable require-await */
 describe('EditableText', () => {
@@ -15,6 +16,21 @@ describe('EditableText', () => {
 
         const { container } = render(<EditableText {...mockProps} />);
         expect(container).toMatchSnapshot();
+    });
+
+    it('should render a 20px pencil inside the small IconButton', () => {
+        const mockProps = {
+            text: 'Test Text',
+            onSubmit: createMockedOnSubmit(),
+            label: 'Test Label',
+        };
+
+        const { getByTestId } = render(<EditableText {...mockProps} />);
+        const button = getByTestId('ring-editabletext-edit');
+        const icon = button.querySelector('.ring-lucide-icon');
+
+        expect(button.classList).toContain('MuiIconButton-sizeSmall');
+        expect(getComputedStyle(icon as HTMLElement).fontSize).toBe('1.25rem');
     });
 
     it('should switch to edit mode on click on the icon', () => {

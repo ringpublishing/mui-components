@@ -30,8 +30,8 @@ export interface PlaceholderStateLabels {
 
 export interface PlaceholderProps extends CommonComponentProps {
     /**
-     * Labels object. If not provided, default labels are used based on the current `variant` and `theme.locale`.
-     * Default values for enUS.
+     * Labels of the placeholder; when omitted, the defaults for the current `variant` and
+     * `theme.locale` apply (enUS values below).
      * @default {
      *      'error' : {
      *         header: 'An error occurred'
@@ -90,7 +90,7 @@ export function Placeholder(props: PlaceholderProps): React.JSX.Element {
         buttons = [],
         dataTestIdSuffix,
     } = props;
-    const dataTestId = useRingDataTestId(`Placeholder-${variant}`, dataTestIdSuffix);
+    const dataTestId = useRingDataTestId('Placeholder', dataTestIdSuffix, variant);
 
     const getSVGIcon = (variant: PlaceholderVariant): React.JSX.Element => {
         if (props?.img) {
@@ -168,7 +168,7 @@ export function Placeholder(props: PlaceholderProps): React.JSX.Element {
             {getButtons(dataTestId)}
             <Box sx={{ textAlign: 'center', marginTop: '30px' }}>
                 {labelsToShow?.footer && (
-                    <Typography variant="label" sx={{ textAlign: 'center' }}>
+                    <Typography variant="caption" sx={{ textAlign: 'center' }}>
                         {labelsToShow.footer}
                     </Typography>
                 )}

@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
-import { RocketLaunch } from '@mui/icons-material';
+import { Rocket } from 'lucide-react';
 import { ContentList } from '../../../src/components/Organisms/ContentList/ContentList.js';
 import { renderWithTheme } from '../../test-utils/theme.js';
 
@@ -19,7 +19,7 @@ describe('Components: ContentList', () => {
     const inputData = [
         {
             header: 'Header1',
-            additionalHeaderData: <RocketLaunch />,
+            additionalHeaderData: <Rocket />,
             children: <div>Header1 children</div>,
         },
         {
@@ -85,7 +85,7 @@ describe('Components: ContentList', () => {
                 inputData={inputData}
                 listHeader={
                     <div data-testid="list-header">
-                        <RocketLaunch />
+                        <Rocket />
                         <span>Custom Header</span>
                     </div>
                 }

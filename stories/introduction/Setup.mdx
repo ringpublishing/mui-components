@@ -8,7 +8,7 @@ import { Source } from '@storybook/addon-docs/blocks';
 
 - Install via npm
 
-    <Source code="npm install @ringpublishing/mui-components @mui/material" />
+    <Source code="npm install @ringpublishing/mui-components @ringpublishing/mui-theme @mui/material @emotion/react @emotion/styled lucide-react" />
 
 - Add directly to package.json
 
@@ -36,11 +36,45 @@ import { Typography } from '@ringpublishing/mui-components';
 <Typography variant="body1">Text</Typography>;
 ```
 
+## Load the Inter font
+
+The theme renders text in Inter but does not load the font — your application has to. Without it, text falls back to the system font.
+
+### Install via npm
+
+The font files come from npm and are served from your own bundle, with no request to a third-party server. Polish and other Latin Extended characters are covered automatically.
+
+```shell
+npm install @fontsource/inter
+```
+
+Import the weights the theme uses once, in your app entry file:
+
+```javascript
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+```
+
+Use `@fontsource/inter`, not `@fontsource-variable/inter`: the variable package registers the font as `Inter Variable`, a name the theme does not look for.
+
+### Or link it from Google Fonts
+
+Add the links to the `<head>` of your HTML:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" />
+```
+
 ## MUI-X
 
 ### Install dependencies
 
-Some components rely on MUI-X packages as peer dependencies. Install only the packages required by the components you use.
+Some components are built on MUI-X packages. They are required peer dependencies, which npm 7+ installs; the table shows which component is built on which.
 
 ```shell
 npm install @mui/x-license @mui/x-data-grid @mui/x-data-grid-pro @mui/x-date-pickers @mui/x-date-pickers-pro @mui/x-tree-view
@@ -54,6 +88,24 @@ npm install @mui/x-license @mui/x-data-grid @mui/x-data-grid-pro @mui/x-date-pic
 | `DateTimePicker` | `@mui/x-date-pickers` `@mui/x-date-pickers-pro` `@mui/x-license` |
 | `TimePicker`     | `@mui/x-date-pickers` `@mui/x-date-pickers-pro` `@mui/x-license` |
 | `TreeView`       | `@mui/x-tree-view` `@mui/x-license`                              |
+| `SimpleTree`     | `@mui/x-tree-view`                                               |
+| `DataTree`       | `@mui/x-tree-view`                                               |
+
+## Dynamic loading in `SimpleTree` / `DataTree`
+
+Only needed if a tree item uses `loadItems` to load its children on expand. Install TanStack Query (v4 or v5) and enable dynamic loading once, in code that runs in the browser before such a tree renders:
+
+```shell
+npm install @tanstack/react-query
+```
+
+```javascript
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
+```
+
+Trees without `loadItems` need neither. See the "Dynamic loading" section of the `SimpleTree` / `DataTree` docs.
 
 ## License
 

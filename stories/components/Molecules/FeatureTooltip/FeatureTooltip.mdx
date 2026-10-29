@@ -17,9 +17,9 @@ A feature announcement tooltip that automatically manages its display state usin
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With One Action](#with-one-action)
-- [With No Actions](#with-no-actions)
-- [With Image](#with-image)
+- [Image](#image)
+- [One action](#one-action)
+- [No actions](#no-actions)
 
 ## Default
 
@@ -33,22 +33,22 @@ Shows two tooltip configurations side by side: a **standard tooltip** (displayed
 
 <ArgTypes />
 
-## With One Action
-
-A tooltip with a **single primary action** button and an embedded YouTube video. Use this when you want to direct users to a specific resource without offering a secondary option.
-
-<Canvas of={Stories.WithOneAction} />
-
-## With No Actions
-
-A tooltip displaying only a title and message body — without any action buttons. Ideal for purely informational announcements where no user interaction is needed beyond dismissal.
-
-<Canvas of={Stories.WithNoActions} />
-
-## With Image
+## Image
 
 A tooltip enriched with an **image**. Shown side by side: one variant with two action buttons, another without actions — both using the same image URL.
 
 > **Note:** If both `image` and `videoEmbed` are passed, the **video takes priority** and the image is not rendered.
 
 <Canvas of={Stories.WithImage} />
+
+## One action
+
+A tooltip with a **single primary action** button and an embedded YouTube video. Use this when you want to direct users to a specific resource without offering a secondary option.
+
+<Canvas of={Stories.WithOneAction} />
+
+## No actions
+
+A tooltip displaying only a title and message body — without any action buttons. Ideal for purely informational announcements where no user interaction is needed beyond dismissal.
+
+<Canvas of={Stories.WithNoActions} />

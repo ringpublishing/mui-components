@@ -4,6 +4,7 @@ import { render, RenderOptions, RenderResult, waitFor } from '@testing-library/r
 import { Editor } from '@tiptap/react';
 import { getCreatedTheme, TextEditor, TextEditorProps } from '../../../src/index.js';
 import { ThemeProvider } from '@mui/material';
+import { TextEditorMenuSelectHeading } from '../../../src/components/Organisms/TextEditor/TextEditorMenuSelectHeading.js';
 
 const htmlContent = `
     <p>Lorem ipsum <i>dolor sit</i> <b>amet</b>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea</p>
@@ -192,13 +193,28 @@ describe('TextEditor', () => {
         expect(container).toMatchSnapshot();
     });
 
+    it("gives an image the content's alt as its alt text", async () => {
+        const { findByTestId } = renderTextEditor({ content: htmlContent, onUpdate: vi.fn() });
+
+        expect((await findByTestId('ring-media-image')).getAttribute('alt')).toBe('Lorem ipsum');
+    });
+
+    it('falls back to the image title when the content has no alt', async () => {
+        const { findByTestId } = renderTextEditor({
+            content: `<img src='https://ocdn.eu/image.jpg' title="Image title" />`,
+            onUpdate: vi.fn(),
+        });
+
+        expect((await findByTestId('ring-media-image')).getAttribute('alt')).toBe('Image title');
+    });
+
     it('should show link menu button when onLinkClick is passed', () => {
         const { getByTestId } = renderTextEditor({
             content: htmlContent,
             onUpdate: vi.fn(),
             onLinkClick: vi.fn(),
         });
-        expect(getByTestId('LinkIcon')).toBeTruthy();
+        expect(getByTestId('ring-texteditor-menu-link')).toBeTruthy();
     });
 
     it('should show image menu button when onImageClick is passed', () => {
@@ -207,7 +223,7 @@ describe('TextEditor', () => {
             onUpdate: vi.fn(),
             onImageClick: vi.fn(),
         });
-        expect(getByTestId('ImageIcon')).toBeTruthy();
+        expect(getByTestId('ring-texteditor-menu-image')).toBeTruthy();
     });
 
     // Triggers a ProseMirror input rule the same way real typing does (via the
@@ -243,5 +259,29 @@ describe('TextEditor', () => {
         const json = JSON.stringify(editor.getJSON());
         expect(json).not.toContain('"bulletList"');
         expect(editor.getText()).toContain('-');
+    });
+
+    it('gives the heading select in each editor its own id', () => {
+        const { container } = render(
+            <>
+                <TextEditor
+                    dataTestIdSuffix="lead"
+                    content="a"
+                    onUpdate={(): void => undefined}
+                    menuControls={[<TextEditorMenuSelectHeading key="h" levels={[1, 2]} />]}
+                />
+                <TextEditor
+                    dataTestIdSuffix="body"
+                    content="b"
+                    onUpdate={(): void => undefined}
+                    menuControls={[<TextEditorMenuSelectHeading key="h" levels={[1, 2]} />]}
+                />
+            </>,
+        );
+        const ids = Array.from(container.querySelectorAll('[data-testid*="heading"]')).map(
+            (element) => element.getAttribute('data-testid') as string,
+        );
+
+        expect(ids).toEqual(['ring-texteditor-lead-menu-heading', 'ring-texteditor-body-menu-heading']);
     });
 });

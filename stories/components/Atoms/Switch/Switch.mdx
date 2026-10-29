@@ -1,0 +1,61 @@
+import { ArgTypes, Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as Stories from './Switch.stories.js';
+
+<Meta isTemplate />
+
+# Switch
+
+Switch toggles the state of a single setting on or off. Its look — a thumb travelling inside a
+tall pill track, with all colors from the design system palette — lives in the theme, so a plain
+MUI Switch renders it too; this wrapper adds Ring test ids and narrows the color variants.
+
+## Key Features
+
+- pill track with the thumb fully inside it, in `medium` and `small` sizes
+- `primary` (default) and `error` colors
+- colors resolved from the theme palette — adapts to light and dark mode
+- `data-testid` on the root and on the underlying input
+
+## Quick Navigation
+
+- [Default](#default)
+- [Component API](#component-api)
+- [Sizes](#sizes)
+- [Colours](#colours)
+- [Disabled](#disabled)
+- [Label](#label)
+- [In FormGroup](#in-formgroup)
+
+## Default
+
+<Canvas of={Stories.Default} />
+
+## Component API
+
+<ArgTypes />
+
+## Sizes
+
+<Canvas of={Stories.Sizes} />
+
+## Colours
+
+The error switch is tinted checked and unchecked.
+
+<Canvas of={Stories.Colors} />
+
+## Disabled
+
+<Canvas of={Stories.Disabled} />
+
+## Label
+
+Use MUI `FormControlLabel` to display a label next to the switch.
+
+<Canvas of={Stories.WithLabel} />
+
+## In FormGroup
+
+Use MUI `FormGroup` to group related switches with a shared legend and helper text.
+
+<Canvas of={Stories.WithFormGroup} />

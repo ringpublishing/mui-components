@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted (March 2026)
+Accepted (March 2026). `@ringpublishing/mui-theme` 4.4.0 renamed the `'legacy-px'` mode to `'deprecated-px'`.
 
 ## Context
 

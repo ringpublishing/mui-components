@@ -1,8 +1,6 @@
 /**
- * Formats file size from bytes to human-readable format with appropriate unit.
- *
- * Automatically selects the most appropriate unit (Bytes, KB, MB, GB) based on file size.
- * Uses binary units (1 KB = 1024 bytes) following IEC standard.
+ * Formats a byte count as a human-readable size in binary units (1kb = 1024 bytes), suffixed
+ * `Bytes`, `kb`, `mb` or `gb` by magnitude.
  *
  * @param bytes - File size in bytes (non-negative number)
  * @param decimals - Number of decimal places to display (default: 1)

@@ -1,5 +1,8 @@
 import React from 'react';
 import { DataTree, DataTreeItem } from '@ringpublishing/mui-components';
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading';
+
+enableTreeDynamicLoading();
 
 type FsNode = { label: string; ext: string } & ({ type: 'folder'; children: string[] } | { type: 'file' });
 

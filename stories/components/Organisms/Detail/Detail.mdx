@@ -14,18 +14,21 @@ A rich detail panel component for displaying item information with media, sectio
 - Bottom icons on media section as icon buttons or chips
 - Empty state placeholder support
 
-For migration from the old component version please refer to Detail Migration guide in Migration FAQ -> Moving From Legacy Components section.
+To migrate from the old component, see Migration FAQ → Moving From Legacy Components → Detail Migration.
 
 ## Quick Navigation
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Empty State](#empty-state)
-- [Empty State Custom Labels](#empty-state-custom-labels)
-- [With Custom Slots](#with-custom-slots)
-- [With Bottom Icon Buttons](#with-bottom-icon-buttons)
-- [With Bottom Chips](#with-bottom-chips)
-- [With Custom Media Slot](#with-custom-media-slot)
+- [Bottom icon buttons](#bottom-icon-buttons)
+- [Bottom chips](#bottom-chips)
+- [Full screen image](#full-screen-image)
+- [Media toolbar handlers](#media-toolbar-handlers)
+- [Custom slots](#custom-slots)
+- [Custom slots — media](#custom-slots--media)
+- [Long URL](#long-url)
+- [Empty state](#empty-state)
+- [Empty state — custom labels](#empty-state--custom-labels)
 - [Slots](#slots)
 - [Slot props](#slot-props)
 
@@ -39,19 +42,38 @@ The default story demonstrates all major features of the Detail component includ
 
 <ArgTypes />
 
-## Empty State
+## Bottom icon buttons
 
-When no data is available, the Detail component can display an empty state placeholder by setting the `empty` prop to `true`.
+Display icon buttons at the bottom of the media section. Each button supports tooltips and click handlers. Bottom icons must be all of type `'icon'` or all of type `'chip'` — mixing types is not supported.
 
-<Canvas of={Stories.EmptyState} />
+<Canvas of={Stories.WithBottomIconButtons} />
 
-## Empty State Custom Labels
+## Bottom chips
 
-The empty state placeholder labels can be overridden with `placeholderLabels.empty`. Other placeholder label keys are not used by `Detail`.
+Display colored chip labels at the bottom of the media section. Each chip supports custom background colors with automatic text color contrast calculation.
 
-<Canvas of={Stories.EmptyStateCustomLabels} />
+<Canvas of={Stories.WithBottomChips} />
 
-## With Custom Slots
+## Full screen image
+
+The thumbnail comes from `main.mediaProps.image` (or `slotProps.media.src` / `slots.media`). `fullScreenImageUrl` and `imageFullScreenPreview` complement it and do not replace it — with none of those three sources set, Detail renders no media at all and, in development, logs a console warning.
+
+| Prop                     | What it does                                                                                                                            |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `image`                  | Renders the thumbnail. The built-in LightBox shows the same image. Required for the download and zoom buttons.                          |
+| `ratio`, `objectFit`     | Shape of the thumbnail box and how the image fills it.                                                                                  |
+| `imageFullScreenPreview` | Shows the download and zoom buttons. Has no effect without `image`, and none when `slots.media` is set.                                 |
+| `fullScreenImageUrl`     | The file the download button fetches and the value passed to `handleFullScreenPreview`, in place of `image`. Never renders a thumbnail. |
+
+<Canvas of={Stories.WithFullScreenImage} />
+
+## Media toolbar handlers
+
+`main.mediaProps` controls the media toolbar: `enableDownloadIcon` (default `true`) shows the download button and `false` hides it, `handleImageDownload` replaces the default download, and `handleFullScreenPreview` replaces the built-in LightBox with your own viewer. Toggle the button in the example to see the download icon appear and disappear.
+
+<Canvas of={Stories.WithMediaToolbarHandlers} />
+
+## Custom slots
 
 The Detail component provides three customizable slots for injecting additional content:
 
@@ -63,19 +85,7 @@ The Detail component provides three customizable slots for injecting additional 
 
 <Canvas of={Stories.WithCustomSlots} />
 
-## With Bottom Icon Buttons
-
-Display icon buttons at the bottom of the media section. Each button supports tooltips and click handlers. Bottom icons must be all of type `'icon'` or all of type `'chip'` — mixing types is not supported.
-
-<Canvas of={Stories.WithBottomIconButtons} />
-
-## With Bottom Chips
-
-Display colored chip labels at the bottom of the media section. Each chip supports custom background colors with automatic text color contrast calculation.
-
-<Canvas of={Stories.WithBottomChips} />
-
-## With Custom Media Slot
+## Custom slots — media
 
 The `mediaProps.slots.media` slot lets consumers replace the default `<CardMedia>` with any React node — for example a custom video player with overlay controls, an interactive preview component, or a third-party library wrapper. The slot is wrapped in `<AspectRatio>` so `mediaProps.ratio` and `mediaProps.objectFit` still apply to the surrounding box.
 
@@ -85,9 +95,27 @@ Use `mediaProps.slotProps.card` to attach DOM events (e.g. hover-driven `play()`
 
 <Canvas of={Stories.WithCustomMediaSlot} />
 
+## Long URL
+
+A long value (an address, an id) wraps inside its row and the field's icon stays beside the first line. With `truncate: 'middle'` the value keeps one line: the start and the distinguishing end stay visible, the middle is elided and the full value is shown in a tooltip. Both forms take a `CopyIconButton` in the `icon` slot; `size="small"` keeps the row at the height of an editable row. A bare icon in `icon` takes 20px; a wrapped one keeps its own size.
+
+<Canvas of={Stories.WithLongUrl} />
+
+## Empty state
+
+When no data is available, the Detail component can display an empty state placeholder by setting the `empty` prop to `true`.
+
+<Canvas of={Stories.EmptyState} />
+
+## Empty state — custom labels
+
+The empty state placeholder labels can be overridden with `placeholderLabels.empty`. Other placeholder label keys are not used by `Detail`.
+
+<Canvas of={Stories.EmptyStateCustomLabels} />
+
 ## Slots
 
-Detail exposes slots on two levels: top-level slots for injecting content around the body, and nested slots on `main.mediaProps` that mirror the [Media](?path=/docs/components-molecules-media--docs) molecule's own slot system.
+Detail exposes slots on two levels: top-level slots for injecting content around the body, and nested slots on `main.mediaProps` that mirror the [Media](?path=/docs/components-organisms-media--docs) component's own slot system.
 
 | Slot                          | Type                | Default     | Description                                                                                                                                                                                                                                           |
 | ----------------------------- | ------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -98,11 +126,11 @@ Detail exposes slots on two levels: top-level slots for injecting content around
 
 ## Slot props
 
-Detail does not expose `slotProps` at the root level. The `main.mediaProps.slotProps` channel forwards directly to the inner `<Media>` molecule.
+Detail does not expose `slotProps` at the root level. The `main.mediaProps.slotProps` channel forwards directly to the inner `<Media>` component.
 
 | Slot prop                         | Type                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | --------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `main.mediaProps.slotProps.media` | `CardMediaProps & AudioHTMLAttributes & VideoHTMLAttributes`                                     | Props applied to the default `<CardMedia>` in the media area. Used by the default render path (replaced when `main.mediaProps.slots.media` is set). Lets you switch the underlying element (`component: "video" \| "audio" \| "img"`), tweak `src`, attach native media attributes.                                                                                                                                                    |
 | `main.mediaProps.slotProps.card`  | `Omit<CardProps, "children" \| "variant" \| "square" \| "tabIndex" \| "elevation" \| "onClick">` | Props applied to the root MUI `<Card>` rendered inside `<Media>`. **Recommended channel for native DOM events** (`onMouseEnter`, `onMouseLeave`, `onFocus`, `onKeyDown`, `aria-*`, `data-*`, …) on the media area. `onClick` is excluded for the same reason as in `Media` — Media is not a clickable container; use `main.mediaProps.slotProps.media.onClick` for clicks scoped to `<CardMedia>`, or attach a handler outside Detail. |
 
-> Detail uses the [Media](?path=/docs/components-molecules-media--docs) molecule under the hood — `mediaProps.slots` and `mediaProps.slotProps` mirror Media's API one-to-one. See the Media docs for full precedence rules and additional details.
+> Detail uses the [Media](?path=/docs/components-organisms-media--docs) component under the hood — `mediaProps.slots` and `mediaProps.slotProps` mirror Media's API one-to-one. See the Media docs for full precedence rules and additional details.

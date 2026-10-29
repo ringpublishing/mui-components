@@ -11,12 +11,15 @@ MultimediaGrid is a component for displaying media elements (photos and videos) 
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Slots](#slots)
-- [Infinite Scroll](#infinite-scroll)
+- [Dynamic layout](#dynamic-layout)
 - [Selection](#selection)
-- [Empty State](#empty-state)
-- [Error State](#error-state)
-- [Dynamic Layout](#dynamic-layout)
+- [Infinite scroll](#infinite-scroll)
+- [Filter chips](#filter-chips)
+- [Slots](#slots)
+- [Empty state](#empty-state)
+- [Empty state — custom labels](#empty-state--custom-labels)
+- [Error state](#error-state)
+- [Error state — custom labels](#error-state--custom-labels)
 
 ## Component Features:
 
@@ -40,6 +43,91 @@ Basic usage of MultimediaGrid with toolbar, sorting, and responsive columns. Thi
 ## Component API
 
 <ArgTypes />
+
+## Dynamic layout
+
+Dynamic layout automatically calculates optimal card dimensions and column count based on container width, providing the best visual experience across different screen sizes.
+
+### How it Works:
+
+For each candidate column count, the algorithm:
+
+1. Calculates effective width (accounting for gaps)
+2. Computes scale factor relative to target dimensions
+3. Selects the count with scale closest to 1.0 to minimize distortion
+
+### Props:
+
+- `dynamicLayout` (boolean, default: `false`) - enables the feature
+- `dynamicCardWidth` (number, default: `200`) - target card width in pixels
+- `dynamicCardHeight` (number, default: `300`) - target card height in pixels
+
+### Features:
+
+- **Responsive** - recalculates on container resize
+- **Spacing-aware** - accounts for column gaps in calculations
+- **Overrides** - automatically overrides `columns` and `cellRatio` when enabled
+- **Performance** - uses memoization to avoid unnecessary recalculations
+
+<Canvas of={Stories.DynamicLayout} />
+
+## Selection
+
+MultimediaGrid provides comprehensive selection functionality with checkboxes, mirroring the DataGrid selection API for consistency across components.
+
+### Features:
+
+- **checkboxSelection** - displays a checkbox on each item for selection
+- **Controlled mode** - selection state managed by parent component
+- **Card click selection** - clicking on cards can also select/deselect items
+- **disableSelectionOnClick** - set to `true` to disable card click selection (only checkboxes work)
+
+### Usage:
+
+- Click on checkboxes OR on cards to select/deselect items (depending on `disableSelectionOnClick`)
+- Use toolbar "Select all" / "Deselect all" buttons
+- Use the Controls panel to toggle selection features:
+    - Toggle `checkboxSelection` to show/hide checkboxes
+    - Toggle `disableSelection` to disable all selection
+    - Toggle `disableSelectionOnClick` to disable card click selection
+- Check the Actions panel to see selection state changes
+
+### API Consistency:
+
+This functionality mirrors the DataGrid selection API for consistency across components. The same props and patterns work in both components.
+
+<Canvas of={Stories.Selection} />
+
+## Infinite scroll
+
+This story demonstrates infinite scrolling functionality in MultimediaGrid, allowing seamless loading of additional content as the user scrolls.
+
+### Features:
+
+- **Automatic loading** - new data loads when the user scrolls near the end
+- **Loading state** - the component shows a loading indicator while fetching data
+- **`hasMore` control** - prevents unnecessary calls when there is no more data
+- **Smooth operation** - seamless integration with existing grid functionality
+
+### Key Points:
+
+- Infinite scroll only works when `hasMore` is `true`
+- The component automatically detects when the user approaches the end of the list and calls the `onLoadMore` function
+- The `onLoadMore` function is automatically protected against multiple calls
+
+### Usage Tips:
+
+- Scroll down to see automatic loading of new elements
+- Notice how the loading state is handled during data fetching
+- The `overscan` prop controls how many off-screen items are pre-rendered for smooth scrolling
+
+<Canvas of={Stories.InfiniteScroll} />
+
+## Filter chips
+
+`filterChips` renders a group of active-filter chips above the grid with the same API as `RingDataGrid`: each chip shows `filter: value` (or just the key for boolean filters) and calls `onDelete`, and a clear-all button appears once more than one chip is present. Use it to mirror the filters applied to the grid's data source.
+
+<Canvas of={Stories.WithFilterChips} />
 
 ## Slots
 
@@ -129,59 +217,7 @@ The slot system provides full control over the appearance and behavior of elemen
 
 <Canvas of={Stories.Slots} />
 
-## Infinite Scroll
-
-This story demonstrates infinite scrolling functionality in MultimediaGrid, allowing seamless loading of additional content as the user scrolls.
-
-### Features:
-
-- **Automatic loading** - new data loads when the user scrolls near the end
-- **Loading state** - the component shows a loading indicator while fetching data
-- **`hasMore` control** - prevents unnecessary calls when there is no more data
-- **Smooth operation** - seamless integration with existing grid functionality
-
-### Key Points:
-
-- Infinite scroll only works when `hasMore` is `true`
-- The component automatically detects when the user approaches the end of the list and calls the `onLoadMore` function
-- The `onLoadMore` function is automatically protected against multiple calls
-
-### Usage Tips:
-
-- Scroll down to see automatic loading of new elements
-- Notice how the loading state is handled during data fetching
-- The `overscan` prop controls how many off-screen items are pre-rendered for smooth scrolling
-
-<Canvas of={Stories.InfiniteScroll} />
-
-## Selection
-
-MultimediaGrid provides comprehensive selection functionality with checkboxes, mirroring the DataGrid selection API for consistency across components.
-
-### Features:
-
-- **checkboxSelection** - displays a checkbox on each item for selection
-- **Controlled mode** - selection state managed by parent component
-- **Card click selection** - clicking on cards can also select/deselect items
-- **disableSelectionOnClick** - set to `true` to disable card click selection (only checkboxes work)
-
-### Usage:
-
-- Click on checkboxes OR on cards to select/deselect items (depending on `disableSelectionOnClick`)
-- Use toolbar "Select all" / "Deselect all" buttons
-- Use the Controls panel to toggle selection features:
-    - Toggle `checkboxSelection` to show/hide checkboxes
-    - Toggle `disableSelection` to disable all selection
-    - Toggle `disableSelectionOnClick` to disable card click selection
-- Check the Actions panel to see selection state changes
-
-### API Consistency:
-
-This functionality mirrors the DataGrid selection API for consistency across components. The same props and patterns work in both components.
-
-<Canvas of={Stories.Selection} />
-
-## Empty State
+## Empty state
 
 This story demonstrates the empty state that appears when there are no items to display in the grid.
 
@@ -200,7 +236,13 @@ The empty state is displayed when:
 
 <Canvas of={Stories.EmptyState} />
 
-## Error State
+## Empty state — custom labels
+
+`placeholderLabels.empty` overrides the header and description of the empty state, so the message can name the content type and suggest what to do next. Labels not overridden keep the built-in translation.
+
+<Canvas of={Stories.EmptyStateCustomLabels} />
+
+## Error state
 
 This story demonstrates the error state that appears when an error occurs while loading data.
 
@@ -221,29 +263,8 @@ Toggle the `error` prop in Controls to show/hide error state.
 
 <Canvas of={Stories.ErrorState} />
 
-## Dynamic Layout
+## Error state — custom labels
 
-Dynamic layout automatically calculates optimal card dimensions and column count based on container width, providing the best visual experience across different screen sizes.
+`placeholderLabels.error` overrides the header and description of the error state, and `placeholderLabels.tryAgainButton` relabels the retry button rendered when `refreshItems` is provided.
 
-### How it Works:
-
-For each candidate column count, the algorithm:
-
-1. Calculates effective width (accounting for gaps)
-2. Computes scale factor relative to target dimensions
-3. Selects the count with scale closest to 1.0 to minimize distortion
-
-### Props:
-
-- `dynamicLayout` (boolean, default: `false`) - enables the feature
-- `dynamicCardWidth` (number, default: `200`) - target card width in pixels
-- `dynamicCardHeight` (number, default: `300`) - target card height in pixels
-
-### Features:
-
-- **Responsive** - recalculates on container resize
-- **Spacing-aware** - accounts for column gaps in calculations
-- **Overrides** - automatically overrides `columns` and `cellRatio` when enabled
-- **Performance** - uses memoization to avoid unnecessary recalculations
-
-<Canvas of={Stories.DynamicLayout} />
+<Canvas of={Stories.ErrorStateCustomLabels} />

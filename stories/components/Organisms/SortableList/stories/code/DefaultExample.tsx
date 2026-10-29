@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, GridLegacy as Grid, IconButton, Paper, useTheme } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
+import { EllipsisVertical } from 'lucide-react';
 import { ActionBox, SortableList, useNonDraggableRef } from '@ringpublishing/mui-components';
 
 interface Item {
@@ -29,8 +29,8 @@ function CustomListItem(props: { item: Item }): React.JSX.Element {
                             </span>
                         </Grid>
                         <Grid item={true} xs={1}>
-                            <IconButton ref={iconBtnRef.setRef}>
-                                <MoreVert />
+                            <IconButton aria-label="Item actions" ref={iconBtnRef.setRef}>
+                                <EllipsisVertical />
                             </IconButton>
                             <ActionBox
                                 actions={[

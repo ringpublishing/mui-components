@@ -1,6 +1,6 @@
 # TreeView Components Spec
 
-Both tree components are backed by `@tanstack/react-query` for dynamic loading and share a common persistence model. Use `SimpleTree` for compact navigation trees; use `DataTree` for data-heavy tables with nested rows.
+Both tree components use `@tanstack/react-query` for dynamic loading (`loadItems`), which is an opt-in entry point (see [Enabling dynamic loading](#enabling-dynamic-loading)), and share a common persistence model. Use `SimpleTree` for compact navigation trees; use `DataTree` for data-heavy tables with nested rows.
 
 ---
 
@@ -20,7 +20,7 @@ Both tree components are backed by `@tanstack/react-query` for dynamic loading a
 
 ### Visual style
 - Compact rows (~18px icon, 8px nesting indent per level).
-- Selection is shown with a blue `blue[100]` background on the selected row.
+- Selection is shown with palette tints on the selected row: `primary.main` at `action.hoverOpacity` (row) and at `action.selectedOpacity` (focused content).
 - Expand/collapse uses chevron arrows (down = collapsed, up = expanded).
 - No checkboxes, no columns, no drag-and-drop, no row actions.
 
@@ -41,7 +41,7 @@ interface SimpleTreeItem {
 - `expanded: true` pre-expands the node at mount. Changing it after mount has no effect — expansion state is managed internally.
 - `element` renders inline at the trailing edge of the label row (useful for counts, status chips).
 - `loadItems` makes the node dynamic (see [Dynamic loading](#dynamic-loading)).
-- Static `items` and `loadItems` are mutually exclusive per node; providing both is undefined behaviour.
+- Static `items` and `loadItems` are mutually exclusive per node; when both are set, static `items` are rendered and the loaded result is ignored.
 
 ### Selection
 
@@ -59,7 +59,7 @@ Rules:
 ### Expand / Collapse
 
 - Clicking the icon container toggles expansion; clicking the label row does **not** toggle expansion.
-- `onExpand(itemId)` is called when a node is expanded (not on collapse).
+- `onExpand(itemId)` is called when a node is expanded or collapsed.
 - Multiple nodes can be expanded simultaneously.
 - Expansion state is entirely internal to the component. The `expanded` field on items is the initial value only.
 - When search is active, all nodes whose labels (or whose descendants' labels) match are automatically expanded. When search is cleared, the tree reverts to the pre-search expansion state.
@@ -78,13 +78,14 @@ Enabled with `withSearch={true}`.
 
 ### Dynamic loading (`loadItems`)
 
-When a node has `loadItems`, it behaves as a lazy branch:
+Requires the opt-in entry, see [Enabling dynamic loading](#enabling-dynamic-loading). When a node has `loadItems`, it behaves as a lazy branch:
 
 - The query is **not** issued until the user expands the node.
 - While loading, the collapse icon is replaced with a spinner.
-- On success, the returned `SimpleTreeItem[]` are rendered as children. `staleTime: Infinity` means the result is never re-fetched automatically — it is cached for the life of the `QueryClient`.
-- On error, both expand and collapse icons are replaced with a refresh icon (mirrored arrow). Clicking it clears the cached error state and retries the query.
+- On success, the returned `SimpleTreeItem[]` are rendered as children. `staleTime: Infinity` means the result is never re-fetched automatically — it is cached for the life of the `QueryClient`, but `gcTime` still applies: a result no mounted item uses is dropped after it (5 minutes by default).
+- On error, both expand and collapse icons are replaced with a refresh icon (`RotateCw` in the error colour). Clicking it clears the cached error state and retries the query.
 - If `loadItems` returns a synchronous array (not a Promise), it is still treated as a query and cached.
+- If both static `items` and `loadItems` are set on a node, `items` are rendered and the loaded result is ignored.
 
 Query key format: `['simpleTreeItem', instanceId, itemId]`
 
@@ -101,19 +102,19 @@ persistence?: {
 ```
 
 - `cacheKey` namespaces two localStorage entries:
-  - `ring-tree-cache-{cacheKey}` — serialised TanStack Query cache (dynamic children).
+  - `ring-tree-cache-{cacheKey}` — this tree's serialised TanStack Query cache entries (dynamic children).
   - `ring-tree-state-{cacheKey}` — `{ expandedItems: string[], selectedItemId: string | null }`.
 - `restoreExpandedItems`: on mount, reads `expandedItems` from localStorage and uses it as the initial expanded set. On every expansion toggle, the new state is written back.
 - `restoreSelectedItem`: on mount, reads `selectedItemId` and uses it as the initial selection **only in uncontrolled mode** (ignored when `selectedItems` prop is provided). On every selection change, the new value is written back.
-- The query cache is serialised on every TanStack Query cache change (via `getQueryCache().subscribe()`). Non-serialisable values (React elements, functions) are stripped automatically.
+- The tree's queries (keys starting with `['simpleTreeItem', instanceId]`) are serialised whenever one of them changes (via `getQueryCache().subscribe()`), and only those entries are hydrated on mount; other queries in a shared client are neither saved nor restored. Non-serialisable values (React elements, functions) are stripped automatically.
 - When an external `queryClient` is provided, localStorage cache hydration happens in `useLayoutEffect` (before the first paint) to prevent a flash of unloaded state.
 
 ### External `QueryClient` (`queryClient` prop)
 
 - By default, the component creates its own internal `QueryClient` (invisible to the rest of the app).
 - Pass `queryClient` to share a client across components or to connect React Query DevTools.
-- When sharing a client between multiple `SimpleTree` instances, set a unique `queryKeyPrefix` on each to avoid cache collisions. Without it, the component falls back to a `useId()`-generated prefix (stable within a single mount, changes on remount).
-- Persistence (localStorage hydration) still works with an external client — the component handles it in a one-time `useLayoutEffect`.
+- When sharing a client between multiple `SimpleTree` instances, each one without a `queryKeyPrefix` gets a `useId()`-generated prefix (stable within a single mount, changes on remount), so their keys never collide. Set `queryKeyPrefix` to keep the cache across remounts, with a different value on each tree: trees with the same prefix show each other's cached children.
+- Persistence (localStorage hydration) still works with an external client — the component handles it in a one-time `useLayoutEffect` and writes back only its own queries, never the rest of the app's cache.
 
 ### Props summary
 
@@ -122,14 +123,14 @@ persistence?: {
 | `items` | `SimpleTreeItem[]` | — | Tree data |
 | `selectedItems` | `string[]` | — | Controlled selection (use `[0]`) |
 | `onSelectedItemsChange` | `(ids: string[]) => void` | — | Selection callback |
-| `onExpand` | `(itemId: string) => void` | — | Called on expand (not collapse) |
+| `onExpand` | `(itemId: string) => void` | — | Called on expand and collapse |
 | `onClickRow` | `(itemId: string) => void` | — | Called on row click |
 | `withSearch` | `boolean` | `false` | Show search box |
 | `searchDebounceTime` | `number` | `500` | Debounce in ms |
 | `searchPlaceholder` | `string` | — | Search input placeholder |
 | `persistence` | `TreePersistenceConfig` | — | localStorage persistence |
-| `queryClient` | `QueryClient` | — | External TanStack Query client |
-| `queryKeyPrefix` | `string` | — | Namespace prefix for query keys (required when sharing a client) |
+| `queryClient` | `TreeQueryClient` | — | External TanStack Query client |
+| `queryKeyPrefix` | `string` | — | Namespace prefix for query keys, unique per tree sharing a client |
 | `sx` | `SxProps` | — | MUI sx override |
 | `className` | `string` | — | Root class name |
 | `dataTestIdSuffix` | `string` | — | Appended to data-testid attributes |
@@ -200,9 +201,9 @@ Multi-select when `onCheckboxChange` is provided; single-select otherwise.
 
 ### Row actions
 
-- Each item can have `rowActions: Action[]`. A `MoreVert` icon button appears at the trailing edge of the row when `rowActions` is set.
+- Each item can have `rowActions: Action[]`. An `EllipsisVertical` icon button, named by `rowActionsAriaLabel`, appears at the trailing edge of the row when `rowActions` is set.
 - `Action` is `{ label: string; icon: React.ReactNode }`.
-- Clicking the icon opens an `ActionBox` popover. Clicking the icon does not propagate to the row click handler.
+- Clicking the icon opens an `ActionBox` (MUI `Menu`). Clicking the icon does not propagate to the row click handler.
 
 ### Search
 
@@ -212,7 +213,7 @@ Same filtering logic as `SimpleTree`. The `SearchBox` is rendered at the top whe
 
 Same TanStack Query mechanics as `SimpleTree`. Query key: `['dataTreeItem', instanceId, itemId]`.
 
-Error state shows a mirrored-refresh icon on both expand and collapse slots. Clicking either retries the query.
+Error state shows a `RotateCw` icon in the error colour on both expand and collapse slots. Clicking either retries the query.
 
 ### Persistence
 
@@ -241,8 +242,8 @@ Drag-and-drop is powered by `@dnd-kit/core` + `@dnd-kit/sortable`.
 
 Two mutually exclusive indicators are shown during a drag:
 
-1. **Drop line** — a horizontal blue line between two items, showing where the dragged item will be inserted if dropped. The line appears at the gap closest to the cursor.
-2. **Drop-in border** — a blue border around a collapsed item, showing that the dragged item will become its last child if dropped.
+1. **Drop line** — a horizontal line in `primary.main` between two items, showing where the dragged item will be inserted if dropped. The line appears at the gap closest to the cursor.
+2. **Drop-in border** — a `primary.main` border around a collapsed item, showing that the dragged item will become its last child if dropped.
 
 Drop-in takes precedence: if the dragged item's center is within a collapsed item's row area (≥ 50% IoU overlap), the drop-in border is shown. Otherwise the drop-line is shown.
 
@@ -271,7 +272,7 @@ Only collapsed items are valid drop-in targets — hovering over an expanded nod
 
 #### Drag detection details
 
-- Drag starts after 50ms hold with ≤10px tolerance (prevents accidental drags on clicks).
+- Drag starts after the pointer moves 5px (prevents accidental drags on clicks). The 50ms hold with ≤10px tolerance is `TreeView` only.
 - Keyboard drag is supported via `KeyboardSensor`.
 - Drop indicators update on every `onDragMove` event via `rectIntersection` collision detection.
 - Drop-in IoU threshold: **0.5** — the central ~67% of the target row triggers drop-in; the thin edge zones trigger drop-line.
@@ -287,7 +288,7 @@ Only collapsed items are valid drop-in targets — hovering over an expanded nod
 | `itemsLabelColumnHeader` | `string` | `''` | Label column header text |
 | `selectedItems` | `string[]` | — | Controlled selection |
 | `onSelectedItemsChange` | `(ids: string[]) => void` | — | Selection callback |
-| `onExpand` | `(itemId: string) => void` | — | Called on expand |
+| `onExpand` | `(itemId: string) => void` | — | Called on expand and collapse |
 | `onClickRow` | `(itemId: string) => void` | — | Called on row click |
 | `onCheckboxChange` | `(itemId: string, checked: boolean) => void` | — | Enables checkboxes |
 | `onDragAndDropEnd` | `(src: number[], dst: number[]) => void` | — | Enables drag; reorder callback |
@@ -298,7 +299,7 @@ Only collapsed items are valid drop-in targets — hovering over an expanded nod
 | `searchDebounceTime` | `number` | `500` | Debounce in ms |
 | `searchPlaceholder` | `string` | — | Search input placeholder |
 | `persistence` | `TreePersistenceConfig` | — | localStorage persistence |
-| `queryClient` | `QueryClient` | — | External TanStack Query client |
+| `queryClient` | `TreeQueryClient` | — | External TanStack Query client |
 | `queryKeyPrefix` | `string` | — | Namespace prefix for query keys |
 | `sx` | `SxProps` | — | MUI sx override |
 | `className` | `string` | — | Root class name |
@@ -307,6 +308,29 @@ Only collapsed items are valid drop-in targets — hovering over an expanded nod
 ---
 
 ## Shared behaviours
+
+### Enabling dynamic loading
+
+`@tanstack/react-query` is an optional peer dependency, and the main entry (`dist/index.js`) must never reference it, statically, through `import()`, or in its `.d.ts` files. When the package is missing, Vite 8 replaces any reference with a stub that throws on evaluation, and app `manualChunks` rules matching `@ringpublishing/mui-components` move that stub into a vendor chunk loaded at startup. webpack / Rspack fail the build on a missing module even inside a lazy chunk.
+
+The dynamic implementations are therefore reachable only through a second package entry, enabled by an explicit call (a bare side-effect import could be dropped by tree-shaking or lint rules):
+
+```ts
+import { enableTreeDynamicLoading } from '@ringpublishing/mui-components/tree-dynamic-loading'; // dist/treeDynamicLoading.js
+
+enableTreeDynamicLoading();
+```
+
+- `src/components/Organisms/treeDynamicRegistry.ts` (main entry) holds the loaders. `SimpleTree` / `DataTree` call `getTreeDynamicComponent('simpleTree' | 'dataTree')` during render when `items` contain any `loadItems`, and render the returned `React.lazy` component inside `Suspense`.
+- `enableTreeDynamicLoading()` (`src/treeDynamicLoading.ts`) registers `() => import('./…/SimpleTreeDynamic.js')` and `() => import('./…/DataTreeDynamic.js')`. Those modules and `treeQueryClient.ts` are the only files that import `@tanstack/react-query`, and stay code-split.
+- Before registration, `getTreeDynamicComponent` throws an error naming the call to add. It throws during render instead of giving `React.lazy` a rejected promise, which `React.lazy` would keep forever: a tree that rendered before `enableTreeDynamicLoading()` ran recovers on its next render. The lazy component is created once per tree type, after registration.
+- The `queryClient` prop is typed as `TreeQueryClient` (`treeShared.ts`), a structural type a `QueryClient` satisfies, so the package root's declarations don't import `@tanstack/react-query`. `useTreePersistence` casts it back to `QueryClient`.
+- Static trees (no `loadItems` anywhere in `items`) render `SimpleTreeStatic` / `DataTreeStatic` and never touch the registry.
+- The decision is made from the current `items` on every render; switching between the two implementations remounts the tree.
+- Regression tests cover both states of the peer:
+  - `tests/package/treeDynamicLoading.spec.ts` builds an app with a vendor `manualChunks` rule, with the peer missing (Vite 8's stub) and installed, and fails if a static-tree app resolves `@tanstack/react-query` or bundles the stub. It also walks the declaration surface of `src/index.ts` and fails on any `@tanstack/react-query` type reference.
+  - `tests/components/Organisms/treeDynamicLoading/` renders both trees with the peer installed and with it mocked as missing, with and without dynamic loading enabled, including enabling it after a tree already failed to render.
+  - `tests/package/publicTypes.test-d.ts` checks that a `QueryClient` satisfies `TreeQueryClient`.
 
 ### Query key namespacing
 
@@ -329,7 +353,7 @@ Both trees implement identical retry behaviour:
 
 | Key | Contents |
 |---|---|
-| `ring-tree-cache-{cacheKey}` | `Array<[queryKey, data]>` — serialised TanStack Query cache entries |
+| `ring-tree-cache-{cacheKey}` | `Array<[queryKey, data]>` — the tree's serialised TanStack Query cache entries |
 | `ring-tree-state-{cacheKey}` | `{ expandedItems: string[], selectedItemId: string \| null }` (SimpleTree) or `{ expandedItems: string[], selectedItemIds: string \| string[] }` (DataTree) |
 
 Both keys are written independently. Clearing one does not affect the other.

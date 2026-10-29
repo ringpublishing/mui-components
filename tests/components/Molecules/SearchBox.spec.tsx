@@ -47,6 +47,46 @@ describe('SearchBox', () => {
         await waitFor(() => expect((getByRole('textbox') as HTMLInputElement).value).toBe(''));
     });
 
+    it('should render a medium field by default and a small one with size small', () => {
+        const { getByTestId, rerender } = render(<SearchBox defaultValue="" searchFunc={vi.fn()} />);
+
+        expect(getByTestId('ring-searchbox').classList.contains('MuiInputBase-sizeSmall')).toBe(false);
+
+        rerender(<SearchBox defaultValue="" searchFunc={vi.fn()} size="small" />);
+
+        expect(getByTestId('ring-searchbox').classList.contains('MuiInputBase-sizeSmall')).toBe(true);
+    });
+
+    it('should be a block-level flex box rather than a full-width field', () => {
+        const { getByTestId } = render(<SearchBox defaultValue="" searchFunc={vi.fn()} />);
+        const root = getByTestId('ring-searchbox');
+
+        expect(root.classList.contains('MuiInputBase-fullWidth')).toBe(false);
+        expect(getComputedStyle(root).display).toBe('flex');
+    });
+
+    it('should clear with a button named by labels.clear and return focus to the input', async () => {
+        const { getByRole, queryByRole } = render(
+            <SearchBox
+                defaultValue="test"
+                searchFunc={vi.fn()}
+                debounceTime={0}
+                withClearButton={true}
+                labels={{ clear: 'Clear search' }}
+            />,
+        );
+
+        act(() => {
+            fireEvent.click(getByRole('button', { name: 'Clear search' }));
+        });
+
+        await waitFor(() => {
+            expect((getByRole('textbox') as HTMLInputElement).value).toBe('');
+            expect(document.activeElement).toBe(getByRole('textbox'));
+            expect(queryByRole('button', { name: 'Clear search' })).toBeNull();
+        });
+    });
+
     it('should not show icon when withClearButton is false', () => {
         const { queryByTestId } = render(<SearchBox defaultValue="" searchFunc={vi.fn()} withClearButton={false} />);
         const icon = queryByTestId('ring-searchbox-clear');

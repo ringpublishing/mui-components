@@ -105,12 +105,12 @@ const Example = (): React.JSX.Element => {
                 }}
                 descriptionItems={[
                     {
-                        sectionTitle: 'METADATA',
+                        sectionTitle: 'Metadata',
                         fields: [
-                            { name: 'DURATION', value: '00:10' },
-                            { name: 'FORMAT', value: '1080p · H.264' },
+                            { name: 'Duration', value: '00:10' },
+                            { name: 'Format', value: '1080p · H.264' },
                             {
-                                name: 'TAGS',
+                                name: 'Tags',
                                 type: DetailDescriptionItemFieldType.CHIPS,
                                 value: ['preview', 'sample', 'animated'],
                             },
@@ -123,7 +123,6 @@ const Example = (): React.JSX.Element => {
 };
 
 export const WithCustomMediaSlot: Story = {
-    name: 'With Custom Media Slot',
     parameters: {
         docs: {
             description: {
@@ -133,10 +132,9 @@ export const WithCustomMediaSlot: Story = {
                     'and toggle `isPlaying`. The preview component plays/resets the video and renders an overlaid progress bar at the bottom.\n\n' +
                     '**Limitation — full-screen preview:** when `slots.media` is provided, the built-in LightBox / fullscreen preview ' +
                     'is suppressed (the slot replaces the default `<CardMedia>`, and `LightBox` only handles still images, not arbitrary ' +
-                    'React nodes). Passing `image` and `imageFullScreenPreview` alongside `slots.media` no longer mounts the LightBox ' +
-                    'or renders the zoom/download bottom-icons row. To support a custom full-screen viewer for video, render your own ' +
-                    'modal triggered through `slotProps.card` (e.g. `onContextMenu` or a separate button) — `slots.fullScreenContent` ' +
-                    'as a first-class slot may be added in a follow-up.',
+                    'React nodes). Passing `image` and `imageFullScreenPreview` alongside `slots.media` does not mount the LightBox ' +
+                    'or render the zoom/download bottom-icons row. For a custom full-screen viewer for video, render your own ' +
+                    'modal triggered through `slotProps.card` (e.g. `onContextMenu` or a separate button).',
             },
         },
     },

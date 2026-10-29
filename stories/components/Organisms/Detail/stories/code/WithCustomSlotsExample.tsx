@@ -6,18 +6,18 @@ import {
     DetailBottomAction,
 } from '@ringpublishing/mui-components';
 import { Box } from '@mui/material';
-import { Download, EditOutlined, InfoOutlined, PrintOutlined, Public, UploadOutlined, Web } from '@mui/icons-material';
+import { Download, Pencil, Info, Printer, Globe, Upload } from 'lucide-react';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 export default function WithCustomSlotsExample(): React.JSX.Element {
     const bottomActions: DetailBottomAction[] = [
         {
-            name: 'ACTION WITH URL',
+            name: 'Action with URL',
             url: 'https://video.onet.pl/',
-            icon: <Web />,
+            icon: <Globe />,
         },
         {
-            name: 'ACTION WITH ON CLICK',
+            name: 'Action with on click',
             onClick: (): void => undefined,
             icon: <Download />,
         },
@@ -25,16 +25,16 @@ export default function WithCustomSlotsExample(): React.JSX.Element {
 
     const descriptionItems: DetailDescriptionItem[] = [
         {
-            sectionTitle: 'SECTION ONE',
+            sectionTitle: 'Section one',
             fields: [
                 {
-                    icon: <Public />,
-                    name: 'WITH ICON',
+                    icon: <Globe />,
+                    name: 'With icon',
                     value: 'Published',
                 },
                 {
                     formatDate: true,
-                    name: 'DATE FORMATTED',
+                    name: 'Date formatted',
                     value: '2023-07-27T09:32:09Z',
                 },
             ],
@@ -42,16 +42,16 @@ export default function WithCustomSlotsExample(): React.JSX.Element {
         {
             fields: [
                 {
-                    name: 'LIST OF CHIPS',
+                    name: 'List of chips',
                     type: DetailDescriptionItemFieldType.CHIPS,
                     value: ['chip 1', 'chip 2', 'chip 3'],
                 },
                 {
-                    name: 'LIST OF STRINGS',
+                    name: 'List of strings',
                     value: ['string 1', 'string 2'],
                 },
             ],
-            sectionTitle: 'SECTION TWO',
+            sectionTitle: 'Section two',
         },
     ];
 
@@ -60,25 +60,25 @@ export default function WithCustomSlotsExample(): React.JSX.Element {
             bottomIcons: [
                 {
                     type: 'icon' as const,
-                    icon: <InfoOutlined />,
+                    icon: <Info />,
                     onClick: (): void => undefined,
                     tooltip: 'Info',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <EditOutlined />,
+                    icon: <Pencil />,
                     onClick: (): void => undefined,
                     tooltip: 'Edit',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <PrintOutlined />,
+                    icon: <Printer />,
                     onClick: (): void => undefined,
                     tooltip: 'Print',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <UploadOutlined />,
+                    icon: <Upload />,
                     onClick: (): void => undefined,
                     tooltip: 'Upload',
                 },
@@ -104,17 +104,15 @@ export default function WithCustomSlotsExample(): React.JSX.Element {
                 main={main}
                 slots={{
                     afterMain: (
-                        <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
-                            Custom slot after main
-                        </Box>
+                        <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>Custom slot after main</Box>
                     ),
                     afterDescriptionItems: (
-                        <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
+                        <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>
                             Custom slot after description items
                         </Box>
                     ),
                     afterBottomActions: (
-                        <Box sx={{ backgroundColor: (theme) => theme.palette.common.grey, py: 1, textAlign: 'center' }}>
+                        <Box sx={{ bgcolor: 'action.hover', py: 1, textAlign: 'center' }}>
                             Custom slot after bottom actions
                         </Box>
                     ),

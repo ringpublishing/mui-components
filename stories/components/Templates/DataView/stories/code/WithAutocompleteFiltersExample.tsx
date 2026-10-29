@@ -112,11 +112,11 @@ function AutocompleteFiltersTopSlot(topSlotProps: TopSlotProps): React.JSX.Eleme
                 p: 2,
             }}
         >
-            <Typography variant="headline1">Content library</Typography>
+            <Typography variant="subtitle1">Content library</Typography>
             <Box sx={{ alignItems: 'center', display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                 <SearchBox
                     {...(topSlotProps as ControlledSearchBoxProps)}
-                    sx={{ flex: '0 1 360px', minWidth: 0, py: 0 }}
+                    sx={{ flex: '0 1 360px', minWidth: 0 }}
                 />
                 <Autocomplete
                     variant="filter"

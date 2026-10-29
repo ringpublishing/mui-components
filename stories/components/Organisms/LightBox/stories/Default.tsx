@@ -11,7 +11,7 @@ import {
     getRandomImageSize,
     ImageSize,
     TestImage,
-} from '../../../../../src/helpers/stories/imagesData.js';
+} from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof LightBox>;
 

@@ -17,7 +17,7 @@ export const CommentActions: React.FC<CommentActionsProps> = ({
         <CardActions sx={{ justifyContent: 'flex-end', gap: 1 }}>
             <Button
                 size="small"
-                color="secondary"
+                color="inherit"
                 onClick={callbacks?.onCancel}
                 disabled={isCancelDisabled}
                 data-testid={`${dataTestId}-cancel`}

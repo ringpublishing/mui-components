@@ -28,7 +28,8 @@ Typography component with overflow handling and tooltip support. This component 
 
 - [Default](#default)
 - [Component API](#component-api)
-- [With Overflow and Tooltip](#with-overflow-and-tooltip)
+- [Overflow tooltip](#overflow-tooltip)
+- [Overflow tooltip — custom](#overflow-tooltip--custom)
 
 ## Default
 
@@ -40,7 +41,7 @@ The default Typography component displays text that wraps naturally within its c
 
 <ArgTypes include={['enableOverflow']} />
 
-## With Overflow and Tooltip
+## Overflow tooltip
 
 When `enableOverflow` is enabled, the component automatically detects text overflow and displays an ellipsis. Hovering over the truncated text shows a tooltip with the full content.
 
@@ -60,3 +61,9 @@ When `enableOverflow` is enabled, the component automatically detects text overf
 ```
 
 <Canvas of={Stories.WithOverflowAndTooltip} />
+
+## Overflow tooltip — custom
+
+`tooltipTitle` replaces the default tooltip content (the text itself) with any node, e.g. a multiline author card, and `alwaysShowTooltip` shows it on hover even when the text does not overflow. Use both when the visible text is an abbreviation of what the tooltip should explain.
+
+<Canvas of={Stories.WithCustomTooltip} />

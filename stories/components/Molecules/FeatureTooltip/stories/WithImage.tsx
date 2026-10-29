@@ -5,7 +5,7 @@ import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import WithImageExampleCode from './code/WithImageExample.tsx?raw';
 import { FeatureTooltip, FeatureTooltipProps } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 import defaultArgs, { storyEndDate } from '../common/defaultArgs.js';
 
 type Story = StoryObj<typeof FeatureTooltip>;

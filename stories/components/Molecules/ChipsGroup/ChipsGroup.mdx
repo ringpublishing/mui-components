@@ -9,13 +9,13 @@ The ChipsGroup component displays a collection of Chip components with intellige
 
 ## Features
 
-- **Automatic overflow handling**: Dynamically calculates visible chips and shows "+N" button for hidden ones
+- **Automatic overflow handling**: Dynamically calculates visible chips and shows a "+N" chip for hidden ones
 - **Flexible display modes**:
     - Default mode shows hidden chips in a dropdown menu
     - Expandable mode displays hidden chips inline when "+N" is clicked
-    - Collapsable mode allows returning to the compact view after expansion
+    - Collapsible mode allows returning to the compact view after expansion
 - **Delete all functionality**: Optional button to clear all chips at once
-- **Customizable labels**: Override default text for "Clear" and "Show less" buttons
+- **Customizable labels**: Override default text for the "Clear" button and the "Show less" chip
 - **Responsive**: Adapts to container width changes
 - **Individual chip actions**: Each chip can have its own click, delete, and styling
 
@@ -23,10 +23,10 @@ The ChipsGroup component displays a collection of Chip components with intellige
 
 - [Default](#default)
 - [Component API](#component-api)
-- [Expandable Chips](#chips-expandable)
-- [Expandable and Collapsable](#chips-expandable-and-collapsable)
-- [Delete All](#delete-all)
-- [Custom Labels](#custom-labels)
+- [Expandable](#expandable)
+- [Expandable — collapsable](#expandable--collapsable)
+- [Delete all](#delete-all)
+- [Custom labels](#custom-labels)
 
 ## Default
 
@@ -38,9 +38,9 @@ The basic usage shows chips in a container with automatic overflow handling. Whe
 
 <ArgTypes />
 
-## Chips Expandable
+## Expandable
 
-Enable inline expansion of hidden chips by setting `expandable={true}`. When the user clicks the "+N" button, all hidden chips are displayed inline rather than in a dropdown menu.
+Enable inline expansion of hidden chips by setting `expandable={true}`. When the user clicks the "+N" chip, all hidden chips are displayed inline rather than in a dropdown menu.
 
 ### Key Features:
 
@@ -50,19 +50,19 @@ Enable inline expansion of hidden chips by setting `expandable={true}`. When the
 
 <Canvas of={Stories.ChipsExpandable} />
 
-## Chips Expandable and Collapsable
+## Expandable — collapsable
 
-Combine `expandable` and `collapsable` props to allow users to toggle between compact and expanded views. After expanding, a "Show less" button appears to collapse the chips back to the original state.
+Combine `expandable` and `collapsable` props to allow users to toggle between compact and expanded views. After expanding, a "Show less" chip appears to collapse the chips back to the original state.
 
 ### Key Features:
 
-- Expand chips inline with "+N" button
-- Collapse back with "Show less" button
+- Expand chips inline with the "+N" chip
+- Collapse back with the "Show less" chip
 - Gives users control over the view density
 
 <Canvas of={Stories.ChipsExpandableAndCollapsable} />
 
-## Delete All
+## Delete all
 
 Add a delete all button by providing the `onDeleteAll` callback. This displays a "Clear" button at the end of the chips group, allowing users to remove all chips with a single click.
 
@@ -77,14 +77,14 @@ Add a delete all button by providing the `onDeleteAll` callback. This displays a
 
 <Canvas of={Stories.DeleteAll} />
 
-## Custom Labels
+## Custom labels
 
 Customize the text for action buttons using the `customLabels` prop. This is useful for internationalization or matching your application's terminology.
 
 ### Available Labels:
 
 - `deleteAll`: Text for the delete all button (default: "Clear")
-- `showLess`: Text for the collapse button (default: "Show less")
+- `showLess`: Text for the collapse chip (default: "Show less")
 
 ### Usage:
 

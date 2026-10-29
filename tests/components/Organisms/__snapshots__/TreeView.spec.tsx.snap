@@ -5,23 +5,26 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
   <ul
     aria-multiselectable="false"
     class="MuiSimpleTreeView-root css-1o8c9x7-MuiSimpleTreeView-root"
-    id="mui-tree-view-10"
+    data-testid="ring-treeview"
+    id="mui-tree-view-9"
     role="tree"
     style="--TreeView-itemChildrenIndentation: 12px;"
   >
     <div
+      class="MuiBox-root css-0"
       style="opacity: 1; cursor: default;"
     >
       <li
         aria-checked="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-1kdvtp7-MuiTreeItem-root"
-        id="mui-tree-view-10-1"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1dpkukw-MuiTreeItem-root"
+        data-testid="ring-treeview-item-1"
+        id="mui-tree-view-9-1"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -33,7 +36,7 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1yiifl4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1ta5qsa-MuiTypography-root"
             >
               Item 1
             </p>
@@ -45,18 +48,20 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
       </li>
     </div>
     <div
+      class="MuiBox-root css-0"
       style="opacity: 1; cursor: default;"
     >
       <li
         aria-checked="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-1kdvtp7-MuiTreeItem-root"
-        id="mui-tree-view-10-2"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1dpkukw-MuiTreeItem-root"
+        data-testid="ring-treeview-item-2"
+        id="mui-tree-view-9-2"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -68,7 +73,7 @@ exports[`Component: TreeView > Compact variant > should render compact variant w
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1yiifl4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1ta5qsa-MuiTypography-root"
             >
               Item 2
             </p>
@@ -87,44 +92,82 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
 <div>
   <ul
     aria-multiselectable="true"
-    class="ring-tree-view MuiSimpleTreeView-root css-2jseo9-MuiSimpleTreeView-root"
+    class="ring-tree-view MuiSimpleTreeView-root css-1qzo4r5-MuiSimpleTreeView-root"
+    data-testid="ring-treeview"
     id="mui-tree-view-2"
     role="tree"
     style="--TreeView-itemChildrenIndentation: 12px;"
   >
     <div
-      class="MuiStack-root ring-search-box css-1hotza9-MuiStack-root"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-7x4zfx-MuiInputBase-root-MuiOutlinedInput-root"
       data-testid="ring-searchbox"
     >
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-14x80ft-MuiSvgIcon-root"
-        data-testid="ring-searchbox-search"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
-        />
-      </svg>
       <div
-        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth css-1vuwxc5-MuiInputBase-root-MuiInput-root"
+        class="MuiInputAdornment-root MuiInputAdornment-positionStart css-9n7iu0-MuiInputAdornment-root"
       >
-        <input
-          aria-label="Search"
-          class="MuiInputBase-input MuiInput-input css-1xplzeo-MuiInputBase-input-MuiInput-input"
-          data-testid="ring-searchbox-input"
-          placeholder=""
-          type="text"
-          value=""
-        />
+        <span
+          aria-hidden="true"
+          class="notranslate"
+        >
+          ​
+        </span>
+        <span
+          class="ring-lucide-icon MuiBox-root css-1y232qa"
+          data-testid="ring-searchbox-search"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-search"
+            fill="none"
+            height="1em"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m21 21-4.34-4.34"
+            />
+            <circle
+              cx="11"
+              cy="11"
+              r="8"
+            />
+          </svg>
+        </span>
       </div>
+      <input
+        aria-label="Search"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-19yncl1-MuiInputBase-input-MuiOutlinedInput-input"
+        data-testid="ring-searchbox-input"
+        placeholder=""
+        type="text"
+        value=""
+      />
+      <fieldset
+        aria-hidden="true"
+        class="MuiOutlinedInput-notchedOutline css-14sy7op-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          class="css-1nf2c5d-MuiNotchedOutlined-root"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate"
+          >
+            ​
+          </span>
+        </legend>
+      </fieldset>
     </div>
     <div
       class="MuiBox-root css-178qus3"
     >
       <span
-        class="MuiTypography-root MuiTypography-caption css-2hir61-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-caption css-3t741-MuiTypography-root"
       >
         Name
       </span>
@@ -132,12 +175,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         class="MuiBox-root css-eqqcv6"
       >
         <span
-          class="MuiTypography-root MuiTypography-caption css-1n9hhav-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-caption css-c7hxgj-MuiTypography-root"
         >
           First Column
         </span>
         <span
-          class="MuiTypography-root MuiTypography-caption css-1n9hhav-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-caption css-c7hxgj-MuiTypography-root"
         >
           Second Column
         </span>
@@ -147,19 +190,21 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       </div>
     </div>
     <div
+      class="MuiBox-root css-0"
       style="opacity: 1; cursor: default;"
     >
       <li
         aria-checked="false"
         aria-expanded="true"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+        data-testid="ring-treeview-item-0"
         id="mui-tree-view-2-0"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent Mui-expanded css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent Mui-expanded css-14cxwzk-MuiTreeItem-content"
           data-expanded=""
         >
           <div
@@ -172,13 +217,20 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="RemoveOutlinedIcon"
-                focusable="false"
+                class="lucide lucide-minus"
+                fill="none"
+                height="18"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                style="flex-shrink: 0;"
                 viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M19 13H5v-2h14z"
+                  d="M5 12h14"
                 />
               </svg>
             </div>
@@ -187,9 +239,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             class="MuiBox-root css-vxcmzt"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             >
               <input
+                aria-label="Item 0"
                 class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                 data-indeterminate="false"
                 disabled=""
@@ -214,7 +267,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-fbud8p-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-nzmfnh-MuiTypography-root"
             >
               Item 0
             </p>
@@ -222,12 +275,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               class="MuiBox-root css-a7klhu"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column1 0
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column2 0
               </p>
@@ -235,20 +288,40 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 class="MuiBox-root css-1exc0hf"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                  aria-haspopup="menu"
+                  aria-label="More actions"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                   data-testid="ring-treeview-item-0-actions"
                   tabindex="0"
                   type="button"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-1dhtbeh-MuiSvgIcon-root"
-                    data-testid="MoreVertIcon"
-                    focusable="false"
+                    class="lucide lucide-ellipsis-vertical lucide-more-vertical RingTreeView-itemRowActionButton"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
                     viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="19"
+                      r="1"
                     />
                   </svg>
                 </button>
@@ -271,20 +344,22 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 aria-describedby="DndDescribedBy-0"
                 aria-disabled="false"
                 aria-roledescription="sortable"
+                class="MuiBox-root css-0"
                 role="button"
                 style="opacity: 1; cursor: grab;"
                 tabindex="0"
               >
                 <li
                   aria-checked="false"
-                  class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+                  class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+                  data-testid="ring-treeview-item-0.0"
                   id="mui-tree-view-2-0.0"
                   role="treeitem"
                   style="--TreeView-itemDepth: 1; margin-left: 32px;"
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -294,9 +369,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       class="MuiBox-root css-vxcmzt"
                     >
                       <span
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                       >
                         <input
+                          aria-label="Item 0.0"
                           checked=""
                           class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                           data-indeterminate="false"
@@ -321,7 +397,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-fbud8p-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-nzmfnh-MuiTypography-root"
                       >
                         Item 0.0
                       </p>
@@ -329,12 +405,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                         class="MuiBox-root css-a7klhu"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column1 0.0
                         </p>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column2 0.0
                         </p>
@@ -350,6 +426,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 aria-describedby="DndDescribedBy-0"
                 aria-disabled="false"
                 aria-roledescription="sortable"
+                class="MuiBox-root css-0"
                 role="button"
                 style="opacity: 1; cursor: grab;"
                 tabindex="0"
@@ -357,34 +434,46 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 <li
                   aria-checked="false"
                   aria-expanded="false"
-                  class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+                  class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+                  data-testid="ring-treeview-item-0.1"
                   id="mui-tree-view-2-0.1"
                   role="treeitem"
                   style="--TreeView-itemDepth: 1; margin-left: 32px;"
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
                       style="width: 32px;"
                     >
                       <button
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
+                        aria-hidden="true"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1eolwjr-MuiButtonBase-root-MuiIconButton-root"
                         data-testid="ring-treeview-item-0.1-expand"
-                        tabindex="0"
+                        tabindex="-1"
                         type="button"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                          data-testid="AddOutlinedIcon"
-                          focusable="false"
+                          class="lucide lucide-plus"
+                          fill="none"
+                          height="18"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          style="flex-shrink: 0;"
                           viewBox="0 0 24 24"
+                          width="18"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                            d="M5 12h14"
+                          />
+                          <path
+                            d="M12 5v14"
                           />
                         </svg>
                       </button>
@@ -393,9 +482,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       class="MuiBox-root css-vxcmzt"
                     >
                       <span
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                       >
                         <input
+                          aria-label="Item 0.1"
                           checked=""
                           class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                           data-indeterminate="false"
@@ -420,7 +510,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-cymmtk-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-16pmq76-MuiTypography-root"
                       >
                         Item 0.1
                       </p>
@@ -428,12 +518,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                         class="MuiBox-root css-r2lodu"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column1 0.1
                         </p>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column2 0.1
                         </p>
@@ -449,20 +539,22 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 aria-describedby="DndDescribedBy-0"
                 aria-disabled="false"
                 aria-roledescription="sortable"
+                class="MuiBox-root css-0"
                 role="button"
                 style="opacity: 1; cursor: grab;"
                 tabindex="0"
               >
                 <li
                   aria-checked="false"
-                  class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+                  class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+                  data-testid="ring-treeview-item-0.2"
                   id="mui-tree-view-2-0.2"
                   role="treeitem"
                   style="--TreeView-itemDepth: 1; margin-left: 32px;"
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -474,7 +566,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-q5x10c-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-174m62d-MuiTypography-root"
                       >
                         Item 0.2
                       </p>
@@ -482,12 +574,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                         class="MuiBox-root css-1bon6q5"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column1 0.2
                         </p>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column2 0.2
                         </p>
@@ -503,20 +595,22 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 aria-describedby="DndDescribedBy-0"
                 aria-disabled="false"
                 aria-roledescription="sortable"
+                class="MuiBox-root css-0"
                 role="button"
                 style="opacity: 1; cursor: grab;"
                 tabindex="0"
               >
                 <li
                   aria-checked="false"
-                  class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+                  class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+                  data-testid="ring-treeview-item-0.3"
                   id="mui-tree-view-2-0.3"
                   role="treeitem"
                   style="--TreeView-itemDepth: 1; margin-left: 32px;"
                   tabindex="-1"
                 >
                   <div
-                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+                    class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
                   >
                     <div
                       class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -528,7 +622,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-q5x10c-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 css-174m62d-MuiTypography-root"
                       >
                         Item 0.3
                       </p>
@@ -536,12 +630,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                         class="MuiBox-root css-1bon6q5"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column1 0.3
                         </p>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
                         >
                           Column2 0.3
                         </p>
@@ -562,6 +656,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -569,34 +664,46 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       <li
         aria-checked="false"
         aria-expanded="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+        data-testid="ring-treeview-item-1"
         id="mui-tree-view-2-1"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
             style="width: 32px;"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1eolwjr-MuiButtonBase-root-MuiIconButton-root"
               data-testid="ring-treeview-item-1-expand"
-              tabindex="0"
+              tabindex="-1"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="AddOutlinedIcon"
-                focusable="false"
+                class="lucide lucide-plus"
+                fill="none"
+                height="18"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                style="flex-shrink: 0;"
                 viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
                 />
               </svg>
             </button>
@@ -605,9 +712,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             class="MuiBox-root css-vxcmzt"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             >
               <input
+                aria-label="Item 1"
                 class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                 data-indeterminate="false"
                 type="checkbox"
@@ -631,7 +739,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-fbud8p-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-nzmfnh-MuiTypography-root"
             >
               Item 1
             </p>
@@ -639,12 +747,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               class="MuiBox-root css-a7klhu"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column1 1
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column2 1
               </p>
@@ -652,20 +760,40 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 class="MuiBox-root css-1exc0hf"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                  aria-haspopup="menu"
+                  aria-label="More actions"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                   data-testid="ring-treeview-item-1-actions"
                   tabindex="0"
                   type="button"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-1dhtbeh-MuiSvgIcon-root"
-                    data-testid="MoreVertIcon"
-                    focusable="false"
+                    class="lucide lucide-ellipsis-vertical lucide-more-vertical RingTreeView-itemRowActionButton"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
                     viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="19"
+                      r="1"
                     />
                   </svg>
                 </button>
@@ -679,6 +807,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
@@ -686,34 +815,46 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       <li
         aria-checked="false"
         aria-expanded="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+        data-testid="ring-treeview-item-2"
         id="mui-tree-view-2-2"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
             style="width: 32px;"
           >
             <button
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1xb0u4o-MuiButtonBase-root-MuiIconButton-root"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1eolwjr-MuiButtonBase-root-MuiIconButton-root"
               data-testid="ring-treeview-item-2-expand"
-              tabindex="0"
+              tabindex="-1"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dhtbeh-MuiSvgIcon-root"
-                data-testid="AddOutlinedIcon"
-                focusable="false"
+                class="lucide lucide-plus"
+                fill="none"
+                height="18"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                style="flex-shrink: 0;"
                 viewBox="0 0 24 24"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
                 />
               </svg>
             </button>
@@ -722,9 +863,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             class="MuiBox-root css-vxcmzt"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             >
               <input
+                aria-label="Item 2"
                 class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                 data-indeterminate="false"
                 type="checkbox"
@@ -748,7 +890,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-fbud8p-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-nzmfnh-MuiTypography-root"
             >
               Item 2
             </p>
@@ -756,12 +898,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               class="MuiBox-root css-a7klhu"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column1 2
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column2 2
               </p>
@@ -777,20 +919,22 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
+      class="MuiBox-root css-0"
       role="button"
       style="opacity: 1; cursor: grab;"
       tabindex="0"
     >
       <li
         aria-checked="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-kxw4wl-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1vgh2zl-MuiTreeItem-root"
+        data-testid="ring-treeview-item-3"
         id="mui-tree-view-2-3"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -800,9 +944,10 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             class="MuiBox-root css-vxcmzt"
           >
             <span
-              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-jjk13x-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1mna8w4-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             >
               <input
+                aria-label="Item 3"
                 checked=""
                 class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                 data-indeterminate="false"
@@ -827,7 +972,7 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1wfoish-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1qyhsxi-MuiTypography-root"
             >
               Item 3
             </p>
@@ -835,12 +980,12 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
               class="MuiBox-root css-t86ky5"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column1 3
               </p>
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1ve3y4r-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1ipaa5i-MuiTypography-root"
               >
                 Column2 3
               </p>
@@ -848,20 +993,40 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
                 class="MuiBox-root css-1exc0hf"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                  aria-haspopup="menu"
+                  aria-label="More actions"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                   data-testid="ring-treeview-item-3-actions"
                   tabindex="0"
                   type="button"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium RingTreeView-itemRowActionButton css-1dhtbeh-MuiSvgIcon-root"
-                    data-testid="MoreVertIcon"
-                    focusable="false"
+                    class="lucide lucide-ellipsis-vertical lucide-more-vertical RingTreeView-itemRowActionButton"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
                     viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="5"
+                      r="1"
+                    />
+                    <circle
+                      cx="12"
+                      cy="19"
+                      r="1"
                     />
                   </svg>
                 </button>
@@ -871,23 +1036,6 @@ exports[`Component: TreeView > should render correctly with all props 1`] = `
         </div>
       </li>
     </div>
-    <div
-      id="DndDescribedBy-0"
-      style="display: none;"
-    >
-      
-    To pick up a draggable item, press the space bar.
-    While dragging, use the arrow keys to move the item.
-    Press space again to drop the item in its new position, or press escape to cancel.
-  
-    </div>
-    <div
-      aria-atomic="true"
-      aria-live="assertive"
-      id="DndLiveRegion-0"
-      role="status"
-      style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
-    />
   </ul>
 </div>
 `;
@@ -897,23 +1045,26 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
   <ul
     aria-multiselectable="false"
     class="MuiSimpleTreeView-root css-1o8c9x7-MuiSimpleTreeView-root"
+    data-testid="ring-treeview"
     id="mui-tree-view-1"
     role="tree"
     style="--TreeView-itemChildrenIndentation: 12px;"
   >
     <div
+      class="MuiBox-root css-0"
       style="opacity: 1; cursor: default;"
     >
       <li
         aria-checked="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-1kdvtp7-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1dpkukw-MuiTreeItem-root"
+        data-testid="ring-treeview-item-1"
         id="mui-tree-view-1-1"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="0"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -925,7 +1076,7 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1yiifl4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1ta5qsa-MuiTypography-root"
             >
               Item 1
             </p>
@@ -937,18 +1088,20 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
       </li>
     </div>
     <div
+      class="MuiBox-root css-0"
       style="opacity: 1; cursor: default;"
     >
       <li
         aria-checked="false"
-        class="MuiTreeItem-root MuiSimpleTreeView-root css-1kdvtp7-MuiTreeItem-root"
+        class="MuiTreeItem-root MuiSimpleTreeView-root css-1dpkukw-MuiTreeItem-root"
+        data-testid="ring-treeview-item-2"
         id="mui-tree-view-1-2"
         role="treeitem"
         style="--TreeView-itemDepth: 0; margin-left: 0px;"
         tabindex="-1"
       >
         <div
-          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-1uf9se8-MuiTreeItem-content"
+          class="MuiTreeItem-content MuiSimpleTreeView-itemContent css-14cxwzk-MuiTreeItem-content"
         >
           <div
             class="MuiTreeItem-iconContainer MuiSimpleTreeView-itemIconContainer css-bt3rqe-MuiTreeItem-iconContainer"
@@ -960,7 +1113,7 @@ exports[`Component: TreeView > should render correctly with default props 1`] = 
             data-mui-internal-clone-element="true"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1yiifl4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1ta5qsa-MuiTypography-root"
             >
               Item 2
             </p>

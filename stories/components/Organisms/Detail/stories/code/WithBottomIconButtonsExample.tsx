@@ -1,7 +1,7 @@
 import React from 'react';
 import { Detail } from '@ringpublishing/mui-components';
 import { Box } from '@mui/material';
-import { EditOutlined, InfoOutlined, PrintOutlined, UploadOutlined } from '@mui/icons-material';
+import { Pencil, Info, Printer, Upload } from 'lucide-react';
 import { getImagePath, TestImage, ImageSize } from 'RingDemoImages';
 
 export default function WithBottomIconButtonsExample(): React.JSX.Element {
@@ -10,25 +10,25 @@ export default function WithBottomIconButtonsExample(): React.JSX.Element {
             bottomIcons: [
                 {
                     type: 'icon' as const,
-                    icon: <InfoOutlined />,
+                    icon: <Info />,
                     onClick: (): void => undefined,
                     tooltip: 'Information',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <EditOutlined />,
+                    icon: <Pencil />,
                     onClick: (): void => undefined,
                     tooltip: 'Edit',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <PrintOutlined />,
+                    icon: <Printer />,
                     onClick: (): void => undefined,
                     tooltip: 'Print',
                 },
                 {
                     type: 'icon' as const,
-                    icon: <UploadOutlined />,
+                    icon: <Upload />,
                     onClick: (): void => undefined,
                     tooltip: 'Upload',
                 },
@@ -44,7 +44,7 @@ export default function WithBottomIconButtonsExample(): React.JSX.Element {
 
     const descriptionItems = [
         {
-            sectionTitle: 'INFORMATION',
+            sectionTitle: 'Information',
             fields: [
                 {
                     name: 'Description',
@@ -53,6 +53,7 @@ export default function WithBottomIconButtonsExample(): React.JSX.Element {
             ],
         },
     ];
+
     return (
         <Box display={'flex'} justifyContent={'center'}>
             <Detail main={main} descriptionItems={descriptionItems} />

@@ -3,7 +3,7 @@
 exports[`DataGrid - spacer > should render correctly 1`] = `
 <div>
   <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-2491758308 css-zqh2ll-MuiDataGrid-root"
+    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-m2tdwp-MuiDataGrid-root"
     style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 100px; --DataGrid-columnsTotalWidth: 100px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
   >
     <div
@@ -84,20 +84,32 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
                         >
                           <button
                             aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-168tf43-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
                             field="title"
                             tabindex="-1"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiDataGrid-sortIcon css-1hon42z-MuiSvgIcon-root"
-                              data-testid="ArrowUpwardIcon"
-                              focusable="false"
+                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
+                              fill="none"
+                              font-size="small"
+                              height="20"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
                               viewBox="0 0 24 24"
+                              width="20"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                                d="m5 12 7-7 7 7"
+                                vector-effect="non-scaling-stroke"
+                              />
+                              <path
+                                d="M12 19V5"
+                                vector-effect="non-scaling-stroke"
                               />
                             </svg>
                           </button>
@@ -111,7 +123,7 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label="Title column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-hiqy5m-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-internal-clone-element="true"
                         id="_r_2_"
                         tabindex="-1"
@@ -119,13 +131,35 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-zysrwz-MuiSvgIcon-root"
-                          data-testid="TripleDotsVerticalIcon"
-                          focusable="false"
+                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
+                          fill="none"
+                          font-size="inherit"
+                          height="20"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                           viewBox="0 0 24 24"
+                          width="20"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="5"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
+                          />
+                          <circle
+                            cx="12"
+                            cy="19"
+                            r="1"
+                            vector-effect="non-scaling-stroke"
                           />
                         </svg>
                       </button>
@@ -173,7 +207,7 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
               style="transform: translate3d(0, 0px, 0);"
             >
               <div
-                class="MuiBox-root css-13o1lsh"
+                class="MuiBox-root css-1u4xi9x"
                 role="row"
               >
                 <div
@@ -182,17 +216,64 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1hon42z-MuiSvgIcon-root"
-                    data-testid="CalendarMonthIcon"
-                    focusable="false"
+                    class="lucide lucide-calendar-days"
+                    fill="none"
+                    height="20"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
                     viewBox="0 0 24 24"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 16H5V10h14zM9 14H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2zm-8 4H7v-2h2zm4 0h-2v-2h2zm4 0h-2v-2h2z"
+                      d="M8 2v3"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M16 2v3"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <rect
+                      height="18"
+                      rx="2"
+                      vector-effect="non-scaling-stroke"
+                      width="18"
+                      x="3"
+                      y="3"
+                    />
+                    <path
+                      d="M3 9h18"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M8 13h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M12 13h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M16 13h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M8 17h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M12 17h.01"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M16 17h.01"
+                      vector-effect="non-scaling-stroke"
                     />
                   </svg>
                   <span
-                    class="MuiTypography-root MuiTypography-caption css-2vzjgd-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-caption css-yb195k-MuiTypography-root"
                   >
                     default
                   </span>
@@ -232,26 +313,41 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
                 />
               </div>
               <div
-                class="MuiBox-root css-1t2rcpd"
+                class="MuiBox-root css-sehcj9"
                 role="row"
               >
                 <div
                   class="MuiBox-root css-6gei9z"
                   role="gridcell"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-2oawe7-MuiSvgIcon-root"
-                    data-testid="EditIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
-                    />
-                  </svg>
                   <span
-                    class="MuiTypography-root MuiTypography-caption css-taxw80-MuiTypography-root"
+                    class="ring-lucide-icon MuiBox-root css-dgnxfd"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-pencil"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                        vector-effect="non-scaling-stroke"
+                      />
+                      <path
+                        d="m15 5 4 4"
+                        vector-effect="non-scaling-stroke"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption css-28jkbu-MuiTypography-root"
                   >
                     custom
                   </span>
@@ -291,9 +387,9 @@ exports[`DataGrid - spacer > should render correctly 1`] = `
       </div>
     </div>
     <style
-      href="/MuiDataGridVariables-2491758308"
+      href="/MuiDataGridVariables-1575782458"
     >
-      .MuiDataGridVariables-2491758308{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(224, 224, 224, 1);--DataGrid-t-color-background-base:#fff;--DataGrid-t-color-background-overlay:#fff;--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(38, 38, 38, 1);--DataGrid-t-color-foreground-muted:rgba(123, 123, 123, 1);--DataGrid-t-color-foreground-accent:rgba(0, 134, 204, 1);--DataGrid-t-color-foreground-disabled:rgba(157, 157, 157, 1);--DataGrid-t-color-foreground-error:rgba(188, 24, 40, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(0, 167, 238, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(196, 196, 196, 1) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:#fff;--DataGrid-t-cell-background-pinned:#fff;--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Arial, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.8125rem / 1.25rem Arial, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1.125rem Arial, sans-serif;--DataGrid-t-typography-font-large:400 0.875rem / 1.5rem Arial, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+      .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
     </style>
   </div>
 </div>

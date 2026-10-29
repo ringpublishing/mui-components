@@ -1,6 +1,6 @@
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
-import { ManageSearch } from '@mui/icons-material';
+import { Search } from 'lucide-react';
 import { createCodeStory } from '../../../../helpers.js';
 import WithDropdownActionsExampleCode from './code/WithDropdownActionsExample.tsx?raw';
 import { Autocomplete, AutocompleteProps } from '../../../../../src/index.js';
@@ -13,7 +13,7 @@ export const WithDropdownActions: Story = {
         ...defaultArgs,
         actions: [
             {
-                icon: <ManageSearch />,
+                icon: <Search />,
                 onClick: action('click'),
                 disabled: false,
                 label: 'Settings',

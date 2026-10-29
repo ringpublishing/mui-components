@@ -4,7 +4,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import InfiniteScrollExampleCode from './code/InfiniteScrollExample.tsx?raw';
 import { MultimediaGrid } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
-import { useMultimediaGridDemoData } from '../../../../../src/helpers/stories/ringDemoData.js';
+import { useMultimediaGridDemoData } from '../../../../helpers/ringDemoData.js';
 
 type Story = StoryObj<typeof MultimediaGrid>;
 

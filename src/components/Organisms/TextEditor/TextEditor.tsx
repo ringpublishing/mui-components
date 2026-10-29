@@ -1,6 +1,6 @@
 import React, { useImperativeHandle } from 'react';
 import classNames from 'classnames';
-import { Box } from '@mui/material';
+import { alpha, Box } from '@mui/material';
 
 import { Content, Editor, EditorProvider, Extension, Mark } from '@tiptap/react';
 import { Transaction } from '@tiptap/pm/state';
@@ -54,9 +54,8 @@ export interface TextEditorProps extends CommonComponentProps {
     ref?: React.Ref<Editor | null>;
 
     /**
-     * Used to handle adding links - TextEditor passes currently chosen link as a parameter and awaits for new link as a return value.
-     * When null is returned, the link will be removed.
-     * If not provided, the menu button for links will not be rendered.
+     * Handles link editing: receives the current link and resolves to the new one, or `null` to
+     * remove it. Without it the link menu button is not rendered.
      */
     onLinkClick?: (link: TextEditorLinkAttributes) => Promise<TextEditorLinkAttributes | null>;
 
@@ -165,9 +164,9 @@ export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((prop
     return (
         <Box
             className={classNames('ring-text-editor', className)}
+            data-testid={dataTestId}
             sx={{
-                // @ts-expect-error - theme type definition does not contain this color
-                borderColor: (theme): string => theme.palette.secondary.focus,
+                borderColor: (theme): string => alpha(theme.palette.secondary.main, theme.palette.action.focusOpacity),
                 borderWidth: '1px',
                 borderStyle: 'solid',
                 borderRadius: '10px',
@@ -197,6 +196,9 @@ export const TextEditor = React.forwardRef<Editor | null, TextEditorProps>((prop
                     ...extensions,
                 ]}
                 content={content}
+                editorContainerProps={
+                    { 'data-testid': `${dataTestId}-content` } as React.HTMLAttributes<HTMLDivElement>
+                }
                 shouldRerenderOnTransaction={true}
                 slotBefore={
                     <TextEditorMenu

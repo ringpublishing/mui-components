@@ -1,4 +1,3 @@
-import { MoreVert, Save, Tune } from '@mui/icons-material';
 import type { StoryObj } from '@storybook/react-vite';
 import { action } from 'storybook/actions';
 import React, { useCallback, useRef, useState } from 'react';
@@ -6,6 +5,7 @@ import { createCodeStory } from '../../../../helpers.js';
 import WithMenuListActionExampleCode from './code/WithMenuListActionExample.tsx?raw';
 import { ActionBox, ActionBoxItem, Autocomplete, DefaultAutocompleteProps } from '../../../../../src/index.js';
 import defaultArgs from '../common/defaultArgs.js';
+import { MoreVertical, Save, Settings2 } from 'lucide-react';
 
 interface MenuListActionsControl {
     label?: string;
@@ -20,8 +20,8 @@ interface MenuListActionsControl {
 type StoryArgs = Omit<DefaultAutocompleteProps, 'menuListActions'> & { menuListActions: MenuListActionsControl };
 type Story = StoryObj<StoryArgs>;
 
-const tuneIcon = <Tune />;
-const moreVertIcon = <MoreVert />;
+const tuneIcon = <Settings2 />;
+const moreVertIcon = <MoreVertical />;
 const saveIcon = <Save />;
 const configureResultsAction = action('configure results');
 const moreResultsActionsAction = action('more results actions');

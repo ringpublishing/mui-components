@@ -111,7 +111,7 @@ export default function UploadFileStatesExample(): React.JSX.Element {
                     showProgressBar: false,
                     showRemove: false,
                     action: {
-                        label: 'CHANGE',
+                        label: 'Change',
                     },
                 },
             ]}

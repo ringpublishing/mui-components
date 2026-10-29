@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { CodeOutlined } from '@mui/icons-material';
+import { Code } from 'lucide-react';
 import { Extension, Mark } from '@tiptap/react';
 import { Heading } from '@tiptap/extension-heading';
-import { Code } from '@tiptap/extension-code';
+import { Code as CodeExtension } from '@tiptap/extension-code';
 import { createCodeStory } from '../../../../helpers.js';
 import WithAdditionalExtensionsExampleCode from './code/WithAdditionalExtensionsExample.tsx?raw';
 import {
@@ -15,7 +15,7 @@ import {
     TextEditorMenuSelectHeading,
     TextField,
 } from '../../../../../src/index.js';
-import { getImagePath, ImageSize, TestImage } from '../../../../../src/helpers/stories/imagesData.js';
+import { getImagePath, ImageSize, TestImage } from '../../../../helpers/imagesData.js';
 
 type Story = StoryObj<typeof TextEditor>;
 
@@ -199,12 +199,12 @@ export const WithAdditionalExtensions: Story = {
             example: (
                 <TextEditorWrapper
                     content={sampleTextWithAdditionalExtensions}
-                    extensions={[Heading as Extension, Code]}
+                    extensions={[Heading as Extension, CodeExtension]}
                     menuControls={[
                         <TextEditorMenuSelectHeading levels={[1, 2, 3, 4, 5, 6]} key={'heading'} />,
                         <TextEditorMenuToggleButton
                             key={'code'}
-                            icon={<CodeOutlined />}
+                            icon={<Code />}
                             onClick={(editor): boolean => editor.chain().focus().toggleCode().run()}
                             active={(editor): boolean => editor.isActive('code')}
                             disabled={(editor): boolean => !editor.can().chain().focus().toggleCode().run()}

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import type { StoryObj } from '@storybook/react-vite';
 import { Card, CardContent, Chip, GridLegacy as Grid, IconButton, Paper, useTheme } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
+import { EllipsisVertical } from 'lucide-react';
 import { action } from 'storybook/actions';
 import { createCodeStory } from '../../../../helpers.js';
 import WithDragHandleExampleCode from './code/WithDragHandleExample.tsx?raw';
@@ -41,12 +41,13 @@ function CustomListItemWithDragHandle(props: { item: Item }): React.JSX.Element 
                         </Grid>
                         <Grid item={true} xs={2}>
                             <IconButton
+                                aria-label="Item actions"
                                 ref={anchorRef}
                                 onClick={(): void => {
                                     /* noop */
                                 }}
                             >
-                                <MoreVert />
+                                <EllipsisVertical />
                             </IconButton>
                             <ActionBox
                                 actions={[
@@ -90,7 +91,6 @@ export const WithDragHandle: StoryObj<typeof SortableList<Item>> = {
         renderItem: (item: Item): React.JSX.Element => <CustomListItemWithDragHandle item={item} />,
         grabByDragHandle: true,
     },
-    name: 'With DragHandle',
     render: (args, context) =>
         createCodeStory({
             context,

@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Button, ClickAwayListener, TextField, TextFieldProps } from '@mui/material';
-import { EditOutlined } from '@mui/icons-material';
+import { Box, ClickAwayListener, IconButton, TextField, TextFieldProps } from '@mui/material';
+import { Pencil } from 'lucide-react';
 import classNames from 'classnames';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
 import { tv } from '../../../helpers/typographyMode.js';
 import { Typography, OverflowTypographyProps } from '../Typography/Typography.js';
+import { RingLucideIcon } from '../../../helpers/RingLucideIcon.js';
 
 export interface EditableTextSlotProps {
     /**
@@ -27,9 +28,8 @@ export interface EditableTextProps extends CommonComponentProps {
     text: string;
 
     /**
-     * The function to be called when the text is submitted.
-     * This function should return a Promise that resolves to a boolean.
-     * The boolean indicates whether the submission was successful (true) or not (false).
+     * Called with the submitted text; resolves to `true` when the submission succeeded and `false`
+     * otherwise.
      */
     onSubmit: (value: string) => Promise<boolean>;
 
@@ -144,6 +144,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
                 ]}
                 className={classNames('ring-editabletext', className)}
+                data-testid={dataTestId}
             >
                 <Typography
                     {...restTypographyProps}
@@ -162,14 +163,19 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                 >
                     {displayText}
                 </Typography>
-                <Button
+                <IconButton
+                    size="small"
+                    color="primary"
                     data-testid={`${dataTestId}-edit`}
                     aria-label="Edit"
                     onClick={openEditMode}
-                    sx={{ padding: 0, width: 20, minWidth: 20, marginLeft: 1 }}
+                    sx={{ ml: 1, p: '3px' }}
                 >
-                    <EditOutlined fontSize="small" />{' '}
-                </Button>
+                    <RingLucideIcon
+                        icon={Pencil}
+                        sx={(theme): { fontSize: string } => ({ fontSize: theme.typography.pxToRem(20) })}
+                    />
+                </IconButton>
             </Box>
         );
     }
@@ -184,6 +190,7 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
         <Box
             sx={[{ minHeight: '26px' }, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
             className={classNames('ring-editabletext', className)}
+            data-testid={dataTestId}
         >
             <ClickAwayListener onClickAway={handleSubmit}>
                 <TextField
@@ -199,9 +206,17 @@ function EditableText(props: EditableTextProps): React.JSX.Element {
                     sx={[
                         {
                             width: '100%',
+                            // The theme sizes a standard input as a 40px form field; the edit field
+                            // keeps the 32px of the display row it replaces (the edit button's height),
+                            // so toggling edit mode does not move the content below.
+                            '& .MuiInputBase-root': {
+                                minHeight: '32px',
+                                lineHeight: tv('1.25rem'),
+                            },
                             '& .MuiInputBase-input': {
                                 fontSize: tv('0.75rem'),
                                 lineHeight: tv('1.25rem'),
+                                height: 'auto',
                             },
                         },
                         ...(Array.isArray(textFieldSx) ? textFieldSx : textFieldSx ? [textFieldSx] : []),

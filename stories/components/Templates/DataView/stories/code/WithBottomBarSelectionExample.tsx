@@ -20,29 +20,29 @@ export default function WithBottomBarSelectionExample(): React.JSX.Element {
             title: 'Breaking News: Election Results',
             image: getImagePath(TestImage.RIVER, ImageSize.LARGE),
             fields: [
-                { value: 'Redakcja Polityczna' },
-                { value: 'Najważniejsze wyniki wyborów samorządowych 2024' },
-                { value: '15 minut temu' },
+                { value: 'Politics Desk' },
+                { value: 'Key results of the 2024 local elections' },
+                { value: '15 minutes ago' },
             ],
         },
         {
             id: 1,
-            title: 'Wywiad z ekspertem ekonomicznym',
+            title: 'An interview with an economist',
             image: getImagePath(TestImage.PEOPLE, ImageSize.MEDIUM),
             fields: [
                 { value: 'Anna Kowalska' },
-                { value: 'Analiza sytuacji na rynku nieruchomości' },
-                { value: '2 godziny temu' },
+                { value: 'Analysis of the property market' },
+                { value: '2 hours ago' },
             ],
         },
         {
             id: 2,
-            title: 'Relacja z meczu Polska - Niemcy',
+            title: 'Match report: Poland vs Germany',
             image: getImagePath(TestImage.CAMERA, ImageSize.MEDIUM),
             fields: [
                 { value: 'Sport24' },
-                { value: 'Dramatyczny mecz zakończony w dogrywce' },
-                { value: '4 godziny temu' },
+                { value: 'A dramatic match decided in extra time' },
+                { value: '4 hours ago' },
             ],
         },
     ];

@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react-vite';
 import { ContentList } from '../../../../src/index.js';
-import { Default } from './stories/Default.js';
+import { Default as DefaultStory } from './stories/Default.js';
 import defaultArgs from './common/defaultArgs.js';
 import ContentListMDX from './ContentList.mdx';
 
@@ -87,4 +87,4 @@ const meta: Meta<typeof ContentList> = {
 
 export default meta;
 
-export { Default };
+export const Default = DefaultStory;

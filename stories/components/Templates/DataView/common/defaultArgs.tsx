@@ -1,14 +1,6 @@
 import React, { ReactNode } from 'react';
 import { action } from 'storybook/actions';
-import {
-    EditOutlined,
-    InfoOutlined,
-    Public,
-    RocketLaunch,
-    DeleteOutline,
-    GridViewOutlined,
-    TableRows,
-} from '@mui/icons-material';
+import { Pencil, Info, Globe, Rocket, Trash2, Grid2x2, Rows3, ScanSearch } from 'lucide-react';
 import {
     Checkbox,
     FormControlLabel,
@@ -17,18 +9,19 @@ import {
     RadioGroup,
     Select,
     Slider,
-    Switch,
     TextField,
     IconButton,
 } from '@mui/material';
 import {
     Accordion,
     Autocomplete,
+    CopyIconButton,
     Detail as RingDetail,
     DetailDescriptionItemFieldLayout,
     DetailDescriptionItemFieldType,
     FiltersWrapper,
     SplitButton,
+    Switch,
     DataViewProps,
 } from '../../../../../src/index.js';
 
@@ -59,6 +52,42 @@ interface FilterProps {
     customCode?: string;
 }
 
+const SOURCES = [
+    { id: 1, label: 'PAP' },
+    { id: 2, label: 'Reuters' },
+    { id: 3, label: 'AFP' },
+    { id: 4, label: 'Associated Press' },
+];
+
+/** Sources come from a search service, so the field shows a spinner while they load, next to its action. */
+function SourceFilter(): React.JSX.Element {
+    const [options, setOptions] = React.useState<typeof SOURCES>([]);
+    const [loading, setLoading] = React.useState(false);
+
+    return (
+        <Autocomplete
+            labels={{ title: 'Source' }}
+            options={options}
+            loading={loading}
+            onOpen={(): void => {
+                setLoading(true);
+                window.setTimeout((): void => {
+                    setOptions(SOURCES);
+                    setLoading(false);
+                }, 1500);
+            }}
+            actions={[
+                {
+                    label: 'External search',
+                    icon: <ScanSearch />,
+                    onClick: action('Filter: External search clicked'),
+                },
+            ]}
+            sx={{ marginTop: 1 }}
+        />
+    );
+}
+
 export const Filter: React.FC<FilterProps> = ({ customCode }) => {
     return (
         <FiltersWrapper onClear={action('Filter: onClear clicked')} label="Filters">
@@ -84,6 +113,7 @@ export const Filter: React.FC<FilterProps> = ({ customCode }) => {
                     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
                     renderInput={(params: any): ReactNode => <TextField {...params} label="Autocomplete" />}
                 />
+                <SourceFilter />
             </Accordion>
             <Accordion label="Radio">
                 <RadioGroup name="radio" value="opt1">
@@ -144,15 +174,23 @@ export const searchBarChildren = [
             {
                 label: 'Additional Action 1',
                 onClick: action('SearchBar: Additional Action 1 clicked'),
-                icon: <RocketLaunch />,
+                icon: <Rocket />,
             },
         ]}
     />,
 ];
 
 export const searchBarMenuActions = [
-    { label: 'Edit', icon: <EditOutlined />, onClick: action('SearchBar Menu: Edit clicked') },
-    { label: 'Delete', icon: <DeleteOutline />, onClick: action('SearchBar Menu: Delete clicked') },
+    {
+        label: 'Edit',
+        icon: <Pencil />,
+        onClick: action('SearchBar Menu: Edit clicked'),
+    },
+    {
+        label: 'Delete',
+        icon: <Trash2 />,
+        onClick: action('SearchBar Menu: Delete clicked'),
+    },
 ];
 
 interface DetailProps {
@@ -168,6 +206,8 @@ export const Detail: React.FC<DetailProps> = ({
         /* noop */
     },
 }) => {
+    const multimediaItemId = String(selectedMultimediaItem?.id ?? '');
+
     return (
         <RingDetail
             empty={selectedMultimediaItem === null && !detailData}
@@ -175,12 +215,12 @@ export const Detail: React.FC<DetailProps> = ({
                 mediaProps: {
                     bottomIcons: [
                         {
-                            icon: <InfoOutlined />,
+                            icon: <Info />,
                             onClick: action('Detail: Info button clicked'),
                             tooltip: 'Info',
                         },
                         {
-                            icon: <EditOutlined />,
+                            icon: <Pencil />,
                             onClick: action('Detail: Edit button clicked'),
                             tooltip: 'Edit',
                         },
@@ -213,33 +253,49 @@ export const Detail: React.FC<DetailProps> = ({
                     fields: selectedMultimediaItem
                         ? [
                               {
-                                  name: 'EDITORIAL SCORE',
+                                  name: 'Editorial score',
                                   value:
                                       (selectedMultimediaItem?.fields as Array<{ value: string }>)?.[0]?.value ||
                                       'No score',
                               },
                               {
-                                  name: 'MODIFIED',
+                                  name: 'Modified',
                                   value:
                                       (selectedMultimediaItem?.fields as Array<{ value: string }>)?.[1]?.value ||
                                       'Unknown',
                               },
                               {
-                                  name: 'AUTHOR',
+                                  name: 'Author',
                                   value:
                                       (selectedMultimediaItem?.fields as Array<{ value: string }>)?.[2]?.value ||
                                       'Unknown',
                               },
                               {
-                                  name: 'SOURCE',
+                                  name: 'Source',
                                   value:
                                       (selectedMultimediaItem?.fields as Array<{ value: string }>)?.[3]?.value ||
                                       'Unknown',
                               },
+                              ...(multimediaItemId
+                                  ? [
+                                        {
+                                            name: 'Identifier',
+                                            value: multimediaItemId,
+                                            icon: (
+                                                <CopyIconButton
+                                                    size="small"
+                                                    value={multimediaItemId}
+                                                    labels={{ copy: 'Copy identifier', copied: 'Copied' }}
+                                                    onCopied={action('Detail: identifier copied')}
+                                                />
+                                            ),
+                                        },
+                                    ]
+                                  : []),
                           ]
                         : [
                               {
-                                  name: 'DESCRIPTION',
+                                  name: 'Description',
                                   type: DetailDescriptionItemFieldType.DESCRIPTION,
                                   maxLength: 100,
                                   layout: DetailDescriptionItemFieldLayout.VERTICAL,
@@ -251,22 +307,22 @@ export const Detail: React.FC<DetailProps> = ({
                                       ' consequat.',
                               },
                               {
-                                  icon: <Public />,
-                                  name: 'WITH ICON',
+                                  icon: <Globe />,
+                                  name: 'With icon',
                                   value: 'Published',
                               },
                               {
                                   formatDate: true,
-                                  name: 'DATE FORMATTED',
+                                  name: 'Date formatted',
                                   value: '2023-07-27T09:32:09Z',
                               },
                               {
                                   formatDate: false,
-                                  name: 'DATE NOT FORMATTED',
+                                  name: 'Date not formatted',
                                   value: '2023-08-31T21:59:59Z',
                               },
                               {
-                                  name: 'EDITABLE',
+                                  name: 'Editable',
                                   value: 'Editable value',
                                   type: DetailDescriptionItemFieldType.EDITABLE,
                                   onSubmit: function cb(): Promise<boolean> {
@@ -303,7 +359,7 @@ export const GridModeToggle: React.FC<GridModeToggleProps> = ({ gridMode, onGrid
             aria-label={gridMode === 'dataGrid' ? 'Switch to MultimediaGrid' : 'Switch to DataGrid'}
             size="medium"
         >
-            {gridMode === 'dataGrid' ? <GridViewOutlined /> : <TableRows />}
+            {gridMode === 'dataGrid' ? <Grid2x2 /> : <Rows3 />}
         </IconButton>
     );
 };

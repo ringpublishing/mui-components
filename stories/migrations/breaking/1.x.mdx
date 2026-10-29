@@ -1,0 +1,322 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Breaking Version Upgrades/1.x" />
+
+# Breaking version upgrades — 1.x
+
+The package rename to `@ringpublishing/mui-components` (1.1.4) and the 1.0.0 API clean-ups.
+
+## On this page
+
+- [[1.1.4] - Package renamed to @ringpublishing/mui-components](#114---package-renamed-to-ringpublishingmui-components)
+- [[1.0.0] - getCreatedTheme — options object API](#100---getcreatedtheme--options-object-api)
+- [[1.0.0] - Typography migration from px to rem](#100---typography-migration-from-px-to-rem)
+- [[1.0.0] - Placeholder labels prop simplification](#100---placeholder-labels-prop-simplification)
+- [[1.0.0] - DatePicker, DateTimePicker, TimePicker — Removed placeholder prop](#100---datepicker-datetimepicker-timepicker--removed-placeholder-prop)
+- [[1.0.0] - RingFeatureTooltip renamed to FeatureTooltip](#100---ringfeaturetooltip-renamed-to-featuretooltip)
+
+## [1.1.4] - Package renamed to `@ringpublishing/mui-components`
+
+The package has been renamed and published to the public npm registry. The previous internal name `@ring-internal/ui-components` is no longer maintained — all consumers should switch to the new name.
+
+### Breaking Changes Summary
+
+| Before                         | After                            |
+| ------------------------------ | -------------------------------- |
+| `@ring-internal/ui-components` | `@ringpublishing/mui-components` |
+
+### Migration Guide
+
+#### 1. Update `package.json`
+
+```diff
+  "dependencies": {
+-     "@ring-internal/ui-components": "^1.1.3"
++     "@ringpublishing/mui-components": "^1.1.4"
+  }
+```
+
+#### 2. Update imports across your codebase
+
+#### Before (Old name)
+
+```tsx
+import { Button, ThemeConfig, getCreatedTheme } from '@ring-internal/ui-components';
+```
+
+#### After (New name)
+
+```tsx
+import { Button, ThemeConfig, getCreatedTheme } from '@ringpublishing/mui-components';
+```
+
+A project-wide find & replace of the string `@ring-internal/ui-components` → `@ringpublishing/mui-components` is sufficient — no API changes accompany the rename.
+
+##### ⚡ Fast track — automated codemod
+
+**Skip the manual find & replace.** A codemod rewrites every `import` / `require` / dynamic-`import()` statement pointing at the old package name in one pass. It only touches `.js` / `.jsx` / `.ts` / `.tsx` files and **does not modify `package.json`**:
+
+```bash
+cd your-project # go to your project root
+npx @ringpublishing/mui-components@latest run-migration rename-package .
+```
+
+> **⚠ Run this codemod first.** Other component-rename codemods (`skeleton-to-dataview`, `ring-feature-tooltip-to-feature-tooltip`) match imports from `@ringpublishing/mui-components` only — if your code still imports from `@ring-internal/ui-components`, those scripts will silently match no files.
+
+> **Note:** No `.npmrc` changes are required. The new package is available on the public npm registry and resolves transparently through Artifactory's npm proxy if your project still uses the internal registry for other libraries.
+
+## [1.0.0] - `getCreatedTheme` — options object API
+
+`getCreatedTheme` now accepts an **options object** as the second argument instead of positional parameters.
+
+### Before (Old API)
+
+```tsx
+import { getCreatedTheme } from '@ringpublishing/mui-components';
+
+const theme = getCreatedTheme('light', CommonLanguages.plPL, customColors, 'legacy-px');
+```
+
+### After (New API)
+
+```tsx
+import { getCreatedTheme } from '@ringpublishing/mui-components';
+
+const theme = getCreatedTheme('light', {
+    language: CommonLanguages.plPL,
+    externalColors: customColors,
+    typographyMode: 'deprecated-px',
+});
+```
+
+If you only pass `mode`, no changes are needed:
+
+```tsx
+// Still works — no migration required
+const theme = getCreatedTheme('light');
+```
+
+> **Note:** `typographyMode` value `'legacy-px'` has been renamed to `'deprecated-px'` in `@ringpublishing/mui-theme` 4.4.0.
+
+## [1.0.0] - Typography migration from px to rem
+
+From **v1**, all typography values use **rem units calibrated to the browser default** (`1rem = 16px`).
+Previously the library assumed `html { font-size: 62.5% }` (1rem = 10px) and relied on consumers
+setting that global override.
+
+### What changed
+
+| Area                             | Before (pre-v1)           | After (v1+)                                         |
+| -------------------------------- | ------------------------- | --------------------------------------------------- |
+| Typography font sizes            | `px` or `rem` @ 10px base | `rem` @ 16px base (browser default)                 |
+| `html { font-size }` requirement | required: `62.5%`         | **not required** — omit or set to `100%`            |
+| Theme unit mode                  | implicit px/10px-rem      | `'rem'` (default), `'legacy-px'` (migration bridge) |
+
+### Migration steps
+
+#### 1. Remove the global font-size override
+
+Remove from your global CSS / App.js:
+
+```css
+/* remove this */
+html {
+    font-size: 62.5%;
+}
+```
+
+```tsx
+// or remove this
+<GlobalStyles styles={{ html: { fontSize: '62.5%' } }} />
+```
+
+#### 2. Update `ThemeConfig` (no prop needed for new apps)
+
+```tsx
+// Before
+<ThemeConfig mode={mode}>…</ThemeConfig>
+
+// After – same, no change needed for new apps
+<ThemeConfig mode={mode}>…</ThemeConfig>
+```
+
+#### 3. If you share the app with the old Ring component library
+
+Some apps run both the new `ring-ui-components` and the legacy non-maintained library side by side.
+Because the legacy library uses absolute `px` values it is not affected by the rem base change.
+You can safely upgrade without `typographyMode` in that case.
+
+#### 4. Not ready yet? Use the temporary `deprecated-px` bridge
+
+If removing `html { font-size: 62.5% }` is not feasible right now (e.g. deeply coupled custom CSS),
+opt in to the deprecated backward-compatible mode:
+
+```tsx
+<ThemeConfig mode={mode} typographyMode="deprecated-px">
+    <App />
+</ThemeConfig>
+```
+
+> **⚠ `typographyMode="deprecated-px"` is deprecated** and will be removed in a future major release.
+> It is intended as a short-lived bridge only — plan to complete the migration and remove the prop.
+
+### Custom CSS written with 1rem = 10px assumption
+
+The `deprecated-px` prop only affects component-internal typography. Any **custom CSS you wrote**
+assuming `1rem = 10px` (e.g. `margin: 2rem` meaning 20px) still requires manual adjustment
+when you remove the global override.
+
+## [1.0.0] - Placeholder labels prop simplification
+
+The `Placeholder` component `labels` prop no longer accepts language-keyed objects. It now expects a **flat object** with `header`, `description`, and `footer` only. Localization should be handled by passing the appropriate labels object based on the current locale (or by relying on default labels via `variant` + `language`).
+
+### Breaking Changes Summary
+
+| Old `labels` shape                                          | New `labels` shape                   |
+| ----------------------------------------------------------- | ------------------------------------ |
+| `{ enUS: { header, description, footer }, plPL?: { ... } }` | `{ header?, description?, footer? }` |
+
+### Type-level changes
+
+| Old Type                              | New Type            |
+| ------------------------------------- | ------------------- |
+| `PlaceholderLanguageLabels` (removed) | `PlaceholderLabels` |
+
+This is also a compile-time breaking change: update imports and type annotations from `PlaceholderLanguageLabels` to `PlaceholderLabels`.
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<Placeholder
+    labels={{
+        enUS: {
+            header: 'Failed to load the list',
+            description: 'Refresh the page and try again.',
+            footer: 'Error 4009',
+        },
+        plPL: {
+            header: 'Nie udało się pobrać listy',
+            description: 'Odśwież stronę i spróbuj ponownie.',
+            footer: 'Błąd 4009',
+        },
+    }}
+/>
+```
+
+#### After (New API)
+
+```tsx
+  //Option 1: Static labels
+  const labels = {
+    header: 'Nie udało się pobrać listy',
+    description: 'Odśwież stronę i spróbuj ponownie.',
+    footer: 'Błąd 4009',
+  };
+
+  // Option 2: With i18n
+  const labels = {
+    header: t('placeholder.header'),
+    description: t('placeholder.description'),
+    footer: t('placeholder.footer'),
+  };
+
+  return <Placeholder labels={labels} />;
+}
+```
+
+If you omit `labels`, defaults are still selected based on `variant` and the current language (`language` prop or theme locale).
+
+## [1.0.0] - DatePicker, DateTimePicker, TimePicker — Removed `placeholder` prop
+
+### Breaking Changes
+
+The `placeholder` prop has been **removed** from `DatePicker`, `DateTimePicker`, and `TimePicker`.
+Use the `label` prop instead, which provides native MUI floating label behavior.
+
+| Old Prop      | New Approach                             |
+| ------------- | ---------------------------------------- |
+| `placeholder` | Use `label` prop (native floating label) |
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+<DatePicker placeholder="Select date" />
+<TimePicker placeholder="Select time" />
+<DateTimePicker placeholder="Select date and time" />
+```
+
+#### After (New API)
+
+```tsx
+<DatePicker label="Select date" />
+<TimePicker label="Select time" />
+<DateTimePicker label="Select date and time" />
+```
+
+## [1.0.0] - `RingFeatureTooltip` renamed to `FeatureTooltip`
+
+The `RingFeatureTooltip` component has been renamed to `FeatureTooltip` to align with the library's naming conventions. All related types and the localStorage persistence key have been updated accordingly.
+
+### Breaking Changes Summary
+
+| Before                                 | After                  |
+| -------------------------------------- | ---------------------- |
+| `RingFeatureTooltip`                   | `FeatureTooltip`       |
+| `RingFeatureTooltipProps`              | `FeatureTooltipProps`  |
+| `RingFeatureTooltipAction`             | `FeatureTooltipAction` |
+| localStorage key `RingFeatureTooltips` | `FeatureTooltips`      |
+
+> **⚠ localStorage migration note**: Existing tooltip state stored under the `RingFeatureTooltips` key will no longer be read after upgrading. Users who have already dismissed a tooltip may see it appear once more after the upgrade.
+
+### Migration Guide
+
+#### Before (Old API)
+
+```tsx
+import { RingFeatureTooltip, RingFeatureTooltipProps } from '@ringpublishing/mui-components';
+
+const actions: RingFeatureTooltipProps['actions'] = [{ label: 'Learn more', href: 'https://example.com' }];
+
+<RingFeatureTooltip
+    id="my-tooltip"
+    title="New feature"
+    message="Check out this new feature!"
+    actions={actions}
+    endDate="2027-01-01T00:00:00.000Z"
+>
+    <Button>Click me</Button>
+</RingFeatureTooltip>;
+```
+
+#### After (New API)
+
+```tsx
+import { FeatureTooltip, FeatureTooltipProps } from '@ringpublishing/mui-components';
+
+const actions: FeatureTooltipProps['actions'] = [{ label: 'Learn more', href: 'https://example.com' }];
+
+<FeatureTooltip
+    id="my-tooltip"
+    title="New feature"
+    message="Check out this new feature!"
+    actions={actions}
+    endDate="2027-01-01T00:00:00.000Z"
+>
+    <Button>Click me</Button>
+</FeatureTooltip>;
+```
+
+### Automated Migration
+
+Run the codemod to automatically update all imports and JSX usages in your project:
+
+```bash
+cd your-project # go to your project root
+npx @ringpublishing/mui-components@latest run-migration ring-feature-tooltip-to-feature-tooltip .
+```
+
+> **Note:** The script updates imports and JSX tags. The localStorage key rename (`RingFeatureTooltips` → `FeatureTooltips`) is not handled automatically — see the note above.
