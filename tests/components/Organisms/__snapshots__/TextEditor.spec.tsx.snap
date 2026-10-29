@@ -26,7 +26,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-bold"
+              class="lucide lucide-letter-b lucide-bold"
               fill="none"
               height="1em"
               stroke="currentColor"
@@ -38,7 +38,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"
+                d="M6 12h9a4 4 0 010 8H7a1 1 0 01-1-1V5a1 1 0 011-1h7a4 4 0 010 8"
               />
             </svg>
           </button>
@@ -318,7 +318,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-bold"
+              class="lucide lucide-letter-b lucide-bold"
               fill="none"
               height="1em"
               stroke="currentColor"
@@ -330,7 +330,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"
+                d="M6 12h9a4 4 0 010 8H7a1 1 0 01-1-1V5a1 1 0 011-1h7a4 4 0 010 8"
               />
             </svg>
           </button>
