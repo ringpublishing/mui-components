@@ -1,8 +1,11 @@
 /.github
 /.agents
+/.claude
 /.idea
 /.storybook
 /.vscode
+/AGENTS.md
+/CLAUDE.md
 /CONTRIBUTING.md
 /coverage
 /deploy

@@ -2,7 +2,18 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [2.0.0] - 2026-09-29
+## [2.0.1] - 2026-10-30
+
+### Changed
+
+- [@wniemiec]: Storybook — a version select under the sidebar search links to the 1.19 documentation, served under `/v1/`. No change to the published package.
+- [@wniemiec]: Storybook — files whose names stay the same between builds are revalidated on every load and hashed assets are cached for a year, so a page opened after a new deployment no longer needs a hard reload. No change to the published package.
+
+### Removed
+
+- [@wniemiec]: The npm package no longer contains `AGENTS.md`, `CLAUDE.md` and `.claude/` — no change is needed in consumer code.
+
+## [2.0.0] - 2026-10-29
 
 **Breaking release — see [Migration FAQ → Breaking version upgrades → 2.0.0](https://design.ringpublishing.com/?path=/docs/migration-faq-breaking-version-upgrades-2-0-0--docs).** Components render the redesigned Ring design system by default. Every entry marked **BREAKING** has a section in that guide; the section says where to look, what to change and shows a before/after example.
 
@@ -156,7 +167,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - [@wniemiec]: Tree rows — the expand button is no longer a tab stop (find it by its `-expand` test id), row checkboxes are named after the row label, and a `TreeView` row with `loadItems` loads when expanded from the keyboard.
 - [@wniemiec]: `TreeView` — a row with `loadItems` no longer shows the children another `TreeView` loaded for the same `itemId` while its own `loadItems` runs.
 - [@wniemiec]: `TreeView` — a child that `loadItems` returns with the `itemId` of its own row or of a row above it is left out instead of freezing the page.
-||||||| 0bca32b6
 - [@wniemiec]: `SimpleTree` and `DataTree` with `withSearch` — a row can be collapsed while a query is active; clearing the query restores the rows expanded before the search, and `persistence.restoreExpandedItems` saves those rather than the rows toggled during it.
 - [@wniemiec]: `DatePicker` and `DateTimePicker` with `actions` — the clear button works from the keyboard and across the whole button, is disabled on a disabled or read-only picker and is named by the `fieldClearLabel` translation; an empty `actions` array shows neither button.
 - [@wniemiec]: `Media` with `height` shows its placeholder when there is no image or it fails to load; a video or audio whose `slotProps.media.src` changes after a failed load plays the new source.
@@ -166,7 +176,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - [@wniemiec]: `TextEditor` — an image in the content takes its `alt` from the content, else from its `title`.
 - [@rsarata]: `Autocomplete` with `menuListActions` — the heading next to the actions looks like a group heading and sticks to the top of the list, and the options under it are indented 24px, also without `groupBy`.
 - [@wniemiec]: `MultimediaGrid` — the toolbar applies `sortField`, `refreshCallback`, the auto-refresh props (`autoRefresh`, `refreshRate`, `autoRefreshCallback`, `initialState`, `disableAutoRefreshOnUserInteraction`, `userInteractionDebounceDelay`) and the bulk-action props (`enableBulkActions`, `bulkActions`, `onBulkActionsClose`, `maxRowsCount`) instead of ignoring them; `enableBulkActions` turns on checkbox selection, and the bulk actions receive the selected ids.
-||||||| 0bca32b6
 - [@wniemiec]: `DataView` bottom bar — removing a `MultimediaGrid` item calls `onSelectionModelChange` with the remaining selection, like a checkbox click; a controlled `selectionModel` no longer keeps the removed item.
 
 ## [1.19.0] - 2026-09-14

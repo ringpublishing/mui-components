@@ -4,6 +4,7 @@ import type { API_HashEntry, API_IndexHash } from 'storybook/internal/types';
 import { CURRENT_STORY_WAS_SET, STORY_CHANGED, STORY_PREPARED } from 'storybook/internal/core-events';
 import { PACKAGE_VERSION } from '../src/version.generated.js';
 import theme from './theme.js';
+import './addons/versionMenu.js';
 import './addons/darkModeSwitch.js';
 import './addons/languageSwitch.js';
 
