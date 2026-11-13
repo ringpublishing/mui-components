@@ -3,17 +3,17 @@
 exports[`Alert Component > should render correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-wi4ae2-MuiPaper-root-MuiAlert-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-MuiPaper-root-MuiAlert-root"
     data-testid="ring-alert"
     role="alert"
     style="--Paper-shadow: none;"
   >
     <div
-      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+      class="MuiAlert-icon css-MuiAlert-icon"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-MuiSvgIcon-root"
         data-testid="InfoOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -24,21 +24,21 @@ exports[`Alert Component > should render correctly 1`] = `
       </svg>
     </div>
     <div
-      class="MuiAlert-message css-zioonp-MuiAlert-message"
+      class="MuiAlert-message css-MuiAlert-message"
     >
       <div
-        class="MuiBox-root css-gfcxh4"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiBox-root css-13h2h4x"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
           >
             Alert title
           </div>
           <div
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
           >
             Alert description
           </div>
@@ -52,17 +52,17 @@ exports[`Alert Component > should render correctly 1`] = `
 exports[`Alert Component > should render the bottom action layout 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-wi4ae2-MuiPaper-root-MuiAlert-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-MuiPaper-root-MuiAlert-root"
     data-testid="ring-alert"
     role="alert"
     style="--Paper-shadow: none;"
   >
     <div
-      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+      class="MuiAlert-icon css-MuiAlert-icon"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-MuiSvgIcon-root"
         data-testid="InfoOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -73,31 +73,31 @@ exports[`Alert Component > should render the bottom action layout 1`] = `
       </svg>
     </div>
     <div
-      class="MuiAlert-message css-zioonp-MuiAlert-message"
+      class="MuiAlert-message css-MuiAlert-message"
     >
       <div
-        class="MuiStack-root css-1nf2sby-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiBox-root css-gfcxh4"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiBox-root css-13h2h4x"
+            class="MuiBox-root css"
           >
             <div
-              class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
             >
               Alert title
             </div>
             <div
-              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
             >
               Alert description
             </div>
           </div>
           <button
             aria-label="Close"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1pg4pt2-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-alert-close"
             tabindex="0"
             type="button"
@@ -125,10 +125,10 @@ exports[`Alert Component > should render the bottom action layout 1`] = `
           </button>
         </div>
         <div
-          class="MuiBox-root css-7uh7jy"
+          class="MuiBox-root css"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-td15i9-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-alert-action"
             tabindex="0"
             type="button"
@@ -145,17 +145,17 @@ exports[`Alert Component > should render the bottom action layout 1`] = `
 exports[`Alert Component > should render the inline layout 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-1tfix4p-MuiPaper-root-MuiAlert-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-outlinedInfo MuiAlert-outlined ring-alert css-MuiPaper-root-MuiAlert-root"
     data-testid="ring-alert"
     role="alert"
     style="--Paper-shadow: none;"
   >
     <div
-      class="MuiAlert-icon css-vab54s-MuiAlert-icon"
+      class="MuiAlert-icon css-MuiAlert-icon"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-MuiSvgIcon-root"
         data-testid="InfoOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -166,31 +166,31 @@ exports[`Alert Component > should render the inline layout 1`] = `
       </svg>
     </div>
     <div
-      class="MuiAlert-message css-zioonp-MuiAlert-message"
+      class="MuiAlert-message css-MuiAlert-message"
     >
       <div
-        class="MuiStack-root css-1nf2sby-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiBox-root css-gfcxh4"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiBox-root css-r2uhun"
+            class="MuiBox-root css"
           >
             <div
-              class="MuiTypography-root MuiTypography-subtitle1 css-zzc2nl-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
             >
               Alert title
             </div>
             <div
-              class="MuiTypography-root MuiTypography-body2 css-1j7faym-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
             >
               Alert description
             </div>
           </div>
           <button
             aria-label="Close"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1pg4pt2-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-alert-close"
             tabindex="0"
             type="button"
@@ -218,10 +218,10 @@ exports[`Alert Component > should render the inline layout 1`] = `
           </button>
         </div>
         <div
-          class="MuiBox-root css-7uh7jy"
+          class="MuiBox-root css"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-td15i9-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInherit MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInherit css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-alert-action"
             tabindex="0"
             type="button"

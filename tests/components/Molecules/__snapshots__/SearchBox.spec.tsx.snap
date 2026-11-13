@@ -3,11 +3,11 @@
 exports[`SearchBox > should render correctly 1`] = `
 <div>
   <div
-    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-1pki5rj-MuiInputBase-root-MuiOutlinedInput-root"
+    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
     data-testid="ring-searchbox"
   >
     <div
-      class="MuiInputAdornment-root MuiInputAdornment-positionStart css-1nowbqt-MuiInputAdornment-root"
+      class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
     >
       <span
         aria-hidden="true"
@@ -16,7 +16,7 @@ exports[`SearchBox > should render correctly 1`] = `
         ​
       </span>
       <span
-        class="ring-lucide-icon MuiBox-root css-iq0g25"
+        class="ring-lucide-icon MuiBox-root css"
         data-testid="ring-searchbox-search"
       >
         <svg
@@ -45,7 +45,7 @@ exports[`SearchBox > should render correctly 1`] = `
     </div>
     <input
       aria-label="Search"
-      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-2u11ia-MuiInputBase-input-MuiOutlinedInput-input"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
       data-testid="ring-searchbox-input"
       placeholder=""
       type="text"
@@ -53,10 +53,10 @@ exports[`SearchBox > should render correctly 1`] = `
     />
     <fieldset
       aria-hidden="true"
-      class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+      class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
     >
       <legend
-        class="css-1nf2c5d-MuiNotchedOutlined-root"
+        class="css-MuiNotchedOutlined-root"
       >
         <span
           aria-hidden="true"
@@ -73,11 +73,11 @@ exports[`SearchBox > should render correctly 1`] = `
 exports[`SearchBox > should render correctly in controlled mode 1`] = `
 <div>
   <div
-    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-1pki5rj-MuiInputBase-root-MuiOutlinedInput-root"
+    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
     data-testid="ring-searchbox"
   >
     <div
-      class="MuiInputAdornment-root MuiInputAdornment-positionStart css-1nowbqt-MuiInputAdornment-root"
+      class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
     >
       <span
         aria-hidden="true"
@@ -86,7 +86,7 @@ exports[`SearchBox > should render correctly in controlled mode 1`] = `
         ​
       </span>
       <span
-        class="ring-lucide-icon MuiBox-root css-iq0g25"
+        class="ring-lucide-icon MuiBox-root css"
         data-testid="ring-searchbox-search"
       >
         <svg
@@ -115,7 +115,7 @@ exports[`SearchBox > should render correctly in controlled mode 1`] = `
     </div>
     <input
       aria-label="Search"
-      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-2u11ia-MuiInputBase-input-MuiOutlinedInput-input"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
       data-testid="ring-searchbox-input"
       placeholder=""
       type="text"
@@ -123,10 +123,10 @@ exports[`SearchBox > should render correctly in controlled mode 1`] = `
     />
     <fieldset
       aria-hidden="true"
-      class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+      class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
     >
       <legend
-        class="css-1nf2c5d-MuiNotchedOutlined-root"
+        class="css-MuiNotchedOutlined-root"
       >
         <span
           aria-hidden="true"

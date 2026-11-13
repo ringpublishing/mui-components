@@ -3,24 +3,24 @@
 exports[`EditableText > should render correctly 1`] = `
 <div>
   <div
-    class="ring-editabletext MuiBox-root css-ejgtp3"
+    class="ring-editabletext MuiBox-root css"
     data-testid="ring-editabletext"
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 css-1pzu09r-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
       data-testid="ring-editabletext-text"
     >
       Test Text
     </p>
     <button
       aria-label="Edit"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e0mpnn-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
       data-testid="ring-editabletext-edit"
       tabindex="0"
       type="button"
     >
       <span
-        class="ring-lucide-icon MuiBox-root css-94kk3y"
+        class="ring-lucide-icon MuiBox-root css"
       >
         <svg
           aria-hidden="true"

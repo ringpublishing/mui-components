@@ -3,34 +3,34 @@
 exports[`MediaCard common tests: > Should render correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-btwplu-MuiPaper-root-MuiCard-root"
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-MuiPaper-root-MuiCard-root"
     data-testid="ring-mediacard"
   >
     <div
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiBox-root css-79elbk"
+        class="MuiBox-root css"
       >
         <div
-          class="css-s3xtrq"
+          class="css"
         >
           <div
-            class="css-l9y6au"
+            class="css"
           >
             <div
               data-first-child=""
             >
               <div
-                class="ring-featuredicon MuiBox-root css-1bu8oys"
+                class="ring-featuredicon MuiBox-root css"
                 data-testid="ring-mediacard-placeholder-icon"
               >
                 <div
                   aria-hidden="true"
-                  class="MuiBox-root css-1dqdug7"
+                  class="MuiBox-root css"
                 >
                   <div
-                    class="MuiBox-root css-79ghi9"
+                    class="MuiBox-root css"
                   >
                     <svg
                       aria-hidden="true"
@@ -73,26 +73,26 @@ exports[`MediaCard common tests: > Should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1wo60s5-MuiCardContent-root"
+        class="MuiCardContent-root css-MuiCardContent-root"
       >
         <div
-          class="MuiBox-root css-uudpsy"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiBox-root css-ve33ef"
+            class="MuiBox-root css"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
             >
               www.onet.pl
             </span>
             <span
-              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
             >
               Najnowsze informacje na temat protestów w stolicy
             </span>
             <span
-              class="MuiTypography-root MuiTypography-caption css-1sinkk1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
             >
               Aktualizowane na bieżąco z najnowszymi wiadomościami
             </span>

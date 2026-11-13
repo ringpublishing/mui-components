@@ -3,11 +3,11 @@
 exports[`TextField Component > should render correctly 1`] = `
 <div>
   <div
-    class="MuiFormControl-root MuiTextField-root ring-textfield css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+    class="MuiFormControl-root MuiTextField-root ring-textfield css-MuiFormControl-root-MuiTextField-root"
     data-testid="ring-textfield"
   >
     <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-MuiFormLabel-root-MuiInputLabel-root"
       data-shrink="false"
       for="test-textfield"
       id="test-textfield-label"
@@ -15,18 +15,18 @@ exports[`TextField Component > should render correctly 1`] = `
       Test Label
     </label>
     <div
-      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-jupps9-MuiInputBase-root-MuiOutlinedInput-root"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-MuiInputBase-root-MuiOutlinedInput-root"
     >
       <input
         aria-invalid="false"
-        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-MuiInputBase-input-MuiOutlinedInput-input"
         data-testid="ring-textfield-input"
         id="test-textfield"
         type="text"
       />
       <button
         aria-label="Action Label"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-b8dcox-MuiButtonBase-root-MuiIconButton-root"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
         data-mui-internal-clone-element="true"
         data-testid="ring-textfield-action"
         tabindex="0"
@@ -38,10 +38,10 @@ exports[`TextField Component > should render correctly 1`] = `
       </button>
       <fieldset
         aria-hidden="true"
-        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          class="css-1n64csd-MuiNotchedOutlined-root"
+          class="css-MuiNotchedOutlined-root"
         >
           <span>
             Test Label
@@ -56,11 +56,11 @@ exports[`TextField Component > should render correctly 1`] = `
 exports[`TextField Component > should render the action button when action prop is provided 1`] = `
 <div>
   <div
-    class="MuiFormControl-root MuiTextField-root ring-textfield css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+    class="MuiFormControl-root MuiTextField-root ring-textfield css-MuiFormControl-root-MuiTextField-root"
     data-testid="ring-textfield"
   >
     <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-MuiFormLabel-root-MuiInputLabel-root"
       data-shrink="false"
       for="test-textfield"
       id="test-textfield-label"
@@ -68,18 +68,18 @@ exports[`TextField Component > should render the action button when action prop 
       Test Label
     </label>
     <div
-      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-jupps9-MuiInputBase-root-MuiOutlinedInput-root"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-MuiInputBase-root-MuiOutlinedInput-root"
     >
       <input
         aria-invalid="false"
-        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-MuiInputBase-input-MuiOutlinedInput-input"
         data-testid="ring-textfield-input"
         id="test-textfield"
         type="text"
       />
       <button
         aria-label="Action Label"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-b8dcox-MuiButtonBase-root-MuiIconButton-root"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
         data-mui-internal-clone-element="true"
         data-testid="ring-textfield-action"
         tabindex="0"
@@ -91,10 +91,10 @@ exports[`TextField Component > should render the action button when action prop 
       </button>
       <fieldset
         aria-hidden="true"
-        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          class="css-1n64csd-MuiNotchedOutlined-root"
+          class="css-MuiNotchedOutlined-root"
         >
           <span>
             Test Label

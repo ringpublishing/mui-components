@@ -3,24 +3,24 @@
 exports[`Component: Accordion > should correctly render borderless 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-MuiPaper-root-MuiAccordion-root"
     data-testid="ring-accordion"
   >
     <h3
-      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+      class="MuiAccordion-heading css-MuiAccordion-heading"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-MuiButtonBase-root-MuiAccordionSummary-root"
         data-testid="ring-accordion-expand"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-1tdthxs-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-MuiAccordionSummary-content"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Accordion
           </span>
@@ -28,24 +28,24 @@ exports[`Component: Accordion > should correctly render borderless 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-MuiCollapse-root"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-MuiCollapse-wrapperInner"
         >
           <div
-            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            class="MuiAccordion-region css-MuiAccordion-region"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root css-1lj39kh-MuiAccordionDetails-root"
+              class="MuiAccordionDetails-root css-MuiAccordionDetails-root"
             >
               <div
-                class="MuiStack-root css-1sazv7p-MuiStack-root"
+                class="MuiStack-root css-MuiStack-root"
               >
                 <div>
                   Opened accordion
@@ -63,29 +63,29 @@ exports[`Component: Accordion > should correctly render borderless 1`] = `
 exports[`Component: Accordion > should render a composed label as separate summary columns 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-MuiPaper-root-MuiAccordion-root"
     data-testid="ring-accordion"
   >
     <h3
-      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+      class="MuiAccordion-heading css-MuiAccordion-heading"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-MuiButtonBase-root-MuiAccordionSummary-root"
         data-testid="ring-accordion-expand"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-1tdthxs-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-MuiAccordionSummary-content"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Accordion
           </span>
           <span
-            class="MuiTypography-root MuiTypography-body1 css-k16oju-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Secondary
           </span>
@@ -93,24 +93,24 @@ exports[`Component: Accordion > should render a composed label as separate summa
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-MuiCollapse-root"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-MuiCollapse-wrapperInner"
         >
           <div
-            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            class="MuiAccordion-region css-MuiAccordion-region"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root css-1lj39kh-MuiAccordionDetails-root"
+              class="MuiAccordionDetails-root css-MuiAccordionDetails-root"
             >
               <div
-                class="MuiStack-root css-1sazv7p-MuiStack-root"
+                class="MuiStack-root css-MuiStack-root"
               >
                 <div>
                   Opened accordion
@@ -128,24 +128,24 @@ exports[`Component: Accordion > should render a composed label as separate summa
 exports[`Component: Accordion > should render correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-MuiPaper-root-MuiAccordion-root"
     data-testid="ring-accordion"
   >
     <h3
-      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+      class="MuiAccordion-heading css-MuiAccordion-heading"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-MuiButtonBase-root-MuiAccordionSummary-root"
         data-testid="ring-accordion-expand"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-1tdthxs-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-MuiAccordionSummary-content"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Accordion
           </span>
@@ -153,24 +153,24 @@ exports[`Component: Accordion > should render correctly 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-MuiCollapse-root"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-MuiCollapse-wrapperInner"
         >
           <div
-            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            class="MuiAccordion-region css-MuiAccordion-region"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root css-1lj39kh-MuiAccordionDetails-root"
+              class="MuiAccordionDetails-root css-MuiAccordionDetails-root"
             >
               <div
-                class="MuiStack-root css-1sazv7p-MuiStack-root"
+                class="MuiStack-root css-MuiStack-root"
               >
                 <div>
                   Opened accordion
@@ -188,29 +188,29 @@ exports[`Component: Accordion > should render correctly 1`] = `
 exports[`Component: Accordion > should render the action in the final summary column 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-ffjagc-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-borderless MuiPaper-rounded MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters ring-mui-accordion css-MuiPaper-root-MuiAccordion-root"
     data-testid="ring-accordion"
   >
     <h3
-      class="MuiAccordion-heading css-cy7rkm-MuiAccordion-heading"
+      class="MuiAccordion-heading css-MuiAccordion-heading"
     >
       <div
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-MuiButtonBase-root-MuiAccordionSummary-root"
         data-testid="ring-accordion-expand"
         role="button"
         tabindex="0"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-1tdthxs-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-MuiAccordionSummary-content"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Accordion
           </span>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary ring-mui-accordion-action css-1blvszr-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary ring-mui-accordion-action css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-accordion-button"
             tabindex="0"
             type="button"
@@ -221,24 +221,24 @@ exports[`Component: Accordion > should render the action in the final summary co
       </div>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-cwrbtg-MuiCollapse-root"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-MuiCollapse-root"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-MuiCollapse-wrapperInner"
         >
           <div
-            class="MuiAccordion-region css-at4ued-MuiAccordion-region"
+            class="MuiAccordion-region css-MuiAccordion-region"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root css-1lj39kh-MuiAccordionDetails-root"
+              class="MuiAccordionDetails-root css-MuiAccordionDetails-root"
             >
               <div
-                class="MuiStack-root css-1sazv7p-MuiStack-root"
+                class="MuiStack-root css-MuiStack-root"
               >
                 <div>
                   Opened accordion

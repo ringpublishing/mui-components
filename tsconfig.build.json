@@ -4,10 +4,13 @@
         "jsx": "react-jsx",
         "lib": ["dom", "esnext"],
         "skipLibCheck": true,
+        "rootDir": "./src",
+        "outDir": "./dist",
         "paths": {
             "@ringpublishing/mui-components": ["./src/index.ts"],
             "@ringpublishing/mui-components/icons": ["./src/icons/index.ts"],
             "@ringpublishing/mui-components/tree-dynamic-loading": ["./src/treeDynamicLoading.ts"]
         }
-    }
+    },
+    "include": ["src"]
 }

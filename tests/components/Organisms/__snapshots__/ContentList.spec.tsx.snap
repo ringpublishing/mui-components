@@ -3,29 +3,29 @@
 exports[`Components: ContentList > should render component 1`] = `
 <div>
   <div
-    class="MuiBox-root css-ye7b6t"
+    class="MuiBox-root css"
     data-testid="ring-contentlist"
     style="height: 0px;"
   >
     <div
-      class="MuiBox-root css-1tub11v"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiBox-root css-1q95k2i"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiBox-root css-ppdmze"
+          class="MuiBox-root css"
         >
           <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-1h54eaw-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
             data-testid="ring-contentlist-item-0-nav"
             type="button"
           >
             <div
-              class="MuiBox-root css-pehwr4"
+              class="MuiBox-root css"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-9mrpfe-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
               >
                 Header1
               </p>
@@ -62,30 +62,30 @@ exports[`Components: ContentList > should render component 1`] = `
             </div>
           </button>
           <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-12yavh-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
             data-testid="ring-contentlist-item-1-nav"
             type="button"
           >
             <div
-              class="MuiBox-root css-pehwr4"
+              class="MuiBox-root css"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-ipeq5q-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
               >
                 Header2
               </p>
             </div>
           </button>
           <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-12yavh-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
             data-testid="ring-contentlist-item-2-nav"
             type="button"
           >
             <div
-              class="MuiBox-root css-pehwr4"
+              class="MuiBox-root css"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-ipeq5q-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
               >
                 Header3
               </p>
@@ -95,23 +95,23 @@ exports[`Components: ContentList > should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-20g8h3"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiBox-root css-i5jds0"
+          class="MuiBox-root css"
           data-testid="ring-contentlist-item-0"
         >
           <div
-            class="MuiBox-root css-19n8dai"
+            class="MuiBox-root css"
           >
             <h6
-              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-MuiTypography-root"
             >
               Header1
             </h6>
           </div>
           <div
-            class="MuiBox-root css-0"
+            class="MuiBox-root css"
           >
             <div>
               Header1 children
@@ -119,20 +119,20 @@ exports[`Components: ContentList > should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-i5jds0"
+          class="MuiBox-root css"
           data-testid="ring-contentlist-item-1"
         >
           <div
-            class="MuiBox-root css-19n8dai"
+            class="MuiBox-root css"
           >
             <h6
-              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-MuiTypography-root"
             >
               Header2
             </h6>
           </div>
           <div
-            class="MuiBox-root css-0"
+            class="MuiBox-root css"
           >
             <div>
               Header2 children
@@ -140,20 +140,20 @@ exports[`Components: ContentList > should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-19aghlf"
+          class="MuiBox-root css"
           data-testid="ring-contentlist-item-2"
         >
           <div
-            class="MuiBox-root css-19n8dai"
+            class="MuiBox-root css"
           >
             <h6
-              class="MuiTypography-root MuiTypography-h6 css-1gxz6ie-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-MuiTypography-root"
             >
               Header3
             </h6>
           </div>
           <div
-            class="MuiBox-root css-0"
+            class="MuiBox-root css"
           >
             <div>
               Header3 children

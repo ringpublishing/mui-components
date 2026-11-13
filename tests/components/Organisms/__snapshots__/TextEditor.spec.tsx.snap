@@ -3,22 +3,22 @@
 exports[`TextEditor > should render correctly with sample html content 1`] = `
 <div>
   <div
-    class="ring-text-editor MuiBox-root css-hquguo"
+    class="ring-text-editor MuiBox-root css"
     data-testid="ring-texteditor"
   >
     <div
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiBox-root css-1d9wf2y"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiToggleButtonGroup-root MuiToggleButtonGroup-horizontal css-1qb8o-MuiToggleButtonGroup-root"
+          class="MuiToggleButtonGroup-root MuiToggleButtonGroup-horizontal css-MuiToggleButtonGroup-root"
           role="group"
         >
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bold"
             tabindex="0"
             type="button"
@@ -44,7 +44,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-italic"
             tabindex="0"
             type="button"
@@ -85,7 +85,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bullet-list"
             tabindex="0"
             type="button"
@@ -126,7 +126,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-numbered-list"
             tabindex="0"
             type="button"
@@ -168,7 +168,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-1aa2jwl-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth css-MuiDivider-root"
       />
     </div>
     <div
@@ -213,26 +213,26 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
             style="white-space: normal;"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1dmagg0-MuiPaper-root-MuiCard-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-MuiPaper-root-MuiCard-root"
               data-testid="ring-media"
               style="--Paper-shadow: none;"
             >
               <figure
-                class="MuiBox-root css-14hubqc"
+                class="MuiBox-root css"
               >
                 <div
-                  class="MuiBox-root css-79elbk"
+                  class="MuiBox-root css"
                 >
                   <div
-                    class="css-1eea8b3"
+                    class="css"
                   >
                     <div
-                      class="css-l9y6au"
+                      class="css"
                     >
                       <img
                         alt="Lorem ipsum"
                         aria-label="Open full-screen preview"
-                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-1jdodvs-MuiCardMedia-root"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-MuiCardMedia-root"
                         data-first-child=""
                         data-testid="ring-media-image"
                         draggable="false"
@@ -246,10 +246,10 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
                 </div>
                 <figcaption>
                   <div
-                    class="MuiStack-root css-j3ygch-MuiStack-root"
+                    class="MuiStack-root css-MuiStack-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 css-ieem6s-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
                     >
                       Image title
                     </p>
@@ -258,7 +258,7 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
               </figure>
             </div>
             <div
-              class="MuiBox-root css-12efcmn"
+              class="MuiBox-root css"
             />
           </div>
         </div>
@@ -295,22 +295,22 @@ exports[`TextEditor > should render correctly with sample html content 1`] = `
 exports[`TextEditor > should render correctly with sample json content 1`] = `
 <div>
   <div
-    class="ring-text-editor MuiBox-root css-hquguo"
+    class="ring-text-editor MuiBox-root css"
     data-testid="ring-texteditor"
   >
     <div
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiBox-root css-1d9wf2y"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiToggleButtonGroup-root MuiToggleButtonGroup-horizontal css-1qb8o-MuiToggleButtonGroup-root"
+          class="MuiToggleButtonGroup-root MuiToggleButtonGroup-horizontal css-MuiToggleButtonGroup-root"
           role="group"
         >
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bold"
             tabindex="0"
             type="button"
@@ -336,7 +336,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-italic"
             tabindex="0"
             type="button"
@@ -377,7 +377,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-middleButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-bullet-list"
             tabindex="0"
             type="button"
@@ -418,7 +418,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
           </button>
           <button
             aria-pressed="false"
-            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-15urumy-MuiButtonBase-root-MuiToggleButton-root"
+            class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-MuiButtonBase-root-MuiToggleButton-root"
             data-testid="ring-texteditor-menu-numbered-list"
             tabindex="0"
             type="button"
@@ -460,7 +460,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-1aa2jwl-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth css-MuiDivider-root"
       />
     </div>
     <div
@@ -505,26 +505,26 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
             style="white-space: normal;"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1dmagg0-MuiPaper-root-MuiCard-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-MuiPaper-root-MuiCard-root"
               data-testid="ring-media"
               style="--Paper-shadow: none;"
             >
               <figure
-                class="MuiBox-root css-14hubqc"
+                class="MuiBox-root css"
               >
                 <div
-                  class="MuiBox-root css-79elbk"
+                  class="MuiBox-root css"
                 >
                   <div
-                    class="css-1eea8b3"
+                    class="css"
                   >
                     <div
-                      class="css-l9y6au"
+                      class="css"
                     >
                       <img
                         alt="Lorem ipsum"
                         aria-label="Open full-screen preview"
-                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-1jdodvs-MuiCardMedia-root"
+                        class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-MuiCardMedia-root"
                         data-first-child=""
                         data-testid="ring-media-image"
                         draggable="false"
@@ -538,10 +538,10 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
                 </div>
                 <figcaption>
                   <div
-                    class="MuiStack-root css-j3ygch-MuiStack-root"
+                    class="MuiStack-root css-MuiStack-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 css-ieem6s-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
                     >
                       Image title
                     </p>
@@ -550,7 +550,7 @@ exports[`TextEditor > should render correctly with sample json content 1`] = `
               </figure>
             </div>
             <div
-              class="MuiBox-root css-12efcmn"
+              class="MuiBox-root css"
             />
           </div>
         </div>

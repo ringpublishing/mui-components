@@ -3,15 +3,15 @@
 exports[`SearchBar > should render correctly 1`] = `
 <div>
   <div
-    class="MuiStack-root ring-search-bar css-1beb7tp-MuiStack-root"
+    class="MuiStack-root ring-search-bar css-MuiStack-root"
     data-testid="ring-searchbar"
   >
     <div
-      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-105jsdn-MuiInputBase-root-MuiOutlinedInput-root"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
       data-testid="ring-searchbox"
     >
       <div
-        class="MuiInputAdornment-root MuiInputAdornment-positionStart css-1nowbqt-MuiInputAdornment-root"
+        class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
       >
         <span
           aria-hidden="true"
@@ -20,7 +20,7 @@ exports[`SearchBar > should render correctly 1`] = `
           ​
         </span>
         <span
-          class="ring-lucide-icon MuiBox-root css-iq0g25"
+          class="ring-lucide-icon MuiBox-root css"
           data-testid="ring-searchbox-search"
         >
           <svg
@@ -49,7 +49,7 @@ exports[`SearchBar > should render correctly 1`] = `
       </div>
       <input
         aria-label="Test Placeholder"
-        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-2u11ia-MuiInputBase-input-MuiOutlinedInput-input"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
         data-testid="ring-searchbox-input"
         placeholder="Test Placeholder"
         type="text"
@@ -57,10 +57,10 @@ exports[`SearchBar > should render correctly 1`] = `
       />
       <fieldset
         aria-hidden="true"
-        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          class="css-1nf2c5d-MuiNotchedOutlined-root"
+          class="css-MuiNotchedOutlined-root"
         >
           <span
             aria-hidden="true"
@@ -72,7 +72,7 @@ exports[`SearchBar > should render correctly 1`] = `
       </fieldset>
     </div>
     <div
-      class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+      class="MuiStack-root ring-search-bar-children-stack css-MuiStack-root"
     />
   </div>
 </div>
@@ -81,15 +81,15 @@ exports[`SearchBar > should render correctly 1`] = `
 exports[`SearchBar > should render correctly with sx selector for children stack 1`] = `
 <div>
   <div
-    class="MuiStack-root ring-search-bar css-1x52nia-MuiStack-root"
+    class="MuiStack-root ring-search-bar css-MuiStack-root"
     data-testid="ring-searchbar"
   >
     <div
-      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-105jsdn-MuiInputBase-root-MuiOutlinedInput-root"
+      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
       data-testid="ring-searchbox"
     >
       <div
-        class="MuiInputAdornment-root MuiInputAdornment-positionStart css-1nowbqt-MuiInputAdornment-root"
+        class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
       >
         <span
           aria-hidden="true"
@@ -98,7 +98,7 @@ exports[`SearchBar > should render correctly with sx selector for children stack
           ​
         </span>
         <span
-          class="ring-lucide-icon MuiBox-root css-iq0g25"
+          class="ring-lucide-icon MuiBox-root css"
           data-testid="ring-searchbox-search"
         >
           <svg
@@ -127,7 +127,7 @@ exports[`SearchBar > should render correctly with sx selector for children stack
       </div>
       <input
         aria-label="Search"
-        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-2u11ia-MuiInputBase-input-MuiOutlinedInput-input"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
         data-testid="ring-searchbox-input"
         placeholder=""
         type="text"
@@ -135,10 +135,10 @@ exports[`SearchBar > should render correctly with sx selector for children stack
       />
       <fieldset
         aria-hidden="true"
-        class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+        class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          class="css-1nf2c5d-MuiNotchedOutlined-root"
+          class="css-MuiNotchedOutlined-root"
         >
           <span
             aria-hidden="true"
@@ -150,7 +150,7 @@ exports[`SearchBar > should render correctly with sx selector for children stack
       </fieldset>
     </div>
     <div
-      class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+      class="MuiStack-root ring-search-bar-children-stack css-MuiStack-root"
     >
       <div>
         Test Child

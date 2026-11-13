@@ -7,16 +7,16 @@ exports[`Components: DatePicker > should render correctly 1`] = `
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -26,13 +26,13 @@ exports[`Components: DatePicker > should render correctly 1`] = `
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -91,16 +91,16 @@ exports[`Components: DatePicker > should render correctly 1`] = `
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -111,7 +111,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -121,17 +121,17 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -142,7 +142,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -152,17 +152,17 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -173,7 +173,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -183,19 +183,19 @@ exports[`Components: DatePicker > should render correctly 1`] = `
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -203,7 +203,7 @@ exports[`Components: DatePicker > should render correctly 1`] = `
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_1_"
           tabindex="-1"
           value=""
@@ -221,16 +221,16 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -240,13 +240,13 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -305,16 +305,16 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -325,7 +325,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -335,17 +335,17 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -356,7 +356,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -366,17 +366,17 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -387,7 +387,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -397,19 +397,19 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -417,7 +417,7 @@ exports[`Components: DatePicker > should render correctly with Now button 1`] = 
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_r_"
           tabindex="-1"
           value=""
@@ -435,16 +435,16 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -454,13 +454,13 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -519,16 +519,16 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -539,7 +539,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -549,17 +549,17 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -570,7 +570,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -580,17 +580,17 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -601,7 +601,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -611,13 +611,13 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <button
           aria-label="Clear"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-datepicker-clear"
           tabindex="0"
           type="button"
@@ -649,7 +649,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
         <button
           aria-haspopup="menu"
           aria-label="More actions"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-datepicker-actions"
           tabindex="0"
           type="button"
@@ -689,13 +689,13 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
         </button>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -703,7 +703,7 @@ exports[`Components: DatePicker > should render correctly with custom actions 1`
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_v_"
           tabindex="-1"
           value=""
@@ -721,16 +721,16 @@ exports[`Components: DatePicker > should render correctly with custom actions an
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -740,13 +740,13 @@ exports[`Components: DatePicker > should render correctly with custom actions an
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -805,16 +805,16 @@ exports[`Components: DatePicker > should render correctly with custom actions an
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -825,7 +825,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -835,17 +835,17 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -856,7 +856,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -866,17 +866,17 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -887,7 +887,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -897,13 +897,13 @@ exports[`Components: DatePicker > should render correctly with custom actions an
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <button
           aria-label="Clear"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-datepicker-clear"
           tabindex="0"
           type="button"
@@ -935,7 +935,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
         <button
           aria-haspopup="menu"
           aria-label="More actions"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-datepicker-actions"
           tabindex="0"
           type="button"
@@ -975,13 +975,13 @@ exports[`Components: DatePicker > should render correctly with custom actions an
         </button>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -989,7 +989,7 @@ exports[`Components: DatePicker > should render correctly with custom actions an
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_16_"
           tabindex="-1"
           value=""
@@ -1007,11 +1007,11 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-tvx38b-MuiFormLabel-root-MuiInputLabel-root"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="true"
         for="_r_5_"
         id="_r_5_-label"
@@ -1021,11 +1021,11 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
       <div
         aria-invalid="false"
         aria-labelledby="_r_5_-label"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -1035,13 +1035,13 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -1100,16 +1100,16 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1120,7 +1120,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1130,17 +1130,17 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1151,7 +1151,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1161,17 +1161,17 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1182,7 +1182,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1192,19 +1192,19 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-1pbc52w"
+            class="css"
           >
             <span
-              class="css-1ha69v5"
+              class="css"
             >
               Custom Date
             </span>
@@ -1212,7 +1212,7 @@ exports[`Components: DatePicker > should render correctly with custom labels 1`]
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_5_"
           tabindex="-1"
           value=""
@@ -1230,16 +1230,16 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-i9ll5g-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart MuiPickersInputBase-adornedEnd css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -1249,13 +1249,13 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
           </span>
           <button
             aria-label="Choose date, selected date is Jan 1, 2022"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -1314,16 +1314,16 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1fdb7ao-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1335,7 +1335,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuetext="January"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1345,17 +1345,17 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               01
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1367,7 +1367,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuetext="1st"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1377,17 +1377,17 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               01
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1398,7 +1398,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               aria-valuenow="2022"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1408,22 +1408,22 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
               2022
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-11joito-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <button
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="-1"
             title="Clear"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-x css-1xdhyk6"
+              class="lucide lucide-x css"
               fill="none"
               font-size="small"
               height="20"
@@ -1448,13 +1448,13 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -1462,7 +1462,7 @@ exports[`Components: DatePicker > should render correctly with default value 1`]
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_9_"
           tabindex="-1"
           value="01/01/2022"
@@ -1480,16 +1480,16 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
     style="position: relative; display: inline-flex;"
   >
     <div
-      class="MuiFormControl-root MuiPickersTextField-root css-131o414-MuiFormControl-root-MuiPickersTextField-root"
+      class="MuiFormControl-root MuiPickersTextField-root css-MuiFormControl-root-MuiPickersTextField-root"
       data-testid="ring-datepicker"
     >
       <div
         aria-invalid="false"
-        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-1erxgu6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+        class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedStart css-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
         role="group"
       >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-9n7iu0-MuiInputAdornment-root"
+          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-MuiInputAdornment-root"
         >
           <span
             aria-hidden="true"
@@ -1499,13 +1499,13 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
           </span>
           <button
             aria-label="Choose date"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-1hy2j54-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-calendar-days css-1xdhyk6"
+              class="lucide lucide-calendar-days css"
               fill="none"
               height="20"
               stroke="currentColor"
@@ -1564,16 +1564,16 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
           </button>
         </div>
         <div
-          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-1bui8tf-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
+          class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer css-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer"
           contenteditable="false"
           tabindex="0"
         >
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="0"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1584,7 +1584,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1594,17 +1594,17 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               MM
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="1"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1615,7 +1615,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1625,17 +1625,17 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               DD
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             >
               /
             </span>
           </span>
           <span
-            class="MuiPickersSectionList-section css-xplkep-MuiPickersSectionList-section-MuiPickersInputBase-section"
+            class="MuiPickersSectionList-section css-MuiPickersSectionList-section-MuiPickersInputBase-section"
             data-sectionindex="2"
           >
             <span
-              class="MuiPickersInputBase-sectionBefore css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionBefore css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
             <span
               aria-disabled="false"
@@ -1646,7 +1646,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               aria-valuetext="Empty"
               autocapitalize="none"
               autocorrect="off"
-              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-gsvuxz-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
+              class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent css-MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent"
               contenteditable="true"
               inputmode="numeric"
               role="spinbutton"
@@ -1656,19 +1656,19 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
               YYYY
             </span>
             <span
-              class="MuiPickersInputBase-sectionAfter css-w1q93y-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
+              class="MuiPickersInputBase-sectionAfter css-MuiPickersSectionList-sectionSeparator-MuiPickersInputBase-separator"
             />
           </span>
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiPickersOutlinedInput-notchedOutline css-tx0zjo-MuiPickersOutlinedInput-notchedOutline"
+          class="MuiPickersOutlinedInput-notchedOutline css-MuiPickersOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-gpjuor"
+            class="css"
           >
             <span
-              class="notranslate css-1ha69v5"
+              class="notranslate css"
             >
               ​
             </span>
@@ -1676,7 +1676,7 @@ exports[`Components: DatePicker > should render correctly with empty actions 1`]
         </fieldset>
         <input
           aria-hidden="true"
-          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+          class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-MuiPickersInputBase-input"
           id="_r_n_"
           tabindex="-1"
           value=""

@@ -3,12 +3,12 @@
 exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
 <div>
   <div
-    class="MuiBox-root css-166bxkn"
+    class="MuiBox-root css"
     data-testid="ring-sortablelist"
   >
     <div
       aria-disabled="false"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-1"
       style="opacity: 1; cursor: grab;"
     >
@@ -18,7 +18,7 @@ exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
     </div>
     <div
       aria-disabled="false"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-2"
       style="opacity: 1; cursor: grab;"
     >
@@ -28,7 +28,7 @@ exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
     </div>
     <div
       aria-disabled="false"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-3"
       style="opacity: 1; cursor: grab;"
     >
@@ -38,7 +38,7 @@ exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
     </div>
     <div
       aria-disabled="false"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-4"
       style="opacity: 1; cursor: grab;"
     >
@@ -48,7 +48,7 @@ exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
     </div>
     <div
       aria-disabled="false"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-5"
       style="opacity: 1; cursor: grab;"
     >
@@ -76,14 +76,14 @@ exports[`SortableList > Should render all items with orientation="wrap" 1`] = `
 exports[`SortableList > Should render correctly 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1yrcydf"
+    class="MuiBox-root css"
     data-testid="ring-sortablelist"
   >
     <div
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-1"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -99,7 +99,7 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-2"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -115,7 +115,7 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-3"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -131,7 +131,7 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-4"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -147,7 +147,7 @@ exports[`SortableList > Should render correctly 1`] = `
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-5"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -179,14 +179,14 @@ exports[`SortableList > Should render correctly 1`] = `
 exports[`SortableList > Should render correctly with orientation="horizontal" 1`] = `
 <div>
   <div
-    class="MuiBox-root css-nojg7y"
+    class="MuiBox-root css"
     data-testid="ring-sortablelist"
   >
     <div
       aria-describedby="DndDescribedBy-2"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-1"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -200,7 +200,7 @@ exports[`SortableList > Should render correctly with orientation="horizontal" 1`
       aria-describedby="DndDescribedBy-2"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-2"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -214,7 +214,7 @@ exports[`SortableList > Should render correctly with orientation="horizontal" 1`
       aria-describedby="DndDescribedBy-2"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-3"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -228,7 +228,7 @@ exports[`SortableList > Should render correctly with orientation="horizontal" 1`
       aria-describedby="DndDescribedBy-2"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-4"
       role="button"
       style="opacity: 1; cursor: grab;"
@@ -242,7 +242,7 @@ exports[`SortableList > Should render correctly with orientation="horizontal" 1`
       aria-describedby="DndDescribedBy-2"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
       data-testid="ring-sortablelist-item-5"
       role="button"
       style="opacity: 1; cursor: grab;"

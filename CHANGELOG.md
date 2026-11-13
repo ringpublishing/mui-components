@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.2] - 2026-11-02
+
+### Changed
+
+- [@wniemiec-rasp]: The `@ringpublishing/mui-theme` peer range of a release starts at the theme version the release was built with; update the theme together with the library.
+
+### Removed
+
+- [@rmusial2]: The npm package no longer contains the repository's development scripts (`scripts/check-texts.mjs`, `scripts/docscan.mjs`, `scripts/storyaudit.mjs`); the library code is unchanged.
+
 ## [2.0.1] - 2026-10-30
 
 ### Changed

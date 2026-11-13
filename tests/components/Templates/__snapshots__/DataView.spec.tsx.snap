@@ -9,17 +9,17 @@ exports[`Component: DataView > Component: RingDrawer > should render correctly w
 exports[`Component: DataView > Left Slot toggle functionality > should render correctly RingDataGrid with RingToolbar and toggle left slot 1`] = `
 <div>
   <div
-    class="MuiStack-root ring-dataview css-qy5qas-MuiStack-root"
+    class="MuiStack-root ring-dataview css-MuiStack-root"
     data-testid="ring-dataview"
   >
     <div
-      class="MuiStack-root css-1hz42nv-MuiStack-root"
+      class="MuiStack-root css-MuiStack-root"
     >
       <div
-        class="MuiStack-root css-1n93rc9-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiBox-root css-18qjdda"
+          class="MuiBox-root css"
         >
           <div>
             Left Slot Component
@@ -27,18 +27,18 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
         </div>
       </div>
       <div
-        class="MuiStack-root css-m1j0r9-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiStack-root ring-search-bar css-1cwq0wc-MuiStack-root"
+          class="MuiStack-root ring-search-bar css-MuiStack-root"
           data-testid="ring-searchbar"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-ih5f1d-MuiInputBase-root-MuiOutlinedInput-root"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
             data-testid="ring-searchbox"
           >
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionStart css-9n7iu0-MuiInputAdornment-root"
+              class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
             >
               <span
                 aria-hidden="true"
@@ -47,7 +47,7 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                 ​
               </span>
               <span
-                class="ring-lucide-icon MuiBox-root css-1y232qa"
+                class="ring-lucide-icon MuiBox-root css"
                 data-testid="ring-searchbox-search"
               >
                 <svg
@@ -76,7 +76,7 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
             </div>
             <input
               aria-label="Search"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-19yncl1-MuiInputBase-input-MuiOutlinedInput-input"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
               data-testid="ring-searchbox-input"
               placeholder=""
               type="text"
@@ -84,10 +84,10 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
             />
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-14sy7op-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+              class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1nf2c5d-MuiNotchedOutlined-root"
+                class="css-MuiNotchedOutlined-root"
               >
                 <span
                   aria-hidden="true"
@@ -99,17 +99,17 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
             </fieldset>
           </div>
           <div
-            class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+            class="MuiStack-root ring-search-bar-children-stack css-MuiStack-root"
           >
             <button
               aria-label="Open details"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
               data-testid="ring-dataview-toggle-right-slot"
               tabindex="0"
               type="button"
             >
               <span
-                class="ring-lucide-icon MuiBox-root css-1511a74"
+                class="ring-lucide-icon MuiBox-root css"
               >
                 <svg
                   aria-hidden="true"
@@ -141,10 +141,10 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
           </div>
         </div>
         <div
-          class="MuiBox-root css-dh7td5"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-154k34l-MuiDataGrid-root"
+            class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables css-MuiDataGrid-root"
             data-testid="ring-datagrid"
             style="--DataGrid-hasScrollX: 0; --DataGrid-hasScrollY: 0; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 0px; --DataGrid-columnsTotalWidth: 0px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
           >
@@ -156,14 +156,14 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                 style="border-bottom: 1px solid rgb(203, 213, 225); display: flex; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center; flex-direction: row; height: 40px; flex-shrink: 0; padding: 0px 8px 0px 8px;"
               >
                 <div
-                  class="MuiStack-root css-tmsmf9-MuiStack-root"
+                  class="MuiStack-root css-MuiStack-root"
                 >
                   <div
-                    class="MuiStack-root css-1rlitzi-MuiStack-root"
+                    class="MuiStack-root css-MuiStack-root"
                   >
                     <button
                       aria-label="Close filters"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
                       data-testid="ring-datatoolbar-toggle-left-slot"
                       tabindex="0"
                       type="button"
@@ -199,14 +199,14 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                       </svg>
                     </button>
                     <span
-                      class="MuiTypography-root MuiTypography-caption css-gnd3hy-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
                     >
                       : 
                       0
                     </span>
                   </div>
                   <div
-                    class="MuiStack-root css-1oxswqj-MuiStack-root"
+                    class="MuiStack-root css-MuiStack-root"
                   />
                 </div>
               </div>
@@ -214,31 +214,31 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                 aria-colcount="0"
                 aria-multiselectable="true"
                 aria-rowcount="1"
-                class="MuiDataGrid-main MuiDataGrid-main--hiddenContent css-uk7t8p-MuiDataGrid-main"
+                class="MuiDataGrid-main MuiDataGrid-main--hiddenContent css-MuiDataGrid-main"
                 role="grid"
                 tabindex="-1"
               >
                 <div
-                  class="css-18l11qw"
+                  class="css"
                   data-id="gridPanelAnchor"
                   role="presentation"
                 />
                 <div
-                  class="MuiDataGrid-virtualScroller css-ndavys-MuiDataGrid-virtualScroller"
+                  class="MuiDataGrid-virtualScroller css-MuiDataGrid-virtualScroller"
                   role="presentation"
                   style="overflow-x: hidden;"
                 >
                   <div
-                    class="MuiDataGrid-topContainer MuiDataGrid-container--top css-b1wygl"
+                    class="MuiDataGrid-topContainer MuiDataGrid-container--top css"
                     role="presentation"
                   >
                     <div
-                      class="MuiDataGrid-columnHeaders css-1gtv474-MuiDataGrid-columnHeaders"
+                      class="MuiDataGrid-columnHeaders css-MuiDataGrid-columnHeaders"
                       role="presentation"
                     >
                       <div
                         aria-rowindex="1"
-                        class="MuiDataGrid-row--borderBottom css-yseucu-MuiDataGrid-columnHeaderRow"
+                        class="MuiDataGrid-row--borderBottom css-MuiDataGrid-columnHeaderRow"
                         role="row"
                         style="height: 56px;"
                       >
@@ -256,37 +256,37 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
                         />
                       </div>
                       <div
-                        class="css-oj85k"
+                        class="css"
                       />
                     </div>
                   </div>
                   <div
-                    class="MuiDataGrid-overlayWrapper css-508bsa-MuiDataGrid-overlayWrapper"
+                    class="MuiDataGrid-overlayWrapper css-MuiDataGrid-overlayWrapper"
                   >
                     <div
-                      class="MuiDataGrid-overlayWrapperInner css-1mbsuzk-MuiDataGrid-overlayWrapperInner"
+                      class="MuiDataGrid-overlayWrapperInner css-MuiDataGrid-overlayWrapperInner"
                       style="height: var(--DataGrid-overlayHeight, calc(var(--height) * 2)); width: 0px;"
                     >
                       <div
-                        class="MuiDataGrid-overlay css-w16tsr-MuiDataGrid-overlay"
+                        class="MuiDataGrid-overlay css-MuiDataGrid-overlay"
                       >
                         No columns
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiDataGrid-virtualScrollerContent css-qghlpz-MuiDataGrid-virtualScrollerContent"
+                    class="MuiDataGrid-virtualScrollerContent css-MuiDataGrid-virtualScrollerContent"
                     role="presentation"
                     style="width: auto; flex-basis: var(--DataGrid-overlayHeight, calc(var(--height) * 2)); flex-shrink: 0;"
                   >
                     <div
-                      class="MuiDataGrid-virtualScrollerRenderZone css-11dqcl8-MuiDataGrid-virtualScrollerRenderZone"
+                      class="MuiDataGrid-virtualScrollerRenderZone css-MuiDataGrid-virtualScrollerRenderZone"
                       role="rowgroup"
                       style="transform: translate3d(0, 0px, 0);"
                     />
                   </div>
                   <div
-                    class="MuiDataGrid-bottomContainer MuiDataGrid-container--bottom css-gzxaox"
+                    class="MuiDataGrid-bottomContainer MuiDataGrid-container--bottom css"
                     role="presentation"
                   />
                 </div>
@@ -298,19 +298,19 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
               </div>
             </div>
             <style
-              href="/MuiDataGridVariables-1575782458"
+              href="/MuiDataGridVariables"
             >
-              .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
+              .MuiDataGridVariables{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
             </style>
           </div>
         </div>
         <div
-          class="MuiBox-root css-1tgc7if"
+          class="MuiBox-root css"
         />
       </div>
     </div>
     <div
-      class="MuiBox-root css-7xo9am"
+      class="MuiBox-root css"
     >
       <div>
         Right Slot
@@ -323,17 +323,17 @@ exports[`Component: DataView > Left Slot toggle functionality > should render co
 exports[`Component: DataView > should render correctly with required props 1`] = `
 <div>
   <div
-    class="MuiStack-root ring-dataview css-qy5qas-MuiStack-root"
+    class="MuiStack-root ring-dataview css-MuiStack-root"
     data-testid="ring-dataview"
   >
     <div
-      class="MuiStack-root css-1hz42nv-MuiStack-root"
+      class="MuiStack-root css-MuiStack-root"
     >
       <div
-        class="MuiStack-root css-1n93rc9-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiBox-root css-18qjdda"
+          class="MuiBox-root css"
         >
           <div>
             Left Slot
@@ -341,18 +341,18 @@ exports[`Component: DataView > should render correctly with required props 1`] =
         </div>
       </div>
       <div
-        class="MuiStack-root css-m1j0r9-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiStack-root ring-search-bar css-1cwq0wc-MuiStack-root"
+          class="MuiStack-root ring-search-bar css-MuiStack-root"
           data-testid="ring-searchbar"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-ih5f1d-MuiInputBase-root-MuiOutlinedInput-root"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-adornedStart ring-search-box css-MuiInputBase-root-MuiOutlinedInput-root"
             data-testid="ring-searchbox"
           >
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionStart css-9n7iu0-MuiInputAdornment-root"
+              class="MuiInputAdornment-root MuiInputAdornment-positionStart css-MuiInputAdornment-root"
             >
               <span
                 aria-hidden="true"
@@ -361,7 +361,7 @@ exports[`Component: DataView > should render correctly with required props 1`] =
                 ​
               </span>
               <span
-                class="ring-lucide-icon MuiBox-root css-1y232qa"
+                class="ring-lucide-icon MuiBox-root css"
                 data-testid="ring-searchbox-search"
               >
                 <svg
@@ -390,7 +390,7 @@ exports[`Component: DataView > should render correctly with required props 1`] =
             </div>
             <input
               aria-label="Search"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-19yncl1-MuiInputBase-input-MuiOutlinedInput-input"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart css-MuiInputBase-input-MuiOutlinedInput-input"
               data-testid="ring-searchbox-input"
               placeholder=""
               type="text"
@@ -398,10 +398,10 @@ exports[`Component: DataView > should render correctly with required props 1`] =
             />
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-14sy7op-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+              class="MuiOutlinedInput-notchedOutline css-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1nf2c5d-MuiNotchedOutlined-root"
+                class="css-MuiNotchedOutlined-root"
               >
                 <span
                   aria-hidden="true"
@@ -413,18 +413,18 @@ exports[`Component: DataView > should render correctly with required props 1`] =
             </fieldset>
           </div>
           <div
-            class="MuiStack-root ring-search-bar-children-stack css-1sos3zc-MuiStack-root"
+            class="MuiStack-root ring-search-bar-children-stack css-MuiStack-root"
           />
         </div>
         <div
-          class="MuiBox-root css-dh7td5"
+          class="MuiBox-root css"
         >
           <div>
             Grid
           </div>
         </div>
         <div
-          class="MuiBox-root css-1tgc7if"
+          class="MuiBox-root css"
         />
       </div>
     </div>

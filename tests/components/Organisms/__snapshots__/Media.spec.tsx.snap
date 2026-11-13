@@ -3,44 +3,44 @@
 exports[`Media > Should render correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-en36hu-MuiPaper-root-MuiCard-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-MuiPaper-root-MuiCard-root"
     data-testid="ring-media"
     style="--Paper-shadow: none;"
   >
     <figure
-      class="MuiBox-root css-14hubqc"
+      class="MuiBox-root css"
     >
       <span
-        class="MuiTypography-root MuiTypography-overline css-p9i4zf-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-overline css-MuiTypography-root"
       >
         Image Type Title
       </span>
       <div
-        class="MuiBox-root css-79elbk"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiStack-root css-100hz5d-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <div
-            class="MuiChip-root MuiChip-tag MuiChip-sizeSmall MuiChip-colorStone MuiChip-tagStone css-gjhx9k-MuiChip-root"
+            class="MuiChip-root MuiChip-tag MuiChip-sizeSmall MuiChip-colorStone MuiChip-tagStone css-MuiChip-root"
           >
             <div>
               test icon
             </div>
             <span
-              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+              class="MuiChip-label MuiChip-labelSmall css-MuiChip-label"
             >
               Label 1
             </span>
           </div>
           <div
-            class="MuiChip-root MuiChip-tag MuiChip-sizeSmall MuiChip-colorError MuiChip-tagError css-1mnania-MuiChip-root"
+            class="MuiChip-root MuiChip-tag MuiChip-sizeSmall MuiChip-colorError MuiChip-tagError css-MuiChip-root"
           >
             <div>
               test icon
             </div>
             <span
-              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+              class="MuiChip-label MuiChip-labelSmall css-MuiChip-label"
             >
               Label 2, with a longer text
             </span>
@@ -49,13 +49,13 @@ exports[`Media > Should render correctly 1`] = `
         <button
           aria-haspopup="menu"
           aria-label="More actions"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-1x6uy9t-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-media-actions"
           tabindex="0"
           type="button"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-1d89b2p"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -92,15 +92,15 @@ exports[`Media > Should render correctly 1`] = `
           </span>
         </button>
         <div
-          class="css-s3xtrq"
+          class="css"
         >
           <div
-            class="css-l9y6au"
+            class="css"
           >
             <img
               alt="Image title"
               aria-label="Open full-screen preview"
-              class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-mffq7v-MuiCardMedia-root"
+              class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-MuiCardMedia-root"
               data-first-child=""
               data-testid="ring-media-image"
               draggable="false"
@@ -112,11 +112,11 @@ exports[`Media > Should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiStack-root css-1sul0vv-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <button
             aria-label="Tooltip text 1"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-18nmj04-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
@@ -129,10 +129,10 @@ exports[`Media > Should render correctly 1`] = `
       </div>
       <figcaption>
         <div
-          class="MuiStack-root css-j3ygch-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 css-9a9pmt-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
           >
             Image title
           </p>
@@ -141,7 +141,7 @@ exports[`Media > Should render correctly 1`] = `
     </figure>
   </div>
   <div
-    class="MuiBox-root css-12efcmn"
+    class="MuiBox-root css"
   />
 </div>
 `;

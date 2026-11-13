@@ -3,18 +3,18 @@
 exports[`Detail > DescriptionField > should render correctly 1`] = `
 <div>
   <div
-    class="MuiBox-root css-2imjyh"
+    class="MuiBox-root css"
   >
     <span
-      class="MuiTypography-root MuiTypography-caption css-alzxi6-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
     >
       Test Field
     </span>
     <div
-      class="MuiBox-root css-tcarxj"
+      class="MuiBox-root css"
     >
       <span
-        class="MuiTypography-root MuiTypography-caption css-du86ev-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
       >
         Test Value
       </span>
@@ -26,14 +26,14 @@ exports[`Detail > DescriptionField > should render correctly 1`] = `
 exports[`Detail > DetailMain > should have a close button if onCloseClick is set 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1yvzp6t"
+    class="MuiBox-root css"
   >
     <div
-      class="MuiBox-root css-12k63x3"
+      class="MuiBox-root css"
     >
       <button
         aria-label="Close"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-7pm78n-MuiButtonBase-root-MuiIconButton-root"
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
         data-testid="ring-detail-close"
         tabindex="0"
         type="button"
@@ -67,10 +67,10 @@ exports[`Detail > DetailMain > should have a close button if onCloseClick is set
 exports[`Detail > DetailMain > should render properly without media props 1`] = `
 <div>
   <div
-    class="MuiBox-root css-1yvzp6t"
+    class="MuiBox-root css"
   >
     <h6
-      class="MuiTypography-root MuiTypography-h6 css-1lizuzb-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-h6 css-MuiTypography-root"
     >
       Test Title
     </h6>
@@ -81,35 +81,35 @@ exports[`Detail > DetailMain > should render properly without media props 1`] = 
 exports[`Detail > EditableField > should render correctly 1`] = `
 <div>
   <div
-    class="MuiStack-root css-1hls35x-MuiStack-root"
+    class="MuiStack-root css-MuiStack-root"
   >
     <span
-      class="MuiTypography-root MuiTypography-caption css-alzxi6-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
     >
       Test Field
     </span>
     <div
-      class="MuiBox-root css-u7hsj1"
+      class="MuiBox-root css"
     >
       <div
-        class="ring-editabletext MuiBox-root css-ejgtp3"
+        class="ring-editabletext MuiBox-root css"
         data-testid="ring-editabletext"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-1pzu09r-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           data-testid="ring-editabletext-text"
         >
           Test Value
         </p>
         <button
           aria-label="Edit"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e0mpnn-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-94kk3y"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -142,32 +142,32 @@ exports[`Detail > EditableField > should render correctly 1`] = `
 exports[`Detail > should render correctly 1`] = `
 <div>
   <div
-    class="ring-detail MuiBox-root css-186v5rg"
+    class="ring-detail MuiBox-root css"
     data-testid="ring-detail"
   >
     <div
-      class="MuiBox-root css-1yvzp6t"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-1dmagg0-MuiPaper-root-MuiCard-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiCard-root css-MuiPaper-root-MuiCard-root"
         data-testid="ring-media"
         style="--Paper-shadow: none;"
       >
         <figure
-          class="MuiBox-root css-14hubqc"
+          class="MuiBox-root css"
         >
           <div
-            class="MuiBox-root css-79elbk"
+            class="MuiBox-root css"
           >
             <div
-              class="css-oe6yyn"
+              class="css"
             >
               <div
-                class="css-l9y6au"
+                class="css"
               >
                 <img
                   alt=""
-                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-3kxxk8-MuiCardMedia-root"
+                  class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-MuiCardMedia-root"
                   data-first-child=""
                   data-testid="ring-media-image"
                   draggable="false"
@@ -179,17 +179,17 @@ exports[`Detail > should render correctly 1`] = `
         </figure>
       </div>
       <div
-        class="MuiBox-root css-12efcmn"
+        class="MuiBox-root css"
       />
       <div
-        class="MuiStack-root css-t3oovu-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiStack-root css-m69qwo-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <button
             aria-label="Test Tooltip"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             data-testid="ring-detail-bottom-icon-0"
             tabindex="0"
@@ -201,11 +201,11 @@ exports[`Detail > should render correctly 1`] = `
           </button>
         </div>
         <div
-          class="MuiStack-root css-m69qwo-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <button
             aria-label="Download image"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-download-image"
             tabindex="0"
             type="button"
@@ -236,7 +236,7 @@ exports[`Detail > should render correctly 1`] = `
           </button>
           <button
             aria-label="Zoom in"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-hzjudn-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
             data-testid="ring-detail-zoom-in-image"
             tabindex="0"
             type="button"
@@ -282,11 +282,11 @@ exports[`Detail > should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-12k63x3"
+        class="MuiBox-root css"
       >
         <button
           aria-label="Close"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-7pm78n-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorOverlay MuiIconButton-sizeMedium css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-detail-close"
           tabindex="0"
           type="button"
@@ -314,24 +314,24 @@ exports[`Detail > should render correctly 1`] = `
         </button>
       </div>
       <div
-        class="ring-editabletext MuiBox-root css-g9pmgs"
+        class="ring-editabletext MuiBox-root css"
         data-testid="ring-editabletext"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-hw3vvs-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           data-testid="ring-editabletext-text"
         >
           Test Title
         </p>
         <button
           aria-label="Edit"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e4yi6w-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
           data-testid="ring-editabletext-edit"
           tabindex="0"
           type="button"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-94kk3y"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -358,41 +358,41 @@ exports[`Detail > should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiBox-root css-nvllow"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiBox-root css-0"
+        class="MuiBox-root css"
       >
         Custom slot after main
       </div>
     </div>
     <div
-      class="MuiBox-root css-1oeodld"
+      class="MuiBox-root css"
     >
       <div
-        class="MuiStack-root css-axwy7e-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <span
-          class="MuiTypography-root MuiTypography-subtitle2 css-5lyjhh-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle2 css-MuiTypography-root"
         >
           Test Section
         </span>
         <div
-          class="MuiStack-root css-fmfw5r-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
           >
             Test Field
           </span>
           <div
-            class="MuiBox-root css-111rbps"
+            class="MuiBox-root css"
           >
             <div
-              class="MuiBox-root css-1mznq4u"
+              class="MuiBox-root css"
             >
               <span
-                class="MuiTypography-root MuiTypography-caption css-8yuths-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
               >
                 Test Value
               </span>
@@ -400,27 +400,27 @@ exports[`Detail > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiStack-root css-fmfw5r-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
           >
             icons
           </span>
           <div
-            class="MuiBox-root css-111rbps"
+            class="MuiBox-root css"
           >
             <div
-              class="MuiBox-root css-1mznq4u"
+              class="MuiBox-root css"
             >
               <span
-                class="MuiTypography-root MuiTypography-caption css-8yuths-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
               />
               <div
-                class="MuiBox-root css-1c4cdoc"
+                class="MuiBox-root css"
               >
                 <div
-                  class="MuiBox-root css-ttufee"
+                  class="MuiBox-root css"
                 >
                   <svg
                     aria-hidden="true"
@@ -449,7 +449,7 @@ exports[`Detail > should render correctly 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="MuiBox-root css-ttufee"
+                  class="MuiBox-root css"
                 >
                   <svg
                     aria-hidden="true"
@@ -482,35 +482,35 @@ exports[`Detail > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiStack-root css-1hls35x-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-caption css-1ptdqxw-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
           >
             Editable Field
           </span>
           <div
-            class="MuiBox-root css-u7hsj1"
+            class="MuiBox-root css"
           >
             <div
-              class="ring-editabletext MuiBox-root css-ejgtp3"
+              class="ring-editabletext MuiBox-root css"
               data-testid="ring-editabletext-detail-2"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-hw3vvs-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
                 data-testid="ring-editabletext-detail-2-text"
               >
                 Editable value
               </p>
               <button
                 aria-label="Edit"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-e4yi6w-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-MuiButtonBase-root-MuiIconButton-root"
                 data-testid="ring-editabletext-detail-2-edit"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="ring-lucide-icon MuiBox-root css-94kk3y"
+                  class="ring-lucide-icon MuiBox-root css"
                 >
                   <svg
                     aria-hidden="true"
@@ -538,74 +538,74 @@ exports[`Detail > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-2imjyh"
+          class="MuiBox-root css"
         >
           <span
-            class="MuiTypography-root MuiTypography-caption css-1ptdqxw-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
           >
             Description Field
           </span>
           <div
-            class="MuiBox-root css-tcarxj"
+            class="MuiBox-root css"
           >
             <span
-              class="MuiTypography-root MuiTypography-caption css-dbt03u-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
             >
               Description value
             </span>
           </div>
         </div>
         <div
-          class="MuiStack-root css-fmfw5r-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-caption css-1nkxkh0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
           >
             Chips Field
           </span>
           <div
-            class="MuiBox-root css-111rbps"
+            class="MuiBox-root css"
           >
             <div
-              class="MuiBox-root css-1jf6i0q"
+              class="MuiBox-root css"
             >
               <div
-                class="ring-chipsgroup MuiBox-root css-hbiacx"
+                class="ring-chipsgroup MuiBox-root css"
                 data-testid="ring-chipsgroup-detail-4"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-cm73d9-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-chip-0-fixed"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-4motx5-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-MuiChip-label"
                   >
                     chip1
                   </span>
                 </div>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-cm73d9-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-chip-1-fixed"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-4motx5-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-MuiChip-label"
                   >
                     chip2
                   </span>
                 </div>
                 <div
                   aria-haspopup="true"
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-outlinedDefault css-jntt0s-MuiButtonBase-root-MuiChip-root"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-outlinedDefault css-MuiButtonBase-root-MuiChip-root"
                   data-testid="ring-chipsgroup-detail-4-expandable"
                   id="chips-button"
                   role="button"
                   tabindex="0"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall css-9a66fp-MuiChip-label"
+                    class="MuiChip-label MuiChip-labelSmall css-MuiChip-label"
                   >
                     <span
-                      class="MuiBox-root css-16ttdq5"
+                      class="MuiBox-root css"
                     >
                       +
                     </span>
@@ -618,28 +618,28 @@ exports[`Detail > should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-1ebprri"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiBox-root css-0"
+          class="MuiBox-root css"
         >
           Custom slot after description items
         </div>
       </div>
       <div
-        class="MuiStack-root css-hwnj0i-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <div
-          class="MuiStack-root css-1gi1ppv-MuiStack-root"
+          class="MuiStack-root css-MuiStack-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-obgi88-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-detail-bottom-action-0"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1v1j2p3-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-MuiButton-startIcon"
             >
               <div>
                 Test Icon
@@ -650,10 +650,10 @@ exports[`Detail > should render correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-1sf3xto"
+        class="MuiBox-root css"
       >
         <div
-          class="MuiBox-root css-0"
+          class="MuiBox-root css"
         >
           Custom slot after bottom actions
         </div>
@@ -666,14 +666,14 @@ exports[`Detail > should render correctly 1`] = `
 exports[`Detail > should show placeholder when empty is true 1`] = `
 <div>
   <div
-    class="MuiBox-root css-350nye"
+    class="MuiBox-root css"
   >
     <div
-      class="MuiStack-root css-f3a0ab-MuiStack-root"
+      class="MuiStack-root css-MuiStack-root"
       data-testid="ring-placeholder-detail-empty"
     >
       <div
-        class="MuiBox-root css-co4xce"
+        class="MuiBox-root css"
       >
         <img
           alt="Empty"
@@ -681,16 +681,16 @@ exports[`Detail > should show placeholder when empty is true 1`] = `
         />
       </div>
       <div
-        class="MuiStack-root css-t66xbi-MuiStack-root"
+        class="MuiStack-root css-MuiStack-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-14q3lz5-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
         >
           Select an item to view its details
         </p>
       </div>
       <div
-        class="MuiBox-root css-z80jug"
+        class="MuiBox-root css"
       />
     </div>
   </div>

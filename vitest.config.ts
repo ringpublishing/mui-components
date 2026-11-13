@@ -1,27 +1,17 @@
-import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
+import { sourceAliases } from './sourceAliases.js';
 
 export default defineConfig({
     resolve: {
-        // The `stories/**/code/*Example.tsx` files import the library the way a consumer would; the same alias
-        // as in `.storybook/main.ts` lets a spec render the example a docs page shows.
-        alias: [
-            {
-                find: /^@ringpublishing\/mui-components$/,
-                replacement: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-            },
-            {
-                find: /^@ringpublishing\/mui-components\/tree-dynamic-loading$/,
-                replacement: fileURLToPath(new URL('./src/treeDynamicLoading.ts', import.meta.url)),
-            },
-        ],
+        alias: sourceAliases,
     },
     test: {
         globals: true,
         environment: 'jsdom',
+        setupFiles: ['./tests/setup.ts'],
         // `.claude/worktrees` holds checkouts of other branches of this same repo. Without
         // this entry a run collects their specs too, and `-u` rewrites their snapshots.
-        exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**', 'mcp-server/**', '**/.claude/worktrees/**'],
+        exclude: ['**/node_modules/**', '**/dist/**', '**/.claude/worktrees/**'],
         coverage: {
             reporter: ['text', 'json', 'html'],
         },

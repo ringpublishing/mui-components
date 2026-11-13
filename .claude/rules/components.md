@@ -1,1 +1,0 @@
-../../.github/instructions/components.instructions.md

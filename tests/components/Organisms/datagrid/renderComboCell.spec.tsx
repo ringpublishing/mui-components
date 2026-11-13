@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { DataGrid, GridRowsProp, GridColDef, GridRowHeightReturnValue } from '@mui/x-data-grid';
 import { renderComboCell } from '../../../../src/index.js';
 
@@ -51,34 +51,149 @@ describe('DataGrid - renderComboCell', () => {
         { field: 'combo', headerName: 'Combo', width: 600, renderCell: renderComboCell },
     ];
 
+    // What the renderer put into the combo cell of a row, read from the rendered grid.
+    const readComboCell = (container: HTMLElement, rowId: number): Record<string, unknown> => {
+        const cell = within(container).getByTestId(`ring-datagrid-item-${rowId}-combo`);
+        const label = cell.querySelector('.MuiTypography-body2') as HTMLElement;
+        const image = cell.querySelector('img');
+        const badge = cell.querySelector('.MuiChip-outlinedSecondary');
+
+        return {
+            // The label without the badge that the full view renders inside it.
+            label: label.firstChild?.textContent,
+            caption: cell.querySelector('.MuiTypography-caption')?.textContent ?? null,
+            image: image && { src: image.getAttribute('src'), alt: image.getAttribute('alt') },
+            imageHeight: image && getComputedStyle(image).height,
+            placeholderIcon: Boolean(cell.querySelector('svg.lucide-image')),
+            commentIcon: Boolean(cell.querySelector('svg.lucide-message-square')),
+            badge: badge?.textContent ?? null,
+            badgeInsideLabel: badge ? label.contains(badge) : null,
+            chips: Array.from(cell.querySelectorAll('.MuiChip-filled'), (chip) => chip.textContent),
+        };
+    };
+
+    // Everything the renderer put into the combo cell of a row, for the snapshot of its structure.
+    const comboCell = (container: HTMLElement, rowId: number): HTMLElement =>
+        within(container).getByTestId(`ring-datagrid-item-${rowId}-combo`);
+
+    const [firstRow, secondRow, thirdRow] = comboRows;
+
     it('should render correctly', () => {
         const { container, getByText } = render(
             <DataGrid rows={comboRows} columns={comboColumns} getRowHeight={(): GridRowHeightReturnValue => 'auto'} />,
         );
-        expect(container).toMatchSnapshot();
+        expect(readComboCell(container, 1)).toEqual({
+            label: firstRow.combo.label,
+            caption: firstRow.combo.caption,
+            image: { src: firstRow.combo.imageUrl, alt: '' },
+            imageHeight: '48px',
+            placeholderIcon: false,
+            commentIcon: true,
+            badge: '1',
+            badgeInsideLabel: true,
+            // The first three chips, then the count of the ones kept in the menu.
+            chips: ['chip0', 'chip1', 'long chip with very long descirption', '+4'],
+        });
+        expect(
+            within(within(container).getByTestId('ring-datagrid-item-1-combo'))
+                .getByText('chip1')
+                .closest('.MuiChip-root')
+                ?.classList.contains('MuiChip-colorPrimary'),
+        ).toBe(true);
+        expect(within(container).getByTestId('ring-datagrid-item-1-combo-more').textContent).toBe('+4');
+        // The caption is cut with an ellipsis, so the whole text is also its accessible name and tooltip.
+        expect(within(container).getByLabelText('Administrator').textContent).toBe('Administrator');
+        expect(readComboCell(container, 2)).toEqual({
+            label: 'John Adams',
+            caption: 'Administrator',
+            image: { src: secondRow.combo.imageUrl, alt: '' },
+            imageHeight: '48px',
+            placeholderIcon: false,
+            commentIcon: false,
+            badge: null,
+            badgeInsideLabel: null,
+            chips: ['chip1'],
+        });
+        expect(readComboCell(container, 3)).toEqual({
+            label: 'Thomas Jefferson',
+            caption: null,
+            image: null,
+            imageHeight: null,
+            placeholderIcon: false,
+            commentIcon: false,
+            badge: '1',
+            badgeInsideLabel: true,
+            chips: [],
+        });
         expect(getByText('chip0')).toBeTruthy();
         expect(getByText('Administrator')).toBeTruthy();
         expect(getByText('John Adams')).toBeTruthy();
+        expect(comboCell(container, 1)).toMatchSnapshot();
     });
 
     it('should render correctly for height between 52 and 105', () => {
         const { container, getByText, queryByText } = render(
             <DataGrid rows={comboRows} columns={comboColumns} rowHeight={80} />,
         );
-        expect(container).toMatchSnapshot();
+        // The medium view keeps the image (lower) and the caption, moves the badge out of the label, drops the chips.
+        expect(readComboCell(container, 1)).toEqual({
+            label: firstRow.combo.label,
+            caption: firstRow.combo.caption,
+            image: { src: firstRow.combo.imageUrl, alt: '' },
+            imageHeight: '40px',
+            placeholderIcon: false,
+            commentIcon: true,
+            badge: '1',
+            badgeInsideLabel: false,
+            chips: [],
+        });
+        expect(readComboCell(container, 2)).toMatchObject({
+            label: 'John Adams',
+            caption: 'Administrator',
+            image: { src: secondRow.combo.imageUrl, alt: '' },
+            imageHeight: '40px',
+            chips: [],
+        });
+        expect(readComboCell(container, 3)).toMatchObject({
+            label: thirdRow.combo.label,
+            caption: null,
+            image: null,
+            badge: '1',
+            badgeInsideLabel: false,
+        });
         expect(queryByText('chip0')).toBeNull();
         expect(getByText('Administrator')).toBeTruthy();
         expect(getByText('John Adams')).toBeTruthy();
+        expect(comboCell(container, 1)).toMatchSnapshot();
     });
 
     it('should render correctly for density=compact', () => {
         const { container, getByText, queryByText } = render(
             <DataGrid rows={comboRows} columns={comboColumns} density="compact" />,
         );
-        expect(container).toMatchSnapshot();
+        // The small view is the label line alone: comment icon, label and badge.
+        expect(readComboCell(container, 1)).toEqual({
+            label: firstRow.combo.label,
+            caption: null,
+            image: null,
+            imageHeight: null,
+            placeholderIcon: false,
+            commentIcon: true,
+            badge: '1',
+            badgeInsideLabel: false,
+            chips: [],
+        });
+        expect(readComboCell(container, 2)).toMatchObject({
+            label: 'John Adams',
+            caption: null,
+            image: null,
+            chips: [],
+        });
+        expect(readComboCell(container, 3)).toMatchObject({ label: thirdRow.combo.label, image: null, badge: '1' });
         expect(queryByText('chip0')).toBeNull();
         expect(queryByText('Administrator')).toBeNull();
         expect(getByText('John Adams')).toBeTruthy();
+        expect(comboCell(container, 1)).toMatchSnapshot();
     });
 
     it('should show placeholder when imageUrl is undefined and showPlaceholder is true', () => {
@@ -99,8 +214,25 @@ describe('DataGrid - renderComboCell', () => {
                 getRowHeight={(): GridRowHeightReturnValue => 'auto'}
             />,
         );
-        expect(container).toMatchSnapshot();
+        expect(readComboCell(container, 1)).toEqual({
+            label: 'Thomas Jefferson',
+            caption: 'Image url not provided and showPlaceholder is true',
+            image: null,
+            imageHeight: null,
+            placeholderIcon: true,
+            commentIcon: false,
+            badge: '1',
+            badgeInsideLabel: true,
+            chips: [],
+        });
+        expect(
+            within(container)
+                .getByTestId('ring-datagrid-item-1-combo-placeholder-icon')
+                .contains(container.querySelector('svg.lucide-image')),
+        ).toBe(true);
+        expect(container.querySelector('svg.lucide-image-off')).toBeNull();
         expect(container.querySelector('svg.lucide-image')).toBeTruthy();
+        expect(comboCell(container, 1)).toMatchSnapshot();
     });
 
     it('shows ImageOff when the image fails to load, unlike a missing image', () => {

@@ -3,23 +3,23 @@
 exports[`FileUploader Component > should render correctly with Large size 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-9e0ag8-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="ring-featuredicon MuiBox-root css-vo4elg"
+        class="ring-featuredicon MuiBox-root css"
         data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
           aria-hidden="true"
-          class="MuiBox-root css-12x3t51"
+          class="MuiBox-root css"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -55,18 +55,18 @@ exports[`FileUploader Component > should render correctly with Large size 1`] = 
         </div>
       </div>
       <div
-        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+          class="css-RingFileUploader-dropzoneActions"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -75,7 +75,7 @@ exports[`FileUploader Component > should render correctly with Large size 1`] = 
           </button>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
         >
           PDF, DOC (max. 10MB)
         </p>
@@ -89,7 +89,7 @@ exports[`FileUploader Component > should render correctly with Large size 1`] = 
     />
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -98,23 +98,23 @@ exports[`FileUploader Component > should render correctly with Large size 1`] = 
 exports[`FileUploader Component > should render correctly with Medium size 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-1t55q62-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="ring-featuredicon MuiBox-root css-a8eer8"
+        class="ring-featuredicon MuiBox-root css"
         data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
           aria-hidden="true"
-          class="MuiBox-root css-2ce76t"
+          class="MuiBox-root css"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -150,18 +150,18 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
         </div>
       </div>
       <div
-        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+          class="css-RingFileUploader-dropzoneActions"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -170,7 +170,7 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
           </button>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
         >
           PDF, DOC (max. 10MB)
         </p>
@@ -184,7 +184,7 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
     />
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -193,26 +193,26 @@ exports[`FileUploader Component > should render correctly with Medium size 1`] =
 exports[`FileUploader Component > should render correctly with Small size 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-13e8gn7-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="css-161nn0t-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <div
-          class="ring-featuredicon MuiBox-root css-q8o7xn"
+          class="ring-featuredicon MuiBox-root css"
           data-testid="ring-fileuploader-placeholder-icon"
         >
           <div
             aria-hidden="true"
-            class="MuiBox-root css-1nrqwq3"
+            class="MuiBox-root css"
           >
             <span
-              class="ring-lucide-icon MuiBox-root css-9i6a7i"
+              class="ring-lucide-icon MuiBox-root css"
             >
               <svg
                 aria-hidden="true"
@@ -248,18 +248,18 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
           </div>
         </div>
         <div
-          class="css-vlmhm4-RingFileUploader-dropzoneText"
+          class="css-RingFileUploader-dropzoneText"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 css-1o0a2yy-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
           >
             Drag and drop file here 
             <span
-              class="css-1dz9je9-RingFileUploader-dropzoneLinkGroup"
+              class="css-RingFileUploader-dropzoneLinkGroup"
             >
               or
               <button
-                class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-nm2d4p-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
                 data-testid="ring-fileuploader-browse"
                 type="button"
               >
@@ -267,13 +267,13 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
               </button>
               <span
                 aria-label="PDF, DOC (max. 10MB)"
-                class="css-6twvca-RingFileUploader-hintIcon"
+                class="css-RingFileUploader-hintIcon"
                 data-mui-internal-clone-element="true"
                 role="img"
                 tabindex="0"
               >
                 <span
-                  class="ring-lucide-icon MuiBox-root css-9i6a7i"
+                  class="ring-lucide-icon MuiBox-root css"
                 >
                   <svg
                     aria-hidden="true"
@@ -318,7 +318,7 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
     />
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -327,7 +327,7 @@ exports[`FileUploader Component > should render correctly with Small size 1`] = 
 exports[`FileUploader Component > should render correctly with completed file 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <input
@@ -337,19 +337,19 @@ exports[`FileUploader Component > should render correctly with completed file 1`
       type="file"
     />
     <div
-      class="css-75d8dr-RingFileUploader-fileList"
+      class="css-RingFileUploader-fileList"
       role="list"
     >
       <div
-        class="css-1uu2lhk-RingFileUploader-fileItem"
+        class="css-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
         role="listitem"
       >
         <div
-          class="css-1kunj5f-RingFileUploader-fileThumbnail"
+          class="css-RingFileUploader-fileThumbnail"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -384,53 +384,53 @@ exports[`FileUploader Component > should render correctly with completed file 1`
           </span>
         </div>
         <div
-          class="css-4edt9o-RingFileUploader-fileContent"
+          class="css-RingFileUploader-fileContent"
         >
           <p
-            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
             id="_r_n_"
           >
             test.pdf
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMeta"
           >
             12 Bytes
             <span
-              class="css-tmhiln-RingFileUploader-fileMetaPercent"
+              class="css-RingFileUploader-fileMetaPercent"
             >
                · 
               100%
             </span>
           </p>
           <div
-            class="css-hirub3-RingFileUploader-fileProgress"
+            class="css-RingFileUploader-fileProgress"
           >
             <span
               aria-labelledby="_r_n_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="100"
-              class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate css-dxlz4m-MuiLinearProgress-root"
+              class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate css-MuiLinearProgress-root"
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-jzqb24-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-MuiLinearProgress-bar1"
                 style="transform: translateX(0%);"
               />
             </span>
           </div>
         </div>
         <div
-          class="css-1qphi61-RingFileUploader-fileActions"
+          class="css-RingFileUploader-fileActions"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-filePercent"
           >
             100%
           </p>
           <span
-            class="ring-lucide-icon MuiBox-root css-ts7mhw"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -462,7 +462,7 @@ exports[`FileUploader Component > should render correctly with completed file 1`
     </div>
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -471,23 +471,23 @@ exports[`FileUploader Component > should render correctly with completed file 1`
 exports[`FileUploader Component > should render correctly with default props 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-1t55q62-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="ring-featuredicon MuiBox-root css-a8eer8"
+        class="ring-featuredicon MuiBox-root css"
         data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
           aria-hidden="true"
-          class="MuiBox-root css-2ce76t"
+          class="MuiBox-root css"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -523,18 +523,18 @@ exports[`FileUploader Component > should render correctly with default props 1`]
         </div>
       </div>
       <div
-        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+          class="css-RingFileUploader-dropzoneActions"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -543,7 +543,7 @@ exports[`FileUploader Component > should render correctly with default props 1`]
           </button>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
         >
           PDF, DOC (max. 10MB)
         </p>
@@ -557,7 +557,7 @@ exports[`FileUploader Component > should render correctly with default props 1`]
     />
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -566,7 +566,7 @@ exports[`FileUploader Component > should render correctly with default props 1`]
 exports[`FileUploader Component > should render correctly with error file 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <input
@@ -576,19 +576,19 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
       type="file"
     />
     <div
-      class="css-75d8dr-RingFileUploader-fileList"
+      class="css-RingFileUploader-fileList"
       role="list"
     >
       <div
-        class="css-lwgeco-RingFileUploader-fileItem"
+        class="css-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
         role="listitem"
       >
         <div
-          class="css-1f48qpt-RingFileUploader-fileThumbnail"
+          class="css-RingFileUploader-fileThumbnail"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -623,42 +623,42 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
           </span>
         </div>
         <div
-          class="css-4edt9o-RingFileUploader-fileContent"
+          class="css-RingFileUploader-fileContent"
         >
           <p
-            class="MuiTypography-root MuiTypography-subtitle1 css-jrs438-MuiTypography-root-RingFileUploader-fileName"
+            class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
             id="_r_s_"
           >
             test.pdf
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-dbixtd-MuiTypography-root-RingFileUploader-fileMessage"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMessage"
           >
             Upload failed
           </p>
           <div
-            class="css-12gdcae-RingFileUploader-fileProgress"
+            class="css-RingFileUploader-fileProgress"
           >
             <span
               aria-labelledby="_r_s_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorError MuiLinearProgress-determinate css-1nuxox8-MuiLinearProgress-root"
+              class="MuiLinearProgress-root MuiLinearProgress-colorError MuiLinearProgress-determinate css-MuiLinearProgress-root"
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorError MuiLinearProgress-bar1Determinate css-mwpn0g-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorError MuiLinearProgress-bar1Determinate css-MuiLinearProgress-bar1"
                 style="transform: translateX(-100%);"
               />
             </span>
           </div>
         </div>
         <div
-          class="css-1qphi61-RingFileUploader-fileActions"
+          class="css-RingFileUploader-fileActions"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-1zw5yx"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -700,7 +700,7 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
     </div>
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     >
       Upload failed
     </span>
@@ -711,7 +711,7 @@ exports[`FileUploader Component > should render correctly with error file 1`] = 
 exports[`FileUploader Component > should render correctly with idle file 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <input
@@ -721,19 +721,19 @@ exports[`FileUploader Component > should render correctly with idle file 1`] = `
       type="file"
     />
     <div
-      class="css-75d8dr-RingFileUploader-fileList"
+      class="css-RingFileUploader-fileList"
       role="list"
     >
       <div
-        class="css-1uu2lhk-RingFileUploader-fileItem"
+        class="css-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
         role="listitem"
       >
         <div
-          class="css-1mpcfid-RingFileUploader-fileThumbnail"
+          class="css-RingFileUploader-fileThumbnail"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -768,28 +768,28 @@ exports[`FileUploader Component > should render correctly with idle file 1`] = `
           </span>
         </div>
         <div
-          class="css-4edt9o-RingFileUploader-fileContent"
+          class="css-RingFileUploader-fileContent"
         >
           <p
-            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
             id="_r_11_"
           >
             existing-file.pdf
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMeta"
           >
             1.0kb
           </p>
         </div>
         <div
-          class="css-1qphi61-RingFileUploader-fileActions"
+          class="css-RingFileUploader-fileActions"
         />
       </div>
     </div>
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -798,7 +798,7 @@ exports[`FileUploader Component > should render correctly with idle file 1`] = `
 exports[`FileUploader Component > should render correctly with uploading file 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <input
@@ -808,19 +808,19 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
       type="file"
     />
     <div
-      class="css-75d8dr-RingFileUploader-fileList"
+      class="css-RingFileUploader-fileList"
       role="list"
     >
       <div
-        class="css-1uu2lhk-RingFileUploader-fileItem"
+        class="css-RingFileUploader-fileItem"
         data-testid="ring-fileuploader-file-1"
         role="listitem"
       >
         <div
-          class="css-2zdn3f-RingFileUploader-fileThumbnail"
+          class="css-RingFileUploader-fileThumbnail"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -855,63 +855,63 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
           </span>
         </div>
         <div
-          class="css-4edt9o-RingFileUploader-fileContent"
+          class="css-RingFileUploader-fileContent"
         >
           <p
-            class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+            class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
             id="_r_j_"
           >
             test.pdf
           </p>
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMeta"
           >
             5.0mb / 12 Bytes
             <span
-              class="css-tmhiln-RingFileUploader-fileMetaPercent"
+              class="css-RingFileUploader-fileMetaPercent"
             >
                · 
               50%
             </span>
           </p>
           <div
-            class="css-hirub3-RingFileUploader-fileProgress"
+            class="css-RingFileUploader-fileProgress"
           >
             <span
               aria-labelledby="_r_j_"
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="50"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1psmldc-MuiLinearProgress-root"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-MuiLinearProgress-root"
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-ekb1bl-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-MuiLinearProgress-bar1"
                 style="transform: translateX(-50%);"
               />
             </span>
           </div>
         </div>
         <div
-          class="css-1qphi61-RingFileUploader-fileActions"
+          class="css-RingFileUploader-fileActions"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
+            class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-filePercent"
           >
             50%
           </p>
           <span
             aria-labelledby="_r_j_"
-            class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1b8fp5v-MuiCircularProgress-root"
+            class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-MuiCircularProgress-root"
             role="progressbar"
             style="width: 16px; height: 16px;"
           >
             <svg
-              class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+              class="MuiCircularProgress-svg css-MuiCircularProgress-svg"
               viewBox="22 22 44 44"
             >
               <circle
-                class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-MuiCircularProgress-circle"
                 cx="44"
                 cy="44"
                 fill="none"
@@ -925,7 +925,7 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
     </div>
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     />
   </div>
 </div>
@@ -934,23 +934,23 @@ exports[`FileUploader Component > should render correctly with uploading file 1`
 exports[`FileUploader Component > should render multiple files when multiple prop is true 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-1t55q62-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="ring-featuredicon MuiBox-root css-a8eer8"
+        class="ring-featuredicon MuiBox-root css"
         data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
           aria-hidden="true"
-          class="MuiBox-root css-2ce76t"
+          class="MuiBox-root css"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -986,18 +986,18 @@ exports[`FileUploader Component > should render multiple files when multiple pro
         </div>
       </div>
       <div
-        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+          class="css-RingFileUploader-dropzoneActions"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -1006,7 +1006,7 @@ exports[`FileUploader Component > should render multiple files when multiple pro
           </button>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 css-jobarv-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
         >
           PDF, DOC (max. 10MB)
         </p>
@@ -1020,21 +1020,21 @@ exports[`FileUploader Component > should render multiple files when multiple pro
       type="file"
     />
     <div
-      class="MuiBox-root css-0"
+      class="MuiBox-root css"
     >
       <button
         aria-controls="_r_2r_"
         aria-expanded="true"
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-z6pzmy-MuiButtonBase-root-MuiButton-root-RingFileUploader-filesCounter"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root-RingFileUploader-filesCounter"
         data-testid="ring-fileuploader-expand"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-MuiButton-startIcon"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-1d89b2p"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -1059,30 +1059,30 @@ exports[`FileUploader Component > should render multiple files when multiple pro
         1 of 2 files uploaded
       </button>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-qr6njo-MuiCollapse-root"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-MuiCollapse-root"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical css-1x6hinx-MuiCollapse-wrapper"
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-MuiCollapse-wrapper"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-MuiCollapse-wrapperInner"
           >
             <div
-              class="css-75d8dr-RingFileUploader-fileList"
+              class="css-RingFileUploader-fileList"
               id="_r_2r_"
               role="list"
             >
               <div
-                class="css-1uu2lhk-RingFileUploader-fileItem"
+                class="css-RingFileUploader-fileItem"
                 data-testid="ring-fileuploader-file-1"
                 role="listitem"
               >
                 <div
-                  class="css-1kunj5f-RingFileUploader-fileThumbnail"
+                  class="css-RingFileUploader-fileThumbnail"
                 >
                   <span
-                    class="ring-lucide-icon MuiBox-root css-9i6a7i"
+                    class="ring-lucide-icon MuiBox-root css"
                   >
                     <svg
                       aria-hidden="true"
@@ -1117,53 +1117,53 @@ exports[`FileUploader Component > should render multiple files when multiple pro
                   </span>
                 </div>
                 <div
-                  class="css-4edt9o-RingFileUploader-fileContent"
+                  class="css-RingFileUploader-fileContent"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+                    class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
                     id="_r_30_"
                   >
                     test.pdf
                   </p>
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
+                    class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMeta"
                   >
                     0 Bytes
                     <span
-                      class="css-tmhiln-RingFileUploader-fileMetaPercent"
+                      class="css-RingFileUploader-fileMetaPercent"
                     >
                        · 
                       100%
                     </span>
                   </p>
                   <div
-                    class="css-hirub3-RingFileUploader-fileProgress"
+                    class="css-RingFileUploader-fileProgress"
                   >
                     <span
                       aria-labelledby="_r_30_"
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="100"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate css-dxlz4m-MuiLinearProgress-root"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorSuccess MuiLinearProgress-determinate css-MuiLinearProgress-root"
                       role="progressbar"
                     >
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-jzqb24-MuiLinearProgress-bar1"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorSuccess MuiLinearProgress-bar1Determinate css-MuiLinearProgress-bar1"
                         style="transform: translateX(0%);"
                       />
                     </span>
                   </div>
                 </div>
                 <div
-                  class="css-1qphi61-RingFileUploader-fileActions"
+                  class="css-RingFileUploader-fileActions"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
+                    class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-filePercent"
                   >
                     100%
                   </p>
                   <span
-                    class="ring-lucide-icon MuiBox-root css-ts7mhw"
+                    class="ring-lucide-icon MuiBox-root css"
                   >
                     <svg
                       aria-hidden="true"
@@ -1193,15 +1193,15 @@ exports[`FileUploader Component > should render multiple files when multiple pro
                 </div>
               </div>
               <div
-                class="css-1uu2lhk-RingFileUploader-fileItem"
+                class="css-RingFileUploader-fileItem"
                 data-testid="ring-fileuploader-file-2"
                 role="listitem"
               >
                 <div
-                  class="css-2zdn3f-RingFileUploader-fileThumbnail"
+                  class="css-RingFileUploader-fileThumbnail"
                 >
                   <span
-                    class="ring-lucide-icon MuiBox-root css-9i6a7i"
+                    class="ring-lucide-icon MuiBox-root css"
                   >
                     <svg
                       aria-hidden="true"
@@ -1236,63 +1236,63 @@ exports[`FileUploader Component > should render multiple files when multiple pro
                   </span>
                 </div>
                 <div
-                  class="css-4edt9o-RingFileUploader-fileContent"
+                  class="css-RingFileUploader-fileContent"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-subtitle1 css-18pr11g-MuiTypography-root-RingFileUploader-fileName"
+                    class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root-RingFileUploader-fileName"
                     id="_r_33_"
                   >
                     test2.pdf
                   </p>
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1jadjlz-MuiTypography-root-RingFileUploader-fileMeta"
+                    class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-fileMeta"
                   >
                     0 Bytes / 0 Bytes
                     <span
-                      class="css-tmhiln-RingFileUploader-fileMetaPercent"
+                      class="css-RingFileUploader-fileMetaPercent"
                     >
                        · 
                       30%
                     </span>
                   </p>
                   <div
-                    class="css-hirub3-RingFileUploader-fileProgress"
+                    class="css-RingFileUploader-fileProgress"
                   >
                     <span
                       aria-labelledby="_r_33_"
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="30"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1psmldc-MuiLinearProgress-root"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-MuiLinearProgress-root"
                       role="progressbar"
                     >
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-ekb1bl-MuiLinearProgress-bar1"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-MuiLinearProgress-bar1"
                         style="transform: translateX(-70%);"
                       />
                     </span>
                   </div>
                 </div>
                 <div
-                  class="css-1qphi61-RingFileUploader-fileActions"
+                  class="css-RingFileUploader-fileActions"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-1t7q5ik-MuiTypography-root-RingFileUploader-filePercent"
+                    class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root-RingFileUploader-filePercent"
                   >
                     30%
                   </p>
                   <span
                     aria-labelledby="_r_33_"
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1b8fp5v-MuiCircularProgress-root"
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-MuiCircularProgress-root"
                     role="progressbar"
                     style="width: 16px; height: 16px;"
                   >
                     <svg
-                      class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+                      class="MuiCircularProgress-svg css-MuiCircularProgress-svg"
                       viewBox="22 22 44 44"
                     >
                       <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-MuiCircularProgress-circle"
                         cx="44"
                         cy="44"
                         fill="none"
@@ -1310,7 +1310,7 @@ exports[`FileUploader Component > should render multiple files when multiple pro
     </div>
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     >
       1 of 2 files uploaded
     </span>
@@ -1321,23 +1321,23 @@ exports[`FileUploader Component > should render multiple files when multiple pro
 exports[`FileUploader Component > should render with error message 1`] = `
 <div>
   <div
-    class="css-1of18vb-RingFileUploader-root"
+    class="css-RingFileUploader-root"
     data-testid="ring-fileuploader"
   >
     <div
-      class="css-1vf3qj7-RingFileUploader-dropzone"
+      class="css-RingFileUploader-dropzone"
       data-testid="ring-fileuploader-dropzone"
     >
       <div
-        class="ring-featuredicon MuiBox-root css-a8eer8"
+        class="ring-featuredicon MuiBox-root css"
         data-testid="ring-fileuploader-placeholder-icon"
       >
         <div
           aria-hidden="true"
-          class="MuiBox-root css-1ve8grf"
+          class="MuiBox-root css"
         >
           <span
-            class="ring-lucide-icon MuiBox-root css-9i6a7i"
+            class="ring-lucide-icon MuiBox-root css"
           >
             <svg
               aria-hidden="true"
@@ -1373,18 +1373,18 @@ exports[`FileUploader Component > should render with error message 1`] = `
         </div>
       </div>
       <div
-        class="css-19hpbzn-RingFileUploader-dropzoneBody"
+        class="css-RingFileUploader-dropzoneBody"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-ncl1y1-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 css-MuiTypography-root"
         >
           Drag and drop file here or
         </h6>
         <div
-          class="css-1f2yf5d-RingFileUploader-dropzoneActions"
+          class="css-RingFileUploader-dropzoneActions"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-19fh5sz-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-MuiButtonBase-root-MuiButton-root"
             data-testid="ring-fileuploader-browse"
             tabindex="0"
             type="button"
@@ -1393,7 +1393,7 @@ exports[`FileUploader Component > should render with error message 1`] = `
           </button>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 css-3ib7pl-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-MuiTypography-root"
         >
           Invalid file type
         </p>
@@ -1407,7 +1407,7 @@ exports[`FileUploader Component > should render with error message 1`] = `
     />
     <span
       aria-live="polite"
-      class="MuiBox-root css-ty8jgw"
+      class="MuiBox-root css"
     >
       Invalid file type
     </span>

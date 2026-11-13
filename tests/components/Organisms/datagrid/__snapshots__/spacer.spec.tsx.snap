@@ -1,396 +1,104 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DataGrid - spacer > should render correctly 1`] = `
-<div>
-  <div
-    class="MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-withBorderColor MuiDataGridVariables-1575782458 css-m2tdwp-MuiDataGrid-root"
-    style="--DataGrid-hasScrollX: 1; --DataGrid-hasScrollY: 1; --DataGrid-scrollbarSize: 0px; --DataGrid-rowWidth: 100px; --DataGrid-columnsTotalWidth: 100px; --DataGrid-leftPinnedWidth: 0px; --DataGrid-rightPinnedWidth: 0px; --DataGrid-headerHeight: 56px; --DataGrid-headersTotalHeight: 56px; --DataGrid-topContainerHeight: 56px; --DataGrid-bottomContainerHeight: 0px; --height: 52px;"
-  >
-    <div
-      class="MuiDataGrid-mainContent"
-      role="presentation"
+[
+  [
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-calendar-days"
+      fill="none"
+      height="20"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.5"
+      viewBox="0 0 24 24"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <div
-        aria-colcount="1"
-        aria-multiselectable="false"
-        aria-rowcount="4"
-        class="MuiDataGrid-main css-uk7t8p-MuiDataGrid-main"
-        role="grid"
-        tabindex="-1"
+      <path
+        d="M8 2v3"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M16 2v3"
+        vector-effect="non-scaling-stroke"
+      />
+      <rect
+        height="18"
+        rx="2"
+        vector-effect="non-scaling-stroke"
+        width="18"
+        x="3"
+        y="3"
+      />
+      <path
+        d="M3 9h18"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M8 13h.01"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M12 13h.01"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M16 13h.01"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M8 17h.01"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M12 17h.01"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        d="M16 17h.01"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>,
+    <span
+      class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
+    >
+      default
+    </span>,
+  ],
+  [
+    <span
+      class="ring-lucide-icon MuiBox-root css"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-pencil"
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          class="css-18l11qw"
-          data-id="gridPanelAnchor"
-          role="presentation"
+        <path
+          d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+          vector-effect="non-scaling-stroke"
         />
-        <div
-          class="MuiDataGrid-virtualScroller MuiDataGrid-virtualScroller--hasScrollX css-ndavys-MuiDataGrid-virtualScroller"
-          role="presentation"
-          style="overflow-x: hidden;"
-        >
-          <div
-            class="MuiDataGrid-topContainer MuiDataGrid-container--top css-b1wygl"
-            role="presentation"
-          >
-            <div
-              class="MuiDataGrid-columnHeaders css-1gtv474-MuiDataGrid-columnHeaders"
-              role="presentation"
-            >
-              <div
-                aria-rowindex="1"
-                class="MuiDataGrid-row--borderBottom css-yseucu-MuiDataGrid-columnHeaderRow"
-                role="row"
-                style="height: 56px;"
-              >
-                <div
-                  role="presentation"
-                  style="width: 0px;"
-                />
-                <div
-                  aria-colindex="1"
-                  aria-sort="none"
-                  class="MuiDataGrid-columnHeader MuiDataGrid-columnHeader--sortable MuiDataGrid-withBorderColor MuiDataGrid-columnHeader--last"
-                  data-field="title"
-                  role="columnheader"
-                  style="width: 100px;"
-                  tabindex="0"
-                >
-                  <div
-                    class="MuiDataGrid-columnHeaderDraggableContainer"
-                    draggable="false"
-                    role="presentation"
-                  >
-                    <div
-                      class="MuiDataGrid-columnHeaderTitleContainer"
-                      role="presentation"
-                    >
-                      <div
-                        class="MuiDataGrid-columnHeaderTitleContainerContent"
-                      >
-                        <div
-                          class="MuiDataGrid-columnHeaderTitle css-1gqmilo-MuiDataGrid-columnHeaderTitle"
-                          data-mui-internal-clone-element="true"
-                        >
-                          Title
-                        </div>
-                      </div>
-                      <div
-                        class="MuiDataGrid-iconButtonContainer css-ltf0zy-MuiDataGrid-iconButtonContainer"
-                      >
-                        <span
-                          aria-label="Sort"
-                          class=""
-                          data-mui-internal-clone-element="true"
-                        >
-                          <button
-                            aria-label="Sort"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-sortButton css-19pd2o2-MuiButtonBase-root-MuiIconButton-root-MuiDataGrid-sortButton"
-                            field="title"
-                            tabindex="-1"
-                            type="button"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="lucide lucide-arrow-up MuiDataGrid-sortIcon"
-                              fill="none"
-                              font-size="small"
-                              height="20"
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.5"
-                              viewBox="0 0 24 24"
-                              width="20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m5 12 7-7 7 7"
-                                vector-effect="non-scaling-stroke"
-                              />
-                              <path
-                                d="M12 19V5"
-                                vector-effect="non-scaling-stroke"
-                              />
-                            </svg>
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiDataGrid-menuIcon"
-                    >
-                      <button
-                        aria-expanded="false"
-                        aria-haspopup="menu"
-                        aria-label="Title column menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall MuiDataGrid-menuIconButton css-1ss6nll-MuiButtonBase-root-MuiIconButton-root"
-                        data-mui-internal-clone-element="true"
-                        id="_r_2_"
-                        tabindex="-1"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-ellipsis-vertical lucide-more-vertical"
-                          fill="none"
-                          font-size="inherit"
-                          height="20"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="1.5"
-                          viewBox="0 0 24 24"
-                          width="20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="1"
-                            vector-effect="non-scaling-stroke"
-                          />
-                          <circle
-                            cx="12"
-                            cy="5"
-                            r="1"
-                            vector-effect="non-scaling-stroke"
-                          />
-                          <circle
-                            cx="12"
-                            cy="19"
-                            r="1"
-                            vector-effect="non-scaling-stroke"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiDataGrid-columnSeparator MuiDataGrid-columnSeparator--resizable MuiDataGrid-columnSeparator--sideRight"
-                    style="min-height: 56px;"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiDataGrid-iconSeparator css-1dhtbeh-MuiSvgIcon-root"
-                      data-testid="SeparatorIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <rect
-                        height="24"
-                        rx="0.5"
-                        width="1"
-                        x="11.5"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  class="MuiDataGrid-filler"
-                  role="presentation"
-                />
-                <div
-                  class="MuiDataGrid-scrollbarFiller"
-                  role="presentation"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiDataGrid-virtualScrollerContent css-qghlpz-MuiDataGrid-virtualScrollerContent"
-            role="presentation"
-            style="width: auto; flex-basis: 112px; flex-shrink: 0;"
-          >
-            <div
-              class="MuiDataGrid-virtualScrollerRenderZone css-11dqcl8-MuiDataGrid-virtualScrollerRenderZone"
-              role="rowgroup"
-              style="transform: translate3d(0, 0px, 0);"
-            >
-              <div
-                class="MuiBox-root css-1u4xi9x"
-                role="row"
-              >
-                <div
-                  class="MuiBox-root css-6gei9z"
-                  role="gridcell"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-calendar-days"
-                    fill="none"
-                    height="20"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    viewBox="0 0 24 24"
-                    width="20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 2v3"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M16 2v3"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <rect
-                      height="18"
-                      rx="2"
-                      vector-effect="non-scaling-stroke"
-                      width="18"
-                      x="3"
-                      y="3"
-                    />
-                    <path
-                      d="M3 9h18"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M8 13h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M12 13h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M16 13h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M8 17h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M12 17h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                    <path
-                      d="M16 17h.01"
-                      vector-effect="non-scaling-stroke"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTypography-root MuiTypography-caption css-yb195k-MuiTypography-root"
-                  >
-                    default
-                  </span>
-                </div>
-              </div>
-              <div
-                aria-rowindex="3"
-                aria-selected="false"
-                class="MuiDataGrid-row"
-                data-id="1"
-                data-rowindex="1"
-                role="row"
-                style="max-height: 52px; min-height: 52px; --height: 52px;"
-              >
-                <div
-                  class="MuiDataGrid-cellOffsetLeft"
-                  role="presentation"
-                  style="width: 0px;"
-                />
-                <div
-                  aria-colindex="1"
-                  aria-colspan="1"
-                  aria-rowspan="1"
-                  class="MuiDataGrid-cell MuiDataGrid-cell--textLeft"
-                  data-colindex="0"
-                  data-field="title"
-                  role="gridcell"
-                  style="--width: 100px;"
-                  tabindex="-1"
-                  title="Home page"
-                >
-                  Home page
-                </div>
-                <div
-                  class="MuiDataGrid-cell MuiDataGrid-cellEmpty"
-                  role="presentation"
-                />
-              </div>
-              <div
-                class="MuiBox-root css-sehcj9"
-                role="row"
-              >
-                <div
-                  class="MuiBox-root css-6gei9z"
-                  role="gridcell"
-                >
-                  <span
-                    class="ring-lucide-icon MuiBox-root css-dgnxfd"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-pencil"
-                      fill="none"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                        vector-effect="non-scaling-stroke"
-                      />
-                      <path
-                        d="m15 5 4 4"
-                        vector-effect="non-scaling-stroke"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="MuiTypography-root MuiTypography-caption css-28jkbu-MuiTypography-root"
-                  >
-                    custom
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiDataGrid-bottomContainer MuiDataGrid-container--bottom css-gzxaox"
-            role="presentation"
-          />
-        </div>
-        <div
-          aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--horizontal css-14mn80j"
-          tabindex="-1"
-        >
-          <div
-            class="MuiDataGrid-scrollbarContent"
-            style="width: 100px;"
-          />
-        </div>
-        <div
-          aria-hidden="true"
-          class="MuiDataGrid-scrollbar MuiDataGrid-scrollbar--vertical css-487mga"
-          tabindex="-1"
-        >
-          <div
-            class="MuiDataGrid-scrollbarContent"
-            style="height: 112px;"
-          />
-        </div>
-        <div
-          aria-hidden="true"
-          class="css-dg75k8"
+        <path
+          d="m15 5 4 4"
+          vector-effect="non-scaling-stroke"
         />
-      </div>
-    </div>
-    <style
-      href="/MuiDataGridVariables-1575782458"
+      </svg>
+    </span>,
+    <span
+      class="MuiTypography-root MuiTypography-caption css-MuiTypography-root"
     >
-      .MuiDataGridVariables-1575782458{--DataGrid-t-spacing-unit:8px;--DataGrid-t-color-border-base:rgba(248, 249, 251, 1);--DataGrid-t-color-background-base:rgba(255, 255, 255, 1);--DataGrid-t-color-background-overlay:rgba(255, 255, 255, 1);--DataGrid-t-color-background-backdrop:rgba(255, 255, 255, 0.38);--DataGrid-t-color-foreground-base:rgba(15, 23, 42, 1);--DataGrid-t-color-foreground-muted:rgba(71, 85, 105, 1);--DataGrid-t-color-foreground-accent:rgba(0, 61, 155, 1);--DataGrid-t-color-foreground-disabled:rgba(71, 85, 105, 0.38);--DataGrid-t-color-foreground-error:rgba(190, 18, 60, 1);--DataGrid-t-color-interactive-hover:#f5f5f5;--DataGrid-t-color-interactive-hover-opacity:0.04;--DataGrid-t-color-interactive-focus:rgba(from rgba(20, 80, 180, 1) r g b / 1);--DataGrid-t-color-interactive-focus-opacity:0.12;--DataGrid-t-color-interactive-disabled:rgba(from rgba(71, 85, 105, 0.38) r g b / 1);--DataGrid-t-color-interactive-disabled-opacity:0.38;--DataGrid-t-color-interactive-selected:#eeeeee;--DataGrid-t-color-interactive-selected-opacity:0.08;--DataGrid-t-header-background-base:rgba(255, 255, 255, 1);--DataGrid-t-cell-background-pinned:rgba(255, 255, 255, 1);--DataGrid-t-radius-base:4px;--DataGrid-t-typography-font-family-base:Inter, sans-serif;--DataGrid-t-typography-font-weight-light:300;--DataGrid-t-typography-font-weight-regular:400;--DataGrid-t-typography-font-weight-medium:500;--DataGrid-t-typography-font-weight-bold:700;--DataGrid-t-typography-font-body:400 0.875rem / 1.25rem Inter, sans-serif;--DataGrid-t-typography-font-small:400 0.75rem / 1rem Inter, sans-serif;--DataGrid-t-typography-font-large:400 1rem / 1.5rem Inter, sans-serif;--DataGrid-t-transition-easing-ease-in:cubic-bezier(0.4, 0, 1, 1);--DataGrid-t-transition-easing-ease-out:cubic-bezier(0.0, 0, 0.2, 1);--DataGrid-t-transition-easing-ease-in-out:cubic-bezier(0.4, 0, 0.2, 1);--DataGrid-t-transition-duration-short:200ms;--DataGrid-t-transition-duration-base:250ms;--DataGrid-t-transition-duration-long:300ms;--DataGrid-t-shadow-base:0px 3px 1px -2px rgba(15, 23, 42, 0.05), 0px 2px 2px 0px rgba(15, 23, 42, 0.04), 0px 1px 5px 0px rgba(15, 23, 42, 0.03);--DataGrid-t-shadow-overlay:0px 5px 5px -3px rgba(15, 23, 42, 0.05), 0px 8px 10px 1px rgba(15, 23, 42, 0.04), 0px 3px 14px 2px rgba(15, 23, 42, 0.03);--DataGrid-t-z-index-panel:1300;--DataGrid-t-z-index-menu:1300;}
-    </style>
-  </div>
-</div>
+      custom
+    </span>,
+  ],
+]
 `;
