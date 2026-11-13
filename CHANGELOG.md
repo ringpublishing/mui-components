@@ -2,6 +2,15 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.4] - 2026-11-13
+
+### Fixed
+
+- [@rmusial2]: `renderComboCell` shows the caption and the thumbnail at the grid's default density and row height.
+- [@wniemiec-rasp]: `renderComboCell` shows the caption and the thumbnail at `density="comfortable"` too, and in a grid whose `getRowHeight` returns the default height or more while `rowHeight` is lower.
+- [@rmusial2]: `renderComboCell` keeps the caption inside the row in a column without `display: 'flex'`.
+- [@rmusial2]: `Detail` — a title next to the close button wraps before it instead of running under it.
+
 ## [2.0.3] - 2026-11-13
 
 ### Fixed

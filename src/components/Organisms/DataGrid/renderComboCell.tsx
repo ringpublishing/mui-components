@@ -20,6 +20,7 @@ import {
     useGridApiContext,
     useGridSelector,
     gridDensityFactorSelector,
+    gridDensitySelector,
     GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { ActionBox } from '../../Molecules/ActionBox/ActionBox.js';
@@ -82,8 +83,9 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
     } = params;
 
     const rootProps = useGridRootProps();
-    const { density, rowHeight } = rootProps;
+    const { rowHeight } = rootProps;
     const apiRef = useGridApiContext();
+    const density = useGridSelector(apiRef, gridDensitySelector);
     const densityFactor = useGridSelector(apiRef, gridDensityFactorSelector);
     const getRowHeightParams: GridRowHeightParams = {
         id: params.id,
@@ -144,6 +146,7 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                     width: '100%',
                     height: '100%',
                     paddingY: 1,
+                    lineHeight: theme.typography.body2.lineHeight,
                 }}
             >
                 {/*if view mode is small or image url and show placeholder are falsy do not render image/placeholder*/}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { fireEvent, render, within } from '@testing-library/react';
+import { createTheme } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef, GridRowHeightReturnValue } from '@mui/x-data-grid';
 import { renderComboCell } from '../../../../src/index.js';
 
@@ -269,5 +270,46 @@ describe('DataGrid - renderComboCell', () => {
         rerender(grid({ showPlaceholder: true }));
         expect(container.querySelector('svg.lucide-image')).toBeTruthy();
         expect(container.querySelector('svg.lucide-image-off')).toBeNull();
+    });
+
+    it('shows the caption at the default density', () => {
+        const { getByText } = render(<DataGrid rows={comboRows} columns={comboColumns} />);
+
+        expect(getByText('Administrator')).toBeTruthy();
+    });
+
+    it('keeps the label-only view in rows lower than the default at the default density', () => {
+        const { queryByText, unmount } = render(<DataGrid rows={comboRows} columns={comboColumns} rowHeight={35} />);
+
+        expect(queryByText('Administrator')).toBeNull();
+        unmount();
+
+        expect(
+            render(<DataGrid rows={comboRows} columns={comboColumns} getRowHeight={(): number => 36} />).queryByText(
+                'Administrator',
+            ),
+        ).toBeNull();
+    });
+
+    it('shows the caption at the comfortable density', () => {
+        const { getByText } = render(<DataGrid rows={comboRows} columns={comboColumns} density="comfortable" />);
+
+        expect(getByText('Administrator')).toBeTruthy();
+    });
+
+    it('shows the caption when getRowHeight returns the default height for a grid with a lower rowHeight', () => {
+        const { getByText } = render(
+            <DataGrid rows={comboRows} columns={comboColumns} rowHeight={35} getRowHeight={(): number => 52} />,
+        );
+
+        expect(getByText('Administrator')).toBeTruthy();
+    });
+
+    it('sets the body2 line height, so a column without display flex keeps the caption in the row', () => {
+        const { container } = render(<DataGrid rows={comboRows} columns={comboColumns} />);
+
+        expect(getComputedStyle(container.querySelector('.MuiCard-root') as HTMLElement).lineHeight).toBe(
+            String(createTheme().typography.body2.lineHeight),
+        );
     });
 });

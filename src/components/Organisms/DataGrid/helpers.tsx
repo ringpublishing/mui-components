@@ -1,6 +1,12 @@
 import React, { RefObject, ReactNode } from 'react';
 import { Chip } from '@mui/material';
-import { GridApi, GridRowHeightReturnValue, GridRowId, GridRowParams } from '@mui/x-data-grid';
+import {
+    DATA_GRID_PROPS_DEFAULT_VALUES,
+    GridApi,
+    GridRowHeightReturnValue,
+    GridRowId,
+    GridRowParams,
+} from '@mui/x-data-grid';
 
 import { ComboCellChips } from './renderComboCell.js';
 import { Placeholder, PlaceholderStateLabels, PlaceholderVariant } from '../../Molecules/Placeholder/Placeholder.js';
@@ -51,12 +57,17 @@ interface getCellViewModeProps {
 }
 
 export const getCellViewMode = ({ getRowHeight, rowHeight, density }: getCellViewModeProps): string => {
+    const defaultRowHeight = DATA_GRID_PROPS_DEFAULT_VALUES.rowHeight;
+    // `getRowHeight` wins over `rowHeight` for the rows it returns a number for.
+    const resolvedRowHeight = typeof getRowHeight === 'number' ? getRowHeight : rowHeight;
+    const isBelowDefaultRowHeight = resolvedRowHeight < defaultRowHeight;
+
     if (getRowHeight === 'auto' || (typeof getRowHeight === 'number' && getRowHeight >= 100) || rowHeight >= 100) {
         return 'full';
     } else if (
         (typeof getRowHeight === 'number' && getRowHeight > 52 && getRowHeight <= 105) ||
         (rowHeight > 53 && rowHeight <= 105) ||
-        density === 'standard'
+        ((density === 'standard' || density === 'comfortable') && !isBelowDefaultRowHeight)
     ) {
         return 'medium';
     } else {

@@ -555,6 +555,28 @@ describe('Detail', () => {
             closeButton.click();
             expect(onCloseClick).toHaveBeenCalled();
         });
+        it('floats the close button beside a plain title, so the title wraps before it', () => {
+            const theme = getCreatedTheme('light');
+            const { getByTestId } = render(
+                <ThemeProvider theme={theme}>
+                    <DetailMain title="A title as long as the panel" onCloseClick={vi.fn()} />
+                </ThemeProvider>,
+            );
+
+            expect(getComputedStyle(getByTestId('ring-detail-close').parentElement as HTMLElement).float).toBe('right');
+        });
+        it('keeps the close button over the media', () => {
+            const theme = getCreatedTheme('light');
+            const { getByTestId } = render(
+                <ThemeProvider theme={theme}>
+                    <DetailMain title="Title" onCloseClick={vi.fn()} mediaProps={{ image: 'url', bottomIcons: [] }} />
+                </ThemeProvider>,
+            );
+            const closeBox = getComputedStyle(getByTestId('ring-detail-close').parentElement as HTMLElement);
+
+            expect(closeBox.position).toBe('absolute');
+            expect(closeBox.float).toBe('');
+        });
     });
 });
 

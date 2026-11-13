@@ -745,6 +745,7 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
     const dataTestId = useRingDataTestId('Detail', dataTestIdSuffix);
     const hasFullScreenProps = Boolean(mediaProps?.fullScreenImageUrl || mediaProps?.imageFullScreenPreview);
     const hasMedia = Boolean(mediaProps?.image || mediaProps?.slotProps?.media?.src || mediaProps?.slots?.media);
+    const isEditableTitle = typeof title === 'object' && 'editable' in title && Boolean(title.editable);
 
     useEffect(() => {
         if (process.env.NODE_ENV === 'production' || !hasFullScreenProps || hasMedia) {
@@ -775,9 +776,9 @@ export function DetailMain(props: DetailMain): React.JSX.Element {
                 <Box
                     sx={{
                         display: 'flex',
-                        position: 'absolute',
-                        right: 5,
-                        top: 5,
+                        ...(hasMedia || isEditableTitle
+                            ? { position: 'absolute', right: 5, top: 5 }
+                            : { float: 'right', mt: '5px', mr: '5px', ml: 1 }),
                         justifyContent: 'right',
                     }}
                 >
