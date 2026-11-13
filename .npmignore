@@ -11,3 +11,6 @@
 .npmrc
 .env
 /sourceAliases.ts
+/scripts/exports-snapshot.ts
+/scripts/generate-version.ts
+/scripts/sync-theme-peer.ts

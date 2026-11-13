@@ -6,12 +6,12 @@ Ring Publishing MUI Components are not intended to function as a general-purpose
 ## Installation
 
 ```shell
-npm install @ringpublishing/mui-components @ringpublishing/mui-theme @mui/material @emotion/react @emotion/styled lucide-react
+npm install @ringpublishing/mui-components @ringpublishing/mui-theme @mui/material@7 @emotion/react @emotion/styled lucide-react
 ```
 
 Some components are built on MUI-X packages. They are required peer dependencies, which npm 7+ installs; the table shows which component is built on which.
 ```shell
-npm install @mui/x-license @mui/x-data-grid @mui/x-data-grid-pro @mui/x-date-pickers @mui/x-date-pickers-pro @mui/x-tree-view
+npm install @mui/x-license@8 @mui/x-data-grid@8 @mui/x-data-grid-pro@8 @mui/x-date-pickers@8 @mui/x-date-pickers-pro@8 @mui/x-tree-view@8
 ```
 
 | Component | Required MUI-X package(s) |

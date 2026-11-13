@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.3] - 2026-11-13
+
+### Fixed
+
+- [@wniemiec-rasp]: The install commands in the README name the supported majors, `@mui/material@7` and MUI X `@8`; a project set up with the earlier commands may have MUI X 9 installed and has to reinstall these packages with `@8`.
+
+### Removed
+
+- [@wniemiec-rasp]: The npm package no longer contains the build scripts `scripts/exports-snapshot.ts`, `scripts/generate-version.ts` and `scripts/sync-theme-peer.ts`; the migrations in `scripts/migrations/` stay.
+
 ## [2.0.2] - 2026-11-02
 
 ### Changed
