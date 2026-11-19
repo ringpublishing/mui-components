@@ -527,9 +527,10 @@ export function RingDataGrid(props: RingDataGridProps): React.JSX.Element {
                 {...getGridPropsAffectingBulkActions()}
                 onRowCountChange={handleCountChange}
                 sx={{
-                    '.MuiDataGrid-overlayWrapperInner': {
-                        height: '8px !important',
-                    },
+                    '.MuiDataGrid-overlayWrapperInner':
+                        gridProps.loading || gridProps.rows?.length
+                            ? { height: '8px !important' }
+                            : { overflow: 'auto' },
                     ...(gridProps?.sx ? gridProps.sx : {}),
                 }}
                 onRowClick={onRowClick}

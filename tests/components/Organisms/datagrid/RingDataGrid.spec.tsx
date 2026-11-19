@@ -223,6 +223,43 @@ describe('RingDataGrid', () => {
         });
     });
 
+    describe('overlay', () => {
+        const overlayInner = async (container: HTMLElement): Promise<CSSStyleDeclaration> => {
+            await new Promise((resolve) => setTimeout(resolve));
+
+            return getComputedStyle(container.querySelector('.MuiDataGrid-overlayWrapperInner') as HTMLElement);
+        };
+
+        it('scrolls the placeholder of an empty grid', async () => {
+            const { container, findByText } = render(
+                <RingDataGrid rows={[]} columns={columns} labels={labels} totalRowCount={0} />,
+            );
+
+            await findByText('No results');
+
+            expect((await overlayInner(container)).overflow).toBe('auto');
+        });
+
+        it('keeps the loading overlay a strip that does not scroll, with or without rows', async () => {
+            const withRows = render(
+                <RingDataGrid
+                    rows={rows}
+                    columns={columns}
+                    labels={labels}
+                    totalRowCount={rows.length}
+                    loading={true}
+                />,
+            );
+            expect((await overlayInner(withRows.container)).overflow).not.toBe('auto');
+            withRows.unmount();
+
+            const firstPage = render(
+                <RingDataGrid rows={[]} columns={columns} labels={labels} totalRowCount={0} loading={true} />,
+            );
+            expect((await overlayInner(firstPage.container)).overflow).not.toBe('auto');
+        });
+    });
+
     describe('getRowDataTestId', () => {
         const countedRows: GridRowsProp = [
             { id: 1, title: 'One' },

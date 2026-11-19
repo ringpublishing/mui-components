@@ -31,6 +31,9 @@ import { useCellDataTestId } from './dataGridTestIdContext.js';
 import { getCellViewMode, prepareChips } from './helpers.js';
 
 export type ComboCellChips = string | string[] | Omit<ChipProps, 'size'>[];
+
+const MEDIUM_THUMBNAIL_PLATE_SIZE = 32;
+
 export interface ComboCellProps {
     /**
      * Main label
@@ -168,6 +171,13 @@ export function renderComboCell<T extends ComboCellProps>(params: GridRenderCell
                             size="inherit"
                             icon={errorLoadingImage ? ImageOff : Image}
                             dataTestId={`${dataTestId}-placeholder-icon`}
+                            {...(viewMode === 'medium' && {
+                                slotProps: {
+                                    plate: {
+                                        sx: { width: MEDIUM_THUMBNAIL_PLATE_SIZE, height: MEDIUM_THUMBNAIL_PLATE_SIZE },
+                                    },
+                                },
+                            })}
                         />
                     </Box>
                 ) : (

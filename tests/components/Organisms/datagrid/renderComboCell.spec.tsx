@@ -236,6 +236,28 @@ describe('DataGrid - renderComboCell', () => {
         expect(comboCell(container, 1)).toMatchSnapshot();
     });
 
+    it('fits the placeholder plate inside the 40px thumbnail of the medium view', () => {
+        const placeholderRows = [{ id: 1, combo: { label: 'No logo', showPlaceholder: true } }];
+        const plateOf = (container: HTMLElement): CSSStyleDeclaration =>
+            getComputedStyle(
+                within(container).getByTestId('ring-datagrid-item-1-combo-placeholder-icon')
+                    .firstElementChild as HTMLElement,
+            );
+
+        const medium = render(<DataGrid rows={placeholderRows} columns={comboColumns} density="standard" />);
+        expect([plateOf(medium.container).width, plateOf(medium.container).height]).toEqual(['32px', '32px']);
+        medium.unmount();
+
+        const full = render(
+            <DataGrid
+                rows={placeholderRows}
+                columns={comboColumns}
+                getRowHeight={(): GridRowHeightReturnValue => 'auto'}
+            />,
+        );
+        expect(plateOf(full.container).width).toBe('2.5em');
+    });
+
     it('shows ImageOff when the image fails to load, unlike a missing image', () => {
         const { container } = render(
             <DataGrid

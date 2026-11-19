@@ -2,6 +2,13 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.5] - 2026-11-18
+
+### Fixed
+
+- [@rmusial2]: `RingDataGrid` — a grid without rows scrolls its placeholder when the grid is lower than the placeholder, instead of cutting it off.
+- [@rmusial2]: `renderComboCell` — the `FeaturedIcon` plate of a missing or broken image is 32px in the 40px thumbnail of a row at the default height, instead of filling the thumbnail.
+
 ## [2.0.4] - 2026-11-13
 
 ### Fixed
