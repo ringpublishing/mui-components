@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.6] - 2026-11-19
+
+### Fixed
+
+- [@wniemiec-rasp]: `Autocomplete` — arrow keys, Home and End in the menu of `actions` move through the menu only; the options list stays closed.
+
 ## [2.0.5] - 2026-11-18
 
 ### Fixed

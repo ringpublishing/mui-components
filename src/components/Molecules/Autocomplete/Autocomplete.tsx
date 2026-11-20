@@ -888,7 +888,15 @@ function AutocompleteInput({
             >
                 <EllipsisVertical size={DEFAULT_LUCIDE_ICON_SIZE} />
                 {/* zIndex of Autocomplete Popper is 1300 */}
-                <ActionBox actions={actions} anchorEl={refAnchor} zIndex={1400} dataTestId={`${dataTestId}-menu`} />
+                <ActionBox
+                    actions={actions}
+                    anchorEl={refAnchor}
+                    zIndex={1400}
+                    dataTestId={`${dataTestId}-menu`}
+                    // The menu is portalled, yet React bubbles its keys to the Autocomplete root, which would
+                    // open the options list on an arrow key and select or clear on others.
+                    onKeyDown={(event): void => event.stopPropagation()}
+                />
             </IconButton>
         ) : null;
 

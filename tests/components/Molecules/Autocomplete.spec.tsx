@@ -1152,6 +1152,40 @@ describe('Autocomplete', () => {
         expect(withBlank.getByRole('button', { name: 'More actions' })).toBeDefined();
     });
 
+    it('should keep the options list closed while the keyboard moves through the actions menu', () => {
+        const actions = [
+            { icon: <Search />, onClick: vi.fn(), label: 'Settings' },
+            { icon: <Info />, onClick: vi.fn(), label: 'Info' },
+        ];
+
+        const { getByRole, queryByRole } = render(
+            <Autocomplete options={options} labels={{ title: 'Title' }} actions={actions} />,
+        );
+
+        // The same key on the input opens the list, so a closed list below is the menu's doing.
+        fireEvent.keyDown(getByRole('combobox'), { key: 'ArrowDown' });
+        expect(queryByRole('listbox')).not.toBeNull();
+        fireEvent.keyDown(getByRole('combobox'), { key: 'Escape' });
+        expect(queryByRole('listbox')).toBeNull();
+
+        fireEvent.click(getByRole('button', { name: 'More actions' }));
+
+        for (const key of ['ArrowDown', 'ArrowUp', 'Home', 'End']) {
+            fireEvent.keyDown(getByRole('menuitem', { name: 'Settings' }), { key });
+            expect(queryByRole('listbox')).toBeNull();
+        }
+
+        expect(queryByRole('menu')).not.toBeNull();
+
+        // Escape still reaches the menu itself.
+        fireEvent.keyDown(getByRole('menuitem', { name: 'Settings' }), { key: 'Escape' });
+        act(() => {
+            vi.advanceTimersByTime(1000);
+        });
+        expect(queryByRole('menu')).toBeNull();
+        expect(queryByRole('listbox')).toBeNull();
+    });
+
     it('should not expose the loading spinner as an unnamed button', () => {
         const mockProps = {
             options,
