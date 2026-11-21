@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.7] - 2026-11-20
+
+### Fixed
+
+- [@pjarolewski]: `Autocomplete` — a menu anchored to a `menuListActions` button through `anchorRef` no longer closes as soon as it opens; the options list stays open while the menu has focus and closes once focus or a click moves outside the field, the list and the menu.
+
 ## [2.0.6] - 2026-11-19
 
 ### Fixed

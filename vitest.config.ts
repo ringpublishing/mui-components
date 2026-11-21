@@ -15,9 +15,32 @@ export default defineConfig({
         coverage: {
             reporter: ['text', 'json', 'html'],
         },
-        server: {
-            deps: {
-                inline: ['@mui/x-data-grid'],
+        // Pre-bundles the heavy dependencies once per run instead of transforming their
+        // modules file by file in every test file.
+        deps: {
+            optimizer: {
+                client: {
+                    enabled: true,
+                    include: [
+                        '@mui/material',
+                        '@mui/material/styles',
+                        '@mui/x-data-grid',
+                        '@mui/x-data-grid-pro',
+                        '@mui/x-tree-view',
+                        '@mui/x-date-pickers',
+                        '@mui/x-date-pickers-pro',
+                        'lucide-react',
+                        '@emotion/react',
+                        '@emotion/styled',
+                        'react',
+                        'react-dom',
+                        'react-dom/client',
+                        'react/jsx-runtime',
+                        'react/jsx-dev-runtime',
+                        '@testing-library/react',
+                        'lodash',
+                    ],
+                },
             },
         },
     },

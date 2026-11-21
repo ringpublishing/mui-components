@@ -951,6 +951,130 @@ describe('Autocomplete', () => {
         localStorage.removeItem(localStorageKey);
     });
 
+    it('should apply the deferred recently used ordering when a click outside an anchored menu closes the list', () => {
+        const localStorageKey = 'recentlyUsedAnchoredMenu';
+        const recentlyUsedOptions = [
+            { label: 'Onet', id: 1 },
+            { label: 'Fakt', id: 2 },
+            { label: 'TVN', id: 3 },
+        ];
+        const allOptions = [...recentlyUsedOptions, { label: 'Interia', id: 4 }];
+        localStorage.setItem(localStorageKey, JSON.stringify(recentlyUsedOptions));
+        const onClose = vi.fn();
+
+        const { getByRole, getAllByRole } = render(
+            <>
+                <Autocomplete
+                    options={allOptions}
+                    labels={{
+                        title: 'Search by',
+                        recentlyUsed: 'Recently used',
+                        recentlyUsedResults: 'Results',
+                    }}
+                    showRecentlyUsed={true}
+                    recentlyLocalStorageKey={localStorageKey}
+                    recentlyUsedLimit={3}
+                    multiple={true}
+                    disableCloseOnSelect={true}
+                    menuListActions={{
+                        actions: [{ anchorRef: React.createRef(), icon: <Settings2 />, label: 'Configure' }],
+                    }}
+                    onClose={onClose}
+                    slotProps={{ popper: { disablePortal: true } }}
+                />
+                {/* Stands in for a non-modal menu the consumer anchors to the action. */}
+                <button type="button">Menu item</button>
+            </>,
+        );
+
+        const input = getByRole('combobox');
+        act(() => input.focus());
+        fireEvent.mouseDown(input);
+        fireEvent.click(getByRole('option', { name: 'Interia' }));
+
+        // The action arms the list; the menu then takes focus, and the list stays open behind it.
+        fireEvent.click(getByRole('button', { name: 'Configure' }));
+        act(() => getByRole('button', { name: 'Menu item' }).focus());
+
+        expect(getByRole('listbox')).toBeDefined();
+        expect(onClose).not.toHaveBeenCalled();
+
+        fireEvent.mouseDown(document.body);
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+
+        fireEvent.mouseDown(input);
+
+        expect(getAllByRole('option').map((option) => option.textContent)).toEqual(['Interia', 'Onet', 'Fakt', 'TVN']);
+
+        localStorage.removeItem(localStorageKey);
+    });
+
+    it('should close the list without an error when the focused field becomes disabled', async () => {
+        const onClose = vi.fn();
+        const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        const props = { options: [{ label: 'Onet', id: 1 }], labels: { title: 'Search by' }, onClose };
+
+        const { getByRole, queryByRole, rerender } = render(<Autocomplete {...props} />);
+
+        const input = getByRole('combobox');
+        act(() => input.focus());
+        fireEvent.mouseDown(input);
+
+        expect(getByRole('listbox')).toBeDefined();
+
+        // The close is applied in a microtask, after the render that disabled the field.
+        await act(async () => {
+            rerender(<Autocomplete {...props} disabled={true} />);
+            await Promise.resolve();
+        });
+
+        expect(queryByRole('listbox')).toBeNull();
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(consoleError).not.toHaveBeenCalled();
+
+        consoleError.mockRestore();
+    });
+
+    it('should not throw when an anchored action disables the field it belongs to', async () => {
+        const Example = (): React.JSX.Element => {
+            const [disabled, setDisabled] = React.useState(false);
+
+            return (
+                <Autocomplete
+                    options={[{ label: 'Onet', id: 1 }]}
+                    labels={{ title: 'Search by' }}
+                    disabled={disabled}
+                    menuListActions={{
+                        actions: [
+                            {
+                                anchorRef: React.createRef(),
+                                icon: <Settings2 />,
+                                label: 'Configure',
+                                onClick: (): void => setDisabled(true),
+                            },
+                        ],
+                    }}
+                    slotProps={{ popper: { disablePortal: true } }}
+                />
+            );
+        };
+
+        const { getByRole, queryByRole } = render(<Example />);
+
+        const input = getByRole('combobox');
+        act(() => input.focus());
+        fireEvent.mouseDown(input);
+
+        await act(async () => {
+            fireEvent.click(getByRole('button', { name: 'Configure' }));
+            await Promise.resolve();
+        });
+
+        expect(queryByRole('listbox')).toBeNull();
+        expect((getByRole('combobox') as HTMLInputElement).disabled).toBe(true);
+    });
+
     it('should not update recently used on removeOption in multiple mode', () => {
         const localStorageKey = 'recentlyUsedRemove';
         localStorage.setItem(localStorageKey, JSON.stringify([{ label: 'Onet', id: 1 }]));

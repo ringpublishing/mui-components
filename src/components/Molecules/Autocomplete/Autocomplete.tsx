@@ -186,7 +186,9 @@ export interface AutocompleteBaseProps<Value = unknown>
     /**
      * Icon actions displayed in the options popup: under a `label` heading, or next to the first
      * group heading when `groupBy` is set; ignored when `renderGroup` is provided. An action's
-     * `anchorRef` exposes its button as an anchor for a separately rendered menu or popper.
+     * `anchorRef` exposes its button as an anchor for a separately rendered menu or popper. The
+     * options stay open while that menu holds focus, so the menu should take focus during the click
+     * that opens it and give it back to the field when it closes.
      */
     menuListActions?: AutocompleteMenuListActions;
 
@@ -356,11 +358,14 @@ export type MuiOption = AutocompleteOption;
 
 interface AutocompleteMenuListActionButtonProps extends WithOwnerDataTestId {
     action: AutocompleteMenuListAction;
+    /** Called at the start of a click on the action, when the action has an `anchorRef`. */
+    onAnchorClick: () => void;
 }
 
 function AutocompleteMenuListActionButton({
     action,
     dataTestId,
+    onAnchorClick,
 }: AutocompleteMenuListActionButtonProps): React.JSX.Element {
     return (
         <Tooltip title={action.disabledReason || action.label}>
@@ -373,6 +378,13 @@ function AutocompleteMenuListActionButton({
                     onMouseDown={(event): void => {
                         event.preventDefault();
                         event.stopPropagation();
+                    }}
+                    // Capture phase: a menu anchored here may open from a native `click` listener on the button,
+                    // which runs before React's `onClick`, and take focus right away.
+                    onClickCapture={(): void => {
+                        if (action.anchorRef) {
+                            onAnchorClick();
+                        }
                     }}
                     onClick={(event): void => {
                         event.stopPropagation();
@@ -1188,6 +1200,8 @@ function AutocompleteWithoutRef<Value>(
     const autocompleteInputRef = useRef<HTMLInputElement>(null);
     const triggerRef = useRef<HTMLDivElement>(null);
     const paperRef = useRef<HTMLDivElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
+    const handleRootRef = useForkRef(ref, rootRef);
     const [uncontrolledSearchValue, setUncontrolledSearchValue] = useState('');
     const isFilterVariant = variant === 'filter';
     const isChipsInputVariant = variant === 'chipsInput';
@@ -1197,6 +1211,19 @@ function AutocompleteWithoutRef<Value>(
     const [uncontrolledValue, setUncontrolledValue] = useState<unknown>(defaultValue ?? (isMultiple ? [] : null));
     const [chipsInputText, setChipsInputText] = useState('');
     const [uncontrolledFilterOpen, setUncontrolledFilterOpen] = useState(false);
+    // The default and chipsInput variants drive MUI's `open` themselves when the consumer does not, so that the
+    // list can outlive the blur caused by a menu opened from a menu-list action (see `anchoredMenuRef`).
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+    /**
+     * A menu-list action with an `anchorRef` anchors the consumer's own menu, which takes focus when it opens.
+     * MUI closes the list on that blur, which unmounts the anchor, and the menu closes at once. So a click on
+     * such an action arms this ref (`armed`) until the end of the task; a blur in that window keeps the list
+     * open (`held`, with the element that took focus), until focus comes back to the input or moves elsewhere.
+     */
+    const anchoredMenuRef = useRef<{ state: 'idle' | 'armed' | 'held'; focusTarget: Element | null }>({
+        state: 'idle',
+        focusTarget: null,
+    });
     const filterLabels = labels as FilterAutocompleteLabels;
     const filterSearchTextFieldProps = isFilterVariant ? searchTextFieldProps : undefined;
 
@@ -1254,6 +1281,10 @@ function AutocompleteWithoutRef<Value>(
             setUncontrolledFilterOpen(true);
         }
 
+        if (!isFilterVariant && otherProps.open === undefined) {
+            setUncontrolledOpen(true);
+        }
+
         onOpen?.(event);
 
         if (showRecentlyUsed && recentlyUsedItems.length > 0) {
@@ -1269,13 +1300,44 @@ function AutocompleteWithoutRef<Value>(
             return;
         }
 
-        if (isFilterVariant && otherProps.open === undefined) {
-            setUncontrolledFilterOpen(false);
+        // MUI closes a focused field that becomes disabled while it renders, and passes no event.
+        const isRenderPhaseClose = (event as React.SyntheticEvent | undefined) === undefined;
+
+        if (!isFilterVariant && reason === 'blur' && anchoredMenuRef.current.state === 'armed' && !isRenderPhaseClose) {
+            const focusTarget = (event as React.FocusEvent).relatedTarget;
+
+            if (focusTarget instanceof Element) {
+                anchoredMenuRef.current = {
+                    state: 'held',
+                    focusTarget: focusTarget.closest('.MuiModal-root, .MuiPopper-root') ?? focusTarget,
+                };
+
+                return;
+            }
         }
 
-        if (pendingRecentlyUsedItemsRef.current) {
-            setRecentlyUsedItems(pendingRecentlyUsedItemsRef.current);
-            pendingRecentlyUsedItemsRef.current = null;
+        anchoredMenuRef.current = { state: 'idle', focusTarget: null };
+
+        const applyClose = (): void => {
+            if (isFilterVariant && otherProps.open === undefined) {
+                setUncontrolledFilterOpen(false);
+            }
+
+            if (!isFilterVariant && otherProps.open === undefined) {
+                setUncontrolledOpen(false);
+            }
+
+            if (pendingRecentlyUsedItemsRef.current) {
+                setRecentlyUsedItems(pendingRecentlyUsedItemsRef.current);
+                pendingRecentlyUsedItemsRef.current = null;
+            }
+        };
+
+        if (isRenderPhaseClose) {
+            // State cannot be set while another component renders.
+            queueMicrotask(applyClose);
+        } else {
+            applyClose();
         }
 
         onClose?.(event, reason);
@@ -1317,6 +1379,80 @@ function AutocompleteWithoutRef<Value>(
 
         return (): void => document.removeEventListener('mousedown', handleClickAway);
     }, [filterOpen, isFilterVariant, onClose, otherProps.open]);
+
+    const handleAnchoredActionClick = (): void => {
+        anchoredMenuRef.current = { state: 'armed', focusTarget: null };
+
+        setTimeout(() => {
+            if (anchoredMenuRef.current.state === 'armed') {
+                anchoredMenuRef.current = { state: 'idle', focusTarget: null };
+            }
+        });
+    };
+
+    const listOpen = isFilterVariant ? filterOpen : (otherProps.open ?? uncontrolledOpen);
+
+    // While a menu opened from a menu-list action holds focus, MUI no longer watches it: release the list
+    // when focus comes back to the input, and close it when focus or a click lands outside the input, the
+    // list and that menu.
+    useEffect(() => {
+        if (isFilterVariant || !listOpen) {
+            return;
+        }
+
+        const isInside = (target: EventTarget | null): boolean => {
+            if (!(target instanceof Node)) {
+                return false;
+            }
+
+            const { focusTarget } = anchoredMenuRef.current;
+
+            return Boolean(
+                rootRef.current?.contains(target) ||
+                listboxRef.current?.closest('.MuiAutocomplete-popper')?.contains(target) ||
+                focusTarget?.contains(target),
+            );
+        };
+
+        const release = (event: Event): void => {
+            if (anchoredMenuRef.current.state !== 'held') {
+                return;
+            }
+
+            if (event.type === 'focusin' && event.target instanceof Node && rootRef.current?.contains(event.target)) {
+                anchoredMenuRef.current = { state: 'idle', focusTarget: null };
+
+                return;
+            }
+
+            if (isInside(event.target)) {
+                return;
+            }
+
+            anchoredMenuRef.current = { state: 'idle', focusTarget: null };
+
+            if (otherProps.open === undefined) {
+                setUncontrolledOpen(false);
+            }
+
+            // The list closes here instead of in `handleOnClose`, so the recently used order a pick queued
+            // while it was open is applied here too.
+            if (pendingRecentlyUsedItemsRef.current) {
+                setRecentlyUsedItems(pendingRecentlyUsedItemsRef.current);
+                pendingRecentlyUsedItemsRef.current = null;
+            }
+
+            onClose?.(event as unknown as React.SyntheticEvent, 'blur');
+        };
+
+        document.addEventListener('focusin', release);
+        document.addEventListener('mousedown', release);
+
+        return (): void => {
+            document.removeEventListener('focusin', release);
+            document.removeEventListener('mousedown', release);
+        };
+    }, [isFilterVariant, listOpen, onClose, otherProps.open]);
 
     const mergeListboxRef = (externalRef?: React.Ref<HTMLElement>): React.RefCallback<HTMLElement> => {
         return (node): void => {
@@ -1834,6 +1970,7 @@ function AutocompleteWithoutRef<Value>(
                                     action={action}
                                     dataTestId={`${dataTestId}-menu-list-action-${index}`}
                                     key={`${action.label}-${index}`}
+                                    onAnchorClick={handleAnchoredActionClick}
                                 />
                             ))}
                         </Box>
@@ -1869,7 +2006,7 @@ function AutocompleteWithoutRef<Value>(
                         ? undefined
                         : defaultValue) as AutocompleteMuiProps<Value>['defaultValue']
                 }
-                open={isFilterVariant ? filterOpen : otherProps.open}
+                open={listOpen}
                 value={muiValue as AutocompleteMuiProps<Value>['value']}
                 inputValue={
                     isChipsInputVariant && controlledInputValue === undefined ? chipsInputText : otherProps.inputValue
@@ -1902,7 +2039,7 @@ function AutocompleteWithoutRef<Value>(
                 popupIcon={popupIcon}
                 clearIcon={clearIcon}
                 getOptionLabel={customGetOptionLabel}
-                ref={ref}
+                ref={handleRootRef}
                 loadingText={loadingText}
                 renderGroup={
                     renderGroup ||
