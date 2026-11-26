@@ -151,6 +151,31 @@
     },
     {
         "entry": ".",
+        "name": "Avatar",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "AvatarGroup",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "AvatarGroupProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "AvatarProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "AvatarSize",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
         "name": "BottomBarApiRef",
         "kind": "type"
     },
@@ -271,6 +296,11 @@
     },
     {
         "entry": ".",
+        "name": "ControlledSideRailProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
         "name": "CopyIconButton",
         "kind": "value"
     },
@@ -337,6 +367,11 @@
     {
         "entry": ".",
         "name": "DataViewProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "DataViewRightSlotVariant",
         "kind": "type"
     },
     {
@@ -656,6 +691,16 @@
     },
     {
         "entry": ".",
+        "name": "getStringColor",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "getStringColorTone",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
         "name": "GridApiRef",
         "kind": "type"
     },
@@ -812,6 +857,36 @@
     {
         "entry": ".",
         "name": "MultimediaGridSlots",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenu",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenuGroup",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenuGroupProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenuItem",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenuItemProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "NavigationMenuProps",
         "kind": "type"
     },
     {
@@ -1061,6 +1136,41 @@
     },
     {
         "entry": ".",
+        "name": "SideRail",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailBaseProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailDrawerVariant",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailItem",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailPanel",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailPanelMount",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "SideRailProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
         "name": "SimpleTree",
         "kind": "value"
     },
@@ -1123,6 +1233,26 @@
         "entry": ".",
         "name": "SplitButtonProps",
         "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "StringColor",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "stringColorNeutralTone",
+        "kind": "value"
+    },
+    {
+        "entry": ".",
+        "name": "StringColorTone",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "stringColorTones",
+        "kind": "value"
     },
     {
         "entry": ".",
@@ -1257,6 +1387,11 @@
     {
         "entry": ".",
         "name": "UncontrolledSearchBoxProps",
+        "kind": "type"
+    },
+    {
+        "entry": ".",
+        "name": "UncontrolledSideRailProps",
         "kind": "type"
     },
     {

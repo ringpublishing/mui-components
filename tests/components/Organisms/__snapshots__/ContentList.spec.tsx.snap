@@ -13,86 +13,115 @@ exports[`Components: ContentList > should render component 1`] = `
       <div
         class="MuiBox-root css"
       >
-        <div
-          class="MuiBox-root css"
+        <nav
+          class="ring-navigationmenu css-RingNavigationMenu-root"
+          data-testid="ring-contentlist-nav"
         >
-          <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
-            data-testid="ring-contentlist-item-0-nav"
-            type="button"
+          <ul
+            class="css-RingNavigationMenu-list"
           >
-            <div
-              class="MuiBox-root css"
+            <li
+              class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
+              <button
+                aria-current="location"
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+                data-testid="ring-contentlist-item-0-nav"
+                tabindex="0"
+                type="button"
               >
-                Header1
-              </p>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-rocket"
-                fill="none"
-                height="20"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"
-                  vector-effect="non-scaling-stroke"
-                />
-                <path
-                  d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"
-                  vector-effect="non-scaling-stroke"
-                />
-                <path
-                  d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"
-                  vector-effect="non-scaling-stroke"
-                />
-                <path
-                  d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"
-                  vector-effect="non-scaling-stroke"
-                />
-              </svg>
-            </div>
-          </button>
-          <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
-            data-testid="ring-contentlist-item-1-nav"
-            type="button"
-          >
-            <div
-              class="MuiBox-root css"
+                <div
+                  class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+                  >
+                    Header1
+                  </span>
+                </div>
+                <span
+                  class="css-RingNavigationMenu-itemEndAdornment"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-rocket"
+                    fill="none"
+                    height="20"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"
+                      vector-effect="non-scaling-stroke"
+                    />
+                    <path
+                      d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"
+                      vector-effect="non-scaling-stroke"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </li>
+            <li
+              class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
+              <button
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+                data-testid="ring-contentlist-item-1-nav"
+                tabindex="0"
+                type="button"
               >
-                Header2
-              </p>
-            </div>
-          </button>
-          <button
-            class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button css-MuiTypography-root-MuiLink-root"
-            data-testid="ring-contentlist-item-2-nav"
-            type="button"
-          >
-            <div
-              class="MuiBox-root css"
+                <div
+                  class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+                  >
+                    Header2
+                  </span>
+                </div>
+              </button>
+            </li>
+            <li
+              class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-MuiTypography-root"
+              <button
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+                data-testid="ring-contentlist-item-2-nav"
+                tabindex="0"
+                type="button"
               >
-                Header3
-              </p>
-              23
-            </div>
-          </button>
-        </div>
+                <div
+                  class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+                  >
+                    Header3
+                  </span>
+                </div>
+                <span
+                  class="css-RingNavigationMenu-itemEndAdornment"
+                >
+                  23
+                </span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
       <div
         class="MuiBox-root css"

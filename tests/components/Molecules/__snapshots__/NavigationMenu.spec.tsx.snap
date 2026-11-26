@@ -1,0 +1,175 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Components: NavigationMenu > should render groups and items 1`] = `
+<div>
+  <nav
+    aria-label="Console"
+    class="ring-navigationmenu css-RingNavigationMenu-root"
+    data-testid="ring-navigationmenu"
+  >
+    <ul
+      class="css-RingNavigationMenu-list"
+    >
+      <li
+        class="ring-navigationmenugroup css-RingNavigationMenu-group"
+        data-testid="ring-navigationmenugroup"
+      >
+        <div
+          class="MuiTypography-root MuiTypography-caption css-MuiTypography-root-RingNavigationMenu-groupLabel"
+          id="_r_1_"
+        >
+          Access management
+        </div>
+        <ul
+          aria-labelledby="_r_1_"
+          class="css-RingNavigationMenu-groupList"
+        >
+          <li
+            class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
+          >
+            <a
+              aria-current="page"
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+              data-testid="ring-navigationmenuitem"
+              href="/users"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemIcon-root css-MuiListItemIcon-root-RingNavigationMenu-itemStartIcon"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-user-round lucide-user-2"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="8"
+                    r="5"
+                    vector-effect="non-scaling-stroke"
+                  />
+                  <path
+                    d="M20 21a8 8 0 0 0-16 0"
+                    vector-effect="non-scaling-stroke"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+                >
+                  Users
+                </span>
+              </div>
+            </a>
+          </li>
+          <li
+            class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
+          >
+            <a
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+              data-testid="ring-navigationmenuitem"
+              href="/groups"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemIcon-root css-MuiListItemIcon-root-RingNavigationMenu-itemStartIcon"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-user-round lucide-user-2"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="8"
+                    r="5"
+                    vector-effect="non-scaling-stroke"
+                  />
+                  <path
+                    d="M20 21a8 8 0 0 0-16 0"
+                    vector-effect="non-scaling-stroke"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+                >
+                  Groups
+                </span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li
+        class="MuiListItem-root MuiListItem-gutters css-MuiListItem-root"
+      >
+        <a
+          class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters ring-navigationmenuitem css-MuiButtonBase-root-MuiListItemButton-root-RingNavigationMenu-item"
+          data-testid="ring-navigationmenuitem"
+          href="https://example.com"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemText-root css-MuiListItemText-root-RingNavigationMenu-itemText"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-MuiTypography-root"
+            >
+              Help
+            </span>
+          </div>
+          <span
+            class="css-RingNavigationMenu-itemEndAdornment"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-arrow-up-right"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 7h10v10"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M7 17 17 7"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;

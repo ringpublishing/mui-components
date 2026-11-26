@@ -2,6 +2,25 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-11-21
+
+### Added
+
+- [@rmusial2]: `Detail` — a bottom action takes `disabled` and `disabledReason`, like the other actions in the library; a disabled action with a reason shows it in a tooltip, on hover and on keyboard focus.
+- [@wniemiec-rasp]: `Detail` — an icon under the media (`mediaProps.bottomIcons`) takes `disabled` and `disabledReason` too; the reason replaces the icon's tooltip.
+- [@omaziarz]: `Avatar` — a person's photo, or their initials on a colour that `getStringColor` picks from `colorKey` (or `name`), in the sizes `small`, `medium` and `large` (24, 32 and 40px).
+- [@omaziarz]: `AvatarGroup` — overlapping `Avatar`s of one size with a "+N" counter past `max`; `total` counts people the group does not render, and `surplusAriaLabel` names the counter.
+- [@omaziarz]: `getStringColor`, `getStringColorTone`, `stringColorTones`, `stringColorNeutralTone` and the types `StringColor` and `StringColorTone` — re-exported from `@ringpublishing/mui-theme`: a string's stable tone and its avatar and tag colours.
+- [@rmusial2]: `NavigationMenu`, `NavigationMenuGroup` and `NavigationMenuItem` — a menu for a side panel. An item is a `ListItemButton` with `startIcon` and `endAdornment`, takes `href` or a router link as `component`, and `selected` sets `aria-current="page"`. Its look comes from `@ringpublishing/mui-theme` 5.1.0.
+- [@rsarata]: `SideRail` — a rail of icon buttons on the right edge of a view, each opening its panel in a drawer beside the rail or over the content (`drawerVariant`). Styled by `@ringpublishing/mui-theme` 5.1.0 or later.
+- [@rsarata]: `DataView` — `rightSlotVariant="rail"` keeps the right slot, such as a `SideRail`, visible on every screen size.
+
+### Changed
+
+- [@rmusial2]: `ContentList` — the left column is a `NavigationMenu`. The selected header keeps the text colour instead of turning blue, its background no longer slides from the previous header, and it carries `aria-current="location"`; the column itself has the test id `ring-contentlist[-<suffix>]-nav`.
+- [@wniemiec-rasp]: `ContentList` — the left column is a quarter of the width and grows up to a half to fit the longest word of its headers; a longer word wraps.
+- [@rmusial2]: Supports Node.js 26; built with TypeScript 6.
+
 ## [2.0.7] - 2026-11-20
 
 ### Fixed

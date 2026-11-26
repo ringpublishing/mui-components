@@ -537,6 +537,90 @@ describe('Detail', () => {
         });
     });
 
+    it('disables a bottom action and shows why on hover', async () => {
+        const onClick = vi.fn();
+        const { getByTestId, findByRole } = renderDetail({
+            bottomActions: [{ name: 'Delete', onClick, disabled: true, disabledReason: 'You cannot delete it' }],
+        });
+        const button = getByTestId('ring-detail-bottom-action-0');
+
+        expect(button.getAttribute('aria-disabled')).toBe('true');
+        fireEvent.click(button);
+        expect(onClick).not.toHaveBeenCalled();
+
+        fireEvent.mouseOver(button);
+        expect((await findByRole('tooltip')).textContent).toBe('You cannot delete it');
+    });
+
+    it('keeps a disabled bottom action with a reason in the tab order and describes it with the reason', async () => {
+        const { getByTestId, findByRole } = renderDetail({
+            bottomActions: [
+                { name: 'Delete', url: 'https://example.com', disabled: true, disabledReason: 'You cannot delete it' },
+            ],
+        });
+        const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+        const button = getByTestId('ring-detail-bottom-action-0') as HTMLButtonElement;
+
+        expect(button.disabled).toBe(false);
+        expect(button.tabIndex).toBe(0);
+        expect(button.textContent).toBe('Delete');
+
+        fireEvent.click(button);
+        expect(open).not.toHaveBeenCalled();
+
+        fireEvent.mouseOver(button);
+        const tooltip = await findByRole('tooltip');
+        expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+        open.mockRestore();
+    });
+
+    it('takes a disabled bottom action without a reason out of the tab order', () => {
+        const { getByTestId } = renderDetail({ bottomActions: [{ name: 'Delete', onClick: vi.fn(), disabled: true }] });
+
+        expect((getByTestId('ring-detail-bottom-action-0') as HTMLButtonElement).disabled).toBe(true);
+    });
+
+    it('disables a media bottom icon and shows the reason instead of its tooltip', async () => {
+        const onClick = vi.fn();
+        const { getByTestId, findByRole } = renderDetail({
+            main: {
+                mediaProps: {
+                    image: 'https://example.com/image.jpg',
+                    bottomIcons: [
+                        { icon: <span>i</span>, onClick, tooltip: 'Edit', disabled: true, disabledReason: 'Locked' },
+                    ],
+                },
+            },
+        });
+        const button = getByTestId('ring-detail-bottom-icon-0');
+
+        expect(button.getAttribute('aria-disabled')).toBe('true');
+        expect(button.getAttribute('aria-label')).toBe('Edit');
+        fireEvent.click(button);
+        expect(onClick).not.toHaveBeenCalled();
+
+        fireEvent.mouseOver(button);
+        expect((await findByRole('tooltip')).textContent).toBe('Locked');
+    });
+
+    it('describes a disabled media bottom icon without a tooltip with the reason', async () => {
+        const { getByTestId, findByRole } = renderDetail({
+            main: {
+                mediaProps: {
+                    image: 'https://example.com/image.jpg',
+                    bottomIcons: [{ icon: <span>i</span>, onClick: vi.fn(), disabled: true, disabledReason: 'Locked' }],
+                },
+            },
+        });
+        const button = getByTestId('ring-detail-bottom-icon-0');
+
+        fireEvent.mouseOver(button);
+        const tooltip = await findByRole('tooltip');
+
+        expect(button.getAttribute('aria-label')).toBe('Action');
+        expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    });
+
     describe('DetailMain', () => {
         it('should render properly without media props', () => {
             expect(render(<DetailMain title="Test Title" />).container).toMatchSnapshot();

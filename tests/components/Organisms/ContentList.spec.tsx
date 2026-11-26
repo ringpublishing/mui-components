@@ -4,17 +4,6 @@ import { Rocket } from 'lucide-react';
 import { ContentList } from '../../../src/components/Organisms/ContentList/ContentList.js';
 import { renderWithTheme } from '../../test-utils/theme.js';
 
-// Mock ResizeObserver
-class ResizeObserverMock {
-    public observe = vi.fn();
-
-    public unobserve = vi.fn();
-
-    public disconnect = vi.fn();
-}
-
-global.ResizeObserver = ResizeObserverMock as any;
-
 describe('Components: ContentList', () => {
     const inputData = [
         {
@@ -79,6 +68,21 @@ describe('Components: ContentList', () => {
         expect(scrollToMock).toBeCalled();
     });
 
+    it('marks the item of the selected section as the current location', () => {
+        const { getByRole } = renderWithTheme(<ContentList inputData={inputData} selectedItemIndex={1} />);
+
+        expect(getByRole('button', { name: 'Header2' }).getAttribute('aria-current')).toBe('location');
+        expect(getByRole('button', { name: 'Header1' }).hasAttribute('aria-current')).toBe(false);
+    });
+
+    it('keeps the generated data-testid of the navigation items', () => {
+        const { getByRole } = renderWithTheme(<ContentList inputData={inputData} />);
+
+        expect(getByRole('button', { name: 'Header2' }).getAttribute('data-testid')).toBe(
+            'ring-contentlist-item-1-nav',
+        );
+    });
+
     it('should render listHeader slot with JSX element', () => {
         const { getByText } = renderWithTheme(
             <ContentList
@@ -103,6 +107,34 @@ describe('Components: ContentList', () => {
         const { queryByText } = renderWithTheme(<ContentList inputData={inputData} />);
         expect(queryByText('Custom Header')).toBeNull();
         expect(queryByText('Simple String Header')).toBeNull();
+    });
+
+    it('sizes the navigation column by the longest word of its labels, between a quarter and a half of the width', () => {
+        const { getByTestId } = renderWithTheme(<ContentList inputData={inputData} listHeader="Sections" />);
+        const column = getByTestId('ring-contentlist-nav').parentElement as HTMLElement;
+        const { flex, width, minWidth, maxWidth } = getComputedStyle(column);
+
+        expect({ flex, width, minWidth, maxWidth }).toEqual({
+            flex: '0 0 auto',
+            width: 'min-content',
+            minWidth: '25%',
+            maxWidth: '50%',
+        });
+    });
+
+    it('keeps the list header out of the width of the navigation column', () => {
+        const { getByText } = renderWithTheme(<ContentList inputData={inputData} listHeader="Sections" />);
+        const { width, minWidth } = getComputedStyle(getByText('Sections'));
+
+        expect({ width, minWidth }).toEqual({ width: '0px', minWidth: '100%' });
+    });
+
+    it('lets the content column shrink to the width the navigation column leaves', () => {
+        const { getByTestId } = renderWithTheme(<ContentList inputData={inputData} />);
+        const content = (getByTestId('ring-contentlist-nav').parentElement as HTMLElement).nextElementSibling;
+        const { flex, minWidth } = getComputedStyle(content as HTMLElement);
+
+        expect({ flex, minWidth }).toEqual({ flex: '1 1 0px', minWidth: '0' });
     });
 
     it('should render with default data-testid', () => {

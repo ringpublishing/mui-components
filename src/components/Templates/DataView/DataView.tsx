@@ -31,6 +31,9 @@ function readStoredLeftSlotWidth(): number {
     }
 }
 
+/** Layout of the `DataView` right slot. */
+export type DataViewRightSlotVariant = 'detail' | 'rail';
+
 export type TopSlotProps = SearchBarProps & {
     /**
      * Additional actions for EllipsisVertical IconButton in TopSlot
@@ -97,6 +100,15 @@ export interface DataViewProps extends CommonComponentProps {
          */
         bottom?: BottomBarSlotProps;
     };
+
+    /**
+     * How the right slot is laid out. `detail`: a fixed-width panel that `rightSlotOpen` shows and hides, opened from
+     * a button in the search bar, and on a small screen from the more-actions menu in a drawer. `rail`: a component
+     * that is always visible and opens its own drawer, such as `SideRail` — it takes the width it needs, stays in place
+     * on a small screen and ignores `rightSlotOpen`, `setRightSlotOpen` and `isMobileRightSlotOpen`.
+     * @default 'detail'
+     */
+    rightSlotVariant?: DataViewRightSlotVariant;
 
     /**
      * State indicating whether the rightSlot component is open
@@ -176,6 +188,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
     const {
         slots,
         slotProps,
+        rightSlotVariant = 'detail',
         rightSlotOpen,
         setRightSlotOpen,
         leftSlotOpen = true,
@@ -376,8 +389,12 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
         onClick: () => setMobileLeftSlotOpen(!isMobileLeftSlotOpen),
     };
 
+    // A rail stays in place on a small screen, so it needs no menu action.
+    const hasRightDetail = Boolean(slots.right) && rightSlotVariant === 'detail';
+    const hasRightRail = Boolean(slots.right) && rightSlotVariant === 'rail';
+
     const menuActionsOnMobile: Action[] = [
-        ...(slots.right ? [openRightSlotAction] : []),
+        ...(hasRightDetail ? [openRightSlotAction] : []),
         ...(slots.left ? [openLeftSlotAction] : []),
     ];
 
@@ -405,7 +422,7 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                   </IconButton>,
               ]
             : []),
-        ...(!isMobile && slots.right
+        ...(!isMobile && hasRightDetail
             ? [
                   <IconButton
                       key={'right-slot-open'}
@@ -430,7 +447,13 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
             <Stack
                 direction="row"
                 sx={{
-                    width: !isMobile && slots.right && rightSlotOpen ? `calc(100% - ${DETAIL_WIDTH}px)` : '100%',
+                    // Beside a rail the view takes what the rail leaves, which changes as the rail's drawer opens.
+                    ...(hasRightRail
+                        ? { flex: '1 1 0', width: 'auto' }
+                        : {
+                              width:
+                                  !isMobile && slots.right && rightSlotOpen ? `calc(100% - ${DETAIL_WIDTH}px)` : '100%',
+                          }),
                     height: '100%',
                     // Without it the row cannot shrink below the grid's content, and the right slot's 1px
                     // border pushes the view past its container.
@@ -505,7 +528,13 @@ export function DataViewComponent(props: DataViewProps): React.JSX.Element {
                 </Stack>
             </Stack>
 
-            {slots.right &&
+            {hasRightRail && (
+                // The rail draws its own border; its drawer may float over the view on a small screen.
+                <Box sx={{ flex: '0 0 auto', height: '100%', minWidth: 0 }} data-testid={`${dataTestId}-right-slot`}>
+                    {slots.right}
+                </Box>
+            )}
+            {hasRightDetail &&
                 (dataViewState.isMobile ? (
                     <RingDrawer
                         anchor={'right'}

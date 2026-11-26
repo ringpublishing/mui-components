@@ -1,7 +1,12 @@
-import type { StyledComponent } from '@emotion/styled';
 import { Button, Typography, type ButtonProps, type TypographyProps } from '@mui/material';
-import { styled, type Theme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import type { RingFileUploaderClassKey, RingFileUploaderOwnerState } from '@ringpublishing/mui-theme';
+
+import {
+    createRingSlotStyle,
+    type RingSlot,
+    type RingSlotOwnerStateProps,
+} from '../../../../helpers/ringComponentSlots.js';
 
 /*
  * Every part of the FileUploader is a slot of `RingFileUploader`. Its base style is the theme's
@@ -10,21 +15,10 @@ import type { RingFileUploaderClassKey, RingFileUploaderOwnerState } from '@ring
  */
 const name = 'RingFileUploader';
 
-interface OwnerStateProps {
-    ownerState: RingFileUploaderOwnerState;
-}
+type OwnerStateProps = RingSlotOwnerStateProps<RingFileUploaderOwnerState>;
+type Slot<P> = RingSlot<P, RingFileUploaderOwnerState>;
 
-// A slot on a MUI component is typed by hand: the declaration build cannot name the MUI type `styled` infers for it.
-type Slot<P> = StyledComponent<P & OwnerStateProps>;
-
-const fromTheme =
-    (slot: RingFileUploaderClassKey) =>
-    ({ theme, ownerState }: OwnerStateProps & { theme: Theme }): object => {
-        // A theme without Ring's component styles (a plain MUI theme) leaves the slot unstyled.
-        const style = theme.ringComponents?.RingFileUploader?.[slot];
-
-        return (typeof style === 'function' ? style({ theme, ownerState }) : style) ?? {};
-    };
+const fromTheme = createRingSlotStyle<RingFileUploaderClassKey, RingFileUploaderOwnerState>(name);
 
 export const FileUploaderRoot = styled('div', { name, slot: 'Root' })<OwnerStateProps>(fromTheme('root'));
 export const FileUploaderHeader = styled('div', { name, slot: 'Header' })<OwnerStateProps>(fromTheme('header'));

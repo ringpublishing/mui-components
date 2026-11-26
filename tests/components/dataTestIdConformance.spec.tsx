@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { render } from '../test-utils/customRenderer.js';
 
 import { Alert } from '../../src/components/Atoms/Alert/Alert.js';
+import { Avatar } from '../../src/components/Atoms/Avatar/Avatar.js';
+import { AvatarGroup } from '../../src/components/Molecules/AvatarGroup/AvatarGroup.js';
 import { EditableText } from '../../src/components/Atoms/EditableText/EditableText.js';
 import { FeaturedIcon } from '../../src/components/Atoms/FeaturedIcon/FeaturedIcon.js';
 import { TextField } from '../../src/components/Molecules/TextField/TextField.js';
@@ -14,6 +16,11 @@ import { ChipsGroup } from '../../src/components/Molecules/ChipsGroup/ChipsGroup
 import { Media } from '../../src/components/Organisms/Media/Media.js';
 import { Placeholder } from '../../src/components/Molecules/Placeholder/Placeholder.js';
 import { Ranges } from '../../src/components/Molecules/Ranges/Ranges.js';
+import {
+    NavigationMenu,
+    NavigationMenuGroup,
+    NavigationMenuItem,
+} from '../../src/components/Molecules/NavigationMenu/NavigationMenu.js';
 import { SearchBar } from '../../src/components/Molecules/SearchBar/SearchBar.js';
 import { SearchBox } from '../../src/components/Molecules/SearchBox/SearchBox.js';
 import { SplitButton } from '../../src/components/Molecules/SplitButton/SplitButton.js';
@@ -38,15 +45,6 @@ const isMuiIconTestId = (id: string): boolean => /Icon$/.test(id);
  * part of any Ring component's own test id contract and are exempt from the `ring-` convention.
  */
 const isFocusTrapSentinelTestId = (id: string): boolean => id === 'sentinelStart' || id === 'sentinelEnd';
-
-// `ContentList` observes its container; jsdom has no ResizeObserver.
-globalThis.ResizeObserver ??= class {
-    public observe = (): void => undefined;
-
-    public unobserve = (): void => undefined;
-
-    public disconnect = (): void => undefined;
-} as unknown as typeof ResizeObserver;
 
 const ringTestIds = ({ baseElement }: { baseElement: Element }): string[] =>
     Array.from(baseElement.querySelectorAll('[data-testid]'))
@@ -77,6 +75,15 @@ const cases: Array<{ name: string; render: (dataTestIdSuffix?: string) => React.
     { name: 'Accordion', render: (s) => <Accordion label="T" dataTestIdSuffix={s} /> },
     { name: 'ActionBox', render: (s) => <ActionBoxHarness dataTestIdSuffix={s} /> },
     { name: 'Alert', render: (s) => <Alert title="T" dataTestIdSuffix={s} /> },
+    { name: 'Avatar', render: (s) => <Avatar name="Jan Kowalski" dataTestIdSuffix={s} /> },
+    {
+        name: 'AvatarGroup',
+        render: (s) => (
+            <AvatarGroup dataTestIdSuffix={s}>
+                <Avatar name="Jan Kowalski" dataTestIdSuffix={s} />
+            </AvatarGroup>
+        ),
+    },
     {
         name: 'Autocomplete',
         render: (s) => <Autocomplete options={[{ label: 'A', id: 1 }]} labels={{ title: 'T' }} dataTestIdSuffix={s} />,
@@ -96,6 +103,16 @@ const cases: Array<{ name: string; render: (dataTestIdSuffix?: string) => React.
     { name: 'FeaturedIcon', render: (s) => <FeaturedIcon icon={<svg />} dataTestIdSuffix={s} /> },
     { name: 'Media', render: (s) => <Media title="T" dataTestIdSuffix={s} /> },
     { name: 'MediaCard', render: (s) => <MediaCard title="T" dataTestIdSuffix={s} /> },
+    {
+        name: 'NavigationMenu',
+        render: (s) => (
+            <NavigationMenu dataTestIdSuffix={s}>
+                <NavigationMenuGroup label="Group" dataTestIdSuffix={s}>
+                    <NavigationMenuItem dataTestIdSuffix={s}>Item</NavigationMenuItem>
+                </NavigationMenuGroup>
+            </NavigationMenu>
+        ),
+    },
     { name: 'Placeholder', render: (s) => <Placeholder dataTestIdSuffix={s} /> },
     {
         name: 'Ranges',

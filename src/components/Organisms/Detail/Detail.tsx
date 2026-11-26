@@ -86,6 +86,28 @@ export interface TitleEditable {
     label?: string;
 }
 
+// A natively disabled button leaves the tab order and swallows pointer events, so its tooltip could never open.
+// An action that has something to say while disabled stays focusable and is announced as disabled instead.
+const FOCUSABLE_DISABLED_SX = {
+    '&.Mui-disabled': { pointerEvents: 'auto', cursor: 'default' },
+    '&.Mui-disabled:hover': { backgroundColor: 'transparent' },
+};
+
+const getFocusableDisabledProps = (): {
+    'aria-disabled': true;
+    className: string;
+    disableTouchRipple: true;
+    onClick: (e: MouseEvent) => void;
+} => ({
+    'aria-disabled': true,
+    className: 'Mui-disabled',
+    // The ripple of a press is off, the one that marks keyboard focus stays.
+    disableTouchRipple: true,
+    onClick: (e: MouseEvent): void => {
+        e.preventDefault();
+    },
+});
+
 export interface DetailMediaBottomIconBase {
     tooltip?: string;
 }
@@ -94,6 +116,14 @@ export interface DetailMediaBottomIconWithIcon extends DetailMediaBottomIconBase
     onClick: (e: MouseEvent) => void;
     type?: 'icon';
     icon: React.JSX.Element;
+    /**
+     * If the action is disabled
+     */
+    disabled?: boolean;
+    /**
+     * The reason why the action is disabled, shown in the tooltip instead of `tooltip`
+     */
+    disabledReason?: string;
 }
 
 export interface DetailMediaBottomIconWithChip extends DetailMediaBottomIconBase {
@@ -271,6 +301,14 @@ export interface DetailBottomAction {
     url?: string;
     onClick?: (e: MouseEvent) => void;
     icon?: React.JSX.Element;
+    /**
+     * If the action is disabled
+     */
+    disabled?: boolean;
+    /**
+     * The reason why the action is disabled
+     */
+    disabledReason?: string;
 }
 
 export interface DetailPlaceholderLabels {
@@ -576,30 +614,45 @@ export function Detail(props: DetailProps): React.JSX.Element {
                     {bottomActions
                         ?.filter((item) => item.url || item.onClick)
                         .map((item, index) => {
-                            return (
-                                <Stack direction={'row'} justifyContent={'flex-start'} key={item.name}>
-                                    <Button
-                                        key={item.name}
-                                        data-testid={`${dataTestId}-bottom-action-${index}`}
-                                        variant={'text'}
-                                        color={'inherit'}
-                                        size={'medium'}
-                                        onClick={
-                                            item.url
-                                                ? (): void => {
-                                                      window.open(item.url, '_blank', 'noopener, noreferrer');
-                                                  }
-                                                : item.onClick
-                                        }
-                                        startIcon={item.icon}
-                                        sx={{
+                            const disabledReason = item.disabled ? item.disabledReason : undefined;
+                            const onClick = item.url
+                                ? (): void => {
+                                      window.open(item.url, '_blank', 'noopener, noreferrer');
+                                  }
+                                : item.onClick;
+                            const button = (
+                                <Button
+                                    key={item.name}
+                                    data-testid={`${dataTestId}-bottom-action-${index}`}
+                                    variant={'text'}
+                                    color={'inherit'}
+                                    size={'medium'}
+                                    {...(disabledReason
+                                        ? getFocusableDisabledProps()
+                                        : { disabled: item.disabled, onClick })}
+                                    startIcon={item.icon}
+                                    sx={[
+                                        {
                                             '& .MuiButton-startIcon': {
                                                 marginBottom: '3px',
                                             },
-                                        }}
-                                    >
-                                        {item.name}
-                                    </Button>
+                                        },
+                                        disabledReason ? FOCUSABLE_DISABLED_SX : {},
+                                    ]}
+                                >
+                                    {item.name}
+                                </Button>
+                            );
+
+                            return (
+                                <Stack direction={'row'} justifyContent={'flex-start'} key={item.name}>
+                                    {disabledReason ? (
+                                        <Tooltip title={disabledReason} describeChild={true}>
+                                            {button}
+                                        </Tooltip>
+                                    ) : (
+                                        button
+                                    )}
                                 </Stack>
                             );
                         })}
@@ -892,7 +945,8 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
             if (icon.type !== 'chip') {
                 return (
                     <Tooltip
-                        title={icon?.tooltip}
+                        title={(icon.disabled && icon.disabledReason) || icon?.tooltip}
+                        describeChild={Boolean(icon.disabled && icon.disabledReason)}
                         key={icon.tooltip || index}
                         placement="bottom"
                         slotProps={{
@@ -912,7 +966,8 @@ function DetailMainBottomIcons(props: DetailMediaProps): React.JSX.Element {
                             data-testid={`${dataTestId}-bottom-icon-${index}`}
                             color="default"
                             size="medium"
-                            onClick={icon.onClick}
+                            {...(icon.disabled ? getFocusableDisabledProps() : { onClick: icon.onClick })}
+                            sx={icon.disabled ? FOCUSABLE_DISABLED_SX : undefined}
                             aria-label={icon.tooltip || 'Action'}
                         >
                             {icon.icon}

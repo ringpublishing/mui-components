@@ -11,7 +11,13 @@ export {
     DEFAULT_LUCIDE_ICON_SIZE,
     DEFAULT_LUCIDE_STROKE_WIDTH,
     RingIconDefaults,
+    getStringColor,
+    getStringColorTone,
+    stringColorNeutralTone,
+    stringColorTones,
     type RingIconDefaultsProps,
+    type StringColor,
+    type StringColorTone,
 } from '@ringpublishing/mui-theme';
 export {
     AIPencil,

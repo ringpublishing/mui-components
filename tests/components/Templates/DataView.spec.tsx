@@ -264,4 +264,46 @@ describe('Component: DataView', () => {
             expect(onCloseMock).toHaveBeenCalled();
         });
     });
+
+    describe('Right slot with a rail', () => {
+        const railProps = (): DataViewProps => ({
+            slots: {
+                main: <div>Grid</div>,
+                right: <div data-testid="rail-content">Rail</div>,
+            },
+            slotProps: {
+                top: {
+                    defaultValue: '',
+                    searchFunc: vi.fn(),
+                    openSlotsOnMobileLabels: { rightSlot: 'Open details' },
+                },
+            },
+            rightSlotVariant: 'rail',
+        });
+
+        it('shows the rail without rightSlotOpen and adds no toggle button', () => {
+            const { getByTestId, queryByTestId, queryByLabelText } = renderDataView(railProps());
+
+            expect(getByTestId('rail-content')).toBeDefined();
+            expect(getByTestId('ring-dataview-right-slot').style.width).toBe('');
+            expect(queryByTestId('ring-dataview-toggle-right-slot')).toBeNull();
+            expect(queryByLabelText('Open details')).toBeNull();
+        });
+
+        it('keeps the rail in place on a small screen instead of moving it into a drawer', () => {
+            const useMediaQueryMock = useMediaQuery as ReturnType<typeof vi.fn>;
+            useMediaQueryMock.mockReturnValue(true);
+
+            try {
+                const { getByTestId, queryByLabelText } = renderDataView(railProps());
+
+                expect(getByTestId('rail-content')).toBeDefined();
+                expect(document.querySelector('.MuiDrawer-root')).toBeNull();
+                // The rail needs no menu action, so with no other action there is no menu.
+                expect(queryByLabelText('More actions')).toBeNull();
+            } finally {
+                useMediaQueryMock.mockReturnValue(undefined);
+            }
+        });
+    });
 });

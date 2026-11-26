@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { alpha, Box, Link, Typography, useTheme, SxProps } from '@mui/material';
+import { Box, Typography, SxProps } from '@mui/material';
 import { CommonComponentProps } from '../../../helpers/commonTypes.js';
 import { GetItemDataTestId, WithItemDataTestId, resolveItemDataTestId } from '../../../helpers/dataTestId.js';
 import { useRingDataTestId } from '../../../helpers/hooks/useRingDataTestId.js';
+import { NavigationMenu, NavigationMenuItem } from '../../Molecules/NavigationMenu/NavigationMenu.js';
 
 export interface InputDataProps extends WithItemDataTestId {
     /**
@@ -85,65 +86,13 @@ export function ContentList({
         });
     const containerRef = useRef<HTMLDivElement | null>(null);
     const containerListRef = useRef<HTMLDivElement | null>(null);
-    const navListRef = useRef<HTMLDivElement | null>(null);
-    const navItemRefs = useRef<(HTMLElement | null)[]>([]);
-    const isInitializedRef = useRef<boolean>(false);
     const [selectedIndex, setSelectedIndex] = useState(selectedItemIndex);
-    const [highlight, setHighlight] = useState({ top: 0, height: 0 });
-
-    const theme = useTheme();
 
     useEffect(() => {
         if (contentRefs.current.length) {
             setSelectedIndex(selectedItemIndex);
         }
     }, [selectedItemIndex]);
-
-    // The highlight is measured off the selected item's own box rather than derived from a fixed
-    // row height. A label that wraps to a second line makes its row taller than the others, which
-    // a computed `index * rowHeight` cannot see: the marker would stop short of the wrapped row and
-    // every row below it would drift by the extra line.
-    useEffect(() => {
-        const list = navListRef.current;
-        let rafId: number | null = null;
-
-        if (!list) {
-            return undefined;
-        }
-
-        const measure = (): void => {
-            const item = navItemRefs.current[selectedIndex];
-
-            if (!item) {
-                return;
-            }
-
-            // `offsetTop` is relative to the list, which is the offset parent, so it already
-            // carries the header and the container padding.
-            setHighlight({ top: item.offsetTop, height: item.offsetHeight });
-
-            if (!isInitializedRef.current) {
-                rafId = requestAnimationFrame(() => {
-                    isInitializedRef.current = true;
-                });
-            }
-        };
-
-        measure();
-
-        const resizeObserver = new ResizeObserver(measure);
-
-        resizeObserver.observe(list);
-        navItemRefs.current.forEach((item) => item && resizeObserver.observe(item));
-
-        return () => {
-            if (rafId !== null) {
-                cancelAnimationFrame(rafId);
-            }
-
-            resizeObserver.disconnect();
-        };
-    }, [selectedIndex, inputData, listHeader]);
 
     const isItemListSelected = (index: number): boolean => {
         return selectedIndex === index;
@@ -200,56 +149,36 @@ export function ContentList({
             ref={containerListRef}
             data-testid={dataTestId}
         >
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', md: '1fr 3fr' },
-                    justifyContent: 'center',
-                    height: '100%',
-                }}
-            >
+            <Box sx={{ display: 'flex', height: '100%' }}>
                 <Box
                     sx={{
                         display: { xs: 'none', sm: 'none', md: 'block' },
+                        // A quarter of the width, and up to a half when the longest word of a label needs it: a
+                        // narrower column would break that word in the middle. Past a half the word breaks.
+                        boxSizing: 'border-box',
+                        flex: 'none',
+                        width: 'min-content',
+                        minWidth: '25%',
+                        maxWidth: '50%',
                         '--Grid-borderWidth': '1px',
                         borderRight: 'var(--Grid-borderWidth) solid',
                         borderColor: 'divider',
                         height: '100%',
                         overflowY: 'auto',
+                        p: 2,
                     }}
                 >
-                    <Box
-                        ref={navListRef}
-                        sx={{
-                            p: 2,
-                            position: 'relative',
-                            '&:before': {
-                                content: '""',
-                                width: `calc(100% - ${theme.spacing(4)})`,
-                                height: `${highlight.height}px`,
-                                display: 'block',
-                                position: 'absolute',
-                                backgroundColor: alpha(
-                                    theme.palette.primary.main,
-                                    theme.palette.action.selectedOpacity,
-                                ),
-                                borderRadius: 1,
-                                top: `${highlight.top}px`,
-                                transition: isInitializedRef.current ? 'all .3s' : 'none',
-                            },
-                        }}
-                    >
-                        {listHeader && <Box sx={{ mb: 2 }}>{listHeader}</Box>}
+                    {/* Zero width with a percentage minimum: the header fills the column without widening it. */}
+                    {listHeader && <Box sx={{ mb: 2, width: 0, minWidth: '100%' }}>{listHeader}</Box>}
+                    <NavigationMenu data-testid={`${dataTestId}-nav`}>
                         {inputData.map((item: InputDataProps, index: number) => (
-                            <Link
-                                type="button"
+                            <NavigationMenuItem
                                 key={index}
-                                data-testid={`${itemDataTestId(item, index)}-nav`}
                                 component="button"
-                                variant="body1"
-                                ref={(node: HTMLElement | null): void => {
-                                    navItemRefs.current[index] = node;
-                                }}
+                                selected={isItemListSelected(index)}
+                                aria-current={isItemListSelected(index) ? 'location' : undefined}
+                                endAdornment={item.additionalHeaderData}
+                                data-testid={`${itemDataTestId(item, index)}-nav`}
                                 onClick={(): void => {
                                     const element = contentRefs?.current[index];
                                     const container = containerRef.current;
@@ -267,39 +196,25 @@ export function ContentList({
 
                                     onHeaderClick?.(item, index);
                                 }}
-                                sx={{
-                                    color: theme.palette.text.secondary,
-                                    textDecoration: 'none',
-                                    cursor: 'pointer',
-                                    padding: '12px 16px',
-                                    display: 'block',
-                                    width: '100%',
-                                    // A `<button>` centres its text by UA default, which only shows once a
-                                    // label wraps; the rest of the list is left-aligned.
-                                    textAlign: 'left',
-                                    transition: 'all .2s ease-out',
-                                    '&:hover': {
-                                        backgroundColor:
-                                            selectedIndex === index ? 'transparent' : theme.palette.action.hover,
-                                        borderRadius: 1,
-                                    },
-                                }}
                             >
-                                <Box sx={{ justifyContent: 'space-between', display: 'flex' }}>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{ transition: 'all .2s ease-out' }}
-                                        color={isItemListSelected(index) ? 'primary' : 'textPrimary'}
-                                    >
-                                        {item.header}
-                                    </Typography>
-                                    {item?.additionalHeaderData}
-                                </Box>
-                            </Link>
+                                {item.header}
+                            </NavigationMenuItem>
                         ))}
-                    </Box>
+                    </NavigationMenu>
                 </Box>
-                <Box sx={{ pl: 2, pr: 2, pb: 2, height: '100%', overflowY: 'auto', ...containerSx }} ref={containerRef}>
+                <Box
+                    sx={{
+                        flex: '1 1 0',
+                        minWidth: 0,
+                        pl: 2,
+                        pr: 2,
+                        pb: 2,
+                        height: '100%',
+                        overflowY: 'auto',
+                        ...containerSx,
+                    }}
+                    ref={containerRef}
+                >
                     {inputData.map((item, index): React.ReactNode => {
                         const lastItemHeight = contentRefs.current[inputData.length - 1]?.offsetHeight || 0;
 

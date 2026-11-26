@@ -3,6 +3,7 @@ export {
     RingDrawer,
     type BottomBarApiRef,
     type BottomBarSlotProps,
+    type DataViewRightSlotVariant,
     type DataViewProps,
     type RingDrawerProps,
     type TopSlotProps,

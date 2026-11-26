@@ -1,6 +1,6 @@
 // Type-level contract: `tsc` (build:check-ts) checks this file; Vitest does not collect `*.test-d.ts`.
 import type { QueryClient } from '@tanstack/react-query';
-import type { ComponentProps } from 'react';
+import type { AnchorHTMLAttributes, ComponentProps, ForwardRefExoticComponent, ReactNode, RefAttributes } from 'react';
 import { describe, expectTypeOf, it } from 'vitest';
 import type {
     ActionBoxItem,
@@ -62,6 +62,23 @@ import type {
     useGridApiRef,
     VariantType,
     WithItemDataTestId,
+    Avatar,
+    AvatarGroup,
+    AvatarGroupProps,
+    AvatarProps,
+    AvatarSize,
+    getStringColor,
+    getStringColorTone,
+    StringColor,
+    StringColorTone,
+    stringColorNeutralTone,
+    stringColorTones,
+    NavigationMenu,
+    NavigationMenuGroup,
+    NavigationMenuGroupProps,
+    NavigationMenuItem,
+    NavigationMenuItemProps,
+    NavigationMenuProps,
 } from '../../src/index.js';
 
 // A type a public prop is declared with has to be importable from the package entry: `exports` leaves a consumer
@@ -162,5 +179,99 @@ describe('types of public props are exported from the package entry (2.0.0)', ()
         expectTypeOf<Range>().toEqualTypeOf<RangesRange>();
         expectTypeOf<RangeDefinition['rangeOptions']>().toEqualTypeOf<RangesOption[] | undefined>();
         expectTypeOf<MuiOption>().toEqualTypeOf<AutocompleteOption>();
+    });
+});
+
+describe('Avatar, AvatarGroup and the string colour helper', () => {
+    it('every avatar component has its props type exported', () => {
+        expectTypeOf<Parameters<typeof Avatar>[0]>().toEqualTypeOf<AvatarProps>();
+        expectTypeOf<Parameters<typeof AvatarGroup>[0]>().toEqualTypeOf<AvatarGroupProps>();
+        expectTypeOf<AvatarSize>().toEqualTypeOf<'small' | 'medium' | 'large'>();
+        expectTypeOf<AvatarProps['size']>().toEqualTypeOf<AvatarSize | undefined>();
+        expectTypeOf<AvatarGroupProps['size']>().toEqualTypeOf<AvatarSize | undefined>();
+        expectTypeOf<AvatarGroupProps['surplusAriaLabel']>().toEqualTypeOf<((count: number) => string) | undefined>();
+    });
+
+    it('getStringColor gives a StringColor of one StringColorTone', () => {
+        expectTypeOf<Parameters<typeof getStringColor>[0]>().toEqualTypeOf<string>();
+        expectTypeOf<ReturnType<typeof getStringColor>>().toEqualTypeOf<StringColor>();
+        expectTypeOf<StringColor['tone']>().toEqualTypeOf<StringColorTone>();
+        expectTypeOf<ReturnType<typeof getStringColorTone>>().toEqualTypeOf<StringColorTone>();
+        expectTypeOf<
+            (typeof stringColorTones)[number] | typeof stringColorNeutralTone
+        >().toEqualTypeOf<StringColorTone>();
+    });
+
+    it('StringColorTone is the 20 tones of the hash and the neutral stone, nothing wider', () => {
+        expectTypeOf<StringColorTone>().toEqualTypeOf<
+            | 'berry'
+            | 'blush'
+            | 'brick'
+            | 'coral'
+            | 'fern'
+            | 'indigo'
+            | 'lavender'
+            | 'lemon'
+            | 'mint'
+            | 'ocean'
+            | 'olive'
+            | 'orchid'
+            | 'peach'
+            | 'plum'
+            | 'ruby'
+            | 'sage'
+            | 'sand'
+            | 'sky'
+            | 'stone'
+            | 'teal'
+            | 'violet'
+        >();
+        expectTypeOf<typeof stringColorNeutralTone>().toEqualTypeOf<'stone'>();
+    });
+});
+
+// Shaped like a router's link: a component with a required prop of its own, which the item has to take once the
+// link is passed as `component`.
+type RouterLinkComponent = ForwardRefExoticComponent<
+    AnchorHTMLAttributes<HTMLAnchorElement> & { to: string } & RefAttributes<HTMLAnchorElement>
+>;
+
+// The tests below call the item the way JSX does, so the compiler picks the overload and infers `component` as it
+// does in a consumer's code. The calls never run: Vitest does not collect this file.
+declare const Item: typeof NavigationMenuItem;
+declare const RouterLink: RouterLinkComponent;
+
+describe('NavigationMenu, NavigationMenuGroup and NavigationMenuItem', () => {
+    it('every menu component has its props type exported', () => {
+        expectTypeOf<Parameters<typeof NavigationMenu>[0]>().toEqualTypeOf<NavigationMenuProps>();
+        expectTypeOf<Parameters<typeof NavigationMenuGroup>[0]>().toEqualTypeOf<NavigationMenuGroupProps>();
+        expectTypeOf<NavigationMenuProps['ariaLabel']>().toEqualTypeOf<string | undefined>();
+        expectTypeOf<NavigationMenuGroupProps['label']>().toEqualTypeOf<ReactNode>();
+    });
+
+    it('an item takes its own props next to those of ListItemButton', () => {
+        expectTypeOf<NavigationMenuItemProps['selected']>().toEqualTypeOf<boolean | undefined>();
+        expectTypeOf<NavigationMenuItemProps['startIcon']>().toEqualTypeOf<ReactNode>();
+        expectTypeOf<NavigationMenuItemProps['endAdornment']>().toEqualTypeOf<ReactNode>();
+        expectTypeOf<NavigationMenuItemProps>().toHaveProperty('onClick');
+        expectTypeOf<NavigationMenuItemProps>().toHaveProperty('disabled');
+    });
+
+    it('an item with href is a link and takes the attributes of an anchor', () => {
+        Item({ href: 'https://example.com', target: '_blank', rel: 'noopener noreferrer', children: 'Help' });
+    });
+
+    it('an item with a router link as component takes, and requires, the props of that link', () => {
+        expectTypeOf<NavigationMenuItemProps<RouterLinkComponent>['to']>().toEqualTypeOf<string>();
+        Item({ component: RouterLink, to: '/users', children: 'Users' });
+        // @ts-expect-error -- the link's own `to` is required
+        Item({ component: RouterLink, children: 'Users' });
+    });
+
+    it('an item without component or href takes no props of a link', () => {
+        // @ts-expect-error -- `to` belongs to a router link
+        Item({ to: '/users', children: 'Users' });
+        // @ts-expect-error -- `target` belongs to an anchor, which only `href` makes the item
+        Item({ target: '_blank', children: 'Users' });
     });
 });
