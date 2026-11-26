@@ -6,6 +6,7 @@ import type {} from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker as MuiTimePicker, TimePickerProps as MuiTimePickerProps } from '@mui/x-date-pickers-pro';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
+import { PICKER_FULL_WIDTH_CLASS, PickerFullWidthStyles } from '../PickerFullWidthStyles.js';
 
 /**
  * Props for the TimePicker component.
@@ -16,6 +17,9 @@ export interface TimePickerProps extends MuiTimePickerProps, CommonComponentProp
      */
     className?: string;
 }
+
+const WRAPPER: React.CSSProperties = { position: 'relative', display: 'inline-flex' };
+const FULL_WIDTH_WRAPPER: React.CSSProperties = { position: 'relative', display: 'flex' };
 
 export function TimePicker(props: TimePickerProps): React.JSX.Element {
     const { className, dataTestIdSuffix, ...otherProps } = props;
@@ -57,11 +61,18 @@ export function TimePicker(props: TimePickerProps): React.JSX.Element {
         sx: [...(Array.isArray(otherProps?.sx) ? otherProps.sx : [otherProps?.sx])],
     };
 
+    // The wrapper follows its content, so a full-width field needs a full-width wrapper: `display: flex` keeps it off
+    // the line of text and `PickerFullWidthStyles` gives it the width. A `fullWidth` returned by a callback in
+    // `slotProps.textField` does not count: MUI X calls it later.
+    const consumerTextField = otherProps.slotProps?.textField;
+    const fullWidth = typeof consumerTextField === 'object' && Boolean(consumerTextField?.fullWidth);
+
     return (
         <div
-            className={classNames('ring-time-picker', className)}
-            style={{ position: 'relative', display: 'inline-flex' }}
+            className={classNames('ring-time-picker', fullWidth && PICKER_FULL_WIDTH_CLASS, className)}
+            style={fullWidth ? FULL_WIDTH_WRAPPER : WRAPPER}
         >
+            {fullWidth && <PickerFullWidthStyles />}
             <MuiTimePicker {...muiTimePickerProps} />
         </div>
     );

@@ -11,6 +11,7 @@ import { Action } from '../../../../types.js';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { ActionsWithClearIconButton } from '../ActionsWithClearIconButton.js';
 import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
+import { PICKER_FULL_WIDTH_CLASS, PickerFullWidthStyles } from '../PickerFullWidthStyles.js';
 
 /**
  * Props for the DateTimePicker component.
@@ -27,6 +28,9 @@ export interface DateTimePickerProps extends MuiDateTimePickerProps, CommonCompo
      */
     actionsAriaLabel?: string;
 }
+
+const WRAPPER: React.CSSProperties = { position: 'relative', display: 'inline-flex' };
+const FULL_WIDTH_WRAPPER: React.CSSProperties = { position: 'relative', display: 'flex' };
 
 export function DateTimePicker(props: DateTimePickerProps): React.JSX.Element {
     const { className, actions, actionsAriaLabel, dataTestIdSuffix, ...otherProps } = props;
@@ -88,11 +92,18 @@ export function DateTimePicker(props: DateTimePickerProps): React.JSX.Element {
         ],
     };
 
+    // The wrapper follows its content, so a full-width field needs a full-width wrapper: `display: flex` keeps it off
+    // the line of text and `PickerFullWidthStyles` gives it the width. A `fullWidth` returned by a callback in
+    // `slotProps.textField` does not count: MUI X calls it later.
+    const consumerTextField = otherProps.slotProps?.textField;
+    const fullWidth = typeof consumerTextField === 'object' && Boolean(consumerTextField?.fullWidth);
+
     return (
         <div
-            className={classNames('ring-date-time-picker', className)}
-            style={{ position: 'relative', display: 'inline-flex' }}
+            className={classNames('ring-date-time-picker', fullWidth && PICKER_FULL_WIDTH_CLASS, className)}
+            style={fullWidth ? FULL_WIDTH_WRAPPER : WRAPPER}
         >
+            {fullWidth && <PickerFullWidthStyles />}
             <MuiDateTimePicker {...muiDateTimePickerProps} />
         </div>
     );

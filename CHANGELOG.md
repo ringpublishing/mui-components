@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.1] - 2026-11-26
+
+### Fixed
+
+- [@tz-wredzimir]: `DatePicker`, `DateTimePicker` and `TimePicker` — a field given `slotProps={{ textField: { fullWidth: true } }}` fills the width of its container, instead of keeping the width of its content.
+
 ## [2.1.0] - 2026-11-21
 
 ### Added

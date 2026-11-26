@@ -13,6 +13,7 @@ import { Action } from '../../../../types.js';
 import { CommonComponentProps } from '../../../../helpers/commonTypes.js';
 import { ActionsWithClearIconButton } from '../ActionsWithClearIconButton.js';
 import { useRingDataTestId } from '../../../../helpers/hooks/useRingDataTestId.js';
+import { PICKER_FULL_WIDTH_CLASS, PickerFullWidthStyles } from '../PickerFullWidthStyles.js';
 
 /**
  * Props for the DatePicker component.
@@ -33,6 +34,9 @@ export interface DatePickerProps extends MuiDatePickerProps, CommonComponentProp
      */
     actionsAriaLabel?: string;
 }
+
+const WRAPPER: React.CSSProperties = { position: 'relative', display: 'inline-flex' };
+const FULL_WIDTH_WRAPPER: React.CSSProperties = { position: 'relative', display: 'flex' };
 
 export function DatePicker(props: DatePickerProps): React.JSX.Element {
     const { className, currentDateLabel, actions, actionsAriaLabel, dataTestIdSuffix, ...otherProps } = props;
@@ -103,11 +107,18 @@ export function DatePicker(props: DatePickerProps): React.JSX.Element {
         sx: [...(Array.isArray(otherProps?.sx) ? otherProps.sx : [otherProps?.sx])],
     };
 
+    // The wrapper follows its content, so a full-width field needs a full-width wrapper: `display: flex` keeps it off
+    // the line of text and `PickerFullWidthStyles` gives it the width. A `fullWidth` returned by a callback in
+    // `slotProps.textField` does not count: MUI X calls it later.
+    const consumerTextField = otherProps?.slotProps?.textField;
+    const fullWidth = typeof consumerTextField === 'object' && Boolean(consumerTextField?.fullWidth);
+
     return (
         <div
-            className={classNames('ring-date-picker', className)}
-            style={{ position: 'relative', display: 'inline-flex' }}
+            className={classNames('ring-date-picker', fullWidth && PICKER_FULL_WIDTH_CLASS, className)}
+            style={fullWidth ? FULL_WIDTH_WRAPPER : WRAPPER}
         >
+            {fullWidth && <PickerFullWidthStyles />}
             <MuiDatePicker {...muiDatePickerProps} />
         </div>
     );

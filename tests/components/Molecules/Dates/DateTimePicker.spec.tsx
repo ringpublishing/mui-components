@@ -125,4 +125,28 @@ describe('Components: DateTimePicker', () => {
             expect(queryByTestId('ring-datetimepicker-actions')).toBeNull();
         });
     });
+
+    it('should grow with a full-width field', () => {
+        const { container } = render(<DateTimePicker slotProps={{ textField: { fullWidth: true } }} />);
+        const wrapper = container.querySelector<HTMLElement>('.ring-date-time-picker');
+
+        expect(wrapper?.style.display).toBe('flex');
+        expect(wrapper?.classList.contains('ring-picker-full-width')).toBe(true);
+        // Not inline: a width the consumer gives the wrapper through `className` has to win.
+        expect(wrapper?.style.width).toBe('');
+        expect(
+            Array.from(document.querySelectorAll('style')).some((style) =>
+                style.textContent?.includes(':where(.ring-picker-full-width){width:100%;}'),
+            ),
+        ).toBe(true);
+    });
+
+    it('should keep the width of its field by default', () => {
+        const { container } = render(<DateTimePicker />);
+        const wrapper = container.querySelector<HTMLElement>('.ring-date-time-picker');
+
+        expect(wrapper?.style.display).toBe('inline-flex');
+        expect(wrapper?.style.width).toBe('');
+        expect(wrapper?.classList.contains('ring-picker-full-width')).toBe(false);
+    });
 });
