@@ -14,7 +14,7 @@ import {
     ChipProps,
     CircularProgress,
     IconButton,
-    InputBase,
+    OutlinedInput,
     InputAdornment,
     ListItemAvatar,
     ListSubheader,
@@ -1047,7 +1047,7 @@ function FilterAutocompleteInput(props: FilterAutocompleteInputProps): React.JSX
     ) : null;
 
     return (
-        <InputBase
+        <OutlinedInput
             className={classNames('ring-autocomplete-filter-trigger', {
                 'ring-autocomplete-filter-trigger-hovered': isHovered,
             })}
@@ -1079,9 +1079,14 @@ function FilterAutocompleteInput(props: FilterAutocompleteInputProps): React.JSX
                             color="primary"
                             label={selectedCount}
                             size="small"
+                            // In a 24px circle the chip's insets leave 2px for the text, so the count drops them and
+                            // the chip's own centring places the digits.
+                            slotProps={{ label: { sx: { paddingLeft: 0, paddingRight: 0 } } }}
                             sx={(theme): object => ({
                                 flexShrink: 0,
                                 marginLeft: 0,
+                                paddingLeft: 0,
+                                paddingRight: 0,
                                 visibility: isHovered ? 'hidden' : 'visible',
                                 width: theme.getSpacing(3),
                             })}
@@ -1101,39 +1106,50 @@ function FilterAutocompleteInput(props: FilterAutocompleteInputProps): React.JSX
                 </>
             }
             sx={(theme): object => ({
+                // An outlined field, so the fill, corners, border and text inset come from the theme as for the
+                // other fields.
                 alignItems: 'center',
-                border: 1,
-                borderColor: theme.palette.divider,
-                borderRadius: 1,
                 cursor: disabled ? 'default' : 'pointer',
                 display: 'flex',
-                minHeight: theme.getSpacing(5),
-                padding: theme.getSpacing(0.5, 1),
+                // Never narrower than its title, count and buttons: nothing in the row overlaps or is cut.
+                minWidth: 'min-content',
                 width: '100%',
                 '&.ring-autocomplete-filter-trigger-hovered .MuiAutocomplete-clearIndicator': {
                     opacity: 1,
                     pointerEvents: 'auto',
                     visibility: 'visible',
                 },
+                // Over the count's 24px; with this margin whatever follows keeps 8px from the count. The trigger
+                // class outranks MUI's own margins whatever order the styles load in.
+                '&.ring-autocomplete-filter-trigger .MuiAutocomplete-clearIndicator': {
+                    marginLeft: `-${theme.getSpacing(3)}`,
+                    marginRight: theme.getSpacing(0.5),
+                },
                 '& .MuiAutocomplete-clearIndicator': {
-                    marginRight: 0,
                     opacity: 0,
                     pointerEvents: 'none',
                     visibility: 'hidden',
                 },
-                '& .MuiAutocomplete-endAdornment': {
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    display: 'flex',
-                    flexGrow: 1,
-                    marginLeft: `-${theme.getSpacing(3)}`,
+                // The theme places the end adornment absolutely from the Autocomplete root with a rule of the
+                // same specificity, so the later one in the sheet would win; the trigger class outranks it.
+                // Its buttons join the trigger's row (`display: contents`), so the Clear button can take the
+                // count's place while a loading spinner sits before the popup button, not between the two.
+                '&.ring-autocomplete-filter-trigger .MuiAutocomplete-endAdornment': {
+                    display: 'contents',
                     position: 'static',
                     top: 'auto',
                     transform: 'none',
                 },
                 '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': { alignSelf: 'center' },
-                '& .MuiAutocomplete-popupIndicator': { marginLeft: 'auto' },
-                '& .MuiTypography-root': { marginRight: 1 },
+                '& .MuiChip-root, & .MuiIconButton-root': { flexShrink: 0 },
+                '& .MuiCircularProgress-root': { flexShrink: 0, marginLeft: 'auto', order: 1 },
+                '& .MuiAutocomplete-popupIndicator': { marginLeft: 'auto', order: 2 },
+                '& .MuiCircularProgress-root + .MuiAutocomplete-endAdornment .MuiAutocomplete-popupIndicator': {
+                    marginLeft: theme.getSpacing(1),
+                },
+                // The 5px MUI insets an Autocomplete field's text by, so the title starts where a value would.
+                // The theme sets the trigger's insets to those of an Autocomplete field.
+                '& .MuiTypography-root': { marginRight: 1, whiteSpace: 'nowrap' },
                 '& .ring-autocomplete-filter-input': {
                     border: 0,
                     height: theme.getSpacing(0.5),

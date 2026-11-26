@@ -193,12 +193,47 @@ describe('Autocomplete filter variant', () => {
             />,
         );
         const selectedCount = container.querySelector('.MuiChip-root');
-        const endAdornment = container.querySelector('.MuiAutocomplete-endAdornment');
+        const clearButton = container.querySelector('.MuiAutocomplete-clearIndicator');
 
         expect(selectedCount).not.toBeNull();
-        expect(endAdornment).not.toBeNull();
+        expect(clearButton).not.toBeNull();
         expect(getComputedStyle(selectedCount as Element).marginLeft).toBe('0px');
-        expect(getComputedStyle(endAdornment as Element).marginLeft).toBe('-24px');
+        // jsdom resolves styles by source order, not specificity, so the rule is checked here and its effect
+        // (the Clear button over the count) by the layout guard in the Storybook E2E suite.
+        const clearMargins = Array.from(document.styleSheets)
+            .flatMap((sheet) => Array.from(sheet.cssRules))
+            .filter(
+                (rule): rule is CSSStyleRule =>
+                    rule instanceof CSSStyleRule &&
+                    rule.selectorText.includes('.ring-autocomplete-filter-trigger .MuiAutocomplete-clearIndicator'),
+            )
+            .map((rule) => rule.style.getPropertyValue('margin-left'));
+
+        expect(clearMargins).toContain('-24px');
+    });
+
+    // With the chip's 4px and 6px insets on each side, the 24px count leaves its text 2px: a single digit overflows
+    // to the right and ends in an ellipsis. The digits get the whole circle and the chip's centring places them.
+    it('should leave the selected count no insets around its digits', () => {
+        const { getByText } = render(
+            <Autocomplete
+                variant="filter"
+                labels={labels}
+                defaultValue={options[0]}
+                options={options}
+                getOptionLabel={getOptionLabel}
+            />,
+        );
+        const countLabel = getByText('1');
+        const countChip = countLabel.closest('.MuiChip-root');
+
+        expect(countLabel.classList.contains('MuiChip-label')).toBe(true);
+        expect(countChip).not.toBeNull();
+
+        for (const element of [countChip as Element, countLabel]) {
+            expect(getComputedStyle(element).paddingLeft).toBe('0px');
+            expect(getComputedStyle(element).paddingRight).toBe('0px');
+        }
     });
 
     it('should support controlled popup search values', async () => {

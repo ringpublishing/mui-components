@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.2] - 2026-11-26
+
+### Fixed
+
+- [@pjarolewski]: `Autocomplete` — the selected-value count of the `filter` variant centres its number in the circle; a single digit no longer overflows to the right and ends in an ellipsis.
+- [@pjarolewski]: `Autocomplete` — the Clear button of the `filter` variant appears in place of the count on hover also when the theme's styles are inserted after the component's; it could sit at the far end of the field instead.
+- [@wniemiec-rasp]: `Autocomplete` — the `filter` variant is drawn as an outlined field, with the fill, corners, border and text inset of the other fields; a loading spinner sits before the popup button, 8px clear of the count, and the trigger no longer narrows below its content.
+
 ## [2.1.1] - 2026-11-26
 
 ### Fixed
